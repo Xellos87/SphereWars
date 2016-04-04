@@ -1,8 +1,8 @@
 package graphic;
 
 /**
- * Autores: Adrian,
- * 			Juan Luis,
+ * Autores: Victor Adrian Milla Español - 557022,,
+ * 			Juan Luis Burillo Ortín - 542083,
  * 			Sandra Malpica Mallo - 670607,
  * 			Richard Elvira López-Echazarreta - 666800
  *
