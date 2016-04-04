@@ -1,7 +1,7 @@
 package videogame;
 /**
  * Autores: Adrian,
- * 			Juan Luis,
+ * 			Juan Luis Burillo Ortín - 542083,
  * 			Sandra Malpica Mallo - 670607,
  * 			Richard Elvira López-Echazarreta - 666800
  * 	TODO: rellenar con apellidos y NIP (cada uno el suyo para comprobar que va bien esto)
