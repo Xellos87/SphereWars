@@ -12,5 +12,14 @@ package graphic;
  * 
  * */
 public class Model3D {
-
+	private String path_model;
+	private int posX, posY;
+	
+	public Model3D(String path, int posX, int posY){
+		this.path_model = path;
+		this.posX = posX;
+		this.posY = posY;
+	}
+	
+	
 }
