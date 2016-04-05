@@ -1,11 +1,11 @@
 package menu;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public abstract class Menu {
-	private JFrame window;
+	protected JPanel window;
 	
-	public Menu(JFrame window){
+	public Menu(JPanel window){
 		this.window = window;
 	}
 	

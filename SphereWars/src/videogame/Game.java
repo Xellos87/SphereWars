@@ -6,6 +6,9 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import menu.Menu;
+import menu.TitleMenu;
+
 public class Game extends JPanel implements Runnable {
 	
 	//Dimensiones del juego
@@ -22,6 +25,14 @@ public class Game extends JPanel implements Runnable {
 	//Imagen del juego
 	private BufferedImage image;
 	private Graphics2D g;
+	
+	//Menu del juego
+	private Menu menu;
+	
+	//Maquina de estados
+	private int gameState;
+	private final int TITLE_MENU = 0;
+	private final int START_GAME = 1;
 
 	public Game(){
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -52,6 +63,8 @@ public class Game extends JPanel implements Runnable {
 			start = System.currentTimeMillis();
 			
 			//TODO: actualización del juego
+			
+			
 			
 			elapsed = System.currentTimeMillis() - start;
 			wait = targetTime - elapsed;
