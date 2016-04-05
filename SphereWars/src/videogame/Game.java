@@ -19,7 +19,7 @@ public class Game extends JPanel implements Runnable {
 	//Thread del juego
 	private boolean running;
 	private int FPS = 60;
-	private int targetTime = 1000/FPS; //ms
+	private int targetTime = 1000000000/FPS; //ns
 	private Thread thread;
 	
 	//Imagen del juego
@@ -44,12 +44,13 @@ public class Game extends JPanel implements Runnable {
 		running = true;
 		image = new BufferedImage(WIDTH * SCALE, HEIGHT * SCALE, 
 				BufferedImage.TYPE_INT_RGB);
+		g = (Graphics2D) image.getGraphics();
 		if(thread == null){
 			thread = new Thread(this);
 			//TODO: añadir keyListener
 			thread.start();
 		}
-		
+		menu = new TitleMenu(this);
 	}
 	
 	@Override
@@ -60,22 +61,38 @@ public class Game extends JPanel implements Runnable {
 		long wait;
 		
 		while(running){
-			start = System.currentTimeMillis();
+			start = System.nanoTime();
 			
 			//TODO: actualización del juego
 			
+			draw();
 			
-			
-			elapsed = System.currentTimeMillis() - start;
+			elapsed = System.nanoTime() - start;
 			wait = targetTime - elapsed;
 			//Duerme el hilo hasta la siguiente actualización
 			try {
-				Thread.sleep(wait);
+				Thread.sleep(wait/1000000);
 			}
 			catch(Exception e) {
+				System.out.printf("start: %d\n", start);
+				System.out.printf("elapsed: %d\n", elapsed);
+				System.out.printf("wait: %d\n", wait);
+				System.out.printf("target: %d\n", targetTime);
 				e.printStackTrace();
 			};
 		}
+	}
+
+	private void draw() {
+		//TODO comprobar si es 2D o 3D
+		if(menu != null){
+			menu.draw2D(g);
+		}
+		
+		getGraphics().drawImage(image, 0, 0,
+				WIDTH * SCALE, HEIGHT * SCALE,
+				null);
+		getGraphics().dispose();
 	}
 
 }

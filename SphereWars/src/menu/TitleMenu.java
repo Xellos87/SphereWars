@@ -12,9 +12,11 @@ public class TitleMenu extends Menu{
 		super(window);
 	}
 	
-	public void draw(Graphics2D g){
+	public void draw2D(Graphics2D g){
 		g.setColor(new Color(255, 0, 0));
-		g.drawRect(0, 0, window.getWidth(), window.getHeight());
+		g.fillRect(0, 0, window.getWidth(), window.getHeight());
+		g.setColor(new Color(0, 255, 0));
+		g.fillOval(50, 50, 100, 100);
 	}
 	
 }

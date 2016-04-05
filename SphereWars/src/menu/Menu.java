@@ -1,5 +1,7 @@
 package menu;
 
+import java.awt.Graphics2D;
+
 import javax.swing.JPanel;
 
 public abstract class Menu {
@@ -9,4 +11,5 @@ public abstract class Menu {
 		this.window = window;
 	}
 	
+	public abstract void draw2D(Graphics2D g);
 }
