@@ -29,12 +29,14 @@ public class Main implements Runnable{
 
 	//Thread del juego
 	private boolean running;
-	private int FPS = 60;
-	private int targetTime = 1000000000/FPS; //ns
+	private int FPS = 30;
+	private long targetTime = 1000000000/FPS; //ns
 	private Thread thread;
 	
 	//Menu del juego
 	private Menu menu;
+	//Modo de juego 2D
+	private Game2D game2D;
 
 	public static void main(String[] args){
 		new Main();
@@ -56,11 +58,14 @@ public class Main implements Runnable{
 
 		if(thread == null){
 			thread = new Thread(this);
+			thread.setPriority(Thread.MAX_PRIORITY);
 			//TODO: añadir keyListener
 			thread.start();
 		}
-		menu = new TitleMenu(width*scale, height*scale);
-		window.add(menu, BorderLayout.CENTER);
+		//menu = new TitleMenu(width*scale, height*scale);
+		//window.add(menu, BorderLayout.CENTER);
+		game2D = new Game2D(width*scale, height*scale);
+		window.add(game2D,BorderLayout.CENTER);
 		//Ajusta el tamaño de la ventana según los componentes
 		window.pack();
 	}
@@ -76,7 +81,11 @@ public class Main implements Runnable{
 			start = System.nanoTime();
 
 			//TODO: actualización del juego
-
+			if(game2D != null){
+				game2D.actionGame();
+			}
+			
+			
 			draw();
 
 			elapsed = System.nanoTime() - start;
@@ -99,6 +108,9 @@ public class Main implements Runnable{
 		//TODO comprobar si es 2D o 3D
 		if(menu != null){
 			menu.draw();
+		}
+		if(game2D != null){
+			game2D.draw();
 		}
 	}
 }
