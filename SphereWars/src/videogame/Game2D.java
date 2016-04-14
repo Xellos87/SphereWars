@@ -20,20 +20,14 @@ public class Game2D extends JPanel {
 	//Imagen del juego
 	private BufferedImage image;
 	private Graphics2D g;
-	private int count;
-	private int MAX = 1;
-	private BufferedImage sky;
-	private boolean sky_next;
-	//
-	private int x0_sky,x1_sky;
-	private int width0_sky,width1_sky;
-	//
+	//Fondo con efecto Parallax que da sensación de movimiento
+	private Parallax back_parallax;
+	//Contenedor del jugador
 	private Sphere player;
 
 	public Game2D(int width, int height){
 		this.width = width;
 		this.height = height;
-		this.count = 0;
 		setPreferredSize(new Dimension(width, height));
 		setFocusable(true);
 		requestFocus();
@@ -46,22 +40,21 @@ public class Game2D extends JPanel {
 	}
 
 	private void loadImages() {
-		try {
-			sky = ImageIO.read(new File("images/sky_clear.jpg"));
-			x0_sky = 0;
-			width0_sky = width;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		/* Carga el efecto de fondo Parallax */
+		int num = 1;
+		String back_images[] = {"images/sky_clear.jpg"};
+		int velocity[] = {2};
+		int posX[] = {0};
+		int posY[] = {0};
+		back_parallax = new Parallax(num, back_images, velocity, posX, posY, width, height);
+		/* Carga el personaje en pantalla con su posición */
 		player = new Sphere("images/ball.gif", 50, 250);
 	}
 
 	public void draw() {
 		//Dibuja todo en pantalla
-		g.drawImage(sky.getSubimage(x0_sky, 0, width0_sky, sky.getHeight()), 0, 0, null);
-		if(sky_next){
-			g.drawImage(sky.getSubimage(x1_sky, 0, width1_sky, sky.getHeight()), width0_sky, 0, null);
-		}
+		
+		back_parallax.draw(g);
 		
 		player.draw2D(g);
 
@@ -71,24 +64,7 @@ public class Game2D extends JPanel {
 	}
 
 	public void actionGame() {
-		count++;
-		if(count == MAX*2){
-			x0_sky++;
-			if(width0_sky > sky.getWidth() - x0_sky){
-				width0_sky = sky.getWidth() - x0_sky;
-				x1_sky = 0;
-				width1_sky = width - width0_sky;
-				sky_next = true;
-			}else{
-				sky_next = false;
-			}
-			if(width0_sky == 0){
-				sky_next = false;
-				x0_sky = 0;
-				width0_sky = width;
-			}
-			count = 0;
-		}
+		/* Acciones a realizar */
 	}
 
 }
