@@ -7,12 +7,14 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.swing.JPanel;
 
 import character.Sphere;
+import obstacle.Platform;
 
 @SuppressWarnings("serial")
 public class Game2D extends JPanel {
@@ -25,6 +27,10 @@ public class Game2D extends JPanel {
 	//Contenedor del jugador
 	private Sphere player;
 
+	//PRUEBA COLISIONES
+	private Platform platform,platform1;
+	private ArrayList<Platform> platforms;
+	
 	public Game2D(int width, int height){
 		this.width = width;
 		this.height = height;
@@ -36,6 +42,7 @@ public class Game2D extends JPanel {
 				BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 		
+		platforms = new ArrayList<>();
 		loadImages();
 	}
 
@@ -48,7 +55,15 @@ public class Game2D extends JPanel {
 		int posY[] = {0};
 		back_parallax = new Parallax(num, back_images, velocity, posX, posY, width, height);
 		/* Carga el personaje en pantalla con su posición */
-		player = new Sphere("images/ball.gif", 50, 250);
+		player = new Sphere("images/ball.gif", 50, 150, 2, 0, 30, 30);
+		player.setVelocity(0, 3);
+		//Plataformas de prueba
+		platform = new Platform("images/platforms.png", 50, 240, 650, 0, 70, 70);
+		platform.setVelocity(-1, 0);
+		platform1 = new Platform("images/platforms.png", 120, 240, 650, 0, 70, 70);
+		platform1.setVelocity(-1, 0);
+		platforms.add(platform);
+		platforms.add(platform1);
 	}
 
 	public void draw() {
@@ -57,6 +72,8 @@ public class Game2D extends JPanel {
 		back_parallax.draw(g);
 		
 		player.draw2D(g);
+		platform.draw2D(g);
+		platform1.draw2D(g);
 
 		//Vuelca en el panel lo que se ha dibujado
 		getGraphics().drawImage(image, 0, 0,width, height,null);
@@ -65,6 +82,23 @@ public class Game2D extends JPanel {
 
 	public void actionGame() {
 		/* Acciones a realizar */
+		
+		//Prueba plataformas
+		boolean block = false;
+		for(Platform p: platforms){
+			if(player.intersects(p)){
+				block = true;
+			}
+		}
+		if(!block){
+			//Gravedad
+			player.move();
+		}
+		//Mueve plataformas
+		for(Platform p: platforms){
+			p.move();
+		}
+		
 	}
 
 }
