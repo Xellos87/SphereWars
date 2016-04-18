@@ -12,4 +12,8 @@ public abstract class Menu extends JPanel{
 	protected Graphics2D g;
 	
 	public abstract void draw();
+
+	public abstract void cursorDown();
+
+	public abstract void cursorUp();
 }

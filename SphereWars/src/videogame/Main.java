@@ -1,11 +1,14 @@
 package videogame;
 
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
 import menu.Menu;
 import menu.TitleMenu;
+import utils.Constants;
 
 /**
  * Autores: Victor Adrian Milla Español - 557022,
@@ -18,7 +21,7 @@ import menu.TitleMenu;
  * Comentarios: Clase principal del videojuego
  * 
  * */
-public class Main implements Runnable{
+public class Main implements Runnable, KeyListener{
 	private static JFrame window;
 	private static final String TITLE = "Sphere Wars";
 
@@ -33,8 +36,13 @@ public class Main implements Runnable{
 	private long targetTime = 1000000000/FPS; //ns
 	private Thread thread;
 	
+	//Tiempos de control de bucle
+	long start;
+	long elapsed;
+	long wait;
+	
 	//Menu del juego
-	private Menu menu;
+	private Menu menu;	//TODO: este menu puede cambiar entre menu de titulo, de pausa, de opciones?
 	//Modo de juego 2D
 	private Game2D game2D;
 
@@ -45,7 +53,6 @@ public class Main implements Runnable{
 	private Main() {
 		init();
 	}
-
 	private void init() {
 		/* Crea el contenedor para poner los paneles */
 		window = new JFrame(TITLE);
@@ -53,7 +60,7 @@ public class Main implements Runnable{
 		window.setLayout(new BorderLayout());
 		window.setResizable(false);
 		window.setVisible(true);
-		
+		window.addKeyListener(this);
 		running = true;
 
 		if(thread == null){
@@ -72,10 +79,7 @@ public class Main implements Runnable{
 
 	@Override
 	public void run() {
-		//Tiempos de control de bucle
-		long start;
-		long elapsed;
-		long wait;
+		
 
 		while(running){
 			start = System.nanoTime();
@@ -108,9 +112,50 @@ public class Main implements Runnable{
 		//TODO comprobar si es 2D o 3D
 		if(menu != null){
 			menu.draw();
+			
 		}
 		if(game2D != null){
 			game2D.draw();
 		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(Constants.enMenu){
+			if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S){
+				menu.cursorDown();
+				System.out.println("Down key pressed");
+			}else if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
+				menu.cursorUp();
+				System.out.println("Up key pressed");
+			}else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+				//TODO: mirar en que posicion esta el cursor y ejecutar lo que toque
+				//elegir si hacer esto desde el menu o hacerlo desde aqui
+				//menu.doaction(); o //actuar(menu.getAction());
+			}
+		}
+//		//Duerme el hilo hasta la siguiente actualización despues de despachar el evento
+//		try {
+//			Thread.sleep(wait/1000000);
+//		}
+//		catch(Exception ex) {
+//			System.out.printf("start: %d\n", start);
+//			System.out.printf("elapsed: %d\n", elapsed);
+//			System.out.printf("wait: %d\n", wait);
+//			System.out.printf("target: %d\n", targetTime);
+//			ex.printStackTrace();
+//		};
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

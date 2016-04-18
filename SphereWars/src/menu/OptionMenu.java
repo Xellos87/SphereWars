@@ -31,4 +31,16 @@ public class OptionMenu extends Menu {
 		getGraphics().dispose();
 	}
 
+	@Override
+	public void cursorDown() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cursorUp() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
