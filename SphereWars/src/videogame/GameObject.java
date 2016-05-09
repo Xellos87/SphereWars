@@ -79,4 +79,8 @@ public class GameObject {
 	public Rectangle getBox(){
 		return new Rectangle(x, y, width, height);
 	}
+
+	public void updatePositionX(int x) {
+		this.x = x;
+	}
 }
