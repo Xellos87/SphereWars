@@ -71,7 +71,7 @@ public class MapController {
 			Node header = doc.getElementsByTagName("map").item(0);
 			Element element_header = (Element) header;
 			int height = Integer.parseInt(element_header.getAttribute("height"));
-			//TODO ñapa
+			//TODO ñapa de la altura
 			height = Math.min(height, block_height_screen);
 			int width = Integer.parseInt(element_header.getAttribute("width"));
 			//Crea una nuevo MapObject para contener la info del mapa
@@ -107,7 +107,7 @@ public class MapController {
 	public void draw2D(Graphics2D g) {
 		int width_map1;
 		int width_map2 = 0;
-		//TODO ñapa
+		//TODO ñapa el +2
 		if((first_map.getWidthBlocks() - pos_block -2) > block_width_screen){
 			//Solo hace falta el primer mapa
 			width_map1 = pos_block + block_width_screen+2;
@@ -142,10 +142,17 @@ public class MapController {
 			pos_block++;
 			pixel_block = pixel_block % pixel_width;
 		}
-		if(pos_block > first_map.getWidthBlocks()){
+		if(pos_block >= first_map.getWidthBlocks()){
 			first_map = second_map;
-			loadMap(-1);
 			pos_block = 0;
+			//Carga el siguiente mapa desde un hilo
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					loadMap(-1);
+				}
+			}).start();
 		}
 	}
 }
