@@ -11,7 +11,9 @@ import utils.Position;
 
 public class Cursor {
 	private Image cursor;
-	private Position iniPos;
+	//private Position iniPos;
+	private int iniposX;
+	private int iniposY;
 	private Position pos;
 	private int numPos, maxPos, gap;
 	//TODO: ARREGLAR PROBLEMAS DE CURSOR. POR QUE HAGO SIEMPRE LAS COSAS MAL A LA PRIMERA
@@ -27,7 +29,8 @@ public class Cursor {
 			maxPos = Constants.titleMaxPos;
 			gap = Constants.titleGap;
 			pos = Constants.titleIniPos;
-			iniPos = Constants.titleIniPos;
+			iniposX = Constants.titleIniPos.getX();
+			iniposY = Constants.titleIniPos.getY();
 		}
 	}
 	
@@ -54,19 +57,22 @@ public class Cursor {
 	public void nextPosition() {
 		System.out.println(numPos);
 		numPos = (numPos + 1) % maxPos;
-		int newY = iniPos.getY() + gap * numPos;
+		int newY = iniposY + gap * numPos;
 		System.out.println(newY);
-		int newX = iniPos.getX();
+		int newX = iniposX;
 		pos.changePosition(newX, newY);
 		
 	}
 
 	public void previousPosition() {
 		System.out.println(numPos);
-		numPos = (numPos - 1) % maxPos;
-		int newY = iniPos.getY() + gap * numPos;
+		if(numPos > 0)
+			numPos = Math.abs((numPos - 1)) % maxPos;
+		else
+			numPos = maxPos-1;
+		int newY = iniposY + gap * numPos;
 		System.out.println(newY);
-		int newX = iniPos.getX();
+		int newX = iniposX;
 		pos.changePosition(newX, newY);
 	}
 }
