@@ -83,6 +83,12 @@ public class MapController {
 				Element element_plat = (Element) lst_plat.item(i);
 				//Tipo de plataforma
 				String type = element_plat.getAttribute("type");
+				int type_p = Platform.GROUND;
+				if(type.equals("groud")){
+					type_p = Platform.GROUND;
+				}else if(type.equals("plat")){
+					type_p = Platform.PLATAFORM;
+				}
 				//Inicio y final en X(anchura)
 				int x_start = Integer.parseInt(element_plat.getAttribute("x_start"));
 				int x_end = Integer.parseInt(element_plat.getAttribute("x_end"));
@@ -93,8 +99,22 @@ public class MapController {
 				//Recorre todas las posiciones en las que agregar el elemento
 				for(int y=y_start; y<=y_end; y++){
 					for(int x=x_start; x<=x_end; x++){
-						//Valor bueno de y = 240
-						Platform p = new Platform("images/platforms.png", x*pixel_width, (height-y)*pixel_height, 505, 575, pixel_width, pixel_height);
+						int t = type_p;
+						if(t != Platform.GROUND){
+							if(y==y_end){
+								//En lo mas alto
+								if(x==x_start){
+									t = Platform.BORDER_LEFT;
+								}else if(x==x_end){
+									t = Platform.BORDER_RIGHT;
+								}else{
+									t = Platform.GROUND;
+								}
+							}else{
+								t = Platform.UNDERGROUND;
+							}
+						}
+						Platform p = new Platform("images/platforms.png", x*pixel_width, (height-y)*pixel_height, pixel_width, pixel_height, t);
 						second_map.addObject(p,x,y);
 						//System.out.printf("Agregado en x:%d, y:%d\n", x*pixel_width,(height-y)*pixel_height);
 					}
@@ -106,6 +126,14 @@ public class MapController {
 				Element element_spike = (Element) lst_spike.item(i);
 				//Dirección de plataforma()
 				String type = element_spike.getAttribute("direction");
+				int direction = Spike.UPPER;
+				if(type.equals("low")){
+					direction = Spike.LOWER;
+				}else if(type.equals("right")){
+					direction = Spike.RIGHT;
+				}else if(type.equals("left")){
+					direction = Spike.LEFT;
+				}
 				//Inicio y final en X(anchura)
 				int x_start = Integer.parseInt(element_spike.getAttribute("x_start"));
 				int x_end = Integer.parseInt(element_spike.getAttribute("x_end"));
@@ -117,7 +145,7 @@ public class MapController {
 				for(int y=y_start; y<=y_end; y++){
 					for(int x=x_start; x<=x_end; x++){
 						//Valor bueno de y = 240
-						Spike sp = new Spike("images/platforms.png", x*pixel_width, (height-y)*pixel_height, 649, 70, pixel_width, pixel_height,3);
+						Spike sp = new Spike("images/platforms.png", x*pixel_width, (height-y)*pixel_height, 649, 70, pixel_width, pixel_height,direction);
 						second_map.addObject(sp,x,y);
 						//System.out.printf("Agregado en x:%d, y:%d\n", x*pixel_width,(height-y)*pixel_height);
 					}

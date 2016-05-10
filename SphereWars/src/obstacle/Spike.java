@@ -1,8 +1,6 @@
 package obstacle;
 
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import graphic.Sprite;
@@ -18,7 +16,7 @@ public class Spike extends GameObject implements Sprite{
 	private int direction;
 
 	public Spike(String path, int x, int y, int xImg, int yImg, int width, int height, int direction) {
-		super(path, x, y, xImg, yImg, width, height);
+		super(path, x, y, width, height);
 		//Carga solo el fragmento que necesita la imagen
 		image = image.getSubimage(xImg, yImg, width, height);
 		this.direction = direction;

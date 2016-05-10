@@ -29,8 +29,6 @@ public class GameObject {
 	protected int vy;
 
 	//Dimensiones
-	protected int xImg;
-	protected int yImg;
 	protected int width;
 	protected int height;
 	
@@ -40,13 +38,11 @@ public class GameObject {
 	
 	
 	
-	public GameObject(String path, int x, int y, int xImg, int yImg, int width, int height){
+	public GameObject(String path, int x, int y, int width, int height){
 		this.x = x;
 		this.y = y;
 		vx = 0;
 		vy = 0;
-		this.xImg = xImg;
-		this.yImg = yImg;
 		this.width = width;
 		this.height = height;
 		try {
