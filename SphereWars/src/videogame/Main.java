@@ -69,10 +69,11 @@ public class Main implements Runnable, KeyListener{
 			//TODO: añadir keyListener
 			thread.start();
 		}
-		//menu = new TitleMenu(width*scale, height*scale);
-		//window.add(menu, BorderLayout.CENTER);
-		game2D = new Game2D(width*scale, height*scale);
-		window.add(game2D,BorderLayout.CENTER);
+		menu = new TitleMenu(width*scale, height*scale);
+		menu.setDoubleBuffered(true);
+		window.add(menu, BorderLayout.CENTER);
+		//game2D = new Game2D(width*scale, height*scale);
+		//window.add(game2D,BorderLayout.CENTER);
 		//Ajusta el tamaño de la ventana según los componentes
 		window.pack();
 	}
