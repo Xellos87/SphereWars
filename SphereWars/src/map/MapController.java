@@ -26,8 +26,8 @@ public class MapController {
 	private int pos_block;
 	private int pixel_block;
 	//
-	private int pixel_width = 70;
-	private int pixel_height = 70;
+	private int pixel_width = 69;
+	private int pixel_height = 69;
 	//Numero de bloques en pantalla
 	private int block_width_screen;
 	private int block_height_screen;
@@ -113,8 +113,9 @@ public class MapController {
 			width_map1 = pos_block + block_width_screen+2;
 		}else{
 			//Hay que representar parte del primer mapa y del segundo
-			width_map1 = first_map.getWidthBlocks() - pos_block;
-			width_map2 = block_width_screen - width_map1 + 1;
+			width_map1 = first_map.getWidthBlocks();
+			width_map2 = block_width_screen - (width_map1 - pos_block) + 2;
+			System.out.printf("Ancho del segundo mapa: %d \n", width_map2);
 		}
 		//System.out.printf("Ancho a primer mapa: %d \n", width_map1);
 		//Dibuja desde el primer mapa
@@ -127,7 +128,7 @@ public class MapController {
 		System.out.printf("----------\n");
 		//Dibuja desde el segundo mapa si lo necesita
 		for(int x=0; x<width_map2; x++){
-			int pos_x = ((width_map1+x)*pixel_width) - pixel_block;
+			int pos_x = ((width_map1-pos_block+x)*pixel_width) - pixel_block;
 			for(int y=0; y<second_map.getHeightBlocks(); y++){
 				second_map.draw2D(g,x,y,pos_x);
 			}
@@ -140,6 +141,11 @@ public class MapController {
 		if(pixel_block / pixel_width >= 1){
 			pos_block++;
 			pixel_block = pixel_block % pixel_width;
+		}
+		if(pos_block > first_map.getWidthBlocks()){
+			first_map = second_map;
+			loadMap(-1);
+			pos_block = 0;
 		}
 	}
 }

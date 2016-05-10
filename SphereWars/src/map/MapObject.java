@@ -35,7 +35,7 @@ public class MapObject {
 
 	public void draw2D(Graphics2D g, int x, int y, int disp_x) {
 		if(objects[y][x] != null){
-			//System.out.printf("Plataforma %d: %d\n", x, disp_x);
+			System.out.printf("Plataforma %d: %d\n", x, disp_x);
 			objects[y][x].updatePositionX(disp_x);
 			((Platform)objects[y][x]).draw2D(g);
 		}
