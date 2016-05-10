@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <map height="10" width="15">
-	<plataform type="ground" x_start="0" x_end="13" y_start="3" y_end="3"/>
+	<plataform type="plat" x_start="3" x_end="6" y_start="4" y_end="4"/>
+	<plataform type="ground" x_start="0" x_end="13" y_start="2" y_end="2"/>
+	<plataform type="plat" x_start="8" x_end="9" y_start="4" y_end="5"/>
+	<spike direction="up" x_start="4" x_end="4" y_start="5" y_end="5"/>
+	<spike direction="up" x_start="13" x_end="13" y_start="3" y_end="3"/>
+	<spike direction="up" x_start="0" x_end="0" y_start="3" y_end="3"/>
 </map>

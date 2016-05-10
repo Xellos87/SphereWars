@@ -14,6 +14,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import obstacle.Platform;
+import obstacle.Spike;
 
 public class MapController {
 	//Lista de mapas para cargar
@@ -76,7 +77,7 @@ public class MapController {
 			int width = Integer.parseInt(element_header.getAttribute("width"));
 			//Crea una nuevo MapObject para contener la info del mapa
 			second_map = new MapObject(width, height);
-			//Recorre todos los elementos plataform para agreagarlo al mapa
+			//Recorre todos los elementos plataform para agregarlo al mapa
 			NodeList lst_plat = element_header.getElementsByTagName("plataform");
 			for(int i=0; i<lst_plat.getLength(); i++){
 				Element element_plat = (Element) lst_plat.item(i);
@@ -99,6 +100,29 @@ public class MapController {
 					}
 				}
 			}
+			//Recorre todos los elementos spike para agregarlo al mapa
+			NodeList lst_spike = element_header.getElementsByTagName("spike");
+			for(int i=0; i<lst_spike.getLength(); i++){
+				Element element_spike = (Element) lst_spike.item(i);
+				//Dirección de plataforma()
+				String type = element_spike.getAttribute("direction");
+				//Inicio y final en X(anchura)
+				int x_start = Integer.parseInt(element_spike.getAttribute("x_start"));
+				int x_end = Integer.parseInt(element_spike.getAttribute("x_end"));
+				//Inicio y final en Y(altura)
+				int y_start = Integer.parseInt(element_spike.getAttribute("y_start"));
+				int y_end = Integer.parseInt(element_spike.getAttribute("y_end"));
+				
+				//Recorre todas las posiciones en las que agregar el elemento
+				for(int y=y_start; y<=y_end; y++){
+					for(int x=x_start; x<=x_end; x++){
+						//Valor bueno de y = 240
+						Spike sp = new Spike("images/platforms.png", x*pixel_width, (height-y)*pixel_height, 649, 70, pixel_width, pixel_height,3);
+						second_map.addObject(sp,x,y);
+						//System.out.printf("Agregado en x:%d, y:%d\n", x*pixel_width,(height-y)*pixel_height);
+					}
+				}
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -115,7 +139,7 @@ public class MapController {
 			//Hay que representar parte del primer mapa y del segundo
 			width_map1 = first_map.getWidthBlocks();
 			width_map2 = block_width_screen - (width_map1 - pos_block) + 2;
-			System.out.printf("Ancho del segundo mapa: %d \n", width_map2);
+			//System.out.printf("Ancho del segundo mapa: %d \n", width_map2);
 		}
 		//System.out.printf("Ancho a primer mapa: %d \n", width_map1);
 		//Dibuja desde el primer mapa
@@ -125,7 +149,7 @@ public class MapController {
 				first_map.draw2D(g,x,y,pos_x);
 			}
 		}
-		System.out.printf("----------\n");
+		//System.out.printf("----------\n");
 		//Dibuja desde el segundo mapa si lo necesita
 		for(int x=0; x<width_map2; x++){
 			int pos_x = ((width_map1-pos_block+x)*pixel_width) - pixel_block;
