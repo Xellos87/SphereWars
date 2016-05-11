@@ -59,7 +59,7 @@ public class Game2D extends JPanel {
 		int posY[] = {0};
 		back_parallax = new Parallax(num, back_images, velocity, posX, posY, width, height);
 		/* Carga el personaje en pantalla con su posición */
-		player = new Sphere("images/ball.gif", 50, 150, 2, 0, 30, 30);
+		player = new Sphere("images/ball.gif", 50, 150, 30, 30,30,30);
 		player.setVelocity(0, 3);
 		//Plataformas de prueba
 		/*platform = new Platform("images/platforms.png", 50, 240, 650, 0, 70, 70);

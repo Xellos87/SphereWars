@@ -1,9 +1,8 @@
 package map;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 
-import obstacle.Platform;
+import graphic.Sprite;
 import videogame.GameObject;
 
 public class MapObject {
@@ -11,7 +10,6 @@ public class MapObject {
 	private int width, height;
 	//Objetos que se encuentran en el mapa
 	private GameObject[][] objects;
-	//private ArrayList<GameObject> objects;
 	
 	public MapObject(int width, int height){
 		this.width = width;
@@ -37,7 +35,7 @@ public class MapObject {
 		if(objects[y][x] != null){
 			//System.out.printf("Plataforma %d: %d\n", x, disp_x);
 			objects[y][x].updatePositionX(disp_x);
-			((Platform)objects[y][x]).draw2D(g);
+			((Sprite)objects[y][x]).draw2D(g);
 		}
 	}
 }

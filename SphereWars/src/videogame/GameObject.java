@@ -1,5 +1,7 @@
 package videogame;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,10 +31,12 @@ public class GameObject {
 	protected int vy;
 
 	//Dimensiones
-	protected int xImg;
-	protected int yImg;
 	protected int width;
 	protected int height;
+	
+	//Dimensiones en pantalla
+	protected int block_width;
+	protected int block_height;
 	
 	//TODO: Añadir animaciones de sprites
 	//Sprite
@@ -40,21 +44,31 @@ public class GameObject {
 	
 	
 	
-	public GameObject(String path, int x, int y, int xImg, int yImg, int width, int height){
+	public GameObject(String path, int x, int y, int width, int height,int block_width,int block_height){
 		this.x = x;
 		this.y = y;
 		vx = 0;
 		vy = 0;
-		this.xImg = xImg;
-		this.yImg = yImg;
 		this.width = width;
 		this.height = height;
+		this.block_width = block_width;
+		this.block_height = block_height;
 		try {
 			image = ImageIO.read(new File(path));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	protected void resize(){
+		Image tmp = image.getScaledInstance(block_width, block_height, image.SCALE_DEFAULT);
+	    BufferedImage dimg = new BufferedImage(block_width, block_height, BufferedImage.TYPE_INT_ARGB);
+	    Graphics2D g2d = dimg.createGraphics();
+	    g2d.drawImage(tmp, 0, 0, null);
+	    g2d.dispose();
+		image = dimg;
+		//System.out.printf("Nuevo tamaño, ancho: %d, alto: %d\n",image.getWidth(),image.getHeight());
 	}
 	
 	public void setPosition(int x, int y){
