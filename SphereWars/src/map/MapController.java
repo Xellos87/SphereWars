@@ -1,7 +1,6 @@
 package map;
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,10 +17,10 @@ import obstacle.Platform;
 import obstacle.Spike;
 
 public class MapController {
-	//
+	//Numero de bloques maximos para la altura
 	private final int MAX_HEIGHT = 10;
 	//Lista de mapas para cargar
-	private String maps[] = {"maps/map00.xml"};
+	private final String MAPS[] = {"maps/map00.xml"};
 	//Indice de mapas que se genera aleatoriamente
 	private ArrayList<Integer> map_index;
 	//Indice del mapa actual
@@ -41,11 +40,6 @@ public class MapController {
 	//Mapa actual y siguiente
 	private MapObject first_map;
 	private MapObject second_map;
-	//
-	private int width;
-	private int height;
-	
-	//TODO parece que parpadea, averiguar porque.
 	
 	public MapController(int width, int height){
 		map_index = new ArrayList<Integer>();
@@ -54,20 +48,22 @@ public class MapController {
 		pixel_block = 0;
 		block_height = height / MAX_HEIGHT;
 		block_width = block_height;
-		block_width_screen = width / block_width;
+		//Se suma 1 ya que la división entre enteros si no es exacta desprecia los decimales, asi ocupa todo el ancho
+		block_width_screen = width / block_width + 1;
 		block_height_screen = height / block_height;
-		this.width = width;
-		this.height = height;
 		System.out.printf("bloques de ancho: %d, alto:%d\n", block_width_screen,block_height_screen);
 		//Carga aleatoriamente los 2 primeros mapas
-		loadMap(-1);
-		loadMap(-1);
+		loadMap();
+		loadMap();
 	}
 
-	private void loadMap(int index) {
-		if(index < 0){
+	private void loadMap() {
+		int index;
+		if(map_index.size() <= current_map){
 			Random rnd = new Random(System.currentTimeMillis());
-			index = rnd.nextInt(maps.length);
+			index = rnd.nextInt(MAPS.length);
+		}else{
+			index = map_index.get(current_map);
 		}
 		map_index.add(index);
 		System.out.printf("Mapa: %d\n", index);
@@ -75,20 +71,21 @@ public class MapController {
 		first_map = second_map;
 		//Parsear el fichero de mapas
 		parseMapXML(index);
+		current_map++;
 	}
 
 	private void parseMapXML(int index) {
 		try{
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(new File(maps[index]));
+			Document doc = dBuilder.parse(new File(MAPS[index]));
 			doc.getDocumentElement().normalize();
 			//Obtiene el ancho y alto del mapa
 			Node header = doc.getElementsByTagName("map").item(0);
 			Element element_header = (Element) header;
-			int height = Integer.parseInt(element_header.getAttribute("height"));
-			//TODO ñapa de la altura
-			height = Math.min(height, block_height_screen);
+			int height = block_height_screen;//Integer.parseInt(element_header.getAttribute("height"));
+			//TODO control de la altura, como mucho 10, si no se mantiene en todos comprobar lo que pasa
+			//height = Math.min(height, block_height_screen);
 			int width = Integer.parseInt(element_header.getAttribute("width"));
 			//Crea una nuevo MapObject para contener la info del mapa
 			second_map = new MapObject(width, height);
@@ -110,7 +107,9 @@ public class MapController {
 						int type;
 						if(y==y_end){
 							//En lo mas alto
-							if(x==x_start && x==x_end){
+							if(x==x_start && x==x_end && y_start == y_end){
+								type = Platform.ALONE_BLOCK;
+							}else if(x==x_start && x==x_end){
 								type = Platform.BORDER_BOTH;
 							}else if(x==x_start){
 								type = Platform.BORDER_LEFT;
@@ -168,14 +167,14 @@ public class MapController {
 	public void draw2D(Graphics2D g) {
 		int width_map1;
 		int width_map2 = 0;
-		//Se suman 2 bloques al último mapa para evitar que aparezca de repente durante el desplazamiento
-		if((first_map.getWidthBlocks() - pos_block -2) > block_width_screen){
+		//Se suma 1 bloque al último mapa para evitar que aparezca de repente durante el desplazamiento
+		if((first_map.getWidthBlocks() - pos_block - 1) > block_width_screen){
 			//Solo hace falta el primer mapa
-			width_map1 = pos_block + block_width_screen+2;
+			width_map1 = pos_block + block_width_screen + 1;
 		}else{
 			//Hay que representar parte del primer mapa y del segundo
 			width_map1 = first_map.getWidthBlocks();
-			width_map2 = block_width_screen - (width_map1 - pos_block) + 2;
+			width_map2 = block_width_screen - (width_map1 - pos_block) + 1;
 			//System.out.printf("Ancho del segundo mapa: %d \n", width_map2);
 		}
 		//System.out.printf("Ancho a primer mapa: %d \n", width_map1);
@@ -211,9 +210,29 @@ public class MapController {
 
 				@Override
 				public void run() {
-					loadMap(-1);
+					loadMap();
 				}
 			}).start();
 		}
+	}
+	
+	public int getNumMaps(){
+		return current_map;
+	}
+	
+	public ArrayList<Integer> getListMaps(){
+		return map_index;
+	}
+	
+	public void setListMaps(ArrayList<Integer> maps){
+		map_index = maps;
+	}
+	
+	public int getWidthBlock(){
+		return block_width;
+	}
+	
+	public int getHeightBlock(){
+		return block_height;
 	}
 }

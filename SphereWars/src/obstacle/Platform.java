@@ -13,9 +13,10 @@ public class Platform extends GameObject implements Sprite{
 	public static final int BORDER_RIGHT = 2;
 	public static final int UNDERGROUND = 3;
 	public static final int BORDER_BOTH = 4;
+	public static final int ALONE_BLOCK = 5;
 	//
-	private int[] x_imgs={504,504,504,576,648};
-	private int[] y_imgs={576,648,504,865,0};
+	private int[] x_imgs={504,504,504,576,648,648};
+	private int[] y_imgs={576,648,504,865,0,0};
 	//
 	private int type;
 	

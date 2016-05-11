@@ -20,7 +20,7 @@ import utils.Constants;
  * 
  * Comentarios: Clase principal del videojuego
  * 
- * */
+ */
 public class Main implements Runnable, KeyListener{
 	private static JFrame window;
 	private static final String TITLE = "Sphere Wars";
@@ -73,6 +73,7 @@ public class Main implements Runnable, KeyListener{
 		//menu.setDoubleBuffered(true);
 		//window.add(menu, BorderLayout.CENTER);
 		game2D = new Game2D(width*scale, height*scale);
+		game2D.setDoubleBuffered(true);
 		window.add(game2D,BorderLayout.CENTER);
 		//Ajusta el tamaño de la ventana según los componentes
 		window.pack();

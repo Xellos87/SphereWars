@@ -7,6 +7,19 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Parallax.java
+ * 
+ * Comentarios: Realiza el efecto parallax, mueve varias capas de fondo a diferentes velocidades para dar
+ * 				sensación de profundidad, las primeros elementos son dibujados al fondo, y los datos pasados
+ * 				en el constructor son para cada imagen de fondo.
+ * 
+ */
 public class Parallax {
 	/* Datos de imagen*/
 	private BufferedImage[] back_images;
@@ -18,8 +31,7 @@ public class Parallax {
 	private int width;
 	private int height;
 	/* Componentes del refresco */
-	private int tick_counter;
-	private int max_counter;
+	private int[] tick_counter;
 	/* Datos de posicion de la imagen */
 	private int[] fromX;
 	private int[] fromX_next;
@@ -27,6 +39,17 @@ public class Parallax {
 	private int[] width_image_next;
 	private boolean[] show_next;
 	
+	/**
+	 * Constructor, establece los datos iniciales para construir el efecto parallax, cada dato i-esimo esta asociado entre si
+	 * 
+	 * @param numImages, numero de imagenes a las que se aplica el efecto, todos los array deben ser de este tamaño
+	 * @param images, ruta de las imagenes
+	 * @param velocity, velocidad asociada a cada imagen, valores mayores de 1, a mayor valor menor desplazamiento
+	 * @param posX, posicion inicial del eje X de cada imagen
+	 * @param posY, posicion inicial del eje Y de cada imagen
+	 * @param width, ancho de la pantalla en la que se muestran
+	 * @param height, alto de la pantalla en la que se muestran
+	 */
 	public Parallax(int numImages, String[] images, int[] velocity, int[] posX, int[] posY, int width, int height){
 		this.velocity = velocity;
 		this.numImages = numImages;
@@ -35,9 +58,14 @@ public class Parallax {
 		this.width = width;
 		this.height = height;
 		loadImages(images,numImages);
-		this.tick_counter = 0;
 	}
 	
+	/**
+	 * Carga las imagenes del array de nombres a los contenedores de imagenes, e inicializa todo
+	 * 
+	 * @param images, array con la ruta de acceso a las imagenes
+	 * @param numImages, numero de imagenes a usar con el efecto parallax
+	 */
 	private void loadImages(String[] images, int numImages){
 		fromX = new int[numImages];
 		fromX_next = new int[numImages];
@@ -45,14 +73,14 @@ public class Parallax {
 		width_image_next = new int[numImages];
 		show_next = new boolean[numImages];
 		back_images = new BufferedImage[numImages];
-		max_counter = 0;
+		tick_counter = new int[numImages];
 		//Carga cada imagen en su contenedor
 		for(int i=0; i<numImages; i++){
 			try {
 				back_images[i] = ImageIO.read(new File(images[i]));
 				fromX[i] = 0;
-				max_counter = velocity[i] > max_counter ? velocity[i]: max_counter;
-				//System.out.println("Imagen añadida para parallax");
+				tick_counter[i] = 0;
+				calculatePosition(i);
 			} catch (IOException e) {
 				System.err.printf("Error al leer \"%s\"\n",images[i]);
 				e.printStackTrace();
@@ -60,21 +88,23 @@ public class Parallax {
 		}
 	}
 	
+	/**
+	 * Dibuja todas las imagenes en su posición, si es necesario las mueve
+	 * 
+	 * @param g2d, elemento grafico sobre el que dibuja
+	 */
 	public void draw(Graphics2D g2d){
 		for(int i=0; i<numImages; i++){
-			if(tick_counter % velocity[i] == 0){
+			if(tick_counter[i] >= velocity[i]){
 				calculatePosition(i);
-//				System.out.printf("posX: %d; posY: %d\n",posX[i], posY[i]);
-//				System.out.printf("fromX: %d; fromY: %d\n",fromX[i], 0);
-//				System.out.printf("w: %d; h: %d\n", width_image[i], back_images[i].getHeight());
-				g2d.drawImage(back_images[i].getSubimage(fromX[i], 0, width_image[i], back_images[i].getHeight()), posX[i], posY[i], null);
-				if(show_next[i]){
-					g2d.drawImage(back_images[i].getSubimage(fromX_next[i], 0, width_image_next[i], back_images[i].getHeight()), width_image[i], posY[i], null);
-				}
+				tick_counter[i] -= velocity[i];
 			}
+			g2d.drawImage(back_images[i].getSubimage(fromX[i], 0, width_image[i], back_images[i].getHeight()), posX[i], posY[i], null);
+			if(show_next[i]){
+				g2d.drawImage(back_images[i].getSubimage(fromX_next[i], 0, width_image_next[i], back_images[i].getHeight()), width_image[i], posY[i], null);
+			}
+			tick_counter[i]++;
 		}
-		tick_counter++;
-		tick_counter = tick_counter > max_counter ? 0 : tick_counter;	
 	}
 
 	private void calculatePosition(int i) {
