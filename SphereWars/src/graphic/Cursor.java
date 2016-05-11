@@ -15,6 +15,7 @@ public class Cursor {
 	private int iniposX;
 	private int iniposY;
 	private Position pos;
+	private String opcion;
 	private int numPos, maxPos, gap;
 	//TODO: ARREGLAR PROBLEMAS DE CURSOR. POR QUE HAGO SIEMPRE LAS COSAS MAL A LA PRIMERA
 	public Cursor(String menuType){
@@ -31,6 +32,7 @@ public class Cursor {
 			pos = Constants.titleIniPos;
 			iniposX = Constants.titleIniPos.getX();
 			iniposY = Constants.titleIniPos.getY();
+			opcion = Constants.list_menu[numPos];
 		}
 	}
 	
@@ -57,6 +59,7 @@ public class Cursor {
 	public void nextPosition() {
 		System.out.println(numPos);
 		numPos = (numPos + 1) % maxPos;
+		opcion = Constants.list_menu[numPos];
 		int newY = iniposY + gap * numPos;
 		System.out.println(newY);
 		int newX = iniposX;
@@ -70,9 +73,14 @@ public class Cursor {
 			numPos = Math.abs((numPos - 1)) % maxPos;
 		else
 			numPos = maxPos-1;
+		opcion = Constants.list_menu[numPos];
 		int newY = iniposY + gap * numPos;
 		System.out.println(newY);
 		int newX = iniposX;
 		pos.changePosition(newX, newY);
+	}
+
+	public String getOpcion() {
+		return opcion;
 	}
 }

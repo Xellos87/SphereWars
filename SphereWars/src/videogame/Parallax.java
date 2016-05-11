@@ -52,6 +52,7 @@ public class Parallax {
 				back_images[i] = ImageIO.read(new File(images[i]));
 				fromX[i] = 0;
 				max_counter = velocity[i] > max_counter ? velocity[i]: max_counter;
+				//System.out.println("Imagen añadida para parallax");
 			} catch (IOException e) {
 				System.err.printf("Error al leer \"%s\"\n",images[i]);
 				e.printStackTrace();
@@ -63,6 +64,9 @@ public class Parallax {
 		for(int i=0; i<numImages; i++){
 			if(tick_counter % velocity[i] == 0){
 				calculatePosition(i);
+//				System.out.printf("posX: %d; posY: %d\n",posX[i], posY[i]);
+//				System.out.printf("fromX: %d; fromY: %d\n",fromX[i], 0);
+//				System.out.printf("w: %d; h: %d\n", width_image[i], back_images[i].getHeight());
 				g2d.drawImage(back_images[i].getSubimage(fromX[i], 0, width_image[i], back_images[i].getHeight()), posX[i], posY[i], null);
 				if(show_next[i]){
 					g2d.drawImage(back_images[i].getSubimage(fromX_next[i], 0, width_image_next[i], back_images[i].getHeight()), width_image[i], posY[i], null);
