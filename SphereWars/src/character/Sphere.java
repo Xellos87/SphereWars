@@ -22,10 +22,11 @@ public class Sphere extends GameObject implements Sprite{
 	//
 	private int type;
 
-	public Sphere(String path, int x, int y, int width, int height) {
-		super(path, x, y, width, height);
+	public Sphere(String path, int x, int y, int width, int height,int block_width,int block_height) {
+		super(path, x, y, width, height, block_width, block_height);
 		this.type = NORMAL;
 		selectImage();
+		resize();
 	}
 	
 	private void selectImage() {

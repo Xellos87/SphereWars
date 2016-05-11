@@ -1,6 +1,7 @@
 package map;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,6 +18,8 @@ import obstacle.Platform;
 import obstacle.Spike;
 
 public class MapController {
+	//
+	private final int MAX_HEIGHT = 10;
 	//Lista de mapas para cargar
 	private String maps[] = {"maps/map00.xml"};
 	//Indice de mapas que se genera aleatoriamente
@@ -26,23 +29,35 @@ public class MapController {
 	//Posición en bloque dentro del mapa, y pixel dentro del bloque
 	private int pos_block;
 	private int pixel_block;
-	//
+	//Tamaño del elemento a representar por pantalla
 	private int pixel_width = 69;
 	private int pixel_height = 69;
+	//Tamaño que va a ocupar cada bloque en pantalla
+	private int block_width;
+	private int block_height;
 	//Numero de bloques en pantalla
 	private int block_width_screen;
 	private int block_height_screen;
 	//Mapa actual y siguiente
 	private MapObject first_map;
 	private MapObject second_map;
-
+	//
+	private int width;
+	private int height;
+	
+	//TODO parece que parpadea, averiguar porque.
+	
 	public MapController(int width, int height){
 		map_index = new ArrayList<Integer>();
 		current_map = 0;
 		pos_block = 0;
 		pixel_block = 0;
-		block_width_screen = width / pixel_width;
-		block_height_screen = height / pixel_height;
+		block_height = height / MAX_HEIGHT;
+		block_width = block_height;
+		block_width_screen = width / block_width;
+		block_height_screen = height / block_height;
+		this.width = width;
+		this.height = height;
 		System.out.printf("bloques de ancho: %d, alto:%d\n", block_width_screen,block_height_screen);
 		//Carga aleatoriamente los 2 primeros mapas
 		loadMap(-1);
@@ -81,42 +96,36 @@ public class MapController {
 			NodeList lst_plat = element_header.getElementsByTagName("plataform");
 			for(int i=0; i<lst_plat.getLength(); i++){
 				Element element_plat = (Element) lst_plat.item(i);
-				//Tipo de plataforma
-				String type = element_plat.getAttribute("type");
-				int type_p = Platform.GROUND;
-				if(type.equals("groud")){
-					type_p = Platform.GROUND;
-				}else if(type.equals("plat")){
-					type_p = Platform.PLATAFORM;
-				}
 				//Inicio y final en X(anchura)
 				int x_start = Integer.parseInt(element_plat.getAttribute("x_start"));
 				int x_end = Integer.parseInt(element_plat.getAttribute("x_end"));
 				//Inicio y final en Y(altura)
 				int y_start = Integer.parseInt(element_plat.getAttribute("y_start"));
 				int y_end = Integer.parseInt(element_plat.getAttribute("y_end"));
-				
+
 				//Recorre todas las posiciones en las que agregar el elemento
 				for(int y=y_start; y<=y_end; y++){
 					for(int x=x_start; x<=x_end; x++){
-						int t = type_p;
-						if(t != Platform.GROUND){
-							if(y==y_end){
-								//En lo mas alto
-								if(x==x_start){
-									t = Platform.BORDER_LEFT;
-								}else if(x==x_end){
-									t = Platform.BORDER_RIGHT;
-								}else{
-									t = Platform.GROUND;
-								}
+						//Tipo de plataforma
+						int type;
+						if(y==y_end){
+							//En lo mas alto
+							if(x==x_start && x==x_end){
+								type = Platform.BORDER_BOTH;
+							}else if(x==x_start){
+								type = Platform.BORDER_LEFT;
+							}else if(x==x_end){
+								type = Platform.BORDER_RIGHT;
 							}else{
-								t = Platform.UNDERGROUND;
+								type = Platform.GROUND;
 							}
+						}else{
+							type = Platform.UNDERGROUND;
 						}
-						Platform p = new Platform("images/platforms.png", x*pixel_width, (height-y)*pixel_height, pixel_width, pixel_height, t);
+						Platform p = new Platform("images/platforms.png", x*block_width, (height-y)*block_height, pixel_width, pixel_height,block_width,block_height, type);
 						second_map.addObject(p,x,y);
-						//System.out.printf("Agregado en x:%d, y:%d\n", x*pixel_width,(height-y)*pixel_height);
+						//System.out.printf("Agregado en x:%d, y:%d\n", x*block_width,(height-y)*block_height);
+						//System.out.printf("Tam en pantalla, ancho: %d, alto: %d\n",block_width,block_height);
 					}
 				}
 			}
@@ -140,12 +149,12 @@ public class MapController {
 				//Inicio y final en Y(altura)
 				int y_start = Integer.parseInt(element_spike.getAttribute("y_start"));
 				int y_end = Integer.parseInt(element_spike.getAttribute("y_end"));
-				
+
 				//Recorre todas las posiciones en las que agregar el elemento
 				for(int y=y_start; y<=y_end; y++){
 					for(int x=x_start; x<=x_end; x++){
 						//Valor bueno de y = 240
-						Spike sp = new Spike("images/platforms.png", x*pixel_width, (height-y)*pixel_height, 649, 70, pixel_width, pixel_height,direction);
+						Spike sp = new Spike("images/platforms.png", x*block_width, (height-y)*block_height, 649, 70, pixel_width, pixel_height,block_width,block_height,direction);
 						second_map.addObject(sp,x,y);
 						//System.out.printf("Agregado en x:%d, y:%d\n", x*pixel_width,(height-y)*pixel_height);
 					}
@@ -159,7 +168,7 @@ public class MapController {
 	public void draw2D(Graphics2D g) {
 		int width_map1;
 		int width_map2 = 0;
-		//TODO ñapa el +2
+		//Se suman 2 bloques al último mapa para evitar que aparezca de repente durante el desplazamiento
 		if((first_map.getWidthBlocks() - pos_block -2) > block_width_screen){
 			//Solo hace falta el primer mapa
 			width_map1 = pos_block + block_width_screen+2;
@@ -172,7 +181,7 @@ public class MapController {
 		//System.out.printf("Ancho a primer mapa: %d \n", width_map1);
 		//Dibuja desde el primer mapa
 		for(int x=pos_block; x<width_map1; x++){
-			int pos_x = ((x-pos_block)*pixel_width) - pixel_block;
+			int pos_x = ((x-pos_block)*block_width) - pixel_block;
 			for(int y=0; y<first_map.getHeightBlocks(); y++){
 				first_map.draw2D(g,x,y,pos_x);
 			}
@@ -180,7 +189,7 @@ public class MapController {
 		//System.out.printf("----------\n");
 		//Dibuja desde el segundo mapa si lo necesita
 		for(int x=0; x<width_map2; x++){
-			int pos_x = ((width_map1-pos_block+x)*pixel_width) - pixel_block;
+			int pos_x = ((width_map1-pos_block+x)*block_width) - pixel_block;
 			for(int y=0; y<second_map.getHeightBlocks(); y++){
 				second_map.draw2D(g,x,y,pos_x);
 			}
@@ -190,16 +199,16 @@ public class MapController {
 	public void move() {
 		int speed = 1;
 		pixel_block += speed;
-		if(pixel_block / pixel_width >= 1){
+		if(pixel_block / block_width >= 1){
 			pos_block++;
-			pixel_block = pixel_block % pixel_width;
+			pixel_block = pixel_block % block_width;
 		}
 		if(pos_block >= first_map.getWidthBlocks()){
 			first_map = second_map;
 			pos_block = 0;
 			//Carga el siguiente mapa desde un hilo
 			new Thread(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					loadMap(-1);

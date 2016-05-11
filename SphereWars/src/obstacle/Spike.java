@@ -15,12 +15,13 @@ public class Spike extends GameObject implements Sprite{
 	//
 	private int direction;
 
-	public Spike(String path, int x, int y, int xImg, int yImg, int width, int height, int direction) {
-		super(path, x, y, width, height);
+	public Spike(String path, int x, int y, int xImg, int yImg, int width, int height,int block_width,int block_height, int direction) {
+		super(path, x, y, width, height, block_width, block_height);
 		//Carga solo el fragmento que necesita la imagen
 		image = image.getSubimage(xImg, yImg, width, height);
 		this.direction = direction;
 		rotateImage();
+		resize();
 	}
 
 	private void rotateImage(){
