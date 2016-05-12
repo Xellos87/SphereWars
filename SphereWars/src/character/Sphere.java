@@ -25,7 +25,7 @@ public class Sphere extends GameObject implements Sprite{
 	//Logica
 	private boolean jump = false;
 	private int jumpVelocity = -15;
-	private int maxX = 100;  
+	private int maxX = 200;  
 
 	public Sphere(int x, int y, int block_width,int block_height) {
 		super(x,y,x_imgs[0],y_imgs[0], width_imgs[0], height_imgs[0], block_width, block_height);
@@ -60,41 +60,37 @@ public class Sphere extends GameObject implements Sprite{
 		int xMap = (this.x + this.width) / mc.getWidthBlock() + mc.getPos();
 		//TODO apaño, Richard es malvado y carga el mapa con las "y" invertidas
 		int yMap = Math.abs((this.y) / (mc.getHeightBlock()) - 9);
+
+		
 		//Colision inferior	
 		System.out.println("-----------------------");
 		mc.getCurrentMap().print();
-		//System.out.printf("caja x: %d, y: %d",mc.getCurrentMap().getObject(0, 2).getX(), mc.getCurrentMap().getObject(0, 2).getY());
-		//System.out.printf("posicion x: %d, y: %d\n", xMap, yMap);
+		System.out.printf("esfera x: %d, y: %d\n",this.getPositionX(), this.getPositionY());
 		collisionInf = map.collision(xMap, yMap-1, this);
-		/*GameObject o = mc.getCurrentMap().getObject(xMap, yMap-1);
-		if(o != null){
-			System.out.printf("caja x: %d, y: %d\n",o.getPositionX(), o.getPositionY());
-			System.out.printf("posicion x: %d, y: %d\n", xMap, yMap-1);
-		}*/
-		if(collisionInf)System.out.printf("inferior x: %d, y: %d\n", xMap, yMap-1);
+		System.out.println("inferior");map.infoOject(xMap, yMap-1);	
+		if(collisionInf)System.out.printf("colision inferior x: %d, y: %d\n", xMap, yMap-1);
 		if(!collisionInf){
 			//Colision inferior der			
 			collisionInf = map.collision(xMap+1, yMap-1, this);
-			if(collisionInf)System.out.printf("inferior der x: %d, y: %d\n", xMap+1, yMap-1);
+			if(collisionInf)System.out.printf("colision inferior der x: %d, y: %d\n", xMap+1, yMap-1);
 		}		
 		//Colision lateral
 		collisionLat = map.collision(xMap, yMap, this);
 		if(!collisionLat)collisionLat = map.collision(xMap+1, yMap, this);
-		if(collisionLat)System.out.printf("lateral x: %d, y: %d\n", xMap+1, yMap);
+		if(collisionLat)System.out.printf("colision lateral x: %d, y: %d\n", xMap+1, yMap);
 		//Colision superior
-		collisionSup = map.collision(xMap, yMap+1, this);
-		if(collisionSup)System.out.printf("superior x: %d, y: %d\n", xMap, yMap+1);
-		/*o = mc.getCurrentMap().getObject(xMap, yMap+1);
-		if(o != null){
-			System.out.printf("caja sup x: %d, y: %d\n",o.getPositionX(), o.getPositionY());
-			System.out.printf("posicion sup x: %d, y: %d\n", xMap, yMap+1);
-		}	*/	
+		collisionSup = map.collision(xMap, yMap, this);
+		if(collisionSup)System.out.printf("colision superior x: %d, y: %d\n", xMap, yMap);
+		System.out.println("superior");map.infoOject(xMap, yMap);
 		if(!collisionSup){
 			//Colision superior der
-			collisionSup = map.collision(xMap+1, yMap+1, this);
-			if(collisionSup)System.out.printf("superior der x: %d, y: %d\n", xMap+1, yMap+1);
+			collisionSup = map.collision(xMap+1, yMap, this);
+			if(collisionSup)System.out.printf("colision superior der x: %d, y: %d\n", xMap+1, yMap);
 		}
 		System.out.println("-----------------------");
+		
+		
+		
 		//Prioridad de colisiones
 		//TODO muy feo, mejorar identificacion de colisiones		
 		if(collisionInf && collisionLat){
@@ -105,20 +101,20 @@ public class Sphere extends GameObject implements Sprite{
 		else if(collisionSup && collisionLat){
 			result = 4;
 			this.x = this.x - 1;
-			this.y = (this.y / mc.getHeightBlock())*mc.getHeightBlock();
-		}
-		else if(collisionLat){
-			result = 2;
-			this.x = this.x - 1;			
-		}
-		else if(collisionInf && !collisionLat){
+			this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock();
+		}		
+		else if(collisionInf){
 			result = 0;
 			//Fix de posicion
 			this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock()-this.height+1;
 		}
-		else if(collisionSup && !collisionLat){
+		else if(collisionSup){
 			result = 1;
-			this.y = (this.y / mc.getHeightBlock())*mc.getHeightBlock();
+			this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock();
+		}
+		else if(collisionLat){
+			result = 2;
+			this.x = this.x - 1;			
 		}
 		else{
 			result = -1;
@@ -128,11 +124,15 @@ public class Sphere extends GameObject implements Sprite{
 
 	@Override
 	public void move(){
+		int auxVx = vx;
+		if(x>=maxX){
+			auxVx = 0;
+		}
 		if(jump){
 			jump = false;
-			this.setVelocity(vx, jumpVelocity);
+			this.setVelocity(auxVx, jumpVelocity);
 		}
-		setPosition(x+vx, y+vy);
+		setPosition(x+auxVx, y+vy);
 	}
 	
 	@Override

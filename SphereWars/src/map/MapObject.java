@@ -26,6 +26,16 @@ public class MapObject {
 	public GameObject getObject( int x, int y){
 		return objects[y][x];
 	}
+	
+	public void infoOject( int x, int y){
+		if(x>=0 && x<width && y>=0 && y<height){
+			GameObject o = objects[y][x];
+			if(objects[y][x] != null){
+				System.out.printf("\tcaja x: %d, y: %d\n",o.getPositionX(), o.getPositionY());
+				System.out.printf("\tposicion x: %d, y: %d\n", x, y);
+			}
+		}
+	}
 
 	public int getWidthBlocks() {
 		return width;

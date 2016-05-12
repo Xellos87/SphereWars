@@ -41,8 +41,8 @@ public class Game2D extends JPanel {
 		int posY[] = {0};
 		back_parallax = new Parallax(num, back_images, velocity, posX, posY, width, height);
 		/* Carga el personaje en pantalla con su posición */
-		player = new Sphere(50, 150,30,30);
-		player.setVelocity(1, 3);
+		player = new Sphere(0,0,30,30);
+		player.setVelocity(2, 3);
 	}
 
 	public void draw() {
@@ -68,10 +68,10 @@ public class Game2D extends JPanel {
 		int block = player.checkCollision(map_cont);
 		switch (block) {
 		case 0:	//Colision inferior
-			player.setVelocity(1, 0);
+			player.setVelocity(2, 0);
 			break;
 		case 1:	//Colision superior
-			player.setVelocity(1, 0);
+			player.setVelocity(2, 0);
 			player.gravity();
 			break;
 		case 2:	//Colision lateral

@@ -51,6 +51,8 @@ public class Spike extends GameObject implements Sprite{
 	@Override
 	public void draw2D(Graphics2D g2d) {
 		g2d.drawImage(image, x, y, null);
+		//Dibujo cada de colisiones
+		g2d.draw(this.getBox());
 	}
 
 
