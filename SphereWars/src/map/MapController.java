@@ -13,6 +13,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import obstacle.Liquid;
 import obstacle.Platform;
 import obstacle.Spike;
 
@@ -20,7 +21,7 @@ public class MapController {
 	//Numero de bloques maximos para la altura
 	private final int MAX_HEIGHT = 10;
 	//Lista de mapas para cargar
-	private final String MAPS[] = {"maps/map02.xml"};
+	private final String MAPS[] = {"maps/map00.xml"};
 	//Indice de mapas que se genera aleatoriamente
 	private ArrayList<Integer> map_index;
 	//Indice del mapa actual
@@ -37,7 +38,7 @@ public class MapController {
 	//Mapa actual y siguiente
 	private MapObject first_map;
 	private MapObject second_map;
-	
+
 	public MapController(int width, int height){
 		map_index = new ArrayList<Integer>();
 		current_map = 0;
@@ -72,6 +73,8 @@ public class MapController {
 	}
 
 	private void parseMapXML(int index) {
+		int world = Platform.WORLD_FIELD;
+		int nature = Liquid.WATER;
 		try{
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -119,7 +122,7 @@ public class MapController {
 							type = Platform.UNDERGROUND;
 						}
 						//TODO añadido -1
-						Platform p = new Platform( x*block_width, (height-y-1)*block_height,block_width,block_height, type);
+						Platform p = new Platform( x*block_width, (height-y-1)*block_height,block_width,block_height,type,world);
 						second_map.addObject(p,x,y);
 						//System.out.printf("Agregado en x:%d, y:%d\n", x*block_width,(height-y)*block_height);
 						//System.out.printf("Tam en pantalla, ancho: %d, alto: %d\n",block_width,block_height);
@@ -155,6 +158,35 @@ public class MapController {
 						Spike sp = new Spike(x*block_width, (height-y-1)*block_height,block_width,block_height,direction);
 						second_map.addObject(sp,x,y);
 						//System.out.printf("Agregado en x:%d, y:%d\n", x*pixel_width,(height-y)*pixel_height);
+					}
+				}
+			}
+			//Recorre todos los elementos liquid para agregarlo al mapa
+			NodeList lst_liquid = element_header.getElementsByTagName("liquid");
+			for(int i=0; i<lst_liquid.getLength(); i++){
+				Element element_liquid = (Element) lst_liquid.item(i);
+				//Inicio y final en X(anchura)
+				int x_start = Integer.parseInt(element_liquid.getAttribute("x_start"));
+				int x_end = Integer.parseInt(element_liquid.getAttribute("x_end"));
+				//Inicio y final en Y(altura)
+				int y_start = Integer.parseInt(element_liquid.getAttribute("y_start"));
+				int y_end = Integer.parseInt(element_liquid.getAttribute("y_end"));
+
+				//Recorre todas las posiciones en las que agregar el elemento
+				for(int y=y_start; y<=y_end; y++){
+					for(int x=x_start; x<=x_end; x++){
+						//Tipo de plataforma
+						int type;
+						if(y==y_end){
+							//Supercifie
+							type = Liquid.SURFACE;
+						}else{
+							type = Liquid.DEEP;
+						}
+						Liquid l = new Liquid( x*block_width, (height-y-1)*block_height,block_width,block_height,type,nature);
+						second_map.addObject(l,x,y);
+						//System.out.printf("Agregado en x:%d, y:%d\n", x*block_width,(height-y)*block_height);
+						//System.out.printf("Tam en pantalla, ancho: %d, alto: %d\n",block_width,block_height);
 					}
 				}
 			}
@@ -214,23 +246,23 @@ public class MapController {
 			}).start();
 		}
 	}
-	
+
 	public int getNumMaps(){
 		return current_map;
 	}
-	
+
 	public ArrayList<Integer> getListMaps(){
 		return map_index;
 	}
-	
+
 	public void setListMaps(ArrayList<Integer> maps){
 		map_index = maps;
 	}
-	
+
 	public int getWidthBlock(){
 		return block_width;
 	}
-	
+
 	public int getHeightBlock(){
 		return block_height;
 	}
