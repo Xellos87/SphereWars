@@ -28,9 +28,6 @@ public class MapController {
 	//Posición en bloque dentro del mapa, y pixel dentro del bloque
 	private int pos_block;
 	private int pixel_block;
-	//Tamaño del elemento a representar por pantalla
-	private int pixel_width = 69;
-	private int pixel_height = 69;
 	//Tamaño que va a ocupar cada bloque en pantalla
 	private int block_width;
 	private int block_height;
@@ -110,10 +107,10 @@ public class MapController {
 							if(x==x_start && x==x_end && y_start == y_end){
 								type = Platform.ALONE_BLOCK;
 							}else if(x==x_start && x==x_end){
-								type = Platform.BORDER_BOTH;
-							}else if(x==x_start){
+								type = Platform.GROUND;
+							}else if(x==x_start && y_start == y_end){
 								type = Platform.BORDER_LEFT;
-							}else if(x==x_end){
+							}else if(x==x_end && y_start == y_end){
 								type = Platform.BORDER_RIGHT;
 							}else{
 								type = Platform.GROUND;
@@ -121,7 +118,7 @@ public class MapController {
 						}else{
 							type = Platform.UNDERGROUND;
 						}
-						Platform p = new Platform("images/platforms.png", x*block_width, (height-y)*block_height, pixel_width, pixel_height,block_width,block_height, type);
+						Platform p = new Platform( x*block_width, (height-y)*block_height,block_width,block_height, type);
 						second_map.addObject(p,x,y);
 						//System.out.printf("Agregado en x:%d, y:%d\n", x*block_width,(height-y)*block_height);
 						//System.out.printf("Tam en pantalla, ancho: %d, alto: %d\n",block_width,block_height);
@@ -153,7 +150,7 @@ public class MapController {
 				for(int y=y_start; y<=y_end; y++){
 					for(int x=x_start; x<=x_end; x++){
 						//Valor bueno de y = 240
-						Spike sp = new Spike("images/platforms.png", x*block_width, (height-y)*block_height, 649, 70, pixel_width, pixel_height,block_width,block_height,direction);
+						Spike sp = new Spike(x*block_width, (height-y)*block_height,block_width,block_height,direction);
 						second_map.addObject(sp,x,y);
 						//System.out.printf("Agregado en x:%d, y:%d\n", x*pixel_width,(height-y)*pixel_height);
 					}

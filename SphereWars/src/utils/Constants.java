@@ -1,5 +1,7 @@
 package utils;
 
+import media.ImageHandler;
+
 public class Constants {
 	public static  String[] list_menu = { "Start", "Help", "options", "credits","Exit" };
 	//rutas a las imagenes del menu de titulos
@@ -27,5 +29,9 @@ public class Constants {
 	
 	//booleanos menus
 	public static boolean enMenu = true;
+	
+	
+	//Manejador de imagenes para las pantallas
+	public static ImageHandler img_handler;
 	//TODO: aplicar escala para constantes de tama�o en los menus
 }

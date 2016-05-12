@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <map height="10" width="15">
 	<plataform x_start="3" x_end="6" y_start="8" y_end="8"/>
-	<plataform x_start="0" x_end="13" y_start="5" y_end="5"/>
+	<plataform x_start="0" x_end="13" y_start="0" y_end="5"/>
 	<plataform x_start="8" x_end="9" y_start="8" y_end="9"/>
 	<plataform x_start="1" x_end="1" y_start="7" y_end="9"/>
 	<plataform x_start="4" x_end="4" y_start="9" y_end="9"/>

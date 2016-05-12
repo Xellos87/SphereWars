@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import graphic.Sprite;
+import utils.Constants;
 import videogame.GameObject;
 
 public class Spike extends GameObject implements Sprite{
@@ -12,16 +13,27 @@ public class Spike extends GameObject implements Sprite{
 	public static final int LOWER = 2;
 	public static final int RIGHT = 1;
 	public static final int LEFT = 3;
-	//
+	//Posición de los la imagen
+	private static int x_img = 347;
+	private static int y_img = 0;
+	//Tamaño de la imagen
+	private static int width = 70;
+	private static int height = 70;
+	//Direccion del pincho
 	private int direction;
 
-	public Spike(String path, int x, int y, int xImg, int yImg, int width, int height,int block_width,int block_height, int direction) {
-		super(path, x, y, width, height, block_width, block_height);
-		//Carga solo el fragmento que necesita la imagen
-		image = image.getSubimage(xImg, yImg, width, height);
+	public Spike(int x, int y,int block_width,int block_height, int direction) {
+		super(x, y, x_img, y_img, width, height, block_width, block_height);
 		this.direction = direction;
+		selectImage();
 		rotateImage();
 		resize();
+	}
+
+	private void selectImage() {
+		//Carga solo el fragmento que necesita la imagen
+		//image = image.getSubimage(xImg, yImg, width, height);
+		image = Constants.img_handler.getImageItem(x_img, y_img, width, height);
 	}
 
 	private void rotateImage(){
@@ -38,10 +50,15 @@ public class Spike extends GameObject implements Sprite{
 
 	@Override
 	public void draw2D(Graphics2D g2d) {
-		//TODO acciones en la pelota, cambiar sprite al saltar, acelerar y frenar
-		//TODO establecer posiciones por celdas en vez de pixeles
 		g2d.drawImage(image, x, y, null);
 	}
 
 
+	public int getWidthImage(){
+		return width;
+	}
+
+	public int getHeightImage(){
+		return height;
+	}
 }

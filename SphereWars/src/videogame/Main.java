@@ -1,13 +1,15 @@
 package videogame;
 
-import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
+import media.ImageHandler;
 import menu.Menu;
 import menu.TitleMenu;
+import scoreboard.GameScore;
 import utils.Constants;
 
 /**
@@ -45,19 +47,23 @@ public class Main implements Runnable, KeyListener{
 	private Menu menu;	//TODO: este menu puede cambiar entre menu de titulo, de pausa, de opciones?
 	//Modo de juego 2D
 	private Game2D game2D;
+	private GameScore game_score;
 
 	public static void main(String[] args){
 		new Main();
 	}
 
 	private Main() {
+		Constants.img_handler = new ImageHandler();
 		init();
 	}
 	private void init() {
 		/* Crea el contenedor para poner los paneles */
 		window = new JFrame(TITLE);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setLayout(new BorderLayout());
+		//window.setLayout(new BorderLayout());
+		BoxLayout boxLayout = new BoxLayout(window.getContentPane(), BoxLayout.Y_AXIS); // top to bottom
+	    window.setLayout(boxLayout);
 		window.setResizable(false);
 		window.setVisible(true);
 		window.addKeyListener(this);
@@ -71,10 +77,13 @@ public class Main implements Runnable, KeyListener{
 		}
 		//menu = new TitleMenu(width*scale, height*scale);
 		//menu.setDoubleBuffered(true);
-		//window.add(menu, BorderLayout.CENTER);
+		//window.add(menu);
+		game_score = new GameScore(width*scale, 100, 1);
+		game_score.setDoubleBuffered(true);
+		window.add(game_score);
 		game2D = new Game2D(width*scale, height*scale);
 		game2D.setDoubleBuffered(true);
-		window.add(game2D,BorderLayout.CENTER);
+		window.add(game2D);
 		//Ajusta el tamaño de la ventana según los componentes
 		window.pack();
 	}
@@ -98,13 +107,11 @@ public class Main implements Runnable, KeyListener{
 			wait = targetTime - elapsed;
 			//Duerme el hilo hasta la siguiente actualización
 			try {
-				Thread.sleep(wait/1000000);
+				if(wait>0){
+					Thread.sleep(wait/1000000);
+				}
 			}
 			catch(Exception e) {
-				System.out.printf("start: %d\n", start);
-				System.out.printf("elapsed: %d\n", elapsed);
-				System.out.printf("wait: %d\n", wait);
-				System.out.printf("target: %d\n", targetTime);
 				e.printStackTrace();
 			};
 		}
@@ -118,6 +125,9 @@ public class Main implements Runnable, KeyListener{
 		}
 		if(game2D != null){
 			game2D.draw();
+		}
+		if(game_score != null){
+			game_score.draw();
 		}
 	}
 

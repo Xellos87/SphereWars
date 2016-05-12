@@ -3,6 +3,7 @@ package obstacle;
 import java.awt.Graphics2D;
 
 import graphic.Sprite;
+import utils.Constants;
 import videogame.GameObject;
 
 public class Platform extends GameObject implements Sprite{
@@ -14,14 +15,17 @@ public class Platform extends GameObject implements Sprite{
 	public static final int UNDERGROUND = 3;
 	public static final int BORDER_BOTH = 4;
 	public static final int ALONE_BLOCK = 5;
-	//
-	private int[] x_imgs={504,504,504,576,648,648};
-	private int[] y_imgs={576,648,504,865,0,0};
-	//
+	//Posicion de cada imagen en su contenedor para cargarla
+	private static int[] x_imgs={504,504,504,576,648,648};
+	private static int[] y_imgs={576,648,504,864,0,0};
+	//Tamaño de la imagen
+	private static int[] width_imgs={70,70,70,70,70,70};
+	private static int[] height_imgs={70,70,70,70,70,70};
+	//Tipo de imagen a cargar, identifica los datos de la parte de imagen que lo representa
 	private int type;
-	
-	public Platform(String path, int x, int y, int width, int height, int block_width,int block_height, int type) {
-		super(path, x, y, width, height, block_width, block_height);
+
+	public Platform(int x, int y, int block_width,int block_height, int type) {
+		super(x, y, x_imgs[type], y_imgs[type], width_imgs[type], height_imgs[type], block_width, block_height);
 		//System.out.printf("Agregado en x:%d, y:%d\n", x,y);
 		this.type = type;
 		selectImage();
@@ -29,15 +33,21 @@ public class Platform extends GameObject implements Sprite{
 	}
 
 	private void selectImage() {
-		image = image.getSubimage(x_imgs[type], y_imgs[type], width, height);
+		//image = image.getSubimage(x_imgs[type], y_imgs[type], width, height);
+		image = Constants.img_handler.getImageTile(x_img, y_img, width, height);
 	}
 
 	@Override
 	public void draw2D(Graphics2D g2d) {
-		//TODO acciones en la pelota, cambiar sprite al saltar, acelerar y frenar
-		//TODO establecer posiciones por celdas en vez de pixeles
 		g2d.drawImage(image, x, y, null);
 	}
-	
+
+	public int getWidthImage(){
+		return width_imgs[type];
+	}
+
+	public int getHeightImage(){
+		return height_imgs[type];
+	}
 
 }

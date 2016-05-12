@@ -19,6 +19,7 @@ public class Game2D extends JPanel {
 	//Controllador del generador de mapas
 	private MapController map_cont;
 	
+	
 	public Game2D(int width, int height){
 		this.width = width;
 		this.height = height;
@@ -39,7 +40,7 @@ public class Game2D extends JPanel {
 		int posY[] = {0};
 		back_parallax = new Parallax(num, back_images, velocity, posX, posY, width, height);
 		/* Carga el personaje en pantalla con su posición */
-		player = new Sphere("images/ball.gif", 50, 150, 30, 30,30,30);
+		player = new Sphere(50, 150,30,30);
 		player.setVelocity(0, 3);
 	}
 

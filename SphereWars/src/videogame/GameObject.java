@@ -4,10 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 /**
  * Autores: Victor Adrian Milla Español - 557022,
@@ -21,19 +17,18 @@ import javax.imageio.ImageIO;
  *
  */
 public class GameObject {
-	
-	//Posición
+	//Posición en pantalla
 	protected int x;
 	protected int y;
-	
-	//Velocidad
+	//Velocidad de movimiento
 	protected int vx;
 	protected int vy;
-
-	//Dimensiones
+	//Coordenadas en la imagen
+	protected int x_img;
+	protected int y_img;
+	//Dimensiones de la imagen
 	protected int width;
 	protected int height;
-	
 	//Dimensiones en pantalla
 	protected int block_width;
 	protected int block_height;
@@ -44,25 +39,21 @@ public class GameObject {
 	
 	
 	
-	public GameObject(String path, int x, int y, int width, int height,int block_width,int block_height){
+	public GameObject(int x, int y,int x_img,int y_img, int width, int height,int block_width,int block_height){
 		this.x = x;
 		this.y = y;
+		this.x_img = x_img;
+		this.y_img = y_img;
 		vx = 0;
 		vy = 0;
 		this.width = width;
 		this.height = height;
 		this.block_width = block_width;
 		this.block_height = block_height;
-		try {
-			image = ImageIO.read(new File(path));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	protected void resize(){
-		Image tmp = image.getScaledInstance(block_width, block_height, image.SCALE_DEFAULT);
+		Image tmp = image.getScaledInstance(block_width, block_height, Image.SCALE_DEFAULT);
 	    BufferedImage dimg = new BufferedImage(block_width, block_height, BufferedImage.TYPE_INT_ARGB);
 	    Graphics2D g2d = dimg.createGraphics();
 	    g2d.drawImage(tmp, 0, 0, null);
@@ -91,10 +82,26 @@ public class GameObject {
 	}
 	
 	public Rectangle getBox(){
-		return new Rectangle(x, y, width, height);
+		return new Rectangle(x, y, block_width, block_height);
 	}
 
 	public void updatePositionX(int x) {
 		this.x = x;
+	}
+	
+	public int getWidthScreen(){
+		return block_width;
+	}
+
+	public int getHeightScreen(){
+		return block_height;
+	}
+	
+	public int getPositionX(){
+		return x;
+	}
+	
+	public int getPositionY(){
+		return y;
 	}
 }
