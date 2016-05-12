@@ -20,7 +20,7 @@ public class MapController {
 	//Numero de bloques maximos para la altura
 	private final int MAX_HEIGHT = 10;
 	//Lista de mapas para cargar
-	private final String MAPS[] = {"maps/map00.xml"};
+	private final String MAPS[] = {"maps/map02.xml"};
 	//Indice de mapas que se genera aleatoriamente
 	private ArrayList<Integer> map_index;
 	//Indice del mapa actual
@@ -118,7 +118,8 @@ public class MapController {
 						}else{
 							type = Platform.UNDERGROUND;
 						}
-						Platform p = new Platform( x*block_width, (height-y)*block_height,block_width,block_height, type);
+						//TODO añadido -1
+						Platform p = new Platform( x*block_width, (height-y-1)*block_height,block_width,block_height, type);
 						second_map.addObject(p,x,y);
 						//System.out.printf("Agregado en x:%d, y:%d\n", x*block_width,(height-y)*block_height);
 						//System.out.printf("Tam en pantalla, ancho: %d, alto: %d\n",block_width,block_height);
@@ -150,7 +151,8 @@ public class MapController {
 				for(int y=y_start; y<=y_end; y++){
 					for(int x=x_start; x<=x_end; x++){
 						//Valor bueno de y = 240
-						Spike sp = new Spike(x*block_width, (height-y)*block_height,block_width,block_height,direction);
+						//TODO añadido -1
+						Spike sp = new Spike(x*block_width, (height-y-1)*block_height,block_width,block_height,direction);
 						second_map.addObject(sp,x,y);
 						//System.out.printf("Agregado en x:%d, y:%d\n", x*pixel_width,(height-y)*pixel_height);
 					}
@@ -231,5 +233,13 @@ public class MapController {
 	
 	public int getHeightBlock(){
 		return block_height;
+	}
+	
+	public MapObject getCurrentMap(){
+		return first_map;
+	}
+	
+	public int getPos(){
+		return pos_block;
 	}
 }

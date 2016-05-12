@@ -43,6 +43,10 @@ public class Main implements Runnable, KeyListener{
 	long elapsed;
 	long wait;
 	
+	//Estado del juego
+	int state;
+	boolean pause = false;
+		
 	//Menu del juego
 	private Menu menu;	//TODO: este menu puede cambiar entre menu de titulo, de pausa, de opciones?
 	//Modo de juego 2D
@@ -77,9 +81,11 @@ public class Main implements Runnable, KeyListener{
 		}
 		//menu = new TitleMenu(width*scale, height*scale);
 		//menu.setDoubleBuffered(true);
+		//state = Constants.MENU;
 		//window.add(menu);
 		game_score = new GameScore(width*scale, 100, 1);
 		game_score.setDoubleBuffered(true);
+		state = Constants.GAME;
 		window.add(game_score);
 		game2D = new Game2D(width*scale, height*scale);
 		game2D.setDoubleBuffered(true);
@@ -91,27 +97,27 @@ public class Main implements Runnable, KeyListener{
 	@Override
 	public void run() {
 		
-
 		while(running){
 			start = System.nanoTime();
-
-			//TODO: actualización del juego
-			if(game2D != null){
-				game2D.actionGame();
+			if(!pause){
+				//TODO: actualización del juego
+				if(game2D != null){
+					game2D.actionGame();
+				}
+				draw();
 			}
-			
-			
-			draw();
 
 			elapsed = System.nanoTime() - start;
 			wait = targetTime - elapsed;
 			//Duerme el hilo hasta la siguiente actualización
 			try {
-				if(wait>0){
-					Thread.sleep(wait/1000000);
-				}
+				if(wait>0) Thread.sleep(wait/1000000);
 			}
 			catch(Exception e) {
+				System.out.printf("start: %d\n", start);
+				System.out.printf("elapsed: %d\n", elapsed);
+				System.out.printf("wait: %d\n", wait);
+				System.out.printf("target: %d\n", targetTime);
 				e.printStackTrace();
 			};
 		}
@@ -139,7 +145,8 @@ public class Main implements Runnable, KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(Constants.enMenu){
+		switch (state) {
+		case Constants.MENU:
 			if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S){
 				menu.cursorDown();
 				System.out.println("Down key pressed");
@@ -151,18 +158,34 @@ public class Main implements Runnable, KeyListener{
 				//elegir si hacer esto desde el menu o hacerlo desde aqui
 				//menu.doaction(); o //actuar(menu.getAction());
 			}
+			break;
+		case Constants.GAME:			
+			if(e.getKeyCode() == KeyEvent.VK_SPACE){
+				if(pause){
+					pause = false;
+				}
+				else{
+					pause = true;
+					System.out.println("PAUSA!");
+				}
+			}else{
+				game2D.keyPressed(e);
+			}
+			break;
+		default:
+			break;
 		}
-//		//Duerme el hilo hasta la siguiente actualización despues de despachar el evento
-//		try {
-//			Thread.sleep(wait/1000000);
-//		}
-//		catch(Exception ex) {
-//			System.out.printf("start: %d\n", start);
-//			System.out.printf("elapsed: %d\n", elapsed);
-//			System.out.printf("wait: %d\n", wait);
-//			System.out.printf("target: %d\n", targetTime);
-//			ex.printStackTrace();
-//		};
+		//		//Duerme el hilo hasta la siguiente actualización despues de despachar el evento
+		//		try {
+		//			Thread.sleep(wait/1000000);
+		//		}
+		//		catch(Exception ex) {
+		//			System.out.printf("start: %d\n", start);
+		//			System.out.printf("elapsed: %d\n", elapsed);
+		//			System.out.printf("wait: %d\n", wait);
+		//			System.out.printf("target: %d\n", targetTime);
+		//			ex.printStackTrace();
+		//		};
 	}
 
 	@Override

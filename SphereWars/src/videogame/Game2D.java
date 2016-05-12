@@ -3,6 +3,7 @@ package videogame;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JPanel;
 
@@ -41,7 +42,7 @@ public class Game2D extends JPanel {
 		back_parallax = new Parallax(num, back_images, velocity, posX, posY, width, height);
 		/* Carga el personaje en pantalla con su posición */
 		player = new Sphere(50, 150,30,30);
-		player.setVelocity(0, 3);
+		player.setVelocity(1, 3);
 	}
 
 	public void draw() {
@@ -63,22 +64,41 @@ public class Game2D extends JPanel {
 
 	public void actionGame() {
 		/* Acciones a realizar */
-		
-		//Prueba plataformas
-		boolean block = true;
-		/*for(Platform p: platforms){
-			if(player.intersects(p)){
-				block = true;
-			}
-		}*/
-		if(!block){
-			//Gravedad
-			player.move();
+		//TODO velocidad con la velocidad de plataformas
+		int block = player.checkCollision(map_cont);
+		switch (block) {
+		case 0:	//Colision inferior
+			player.setVelocity(1, 0);
+			break;
+		case 1:	//Colision superior
+			player.setVelocity(1, 0);
+			player.gravity();
+			break;
+		case 2:	//Colision lateral
+			player.setVelocity(0, player.vy);
+			player.gravity();
+			break;
+		case 3:
+			player.setVelocity(0, 0);
+			break;
+		case 4:
+			player.setVelocity(0, 0);
+			player.gravity();
+			break;
+		default:
+			player.gravity();
+			break;
 		}
-		//Mueve el mapa
-		map_cont.move();
-
-		
+		//Mueve plataformas
+		map_cont.move();	
+		player.move();
+	}
+	
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
+			player.jump();
+			System.out.println("Up key pressed");
+		}
 	}
 
 }
