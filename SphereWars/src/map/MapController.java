@@ -38,7 +38,7 @@ public class MapController {
 	//Mapa actual y siguiente
 	private MapObject first_map;
 	private MapObject second_map;
-	
+
 	public MapController(int width, int height){
 		map_index = new ArrayList<Integer>();
 		current_map = 0;
@@ -122,6 +122,7 @@ public class MapController {
 						}else{
 							type = Platform.UNDERGROUND;
 						}
+
 						Platform p = new Platform( x*block_width, (height-y)*block_height,block_width,block_height,type,world);
 						second_map.addObject(p,x,y);
 						//System.out.printf("Agregado en x:%d, y:%d\n", x*block_width,(height-y)*block_height);
@@ -245,23 +246,23 @@ public class MapController {
 			}).start();
 		}
 	}
-	
+
 	public int getNumMaps(){
 		return current_map;
 	}
-	
+
 	public ArrayList<Integer> getListMaps(){
 		return map_index;
 	}
-	
+
 	public void setListMaps(ArrayList<Integer> maps){
 		map_index = maps;
 	}
-	
+
 	public int getWidthBlock(){
 		return block_width;
 	}
-	
+
 	public int getHeightBlock(){
 		return block_height;
 	}
