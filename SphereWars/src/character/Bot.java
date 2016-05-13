@@ -28,29 +28,36 @@ public class Bot extends GameObject implements Sprite{
 	private int type;
 	private int state;
 	private int direction;
-	//
+	//Variables relacionadas con la animación del movimiento en pantalla
 	private int tick_counter;
 	private int max_counter = 10;
 	private int acumulate_mov = 0;
+	//Variables relacionadas con el cambio de dirección ante un camino imposible
+	private int tick_change;
+	private int max_wait_change = 10;
 
 	public Bot(int x, int y, int block_width, int block_height, int type) {
 		super(x, y, x_imgs[type], y_imgs[type], width_imgs[type], height_imgs[type], block_width, block_height);
 		this.tick_counter = 0;
+		this.tick_change = 0;
 		this.type = type;
 		this.state = WALK1;
 		this.direction = RIGHT;
 		selectImage();
 		resize();
+		rotateImage();
 	}
 
 	private void rotateImage(){
-		int w = image.getWidth();  
-		int h = image.getHeight();  
-		BufferedImage newImage = new BufferedImage(w, h, image.getType());
-		Graphics2D g2 = newImage.createGraphics();
-		g2.rotate(Math.PI, w/2, h/2);  
-		g2.drawImage(image,null,0,0);
-		image = newImage;
+		if(direction == LEFT){
+			//Si la dirección es la izquierda, rota la imagen como si fuera un espejo
+			int w = image.getWidth();  
+			int h = image.getHeight();  
+			BufferedImage newImage = new BufferedImage(w, h, image.getType());
+			Graphics2D g2 = newImage.createGraphics();  
+			g2.drawImage(image,w, 0, -w, h,null);
+			image = newImage;
+		}
 	}
 
 	private void selectImage() {
@@ -82,6 +89,7 @@ public class Bot extends GameObject implements Sprite{
 			height = height_imgs[type+state];
 			selectImage();
 			resize();
+			rotateImage();
 		}
 		if(direction == RIGHT){
 			mov = -mov;
@@ -95,6 +103,22 @@ public class Bot extends GameObject implements Sprite{
 			acumulate_mov += block_width;
 		}else{
 			acumulate_mov -= block_width;
+		}
+	}
+
+	public void changeMov() {
+		tick_change++;
+		if(tick_change >= max_wait_change){
+			tick_change = 0;
+			acumulate_mov = 0;
+			if(direction == RIGHT){
+				direction = LEFT;
+			}else if(direction == LEFT){
+				direction = RIGHT;
+			}
+			selectImage();
+			resize();
+			rotateImage();
 		}
 	}
 }

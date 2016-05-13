@@ -225,7 +225,12 @@ public class MapController {
 		}
 		//System.out.printf("Ancho a primer mapa: %d \n", width_map1);
 		//Dibuja desde el primer mapa
-		for(int x=pos_block; x<width_map1; x++){
+		int init_x = pos_block;
+		if(pos_block>0){
+			//Control para que se dibujen elementos que se mueven al salir de pantalla
+			init_x = pos_block-1;
+		}
+		for(int x=init_x; x<width_map1; x++){
 			int pos_x = ((x-pos_block)*block_width) - pixel_block;
 			for(int y=0; y<first_map.getHeightBlocks(); y++){
 				first_map.draw2D(g,x,y,pos_x);
@@ -242,7 +247,7 @@ public class MapController {
 	}
 
 	public void move() {
-		int speed = 0;
+		int speed = 1;
 		pixel_block += speed;
 		if(pixel_block / block_width >= 1){
 			pos_block++;

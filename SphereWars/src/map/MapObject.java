@@ -64,23 +64,38 @@ public class MapObject {
 								x = x-1;
 							}
 						}else{
+							//No hay plataforma
 							mov = 0;
+							((Bot)objects[y][x]).changeMov();
 						}
 					}else{
+						//Hay un obstaculo o no hay elemento en el suelo
 						mov = 0;
+						((Bot)objects[y][x]).changeMov();
 					}
-				}else {
+				}else{
 					//Se mueve hacia la izquierda
 					if(objects[y][x+1] == null && objects[y-1][x+1] != null){
 						//Sin obstaculos y hay algo debajo
 						if(objects[y-1][x+1] instanceof Platform){
 							//Lo que hay debajo es una plataforma
-							
+							//Lo que hay debajo es una plataforma
+							if(mov >= objects[y][x].getWidthScreen()){
+								//Ha pasado de casilla
+								((Bot)objects[y][x]).resetMov();
+								objects[y][x+1] = objects[y][x];
+								objects[y][x] = null;
+								x = x+1;
+							}
 						}else{
+							//No hay plataforma
 							mov = 0;
+							((Bot)objects[y][x]).changeMov();
 						}
 					}else{
+						//Hay un obstaculo o no hay elemento en el suelo
 						mov = 0;
+						((Bot)objects[y][x]).changeMov();
 					}
 				}
 				objects[y][x].getWidthScreen();
