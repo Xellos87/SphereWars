@@ -242,7 +242,7 @@ public class MapController {
 	}
 
 	public void move() {
-		int speed = 1;
+		int speed = 0;
 		pixel_block += speed;
 		if(pixel_block / block_width >= 1){
 			pos_block++;

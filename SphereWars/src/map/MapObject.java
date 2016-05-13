@@ -2,7 +2,9 @@ package map;
 
 import java.awt.Graphics2D;
 
+import character.Bot;
 import graphic.Sprite;
+import obstacle.Platform;
 import videogame.GameObject;
 
 public class MapObject {
@@ -24,7 +26,7 @@ public class MapObject {
 	public GameObject getObject( int x, int y){
 		return objects[y][x];
 	}
-	
+
 	public void infoOject( int x, int y){
 		if(x>=0 && x<width && y>=0 && y<height){
 			GameObject o = objects[y][x];
@@ -45,8 +47,46 @@ public class MapObject {
 
 	public void draw2D(Graphics2D g, int x, int y, int disp_x) {
 		if(objects[y][x] != null){
+			int mov = 0;
+			if(objects[y][x] instanceof Bot){
+				mov = ((Bot)objects[y][x]).action();
+				if(mov<0){
+					//Se mueve hacia la derecha
+					if(objects[y][x-1] == null && objects[y-1][x-1] != null){
+						//Sin obstaculos y hay algo debajo
+						if(objects[y-1][x-1] instanceof Platform){
+							//Lo que hay debajo es una plataforma
+							if(-mov >= objects[y][x].getWidthScreen()){
+								//Ha pasado de casilla
+								((Bot)objects[y][x]).resetMov();
+								objects[y][x-1] = objects[y][x];
+								objects[y][x] = null;
+								x = x-1;
+							}
+						}else{
+							mov = 0;
+						}
+					}else{
+						mov = 0;
+					}
+				}else {
+					//Se mueve hacia la izquierda
+					if(objects[y][x+1] == null && objects[y-1][x+1] != null){
+						//Sin obstaculos y hay algo debajo
+						if(objects[y-1][x+1] instanceof Platform){
+							//Lo que hay debajo es una plataforma
+							
+						}else{
+							mov = 0;
+						}
+					}else{
+						mov = 0;
+					}
+				}
+				objects[y][x].getWidthScreen();
+			}
 			//System.out.printf("Plataforma %d: %d\n", x, disp_x);
-			objects[y][x].updatePositionX(disp_x);
+			objects[y][x].updatePositionX(mov+disp_x);
 			((Sprite)objects[y][x]).draw2D(g);
 		}
 	}
