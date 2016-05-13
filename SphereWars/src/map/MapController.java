@@ -13,6 +13,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import character.Bot;
 import obstacle.Liquid;
 import obstacle.Platform;
 import obstacle.Spike;
@@ -183,12 +184,26 @@ public class MapController {
 						}else{
 							type = Liquid.DEEP;
 						}
-						Liquid l = new Liquid( x*block_width, (height-y-1)*block_height,block_width,block_height,type,nature);
+						Liquid l = new Liquid( x*block_width, (height-y)*block_height,block_width,block_height,type,nature);
 						second_map.addObject(l,x,y);
 						//System.out.printf("Agregado en x:%d, y:%d\n", x*block_width,(height-y)*block_height);
 						//System.out.printf("Tam en pantalla, ancho: %d, alto: %d\n",block_width,block_height);
 					}
 				}
+			}
+			//Recorre todos los elementos bot para agregarlo al mapa
+			NodeList lst_bot = element_header.getElementsByTagName("bot");
+			for(int i=0; i<lst_bot.getLength(); i++){
+				Element element_bot = (Element) lst_bot.item(i);
+				//X(anchura)
+				int x = Integer.parseInt(element_bot.getAttribute("x"));
+				//Y(altura)
+				int y = Integer.parseInt(element_bot.getAttribute("y"));
+				
+				int type = Bot.SLIME;
+				
+				Bot b = new Bot(x*block_width, (height-y)*block_height,block_width,block_height,type);
+				second_map.addObject(b,x,y);
 			}
 		}catch(Exception e){
 			e.printStackTrace();

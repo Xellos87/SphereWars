@@ -53,10 +53,24 @@ public class GameObject {
 	}
 	
 	protected void resize(){
-		Image tmp = image.getScaledInstance(block_width, block_height, Image.SCALE_DEFAULT);
+		//Comprobaciones por si la imagen no es cuadrada
+		int w;
+		int h;
+		if(width == height){
+			w = block_width;
+			h = block_height;
+		}else if(width > height){
+			w = block_width;
+			h = block_width / width * height;
+		}else{
+			w = block_height / height * width;
+			h = block_height;
+		}
+		//Escala la imagen
+		Image tmp = image.getScaledInstance(w, h, Image.SCALE_DEFAULT);
 	    BufferedImage dimg = new BufferedImage(block_width, block_height, BufferedImage.TYPE_INT_ARGB);
 	    Graphics2D g2d = dimg.createGraphics();
-	    g2d.drawImage(tmp, 0, 0, null);
+	    g2d.drawImage(tmp, block_width-w, block_height-h, null);
 	    g2d.dispose();
 		image = dimg;
 		//System.out.printf("Nuevo tamaño, ancho: %d, alto: %d\n",image.getWidth(),image.getHeight());

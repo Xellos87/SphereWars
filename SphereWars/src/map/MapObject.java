@@ -15,11 +15,9 @@ public class MapObject {
 		this.width = width;
 		this.height = height;
 		objects = new GameObject[height][width];
-		//objects = new ArrayList<GameObject>();
 	}
 
 	public void addObject(GameObject obj, int x, int y){
-		//objects.add(obj);
 		objects[y][x] = obj;
 	}
 

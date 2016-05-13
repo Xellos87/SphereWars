@@ -63,11 +63,11 @@ public class Sphere extends GameObject implements Sprite{
 
 		
 		//Colision inferior	
-		System.out.println("-----------------------");
-		mc.getCurrentMap().print();
-		System.out.printf("esfera x: %d, y: %d\n",this.getPositionX(), this.getPositionY());
+		//System.out.println("-----------------------");
+		//mc.getCurrentMap().print();
+		//System.out.printf("esfera x: %d, y: %d\n",this.getPositionX(), this.getPositionY());
 		collisionInf = map.collision(xMap, yMap-1, this);
-		System.out.println("inferior");map.infoOject(xMap, yMap-1);	
+		//System.out.println("inferior");map.infoOject(xMap, yMap-1);	
 		if(collisionInf)System.out.printf("colision inferior x: %d, y: %d\n", xMap, yMap-1);
 		if(!collisionInf){
 			//Colision inferior der			
@@ -87,7 +87,7 @@ public class Sphere extends GameObject implements Sprite{
 			collisionSup = map.collision(xMap+1, yMap, this);
 			if(collisionSup)System.out.printf("colision superior der x: %d, y: %d\n", xMap+1, yMap);
 		}
-		System.out.println("-----------------------");
+		//System.out.println("-----------------------");
 		
 		
 		
