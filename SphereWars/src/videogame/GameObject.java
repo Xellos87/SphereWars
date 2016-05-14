@@ -103,6 +103,14 @@ public class GameObject {
 		this.x = x;
 	}
 	
+	public int getWidth(){
+		return width;
+	}
+
+	public int getHeight(){
+		return height;
+	}
+	
 	public int getWidthScreen(){
 		return block_width;
 	}

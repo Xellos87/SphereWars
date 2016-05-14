@@ -31,7 +31,8 @@ public class Constants {
 	public static boolean enMenu = true;
 	//Constantes de estado
 	public static final int MENU = 0;
-	public static final int GAME = 1;
+	public static final int PAUSE = 1;
+	public static final int GAME = 2;
 	
 	//Manejador de imagenes para las pantallas
 	public static ImageHandler img_handler;

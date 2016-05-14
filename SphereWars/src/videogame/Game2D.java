@@ -82,7 +82,7 @@ public class Game2D extends JPanel {
 			player.setVelocity(0, 0);
 			break;
 		case 4:
-			player.setVelocity(0, 0);
+			player.setVelocity(0, player.vy);
 			player.gravity();
 			break;
 		default:

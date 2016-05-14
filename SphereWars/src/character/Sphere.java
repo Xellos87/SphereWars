@@ -45,64 +45,111 @@ public class Sphere extends GameObject implements Sprite{
 
 	public void gravity(){
 		//this.setVelocity(this.vx, 1);
-		this.setVelocity(this.vx, this.vy+1);
+		int maxGravity = 15;
+		if(this.vy+1 >= maxGravity){
+			this.setVelocity(this.vx, maxGravity);
+		}
+		else{
+			this.setVelocity(this.vx, this.vy+1);
+		}		
 	}
 
 	public int checkCollision(MapController mc){
-		//TODO Cambios de mapa
+		boolean print = true;	//False para no ver mensajes
+		int xMove = 1;
+		int MAX_HEIGHT = 9;
 		int result = -1;
+		//TODO colisiones con sprite que no ocupa todo el bloque
 		boolean collisionInf = false;
 		boolean collisionLat = false;
 		boolean collisionSup = false;
+		boolean death = false;
 		//Mapa actual
 		MapObject map = mc.getCurrentMap();	
 		//Calculo coordenadas respecto mapa
-		int xMap = (this.x + this.width) / mc.getWidthBlock() + mc.getPos();
+		int xMap = (this.x + (this.block_width/2)) / mc.getWidthBlock() + mc.getPos();
 		//TODO apaño, Richard es malvado y carga el mapa con las "y" invertidas
-		int yMap = Math.abs((this.y) / (mc.getHeightBlock()) - 9);
-
+		int yMap = Math.abs((this.y + (this.block_height/2)) / mc.getHeightBlock() - MAX_HEIGHT);
+		//Comprueba si esta en el siguiente mapa
+		if(xMap >= map.getWidthBlocks()){
+			int aux = xMap - map.getWidthBlocks();
+			System.out.printf("Second map!!!! aux: %d\n", aux);
+			map = mc.getNextMap();	
+			//xMap = (this.x + (this.block_width/2)) / mc.getWidthBlock() + aux;
+			xMap = aux;
+			yMap = Math.abs((this.y + (this.block_height/2)) / mc.getHeightBlock() - MAX_HEIGHT);
+		}
 		
+		if(print){
+			System.out.println("-----------------------");
+			mc.getCurrentMap().print();
+			System.out.printf("esfera x: %d, y: %d, w: %d, h: %d\n",this.getPositionX(), this.getPositionY(), xMap, yMap);
+		}
 		//Colision inferior	
-		//System.out.println("-----------------------");
-		//mc.getCurrentMap().print();
-		//System.out.printf("esfera x: %d, y: %d\n",this.getPositionX(), this.getPositionY());
 		collisionInf = map.collision(xMap, yMap-1, this);
-		//System.out.println("inferior");map.infoOject(xMap, yMap-1);	
-		if(collisionInf)System.out.printf("colision inferior x: %d, y: %d\n", xMap, yMap-1);
+		if(collisionInf){	//Comprueba si es dañino
+			
+		}
+		if(collisionInf && print){
+			System.out.printf("colision inferior x: %d, y: %d\n", xMap, yMap-1);
+			map.infoOject(xMap, yMap-1);	
+		}
 		if(!collisionInf){
 			//Colision inferior der			
 			collisionInf = map.collision(xMap+1, yMap-1, this);
-			if(collisionInf)System.out.printf("colision inferior der x: %d, y: %d\n", xMap+1, yMap-1);
-		}		
+			if(collisionInf && print){
+				System.out.printf("colision inferior der x: %d, y: %d\n", xMap+1, yMap-1);
+				map.infoOject(xMap+1, yMap-1);	
+			}
+		}	
+		if(collisionInf){	//Comprueba si es dañino
+			
+		}
 		//Colision lateral
 		collisionLat = map.collision(xMap, yMap, this);
 		if(!collisionLat)collisionLat = map.collision(xMap+1, yMap, this);
-		if(collisionLat)System.out.printf("colision lateral x: %d, y: %d\n", xMap+1, yMap);
-		//Colision superior
-		collisionSup = map.collision(xMap, yMap, this);
-		if(collisionSup)System.out.printf("colision superior x: %d, y: %d\n", xMap, yMap);
-		System.out.println("superior");map.infoOject(xMap, yMap);
-		if(!collisionSup){
-			//Colision superior der
-			collisionSup = map.collision(xMap+1, yMap, this);
-			if(collisionSup)System.out.printf("colision superior der x: %d, y: %d\n", xMap+1, yMap);
+		if(collisionLat && print){
+			System.out.printf("colision lateral x: %d, y: %d\n", xMap+1, yMap);
+			map.infoOject(xMap+1, yMap);
 		}
-		//System.out.println("-----------------------");
-		
+		//Colision superior
+		collisionSup = map.collision(xMap, yMap+1, this);
+		if(collisionSup && print){
+			System.out.printf("colision superior x: %d, y: %d\n", xMap, yMap+1);
+			map.infoOject(xMap, yMap);	
+		}
+		/*if(!collisionSup){
+			//Colision superior der
+			collisionSup = map.collision(xMap+1, yMap+1, this);
+			if(collisionSup){
+				System.out.printf("colision superior der x: %d, y: %d\n", xMap+1, yMap+1);
+				map.infoOject(xMap+1, yMap+1);	
+			}
+		}*/
 		
 		
 		//Prioridad de colisiones
 		//TODO muy feo, mejorar identificacion de colisiones		
-		if(collisionInf && collisionLat){
+		if(death){
+			result = 5;
+		}
+		else if(collisionInf && collisionLat){
 			result = 3;
-			this.x = this.x- 1;
+			//this.x = this.x - xMove;
+			this.x = this.x - vx - xMove;
 			this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock()-this.height+1;
 		}
 		else if(collisionSup && collisionLat){
 			result = 4;
-			this.x = this.x - 1;
+			//this.x = this.x - xMove;
+			this.x = this.x - vx - xMove;
 			this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock();
-		}		
+		}	
+		else if(collisionLat){
+			result = 2;
+			//this.x = this.x - xMove;
+			this.x = this.x - vx - xMove;
+		}
 		else if(collisionInf){
 			result = 0;
 			//Fix de posicion
@@ -111,11 +158,7 @@ public class Sphere extends GameObject implements Sprite{
 		else if(collisionSup){
 			result = 1;
 			this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock();
-		}
-		else if(collisionLat){
-			result = 2;
-			this.x = this.x - 1;			
-		}
+		}		
 		else{
 			result = -1;
 		}

@@ -161,17 +161,16 @@ public class Main implements Runnable, KeyListener{
 			break;
 		case Constants.GAME:			
 			if(e.getKeyCode() == KeyEvent.VK_SPACE){
-				if(pause){
-					pause = false;
-				}
-				else{
-					pause = true;
-					System.out.println("PAUSA!");
-				}
+				pause = true;
+				state = Constants.PAUSE;
+				System.out.println("PAUSA!");				
 			}else{
 				game2D.keyPressed(e);
 			}
 			break;
+		case Constants.PAUSE:
+			pause = false;
+			state = Constants.GAME;
 		default:
 			break;
 		}

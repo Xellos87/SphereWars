@@ -45,7 +45,6 @@ public class MapController {
 		current_map = 0;
 		pos_block = 0;
 		pixel_block = 0;
-		//block_height = height / MAX_HEIGHT;
 		block_height = height / MAX_HEIGHT;
 		block_width = block_height;
 		//Se suma 1 ya que la división entre enteros si no es exacta desprecia los decimales, asi ocupa todo el ancho
@@ -242,7 +241,7 @@ public class MapController {
 	}
 
 	public void move() {
-		int speed = 0;
+		int speed = 1;
 		pixel_block += speed;
 		if(pixel_block / block_width >= 1){
 			pos_block++;
@@ -284,6 +283,10 @@ public class MapController {
 	
 	public MapObject getCurrentMap(){
 		return first_map;
+	}
+	
+	public MapObject getNextMap(){
+		return second_map;
 	}
 	
 	public int getPos(){

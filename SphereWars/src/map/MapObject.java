@@ -33,6 +33,8 @@ public class MapObject {
 			if(objects[y][x] != null){
 				System.out.printf("\tcaja x: %d, y: %d\n",o.getPositionX(), o.getPositionY());
 				System.out.printf("\tposicion x: %d, y: %d\n", x, y);
+				//System.out.printf("\tdimensiones w: %d, h: %d\n", o.getWidth(), o.getHeight());
+				System.out.printf("\tdimensiones block w: %d, h: %d\n", o.getWidthScreen(), o.getHeightScreen());
 			}
 		}
 	}
