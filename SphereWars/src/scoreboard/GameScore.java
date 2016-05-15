@@ -71,7 +71,10 @@ public class GameScore extends JPanel{
 		offgc.fillRect(0, 0, width, height);
 		offgc.setColor(new Color(255,255,255,255));
 		offgc.setFont(new Font("Arial", Font.BOLD, 16));
-		offgc.drawString("Player1", 10, 15);
+		offgc.drawString("Player 1", 10, 15);
+		if(numPlayers > 1){
+			offgc.drawString("Player 2", width/2 + 10, 15);
+		}
 		
 		//
 		offgc.drawImage(marker, 10, height-marker.getHeight() -10, null);

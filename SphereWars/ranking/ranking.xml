@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ranking>
+	<rank type="runner">
+		<entry pos="1" name="AAA" score="100"/>
+		<entry pos="2" name="BBB" score="90"/>
+		<entry pos="3" name="CCC" score="80"/>
+		<entry pos="4" name="DDD" score="70"/>
+		<entry pos="5" name="EEE" score="60"/>
+		<entry pos="6" name="FFF" score="50"/>
+		<entry pos="7" name="GGG" score="40"/>
+		<entry pos="8" name="HHH" score="30"/>
+		<entry pos="9" name="III" score="20"/>
+		<entry pos="10" name="JJJ" score="10"/>
+	</rank>
+	<rank type="points">
+		<entry pos="1" name="AAA" score="100"/>
+		<entry pos="2" name="BBB" score="90"/>
+		<entry pos="3" name="CCC" score="80"/>
+		<entry pos="4" name="DDD" score="70"/>
+		<entry pos="5" name="EEE" score="60"/>
+		<entry pos="6" name="FFF" score="50"/>
+		<entry pos="7" name="GGG" score="40"/>
+		<entry pos="8" name="HHH" score="30"/>
+		<entry pos="9" name="III" score="20"/>
+		<entry pos="10" name="JJJ" score="10"/>
+	</rank>
+</ranking>
