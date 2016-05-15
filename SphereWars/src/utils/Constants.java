@@ -1,6 +1,7 @@
 package utils;
 
 import media.ImageHandler;
+import scoreboard.Ranking;
 
 public class Constants {
 	public static  String[] list_menu = { "Start", "Help", "options", "credits","Exit" };
@@ -36,5 +37,7 @@ public class Constants {
 	
 	//Manejador de imagenes para las pantallas
 	public static ImageHandler img_handler;
+	//Interacciona con los ranking
+	public static Ranking ranking;
 	//TODO: aplicar escala para constantes de tama�o en los menus
 }

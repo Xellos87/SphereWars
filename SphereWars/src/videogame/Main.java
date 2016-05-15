@@ -10,6 +10,7 @@ import media.ImageHandler;
 import menu.Menu;
 import menu.TitleMenu;
 import scoreboard.GameScore;
+import scoreboard.Ranking;
 import utils.Constants;
 
 /**
@@ -59,6 +60,7 @@ public class Main implements Runnable, KeyListener{
 
 	private Main() {
 		Constants.img_handler = new ImageHandler();
+		Constants.ranking = new Ranking();
 		init();
 	}
 	private void init() {
