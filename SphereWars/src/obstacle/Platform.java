@@ -34,6 +34,7 @@ public class Platform extends GameObject implements Sprite{
 		//System.out.printf("Agregado en x:%d, y:%d\n", x,y);
 		this.type = type;
 		this.world = world;
+		this.kills = false;
 		selectImage();
 		resize();
 	}

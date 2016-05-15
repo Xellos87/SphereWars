@@ -27,6 +27,7 @@ public class Liquid extends GameObject implements Sprite{
 		super(x, y, x_imgs[nature+type], y_imgs[nature+type], width_imgs[nature+type], height_imgs[nature+type], block_width, block_height);
 		this.type = type;
 		this.nature = nature;
+		this.kills = true;
 		selectImage();
 		resize();
 	}

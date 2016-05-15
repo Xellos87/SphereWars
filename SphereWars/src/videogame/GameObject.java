@@ -37,6 +37,9 @@ public class GameObject {
 	//Sprite
 	protected BufferedImage image;
 	
+	//Variables de colisiones
+	protected boolean kills;
+	
 	
 	
 	public GameObject(int x, int y,int x_img,int y_img, int width, int height,int block_width,int block_height){
@@ -125,5 +128,9 @@ public class GameObject {
 	
 	public int getPositionY(){
 		return y;
+	}
+	
+	public boolean kills(){
+		return kills;
 	}
 }

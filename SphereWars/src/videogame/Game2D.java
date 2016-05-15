@@ -85,6 +85,9 @@ public class Game2D extends JPanel {
 			player.setVelocity(0, player.vy);
 			player.gravity();
 			break;
+		case 5:
+			restart();
+			break;			
 		default:
 			player.gravity();
 			break;
@@ -92,6 +95,11 @@ public class Game2D extends JPanel {
 		//Mueve plataformas
 		map_cont.move();	
 		player.move();
+	}
+	
+	private void restart(){
+		map_cont = new MapController(width,height);
+		loadImages();
 	}
 	
 	public void keyPressed(KeyEvent e) {

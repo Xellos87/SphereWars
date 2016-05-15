@@ -25,6 +25,7 @@ public class Spike extends GameObject implements Sprite{
 	public Spike(int x, int y,int block_width,int block_height, int direction) {
 		super(x, y, x_img, y_img, width, height, block_width, block_height);
 		this.direction = direction;
+		this.kills = true;
 		selectImage();
 		rotateImage();
 		resize();

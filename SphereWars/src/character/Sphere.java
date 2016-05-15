@@ -1,6 +1,7 @@
 package character;
 
 import java.awt.Graphics2D;
+import java.awt.dnd.DragGestureEvent;
 
 import graphic.Sprite;
 import map.MapController;
@@ -30,6 +31,7 @@ public class Sphere extends GameObject implements Sprite{
 	public Sphere(int x, int y, int block_width,int block_height) {
 		super(x,y,x_imgs[0],y_imgs[0], width_imgs[0], height_imgs[0], block_width, block_height);
 		this.type = NORMAL;
+		this.kills = false;
 		selectImage();
 		resize();
 	}
@@ -87,8 +89,8 @@ public class Sphere extends GameObject implements Sprite{
 		}
 		//Colision inferior	
 		collisionInf = map.collision(xMap, yMap-1, this);
-		if(collisionInf){	//Comprueba si es dañino
-			
+		if(collisionInf && map.getObject(xMap, yMap-1).kills()){	//Comprueba si es dañino
+			death = true;
 		}
 		if(collisionInf && print){
 			System.out.printf("colision inferior x: %d, y: %d\n", xMap, yMap-1);
@@ -97,6 +99,9 @@ public class Sphere extends GameObject implements Sprite{
 		if(!collisionInf){
 			//Colision inferior der			
 			collisionInf = map.collision(xMap+1, yMap-1, this);
+			if(collisionInf && map.getObject(xMap+1, yMap-1).kills()){	//Comprueba si es dañino
+				death = true;
+			}
 			if(collisionInf && print){
 				System.out.printf("colision inferior der x: %d, y: %d\n", xMap+1, yMap-1);
 				map.infoOject(xMap+1, yMap-1);	
@@ -107,13 +112,24 @@ public class Sphere extends GameObject implements Sprite{
 		}
 		//Colision lateral
 		collisionLat = map.collision(xMap, yMap, this);
-		if(!collisionLat)collisionLat = map.collision(xMap+1, yMap, this);
+		if(collisionLat && map.getObject(xMap, yMap).kills()){	//Comprueba si es dañino
+			death = true;
+		}
+		if(!collisionLat){
+			collisionLat = map.collision(xMap+1, yMap, this);
+			if(collisionLat && map.getObject(xMap+1, yMap).kills()){	//Comprueba si es dañino
+				death = true;
+			}
+		}
 		if(collisionLat && print){
 			System.out.printf("colision lateral x: %d, y: %d\n", xMap+1, yMap);
 			map.infoOject(xMap+1, yMap);
 		}
 		//Colision superior
 		collisionSup = map.collision(xMap, yMap+1, this);
+		if(collisionSup && map.getObject(xMap, yMap+1).kills()){	//Comprueba si es dañino
+			death = true;
+		}
 		if(collisionSup && print){
 			System.out.printf("colision superior x: %d, y: %d\n", xMap, yMap+1);
 			map.infoOject(xMap, yMap);	
