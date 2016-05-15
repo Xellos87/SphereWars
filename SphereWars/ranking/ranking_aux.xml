@@ -1,1 +1,27 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><ranking><rank type="runner"><entry name="AAA" pos="1" score="100"/><entry name="BBB" pos="2" score="90"/><entry name="CCC" pos="3" score="80"/><entry name="DDD" pos="4" score="70"/><entry name="EEE" pos="5" score="60"/><entry name="FFF" pos="6" score="50"/><entry name="GGG" pos="7" score="40"/><entry name="HHH" pos="8" score="30"/><entry name="III" pos="9" score="20"/><entry name="JJJ" pos="10" score="10"/></rank><rank type="points"><entry name="AAA" pos="1" score="100"/><entry name="BBB" pos="2" score="90"/><entry name="CCC" pos="3" score="80"/><entry name="DDD" pos="4" score="70"/><entry name="EEE" pos="5" score="60"/><entry name="FFF" pos="6" score="50"/><entry name="GGG" pos="7" score="40"/><entry name="HHH" pos="8" score="30"/><entry name="III" pos="9" score="20"/><entry name="JJJ" pos="10" score="10"/></rank></ranking>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ranking>
+<rank type="runner">
+<entry name="AAA" pos="1" score="100"/>
+<entry name="BBB" pos="2" score="90"/>
+<entry name="CCC" pos="3" score="80"/>
+<entry name="DDD" pos="4" score="70"/>
+<entry name="EEE" pos="5" score="60"/>
+<entry name="FFF" pos="6" score="50"/>
+<entry name="GGG" pos="7" score="40"/>
+<entry name="HHH" pos="8" score="30"/>
+<entry name="III" pos="9" score="20"/>
+<entry name="JJJ" pos="10" score="10"/>
+</rank>
+<rank type="points">
+<entry name="AAA" pos="1" score="100"/>
+<entry name="BBB" pos="2" score="90"/>
+<entry name="CCC" pos="3" score="80"/>
+<entry name="DDD" pos="4" score="70"/>
+<entry name="EEE" pos="5" score="60"/>
+<entry name="FFF" pos="6" score="50"/>
+<entry name="GGG" pos="7" score="40"/>
+<entry name="HHH" pos="8" score="30"/>
+<entry name="III" pos="9" score="20"/>
+<entry name="JJJ" pos="10" score="10"/>
+</rank>
+</ranking>
