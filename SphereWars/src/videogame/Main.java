@@ -83,7 +83,7 @@ public class Main implements Runnable, KeyListener{
 		//menu.setDoubleBuffered(true);
 		//state = Constants.MENU;
 		//window.add(menu);
-		game_score = new GameScore(width*scale, 100, 1);
+		game_score = new GameScore(width*scale, 100, 2, GameScore.POINTS);
 		game_score.setDoubleBuffered(true);
 		state = Constants.GAME;
 		window.add(game_score);
