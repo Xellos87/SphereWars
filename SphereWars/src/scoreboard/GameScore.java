@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
@@ -41,8 +42,10 @@ public class GameScore extends JPanel{
 		this.width = width;
 		this.height = height;
 		this.numPlayers = numPlayers;
-		this.type = type;
+		this.type = typeGame;
 		setPreferredSize(new Dimension(width, height));
+		setDoubleBuffered(true);
+		setFocusable(false);
 		initScoreBoard();
 	}
 
@@ -65,7 +68,7 @@ public class GameScore extends JPanel{
 		//Carga el doble buffer en el que se dibuja todo y luego se vuelca a pantalla
 		Image offscreen = createImage(width,height);
 		Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
-		
+
 		/* Dibuja en pantalla */
 		offgc.setColor(new Color(0, 0, 0,255));
 		offgc.fillRect(0, 0, width, height);
@@ -75,7 +78,7 @@ public class GameScore extends JPanel{
 		if(numPlayers > 1){
 			offgc.drawString("Player 2", width/2 + 10, 15);
 		}
-		
+
 		//
 		offgc.drawImage(marker, 10, height-marker.getHeight() -10, null);
 		offgc.drawImage(separator, 15+marker.getWidth(), height-separator.getHeight() -10, null);
@@ -86,7 +89,7 @@ public class GameScore extends JPanel{
 			offgc.drawImage(separator, width/2 + 15+marker.getWidth(), height-separator.getHeight() -10, null);
 			offgc.drawString("000",width/2+ 20+marker.getWidth()+separator.getWidth(), height-10);
 		}
-		
+
 		//Vuelca en el panel lo que se ha dibujado
 		getGraphics().drawImage(offscreen, 0, 0,width, height,null);
 		getGraphics().dispose();

@@ -1,13 +1,17 @@
 package videogame;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 
 import media.ImageHandler;
 import menu.Menu;
+import menu.PauseMenu;
 import menu.TitleMenu;
 import scoreboard.GameScore;
 import scoreboard.Ranking;
@@ -50,9 +54,8 @@ public class Main implements Runnable, KeyListener{
 		
 	//Menu del juego
 	private Menu menu;	//TODO: este menu puede cambiar entre menu de titulo, de pausa, de opciones?
-	//Modo de juego 2D
-	private Game2D game2D;
-	private GameScore game_score;
+	//Modo de juego
+	private Game game;
 
 	public static void main(String[] args){
 		new Main();
@@ -66,10 +69,12 @@ public class Main implements Runnable, KeyListener{
 	private void init() {
 		/* Crea el contenedor para poner los paneles */
 		window = new JFrame(TITLE);
+		window.setPreferredSize(new Dimension(width*scale, height*scale));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//window.setLayout(new BorderLayout());
-		BoxLayout boxLayout = new BoxLayout(window.getContentPane(), BoxLayout.Y_AXIS); // top to bottom
-	    window.setLayout(boxLayout);
+		game = new Game(width*scale, height*scale, Game.MODE_2D, Game.RUNNER, 1);
+		window.setLayout(new BorderLayout());
+		//BoxLayout boxLayout = new BoxLayout(window.getContentPane(), BoxLayout.Y_AXIS); // top to bottom
+	    //window.setLayout(boxLayout);
 		window.setResizable(false);
 		window.setVisible(true);
 		window.addKeyListener(this);
@@ -85,15 +90,25 @@ public class Main implements Runnable, KeyListener{
 		//menu.setDoubleBuffered(true);
 		//state = Constants.MENU;
 		//window.add(menu);
-		game_score = new GameScore(width*scale, 100, 2, GameScore.POINTS);
-		game_score.setDoubleBuffered(true);
+		//game_score = new GameScore(width*scale, 100, 2, GameScore.POINTS);
+		//game_score.setDoubleBuffered(true);
 		state = Constants.GAME;
-		window.add(game_score);
-		game2D = new Game2D(width*scale, height*scale);
-		game2D.setDoubleBuffered(true);
-		window.add(game2D);
+		//window.add(game_score);
+		//game2D = new Game2D(width*scale, height*scale);
+		//game2D.setBounds(0, 0, width*scale, height*scale);
+		//game2D.setDoubleBuffered(true);
+		//window.add(game2D);
+		
+		
+		//menu = new PauseMenu(width*scale, height*scale);
+		//menu.setDoubleBuffered(true);
+		//menu.setBounds(0, 0, width*scale, height*scale);
+		//window.add(menu);
+		window.add(game,BorderLayout.CENTER);
 		//Ajusta el tamaño de la ventana según los componentes
 		window.pack();
+		window.setVisible(true);
+		window.requestFocus();
 	}
 
 	@Override
@@ -103,10 +118,12 @@ public class Main implements Runnable, KeyListener{
 			start = System.nanoTime();
 			if(!pause){
 				//TODO: actualización del juego
-				if(game2D != null){
-					game2D.actionGame();
+				if(game != null){
+					game.actionGame();
 				}
 				draw();
+			}else{
+				game.drawPause();
 			}
 
 			elapsed = System.nanoTime() - start;
@@ -131,11 +148,8 @@ public class Main implements Runnable, KeyListener{
 			menu.draw();
 			
 		}
-		if(game2D != null){
-			game2D.draw();
-		}
-		if(game_score != null){
-			game_score.draw();
+		if(game != null){
+			game.draw();
 		}
 	}
 
@@ -165,14 +179,16 @@ public class Main implements Runnable, KeyListener{
 			if(e.getKeyCode() == KeyEvent.VK_SPACE){
 				pause = true;
 				state = Constants.PAUSE;
+				game.showPause();
 				System.out.println("PAUSA!");				
 			}else{
-				game2D.keyPressed(e);
+				game.keyPressed(e);
 			}
 			break;
 		case Constants.PAUSE:
 			pause = false;
 			state = Constants.GAME;
+			game.hiddenPause();
 		default:
 			break;
 		}

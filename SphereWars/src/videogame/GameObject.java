@@ -64,9 +64,9 @@ public class GameObject {
 			h = block_height;
 		}else if(width > height){
 			w = block_width;
-			h = block_width / width * height;
+			h = (int) (((float)block_width) / width * height);
 		}else{
-			w = block_height / height * width;
+			w = (int) (((float)block_height) / height * width);
 			h = block_height;
 		}
 		//Escala la imagen

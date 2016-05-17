@@ -1,7 +1,9 @@
 package videogame;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 
@@ -19,15 +21,15 @@ public class Game2D extends JPanel {
 	private Sphere player;
 	//Controllador del generador de mapas
 	private MapController map_cont;
-	
-	
+
+
 	public Game2D(int width, int height){
 		this.width = width;
 		this.height = height;
 		setPreferredSize(new Dimension(width, height));
-		setFocusable(true);
-		requestFocus();
-		
+		setDoubleBuffered(true);
+		setFocusable(false);
+
 		map_cont = new MapController(width,height);
 		loadImages();
 	}
@@ -48,6 +50,7 @@ public class Game2D extends JPanel {
 	public void draw() {
 		//Carga el doble buffer en el que se dibuja todo y luego se vuelca a pantalla
 		Image offscreen = createImage(width,height);
+		System.out.printf("w:%d, h:%d\n", width,height);
 		Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
 		/* Dibuja todo en pantalla */
 		//Efecto Parallax(fondo movil)
@@ -61,6 +64,7 @@ public class Game2D extends JPanel {
 		getGraphics().drawImage(offscreen, 0, 0,width, height,null);
 		getGraphics().dispose();
 	}
+
 
 	public void actionGame() {
 		/* Acciones a realizar */
@@ -96,12 +100,12 @@ public class Game2D extends JPanel {
 		map_cont.move();	
 		player.move();
 	}
-	
+
 	private void restart(){
 		map_cont = new MapController(width,height);
 		loadImages();
 	}
-	
+
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
 			player.jump();
