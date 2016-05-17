@@ -51,8 +51,8 @@ public class MapObject {
 	public void draw2D(Graphics2D g, int x, int y, int x_ori, int y_ori, int disp_x, boolean not_pause) {
 		if(objects[y][x] != null){
 			int mov = 0;
-			if(objects[y][x] instanceof Bot && not_pause){
-				mov = ((Bot)objects[y][x]).action();
+			if(objects[y][x] instanceof Bot){
+				mov = ((Bot)objects[y][x]).action(not_pause);
 				if(mov<0){
 					//Se mueve hacia la derecha
 					if(objects[y][x-1] == null && objects[y-1][x-1] != null){

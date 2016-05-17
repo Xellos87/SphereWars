@@ -72,29 +72,31 @@ public class Bot extends GameObject implements Sprite{
 		g2d.draw(this.getBox(x_ori,y_ori));
 	}
 
-	public int action() {
-		tick_counter++;
-		int mov = 0;
-		if(tick_counter >= max_counter){
-			tick_counter -= max_counter;
-			mov = width / 20;
-			if(state == WALK2){
-				state = WALK1;
-			}else{
-				state = WALK2;
+	public int action(boolean not_pause) {
+		if(not_pause){
+			tick_counter++;
+			int mov = 0;
+			if(tick_counter >= max_counter){
+				tick_counter -= max_counter;
+				mov = width / 20;
+				if(state == WALK2){
+					state = WALK1;
+				}else{
+					state = WALK2;
+				}
+				x_img = x_imgs[type+state];
+				y_img = y_imgs[type+state];
+				width = width_imgs[type+state];
+				height = height_imgs[type+state];
+				selectImage();
+				resize();
+				rotateImage();
 			}
-			x_img = x_imgs[type+state];
-			y_img = y_imgs[type+state];
-			width = width_imgs[type+state];
-			height = height_imgs[type+state];
-			selectImage();
-			resize();
-			rotateImage();
+			if(direction == RIGHT){
+				mov = -mov;
+			}
+			acumulate_mov = acumulate_mov + mov;
 		}
-		if(direction == RIGHT){
-			mov = -mov;
-		}
-		acumulate_mov = acumulate_mov + mov;
 		return acumulate_mov;
 	}
 
