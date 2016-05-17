@@ -71,7 +71,7 @@ public class Main implements Runnable, KeyListener{
 		window = new JFrame(TITLE);
 		window.setPreferredSize(new Dimension(width*scale, height*scale));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		game = new Game(width*scale, height*scale, Game.MODE_2D, Game.RUNNER, 1);
+		//game = new Game(width*scale, height*scale, Game.MODE_2D, Game.RUNNER, 1);
 		window.setLayout(new BorderLayout());
 		//BoxLayout boxLayout = new BoxLayout(window.getContentPane(), BoxLayout.Y_AXIS); // top to bottom
 	    //window.setLayout(boxLayout);
@@ -86,13 +86,13 @@ public class Main implements Runnable, KeyListener{
 			//TODO: añadir keyListener
 			thread.start();
 		}
-		//menu = new TitleMenu(width*scale, height*scale);
-		//menu.setDoubleBuffered(true);
-		//state = Constants.MENU;
-		//window.add(menu);
+		menu = new TitleMenu(width*scale, height*scale);
+		menu.setDoubleBuffered(true);
+		state = Constants.MENU;
+		window.add(menu);
 		//game_score = new GameScore(width*scale, 100, 2, GameScore.POINTS);
 		//game_score.setDoubleBuffered(true);
-		state = Constants.GAME;
+		//state = Constants.GAME;
 		//window.add(game_score);
 		//game2D = new Game2D(width*scale, height*scale);
 		//game2D.setBounds(0, 0, width*scale, height*scale);
@@ -104,7 +104,7 @@ public class Main implements Runnable, KeyListener{
 		//menu.setDoubleBuffered(true);
 		//menu.setBounds(0, 0, width*scale, height*scale);
 		//window.add(menu);
-		window.add(game,BorderLayout.CENTER);
+		//window.add(game,BorderLayout.CENTER);
 		//Ajusta el tamaño de la ventana según los componentes
 		window.pack();
 		window.setVisible(true);

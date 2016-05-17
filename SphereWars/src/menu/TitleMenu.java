@@ -66,6 +66,7 @@ public class TitleMenu extends Menu {
 			jugar = ImageIO.read(new File(Constants.jugarName));
 		}catch(IOException e){
 			System.err.println("Problem with font "+Constants.jugarName);
+			e.printStackTrace();
 		}
 		try{
 			help = ImageIO.read(new File(Constants.helpName));
@@ -91,10 +92,10 @@ public class TitleMenu extends Menu {
 		Composite comp = AlphaComposite.getInstance(rule, Constants.alphaComp);		
 		offgc.setComposite(comp);
 		//dibujar fondo
-		if (starBack != null) {
-			offgc.drawImage(starBack, 0, 0, width,height, null);
-		}		
-		if (mountainBack != null) {
+		//if (starBack != null) {
+		//	offgc.drawImage(starBack, 0, 0, width,height, null);
+		//}		
+		if (mountainBack != null && starBack != null) {
 			parallax.draw(offgc);
 		}		
 		//dibujar opciones de menu
@@ -134,11 +135,11 @@ public class TitleMenu extends Menu {
 	//TODO: mover letras cuando el cursor está en su posición
 
 	private void initParallax() {
-		String[] names = {Constants.mountainBackName};
-		int[] velocity = {1};
-		int[] posx= {0};
-		int[] posy = {height - mountainBack.getHeight()};
-		parallax = new Parallax(1,names,velocity,posx,posy,width,height);
+		String[] names = {Constants.starBackName,Constants.mountainBackName};
+		int[] velocity = {2,1};
+		int[] posx= {0,0};
+		int[] posy = {0,height - mountainBack.getHeight()};
+		parallax = new Parallax(2,names,velocity,posx,posy,width,height);
 	}
 
 	@Override
