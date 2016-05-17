@@ -30,6 +30,7 @@ public class Constants {
 	
 	//booleanos menus
 	public static boolean enMenu = true;
+	public static String tipoMenu = "titleMenu";
 	//Constantes de estado
 	public static final int MENU = 0;
 	public static final int PAUSE = 1;

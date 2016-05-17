@@ -43,4 +43,10 @@ public class OptionMenu extends Menu {
 		
 	}
 
+	@Override
+	public String cursorEnter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

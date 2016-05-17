@@ -11,6 +11,7 @@ import javax.swing.JLayeredPane;
 
 import media.ImageHandler;
 import menu.Menu;
+import menu.OptionMenu;
 import menu.PauseMenu;
 import menu.TitleMenu;
 import scoreboard.GameScore;
@@ -71,7 +72,6 @@ public class Main implements Runnable, KeyListener{
 		window = new JFrame(TITLE);
 		window.setPreferredSize(new Dimension(width*scale, height*scale));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//game = new Game(width*scale, height*scale, Game.MODE_2D, Game.RUNNER, 1);
 		window.setLayout(new BorderLayout());
 		//BoxLayout boxLayout = new BoxLayout(window.getContentPane(), BoxLayout.Y_AXIS); // top to bottom
 	    //window.setLayout(boxLayout);
@@ -144,11 +144,11 @@ public class Main implements Runnable, KeyListener{
 	
 	private void draw() {
 		//TODO comprobar si es 2D o 3D
-		if(menu != null){
+		if(menu != null && Constants.enMenu){
 			menu.draw();
 			
 		}
-		if(game != null){
+		if(game != null && !Constants.enMenu){
 			game.draw();
 		}
 	}
@@ -169,10 +169,33 @@ public class Main implements Runnable, KeyListener{
 			}else if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
 				menu.cursorUp();
 				System.out.println("Up key pressed");
-			}else if(e.getKeyCode() == KeyEvent.VK_ENTER){
-				//TODO: mirar en que posicion esta el cursor y ejecutar lo que toque
-				//elegir si hacer esto desde el menu o hacerlo desde aqui
-				//menu.doaction(); o //actuar(menu.getAction());
+			}else if(e.getKeyCode() == KeyEvent.VK_ENTER){	//pulsacion de enter
+				String nuevoMenu = menu.cursorEnter();
+				System.out.println("Enter pressed. Option: "+nuevoMenu);
+				//desde el menu principal
+				if(Constants.tipoMenu.equalsIgnoreCase("titleMenu")){
+					//TODO: acciones cuando se selecciona una opcion del menu principal
+					if(nuevoMenu.equalsIgnoreCase("credits")){
+						
+					}else if(nuevoMenu.equalsIgnoreCase("start")){
+						Constants.enMenu = false;
+						game = new Game(width*scale, height*scale, Game.MODE_2D, Game.RUNNER, 1);
+						window.add(game,BorderLayout.CENTER);
+						window.pack();
+						state = Constants.GAME;
+					}else if(nuevoMenu.equalsIgnoreCase("exit")){
+						System.exit(0);
+					}else if(nuevoMenu.equalsIgnoreCase("options")){
+						menu = new OptionMenu(width*scale, height*scale);
+						Constants.tipoMenu = "optionMenu";
+					}else if(nuevoMenu.equalsIgnoreCase("help")){
+						
+					}
+				//desde el menu de opciones
+				}else if(Constants.tipoMenu.equalsIgnoreCase("optionMenu")){
+					
+				}
+				//TODO: resto de casos
 			}
 			break;
 		case Constants.GAME:			

@@ -107,21 +107,21 @@ public class TitleMenu extends Menu {
 		}else{
 			offgc.drawImage(jugar, Constants.jugarPos.getX()+Constants.desplazamiento, Constants.jugarPos.getY(), jugar.getWidth()/2,jugar.getHeight()/2, null);
 		}
-		//TODO: de aquí pabajo hay que ponerlo bien
+		//TODO: help falta, y creditos.
 		if(help!=null && !cursor.getOpcion().equalsIgnoreCase("help")){	//PROBANDO
-			offgc.drawImage(help, Constants.helpPos.getX(), Constants.helpPos.getY(), jugar.getWidth()/2,jugar.getHeight()/2, null);
+			//offgc.drawImage(help, Constants.helpPos.getX(), Constants.helpPos.getY(), help.getWidth()/2,help.getHeight()/2, null);
 		}else{
-			offgc.drawImage(help, Constants.helpPos.getX()+Constants.desplazamiento, Constants.jugarPos.getY(), jugar.getWidth()/2,jugar.getHeight()/2, null);
+			//offgc.drawImage(help, Constants.helpPos.getX()+Constants.desplazamiento, Constants.helpPos.getY(), help.getWidth()/2,help.getHeight()/2, null);
 		}
-		if(opciones!=null && !cursor.getOpcion().equalsIgnoreCase("start")){	//PROBANDO
-			offgc.drawImage(jugar, Constants.jugarPos.getX(), Constants.jugarPos.getY(), jugar.getWidth()/2,jugar.getHeight()/2, null);
+		if(opciones!=null && !cursor.getOpcion().equalsIgnoreCase("options")){	//PROBANDO
+			offgc.drawImage(opciones, Constants.opcionesPos.getX(), Constants.opcionesPos.getY(), opciones.getWidth()/2,opciones.getHeight()/2, null);
 		}else{
-			offgc.drawImage(jugar, Constants.jugarPos.getX()+Constants.desplazamiento, Constants.jugarPos.getY(), jugar.getWidth()/2,jugar.getHeight()/2, null);
+			offgc.drawImage(opciones, Constants.opcionesPos.getX()+Constants.desplazamiento, Constants.opcionesPos.getY(), opciones.getWidth()/2,opciones.getHeight()/2, null);
 		}
-		if(salir!=null && !cursor.getOpcion().equalsIgnoreCase("start")){	//PROBANDO
-			offgc.drawImage(jugar, Constants.jugarPos.getX(), Constants.jugarPos.getY(), jugar.getWidth()/2,jugar.getHeight()/2, null);
+		if(salir!=null && !cursor.getOpcion().equalsIgnoreCase("Exit")){	//PROBANDO
+			offgc.drawImage(salir, Constants.salirPos.getX(), Constants.salirPos.getY(), salir.getWidth()/2,salir.getHeight()/2, null);
 		}else{
-			offgc.drawImage(jugar, Constants.jugarPos.getX()+Constants.desplazamiento, Constants.jugarPos.getY(), jugar.getWidth()/2,jugar.getHeight()/2, null);
+			offgc.drawImage(salir, Constants.salirPos.getX()+Constants.desplazamiento, Constants.salirPos.getY(), salir.getWidth()/2,salir.getHeight()/2, null);
 		}
 		//dibujar cursor
 		if(cursor != null){
@@ -131,8 +131,6 @@ public class TitleMenu extends Menu {
 		 getGraphics().drawImage(offscreen,0,0,width,height,null);
 		 getGraphics().dispose();		
 	}
-
-	//TODO: mover letras cuando el cursor está en su posición
 
 	private void initParallax() {
 		String[] names = {Constants.starBackName,Constants.mountainBackName};
@@ -150,5 +148,10 @@ public class TitleMenu extends Menu {
 	@Override
 	public void cursorUp() {
 		cursor.previousPosition();
+	}
+
+	@Override
+	public String cursorEnter() {
+		return cursor.enter();
 	}
 }

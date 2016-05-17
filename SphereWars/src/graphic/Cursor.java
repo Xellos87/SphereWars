@@ -80,6 +80,10 @@ public class Cursor {
 		pos.changePosition(newX, newY);
 	}
 
+	public String enter(){
+		return opcion;
+	}
+	
 	public String getOpcion() {
 		return opcion;
 	}

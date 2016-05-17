@@ -16,4 +16,6 @@ public abstract class Menu extends JPanel{
 	public abstract void cursorDown();
 
 	public abstract void cursorUp();
+
+	public abstract String cursorEnter();
 }
