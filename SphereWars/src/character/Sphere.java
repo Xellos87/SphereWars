@@ -56,7 +56,7 @@ public class Sphere extends GameObject implements Sprite{
 		}		
 	}
 
-	public int checkCollision(MapController mc){
+	public int checkCollision(MapController mc, int x_ori, int y_ori){
 		boolean print = true;	//False para no ver mensajes
 		int xMove = 1;
 		int MAX_HEIGHT = 9;
@@ -88,7 +88,7 @@ public class Sphere extends GameObject implements Sprite{
 			System.out.printf("esfera x: %d, y: %d, w: %d, h: %d\n",this.getPositionX(), this.getPositionY(), xMap, yMap);
 		}
 		//Colision inferior	
-		collisionInf = map.collision(xMap, yMap-1, this);
+		collisionInf = map.collision(xMap, yMap-1,x_ori,y_ori, this);
 		if(collisionInf && map.getObject(xMap, yMap-1).kills()){	//Comprueba si es dañino
 			death = true;
 		}
@@ -98,7 +98,7 @@ public class Sphere extends GameObject implements Sprite{
 		}
 		if(!collisionInf){
 			//Colision inferior der			
-			collisionInf = map.collision(xMap+1, yMap-1, this);
+			collisionInf = map.collision(xMap+1, yMap-1,x_ori,y_ori, this);
 			if(collisionInf && map.getObject(xMap+1, yMap-1).kills()){	//Comprueba si es dañino
 				death = true;
 			}
@@ -111,12 +111,12 @@ public class Sphere extends GameObject implements Sprite{
 			
 		}
 		//Colision lateral
-		collisionLat = map.collision(xMap, yMap, this);
+		collisionLat = map.collision(xMap, yMap,x_ori,y_ori, this);
 		if(collisionLat && map.getObject(xMap, yMap).kills()){	//Comprueba si es dañino
 			death = true;
 		}
 		if(!collisionLat){
-			collisionLat = map.collision(xMap+1, yMap, this);
+			collisionLat = map.collision(xMap+1, yMap,x_ori,y_ori, this);
 			if(collisionLat && map.getObject(xMap+1, yMap).kills()){	//Comprueba si es dañino
 				death = true;
 			}
@@ -126,7 +126,7 @@ public class Sphere extends GameObject implements Sprite{
 			map.infoOject(xMap+1, yMap);
 		}
 		//Colision superior
-		collisionSup = map.collision(xMap, yMap+1, this);
+		collisionSup = map.collision(xMap, yMap+1,x_ori,y_ori, this);
 		if(collisionSup && map.getObject(xMap, yMap+1).kills()){	//Comprueba si es dañino
 			death = true;
 		}
@@ -195,12 +195,12 @@ public class Sphere extends GameObject implements Sprite{
 	}
 	
 	@Override
-	public void draw2D(Graphics2D g2d) {
+	public void draw2D(Graphics2D g2d,int x_ori, int y_ori) {
 		//TODO acciones en la pelota, cambiar sprite al saltar, acelerar y frenar
 		//TODO establecer posiciones por celdas en vez de pixeles
-		g2d.drawImage(image, x, y, null);
+		g2d.drawImage(image, x_ori+x, y_ori+y, null);
 		//Dibujo cada de colisiones
-		g2d.draw(this.getBox());
+		g2d.draw(this.getBox(x_ori,y_ori));
 	}
 
 	public int getWidthImage(){

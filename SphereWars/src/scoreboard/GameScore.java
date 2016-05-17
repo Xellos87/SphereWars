@@ -64,34 +64,34 @@ public class GameScore extends JPanel{
 		separator = Constants.img_handler.getImageHud(x_imgs[SEP], y_imgs[SEP], width_imgs[SEP], height_imgs[SEP]);
 	}
 
-	public void draw(){
+	public void draw(Graphics2D g2d){
 		//Carga el doble buffer en el que se dibuja todo y luego se vuelca a pantalla
-		Image offscreen = createImage(width,height);
-		Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
+		//Image offscreen = createImage(width,height);
+		//Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
 
 		/* Dibuja en pantalla */
-		offgc.setColor(new Color(0, 0, 0,255));
-		offgc.fillRect(0, 0, width, height);
-		offgc.setColor(new Color(255,255,255,255));
-		offgc.setFont(new Font("Arial", Font.BOLD, 16));
-		offgc.drawString("Player 1", 10, 15);
+		g2d.setColor(new Color(0, 0, 0,255));
+		g2d.fillRect(0, 0, width, height);
+		g2d.setColor(new Color(255,255,255,255));
+		g2d.setFont(new Font("Arial", Font.BOLD, 16));
+		g2d.drawString("Player 1", 10, 15);
 		if(numPlayers > 1){
-			offgc.drawString("Player 2", width/2 + 10, 15);
+			g2d.drawString("Player 2", width/2 + 10, 15);
 		}
 
 		//
-		offgc.drawImage(marker, 10, height-marker.getHeight() -10, null);
-		offgc.drawImage(separator, 15+marker.getWidth(), height-separator.getHeight() -10, null);
-		offgc.setFont(new Font("Arial", Font.BOLD, 36));
-		offgc.drawString("000", 20+marker.getWidth()+separator.getWidth(), height-10);
+		g2d.drawImage(marker, 10, height-marker.getHeight() -10, null);
+		g2d.drawImage(separator, 15+marker.getWidth(), height-separator.getHeight() -10, null);
+		g2d.setFont(new Font("Arial", Font.BOLD, 36));
+		g2d.drawString("000", 20+marker.getWidth()+separator.getWidth(), height-10);
 		if(numPlayers > 1){
-			offgc.drawImage(marker, width/2 + 10, height-marker.getHeight() -10, null);
-			offgc.drawImage(separator, width/2 + 15+marker.getWidth(), height-separator.getHeight() -10, null);
-			offgc.drawString("000",width/2+ 20+marker.getWidth()+separator.getWidth(), height-10);
+			g2d.drawImage(marker, width/2 + 10, height-marker.getHeight() -10, null);
+			g2d.drawImage(separator, width/2 + 15+marker.getWidth(), height-separator.getHeight() -10, null);
+			g2d.drawString("000",width/2+ 20+marker.getWidth()+separator.getWidth(), height-10);
 		}
 
 		//Vuelca en el panel lo que se ha dibujado
-		getGraphics().drawImage(offscreen, 0, 0,width, height,null);
-		getGraphics().dispose();
+		//getGraphics().drawImage(offscreen, 0, 0,width, height,null);
+		//getGraphics().dispose();
 	}
 }

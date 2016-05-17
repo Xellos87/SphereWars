@@ -15,6 +15,6 @@ import java.awt.Graphics2D;
  * */
 public interface Sprite {
 	
-	public void draw2D(Graphics2D g2d);
+	public void draw2D(Graphics2D g2d,int x_ori, int y_ori);
 
 }

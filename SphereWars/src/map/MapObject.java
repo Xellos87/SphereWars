@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import character.Bot;
 import graphic.Sprite;
 import obstacle.Platform;
+import utils.Constants;
 import videogame.GameObject;
 
 public class MapObject {
@@ -47,10 +48,10 @@ public class MapObject {
 		return height;
 	}
 
-	public void draw2D(Graphics2D g, int x, int y, int disp_x) {
+	public void draw2D(Graphics2D g, int x, int y, int x_ori, int y_ori, int disp_x, boolean not_pause) {
 		if(objects[y][x] != null){
 			int mov = 0;
-			if(objects[y][x] instanceof Bot){
+			if(objects[y][x] instanceof Bot && not_pause){
 				mov = ((Bot)objects[y][x]).action();
 				if(mov<0){
 					//Se mueve hacia la derecha
@@ -104,16 +105,16 @@ public class MapObject {
 			}
 			//System.out.printf("Plataforma %d: %d\n", x, disp_x);
 			objects[y][x].updatePositionX(mov+disp_x);
-			((Sprite)objects[y][x]).draw2D(g);
+			((Sprite)objects[y][x]).draw2D(g, x_ori, y_ori);
 		}
 	}
 
 	//Devuelve si hay colision con algun objeto del mapa
-	public boolean collision(int x, int y, GameObject object){
+	public boolean collision(int x, int y,int x_ori,int y_ori, GameObject object){
 		boolean result = false;
 		if(x>=0 && x<width && y>=0 && y<height){
 			if(objects[y][x] != null){
-				result = objects[y][x].intersects(object);
+				result = objects[y][x].intersects(object,x_ori,y_ori);
 			}
 		}
 		return result;

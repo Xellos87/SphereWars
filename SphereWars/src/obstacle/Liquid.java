@@ -38,8 +38,8 @@ public class Liquid extends GameObject implements Sprite{
 	}
 
 	@Override
-	public void draw2D(Graphics2D g2d) {
-		g2d.drawImage(image, x, y, null);
+	public void draw2D(Graphics2D g2d,int x_ori, int y_ori) {
+		g2d.drawImage(image, x_ori+x, y_ori+y, null);
 	}
 
 	public int getWidthImage(){

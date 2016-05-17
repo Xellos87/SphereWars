@@ -96,7 +96,8 @@ public class TitleMenu extends Menu {
 		//	offgc.drawImage(starBack, 0, 0, width,height, null);
 		//}		
 		if (mountainBack != null && starBack != null) {
-			parallax.draw(offgc);
+			parallax.move();
+			parallax.draw(offgc,0,0);
 		}		
 		//dibujar opciones de menu
 		if(title!=null){

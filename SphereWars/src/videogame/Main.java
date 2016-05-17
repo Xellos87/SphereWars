@@ -121,10 +121,8 @@ public class Main implements Runnable, KeyListener{
 				if(game != null){
 					game.actionGame();
 				}
-				draw();
-			}else{
-				game.drawPause();
 			}
+			draw();
 
 			elapsed = System.nanoTime() - start;
 			wait = targetTime - elapsed;
@@ -149,7 +147,7 @@ public class Main implements Runnable, KeyListener{
 			
 		}
 		if(game != null && !Constants.enMenu){
-			game.draw();
+			game.draw(!pause);
 		}
 	}
 

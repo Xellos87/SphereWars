@@ -93,15 +93,20 @@ public class Parallax {
 	 * 
 	 * @param g2d, elemento grafico sobre el que dibuja
 	 */
-	public void draw(Graphics2D g2d){
+	public void draw(Graphics2D g2d,int x_ori, int y_ori){
+		for(int i=0; i<numImages; i++){
+			g2d.drawImage(back_images[i].getSubimage(fromX[i], 0, width_image[i], back_images[i].getHeight()), x_ori+posX[i], y_ori+posY[i], null);
+			if(show_next[i]){
+				g2d.drawImage(back_images[i].getSubimage(fromX_next[i], 0, width_image_next[i], back_images[i].getHeight()), x_ori+width_image[i], y_ori+posY[i], null);
+			}
+		}
+	}
+	
+	public void move(){
 		for(int i=0; i<numImages; i++){
 			if(tick_counter[i] >= velocity[i]){
 				calculatePosition(i);
 				tick_counter[i] -= velocity[i];
-			}
-			g2d.drawImage(back_images[i].getSubimage(fromX[i], 0, width_image[i], back_images[i].getHeight()), posX[i], posY[i], null);
-			if(show_next[i]){
-				g2d.drawImage(back_images[i].getSubimage(fromX_next[i], 0, width_image_next[i], back_images[i].getHeight()), width_image[i], posY[i], null);
 			}
 			tick_counter[i]++;
 		}

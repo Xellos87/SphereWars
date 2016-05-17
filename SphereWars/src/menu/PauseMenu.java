@@ -17,21 +17,21 @@ public class PauseMenu extends Menu {
 		setOpaque(false);
 	}
 
-	@Override
-	public void draw() {
+	
+	public void draw(Graphics2D g2d) {
 		//Carga el doble buffer en el que se dibuja todo y luego se vuelca a pantalla
-		Image offscreen = createImage(width,height);
-		Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
+		//Image offscreen = createImage(width,height);
+		//Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
 		/* Dibuja todo en pantalla */
-		offgc.setColor(new Color(255, 0, 0, 100));
-		offgc.fillRect(0, 0, width, height);
+		g2d.setColor(new Color(255, 0, 0, 100));
+		g2d.fillRect(0, 0, width, height);
 		
-		offgc.setColor(new Color(255,255,255,255));
-		offgc.drawString("PAUSA", width/2, height/2);
+		g2d.setColor(new Color(255,255,255,255));
+		g2d.drawString("PAUSA", width/2, height/2);
 		
 		//Vuelca en el panel lo que se ha dibujado
-		getGraphics().drawImage(offscreen, 0, 0,width, height,null);
-		getGraphics().dispose();
+		//getGraphics().drawImage(offscreen, 0, 0,width, height,null);
+		//getGraphics().dispose();
 	}
 
 	@Override
@@ -50,6 +50,13 @@ public class PauseMenu extends Menu {
 	public String cursorEnter() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public void draw() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

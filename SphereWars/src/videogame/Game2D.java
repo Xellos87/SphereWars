@@ -47,29 +47,30 @@ public class Game2D extends JPanel {
 		player.setVelocity(2, 3);
 	}
 
-	public void draw() {
+	public void draw(Graphics2D g2d,int x_ori, int y_ori, boolean not_pause) {
 		//Carga el doble buffer en el que se dibuja todo y luego se vuelca a pantalla
-		Image offscreen = createImage(width,height);
-		System.out.printf("w:%d, h:%d\n", width,height);
-		Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
+		//Image offscreen = createImage(width,height);
+		//Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
 		/* Dibuja todo en pantalla */
 		//Efecto Parallax(fondo movil)
-		back_parallax.draw(offgc);
+		back_parallax.draw(g2d,x_ori,y_ori);
 		//Jugador
-		player.draw2D(offgc);
+		player.draw2D(g2d,x_ori,y_ori);
 		//Mapa
-		map_cont.draw2D(offgc);
+		map_cont.draw2D(g2d,x_ori,y_ori,not_pause);
 
 		//Vuelca en el panel lo que se ha dibujado
-		getGraphics().drawImage(offscreen, 0, 0,width, height,null);
-		getGraphics().dispose();
+		//getGraphics().drawImage(offscreen, 0, 0,width, height,null);
+		//getGraphics().dispose();
 	}
 
 
-	public void actionGame() {
+	public void actionGame(int x_ori,int y_ori) {
+		/* Accion del parallax */
+		back_parallax.move();
 		/* Acciones a realizar */
 		//TODO velocidad con la velocidad de plataformas
-		int block = player.checkCollision(map_cont);
+		int block = player.checkCollision(map_cont,x_ori,y_ori);
 		switch (block) {
 		case 0:	//Colision inferior
 			player.setVelocity(2, 0);

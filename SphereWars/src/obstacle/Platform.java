@@ -45,10 +45,10 @@ public class Platform extends GameObject implements Sprite{
 	}
 
 	@Override
-	public void draw2D(Graphics2D g2d) {
-		g2d.drawImage(image, x, y, null);
+	public void draw2D(Graphics2D g2d,int x_ori, int y_ori) {
+		g2d.drawImage(image, x_ori+x, y_ori+y, null);
 		//Dibujo cada de colisiones
-		g2d.draw(this.getBox());
+		g2d.draw(this.getBox(x_ori,y_ori));
 	}
 
 	public int getWidthImage(){

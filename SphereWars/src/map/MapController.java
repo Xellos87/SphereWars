@@ -209,7 +209,7 @@ public class MapController {
 		}
 	}
 
-	public void draw2D(Graphics2D g) {
+	public void draw2D(Graphics2D g, int x_ori, int y_ori, boolean not_pause) {
 		int width_map1;
 		int width_map2 = 0;
 		//Se suma 1 bloque al último mapa para evitar que aparezca de repente durante el desplazamiento
@@ -232,7 +232,7 @@ public class MapController {
 		for(int x=init_x; x<width_map1; x++){
 			int pos_x = ((x-pos_block)*block_width) - pixel_block;
 			for(int y=0; y<first_map.getHeightBlocks(); y++){
-				first_map.draw2D(g,x,y,pos_x);
+				first_map.draw2D(g,x,y,x_ori,y_ori,pos_x,not_pause);
 			}
 		}
 		//System.out.printf("----------\n");
@@ -240,13 +240,15 @@ public class MapController {
 		for(int x=0; x<width_map2; x++){
 			int pos_x = ((width_map1-pos_block+x)*block_width) - pixel_block;
 			for(int y=0; y<second_map.getHeightBlocks(); y++){
-				second_map.draw2D(g,x,y,pos_x);
+				second_map.draw2D(g,x,y,x_ori,y_ori,pos_x,not_pause);
 			}
 		}
 	}
 
 	public void move() {
-		int speed = 1;
+		//TODO: 9 niveles de alto, 2 bloque de alto en salto, y 3 o 5 de largo segun velocidad
+		//5 velocidad normal y 7 velocidad rapida
+		int speed = 5;
 		pixel_block += speed;
 		if(pixel_block / block_width >= 1){
 			pos_block++;

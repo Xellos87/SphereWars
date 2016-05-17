@@ -1,6 +1,8 @@
 package videogame;
 
 import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BoxLayout;
@@ -80,10 +82,12 @@ public class Game extends JLayeredPane{
 		}
 	}
 
-	public void draw(){
+	public void draw(boolean not_pause){
+		Image offscreen = createImage(width,height);
+		Graphics2D g2d = (Graphics2D) offscreen.getGraphics();
 		if(mode == MODE_2D){
 			System.out.println("Pintamos el tablero");
-			game2d_1p.draw();
+			game2d_1p.draw(g2d,0,height_score,not_pause);
 			if(num_players>1){
 
 			}
@@ -93,11 +97,13 @@ public class Game extends JLayeredPane{
 
 			}
 		}
-		score.draw();
+		score.draw(g2d);
 		
 		if(pause.isVisible()){
-			pause.draw();
+			pause.draw(g2d);
 		}
+		getGraphics().drawImage(offscreen, 0, 0,width, height,null);
+		getGraphics().dispose();
 	}
 	
 	public void showPause(){
@@ -110,7 +116,7 @@ public class Game extends JLayeredPane{
 	
 	public void actionGame(){
 		if(mode == MODE_2D){
-			game2d_1p.actionGame();
+			game2d_1p.actionGame(0,height_score);
 			if(num_players>1){
 
 			}
