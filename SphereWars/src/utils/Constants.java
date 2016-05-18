@@ -1,5 +1,7 @@
 package utils;
 
+import java.util.ArrayList;
+
 import media.ImageHandler;
 import scoreboard.Ranking;
 
@@ -17,8 +19,9 @@ public class Constants {
 	public static final Position titlePos = new Position(10,40);	//posicion del titulo
 	public static Position jugarPos = new Position(105,100);		//posicion de "jugar"
 	public static Position helpPos = new Position(105,140);		
-	public static Position opcionesPos = new Position(105,180);		
-	public static Position salirPos = new Position(105,250);		
+	public static Position opcionesPos = new Position(105,180);	
+	public static Position creditPos = new Position(105,220);
+	public static Position salirPos = new Position(105,260);		
 	
 	public static  float alphaComp = 1f;	
 	
@@ -41,4 +44,7 @@ public class Constants {
 	//Interacciona con los ranking
 	public static Ranking ranking;
 	//TODO: aplicar escala para constantes de tama�o en los menus
+	
+	//Array de indices de mapas generados, se comparte entre los dos jugadores y permite repetir pantalla
+	private ArrayList<Integer> map_index;
 }
