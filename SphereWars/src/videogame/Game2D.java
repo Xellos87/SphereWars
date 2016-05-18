@@ -1,10 +1,7 @@
 package videogame;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JPanel;
@@ -19,9 +16,7 @@ public class Game2D extends JPanel {
 	private Parallax back_parallax;
 	//Contenedor del jugador
 	private Sphere player;
-	//Controllador del generador de mapas
-	private MapController map_cont;
-
+	
 
 	public Game2D(int width, int height){
 		this.width = width;
@@ -30,7 +25,6 @@ public class Game2D extends JPanel {
 		setDoubleBuffered(true);
 		setFocusable(false);
 
-		map_cont = new MapController(width,height);
 		loadImages();
 	}
 
@@ -47,7 +41,7 @@ public class Game2D extends JPanel {
 		player.setVelocity(2, 3);
 	}
 
-	public void draw(Graphics2D g2d,int x_ori, int y_ori, boolean not_pause) {
+	public void draw(Graphics2D g2d,int x_ori, int y_ori, MapController map_cont, boolean not_pause) {
 		//Carga el doble buffer en el que se dibuja todo y luego se vuelca a pantalla
 		//Image offscreen = createImage(width,height);
 		//Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
@@ -65,7 +59,7 @@ public class Game2D extends JPanel {
 	}
 
 
-	public void actionGame(int x_ori,int y_ori) {
+	public void actionGame(int x_ori,int y_ori,MapController map_cont) {
 		/* Accion del parallax */
 		back_parallax.move();
 		/* Acciones a realizar */
@@ -91,7 +85,7 @@ public class Game2D extends JPanel {
 			player.gravity();
 			break;
 		case 5:
-			restart();
+			restart(map_cont);
 			break;			
 		default:
 			player.gravity();
@@ -102,8 +96,8 @@ public class Game2D extends JPanel {
 		player.move();
 	}
 
-	private void restart(){
-		map_cont = new MapController(width,height);
+	private void restart(MapController map_cont){
+		map_cont.restart();
 		loadImages();
 	}
 

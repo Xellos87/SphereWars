@@ -2,7 +2,6 @@ package map;
 
 import java.awt.Graphics2D;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Random;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -17,14 +16,13 @@ import character.Bot;
 import obstacle.Liquid;
 import obstacle.Platform;
 import obstacle.Spike;
+import utils.Constants;
 
 public class MapController {
 	//Numero de bloques maximos para la altura
 	private final int MAX_HEIGHT = 9;
 	//Lista de mapas para cargar
 	private final String MAPS[] = {"maps/map02.xml"};
-	//Indice de mapas que se genera aleatoriamente
-	private ArrayList<Integer> map_index;
 	//Indice del mapa actual
 	private int current_map;
 	//Posición en bloque dentro del mapa, y pixel dentro del bloque
@@ -41,7 +39,6 @@ public class MapController {
 	private MapObject second_map;
 
 	public MapController(int width, int height){
-		map_index = new ArrayList<Integer>();
 		current_map = 0;
 		pos_block = 0;
 		pixel_block = 0;
@@ -56,15 +53,9 @@ public class MapController {
 		loadMap();
 	}
 
-	private void loadMap() {
-		int index;
-		if(map_index.size() <= current_map){
-			Random rnd = new Random(System.currentTimeMillis());
-			index = rnd.nextInt(MAPS.length);
-		}else{
-			index = map_index.get(current_map);
-		}
-		map_index.add(index);
+	public void loadMap() {
+		int index = MapController.getNumberMap(current_map, MAPS.length);
+		
 		System.out.printf("Mapa: %d\n", index);
 		//Pone el segundo mapa como primero, el nuevo se carga en el segundo
 		first_map = second_map;
@@ -272,14 +263,6 @@ public class MapController {
 		return current_map;
 	}
 
-	public ArrayList<Integer> getListMaps(){
-		return map_index;
-	}
-
-	public void setListMaps(ArrayList<Integer> maps){
-		map_index = maps;
-	}
-
 	public int getWidthBlock(){
 		return block_width;
 	}
@@ -298,5 +281,26 @@ public class MapController {
 	
 	public int getPos(){
 		return pos_block;
+	}
+	
+	public static synchronized int getNumberMap(int current, int num_maps){
+		int index;
+		if(Constants.map_index.size() <= current){
+			Random rnd = new Random(System.currentTimeMillis());
+			index = rnd.nextInt(num_maps);
+		}else{
+			index = Constants.map_index.get(current);
+		}
+		Constants.map_index.add(index);
+		return index;
+	}
+
+	public void restart() {
+		current_map = 0;
+		pos_block = 0;
+		pixel_block = 0;
+		//
+		loadMap();
+		loadMap();
 	}
 }

@@ -4,14 +4,16 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
 import javax.swing.JLayeredPane;
 
+import map.MapController;
 import menu.PauseMenu;
 import scoreboard.GameScore;
 import utils.Constants;
 
+@SuppressWarnings("serial")
 public class Game extends JLayeredPane{
 	//Modos de juego
 	public final static int MODE_2D = 0;
@@ -40,6 +42,10 @@ public class Game extends JLayeredPane{
 	private int type;
 	//Numero de jugadores
 	private int num_players;
+	//Mapas para cada jugador
+	private MapController map_p1;
+	private MapController map_p2;
+	
 
 	public Game(int width, int height, int mode, int type, int num_players){
 		this.width = width;
@@ -67,18 +73,27 @@ public class Game extends JLayeredPane{
 		System.out.printf("w:%d, hs:%d, hg:%d\n",width,height_score,height_game );
 		//Inicializa el juego
 		if(mode == MODE_2D){
-			//Inicio de juego 2D
+			//Inicio de juego 2D, primer jugador
 			game2d_1p = new Game2D(width, height_game);
 			game2d_1p.setBounds(0, height_score, width, height_game);
 			add(game2d_1p, new Integer(0),2);
 			if(num_players>1){
-
+				//Segundo jugador si lo hay
+				game2d_2p = new Game2D(width, height_game);
+				game2d_2p.setBounds(0, height_score+height_game, width, height_game);
+				add(game2d_2p, new Integer(0),3);
 			}
 		}else if(mode == MODE_3D){
 			//Inicio de juego en 3D
 			if(num_players>1){
 
 			}
+		}
+		//Inicializa los controladores de mapas necesarios
+		Constants.map_index = new ArrayList<Integer>();
+		map_p1 = new MapController(width, height_game);
+		if(num_players>1){
+			map_p2 = new MapController(width, height_game);
 		}
 	}
 
@@ -87,14 +102,14 @@ public class Game extends JLayeredPane{
 		Graphics2D g2d = (Graphics2D) offscreen.getGraphics();
 		if(mode == MODE_2D){
 			System.out.println("Pintamos el tablero");
-			game2d_1p.draw(g2d,0,height_score,not_pause);
+			game2d_1p.draw(g2d,0,height_score,map_p1,not_pause);
 			if(num_players>1){
-
+				game2d_2p.draw(g2d,0,height_score+height_game,map_p2,not_pause);
 			}
 		}else if(mode == MODE_3D){
 			game3d_1p.draw();
 			if(num_players>1){
-
+				game3d_2p.draw();
 			}
 		}
 		score.draw(g2d);
@@ -116,19 +131,19 @@ public class Game extends JLayeredPane{
 	
 	public void actionGame(){
 		if(mode == MODE_2D){
-			game2d_1p.actionGame(0,height_score);
+			game2d_1p.actionGame(0,height_score,map_p1);
 			if(num_players>1){
-
+				game2d_1p.actionGame(0,height_score+height_game,map_p2);
 			}
 		}else if(mode == MODE_3D){
 			//game3d_1p.actionGame();
 			if(num_players>1){
-
+				//game3d_2p.actionGame();
 			}
 		}
 	}
 
-
+	//TODO: teclas para el segundo jugador
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
 			if(mode == MODE_2D){

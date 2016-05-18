@@ -2,13 +2,14 @@ package menu;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 
 @SuppressWarnings("serial")
 public class PauseMenu extends Menu {
-
+	//Textos
+	private final String PAUSE = "PAUSA";
+	
 	public PauseMenu(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -26,8 +27,12 @@ public class PauseMenu extends Menu {
 		g2d.setColor(new Color(255, 0, 0, 100));
 		g2d.fillRect(0, 0, width, height);
 		
+		g2d.setFont(new Font("Arial", Font.BOLD, 36));
 		g2d.setColor(new Color(255,255,255,255));
-		g2d.drawString("PAUSA", width/2, height/2);
+		//Obtiene el ancho de la palabra con la fuente configurada
+		int width_text = g2d.getFontMetrics().stringWidth(PAUSE);
+		int height_text = g2d.getFontMetrics().getHeight();
+		g2d.drawString("PAUSA", width/2 - width_text/2, height/2 - height_text/2);
 		
 		//Vuelca en el panel lo que se ha dibujado
 		//getGraphics().drawImage(offscreen, 0, 0,width, height,null);
