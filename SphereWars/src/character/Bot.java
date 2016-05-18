@@ -43,6 +43,7 @@ public class Bot extends GameObject implements Sprite{
 		this.type = type;
 		this.state = WALK1;
 		this.direction = RIGHT;
+		this.kills = true;
 		selectImage();
 		resize();
 		rotateImage();
@@ -73,7 +74,7 @@ public class Bot extends GameObject implements Sprite{
 	}
 
 	public int action(boolean not_pause) {
-		if(not_pause){
+		if(not_pause && state != DEAD){
 			tick_counter++;
 			int mov = 0;
 			if(tick_counter >= max_counter){
@@ -122,5 +123,15 @@ public class Bot extends GameObject implements Sprite{
 			resize();
 			rotateImage();
 		}
+	}
+	
+	public void death(){
+		this.state = DEAD;
+		x_img = x_imgs[type+state];
+		y_img = y_imgs[type+state];
+		width = width_imgs[type+state];
+		height = height_imgs[type+state];
+		selectImage();
+		resize();
 	}
 }

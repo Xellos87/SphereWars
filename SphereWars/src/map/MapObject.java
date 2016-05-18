@@ -9,6 +9,13 @@ import utils.Constants;
 import videogame.GameObject;
 
 public class MapObject {
+	
+	//Constantes colisiones
+	public static final int NOCOLLISION = -1;
+	public static final int COLLISION = 0;
+	public static final int KILLS = 1;			//Mata a pelota
+	public static final int DEATH = 2;			//Mata a bot
+		
 	//Ancho y alto del mapa
 	private int width, height;
 	//Objetos que se encuentran en el mapa
@@ -110,15 +117,36 @@ public class MapObject {
 	}
 
 	//Devuelve si hay colision con algun objeto del mapa
-	public boolean collision(int x, int y,int x_ori,int y_ori, GameObject object){
-		boolean result = false;
-		if(x>=0 && x<width && y>=0 && y<height){
-			if(objects[y][x] != null){
-				result = objects[y][x].intersects(object,x_ori,y_ori);
+		public int collision(int x, int y,int x_ori,int y_ori, GameObject object){
+			int result = NOCOLLISION;
+			if(x>=0 && x<width && y>=0 && y<height){
+				GameObject mapObject = objects[y][x];
+				if(mapObject != null){
+					//comprueba si intersecta
+					if(mapObject.intersects(object,x_ori,y_ori)){
+						result = COLLISION;
+						//Comprueba si mata
+						if(mapObject.kills()){
+							result = KILLS;
+						}
+						//TODO guarrada de try
+						try{
+							Bot b = (Bot) mapObject;
+							//Comprueba si mata al bot(colision por encima)
+							if(object.getPositionY() < mapObject.getPositionY() &&
+									mapObject.getPositionX() < object.getPositionX() &&
+									mapObject.getPositionX() + mapObject.getWidthScreen() > object.getPositionX()){
+								
+								b.death();
+								result = DEATH;
+							}
+						}					
+						catch(Exception e){};
+					}
+				}
 			}
+			return result;
 		}
-		return result;
-	}
 
 	public void print(){
 		for(int i=0; i<height; i++){

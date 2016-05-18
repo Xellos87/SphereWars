@@ -86,7 +86,10 @@ public class Game2D extends JPanel {
 			break;
 		case 5:
 			restart(map_cont);
-			break;			
+			break;
+		case 6:
+			player.miniJump();
+			break;
 		default:
 			player.gravity();
 			break;

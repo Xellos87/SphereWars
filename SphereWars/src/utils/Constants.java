@@ -46,5 +46,5 @@ public class Constants {
 	//TODO: aplicar escala para constantes de tama�o en los menus
 	
 	//Array de indices de mapas generados, se comparte entre los dos jugadores y permite repetir pantalla
-	private ArrayList<Integer> map_index;
+	public static ArrayList<Integer> map_index;
 }
