@@ -133,7 +133,25 @@ public class Game extends JLayeredPane{
 		if(mode == MODE_2D){
 			game2d_1p.actionGame(0,height_score,map_p1);
 			if(num_players>1){
-				game2d_1p.actionGame(0,height_score+height_game,map_p2);
+				game2d_2p.actionGame(0,height_score+height_game,map_p2);
+			}
+			//Obtiene las puntuaciones
+			if(type == RUNNER){
+				double dist = game2d_1p.getDistance();
+				score.setScoreDistanceP1(dist);
+				if(num_players>1){
+					dist = game2d_2p.getDistance();
+					score.setScoreDistanceP2(dist);
+				}
+			}else if(type == COINS){
+				int coins = game2d_1p.getCoins();
+				score.setScoreCoinsP1(coins);
+				if(num_players>1){
+					coins = game2d_2p.getCoins();
+					score.setScoreCoinsP2(coins);
+				}
+			}else if(type == TIME){
+				
 			}
 		}else if(mode == MODE_3D){
 			//game3d_1p.actionGame();
@@ -141,6 +159,7 @@ public class Game extends JLayeredPane{
 				//game3d_2p.actionGame();
 			}
 		}
+		
 	}
 
 	//TODO: teclas para el segundo jugador

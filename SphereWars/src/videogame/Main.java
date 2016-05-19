@@ -177,7 +177,7 @@ public class Main implements Runnable, KeyListener{
 						
 					}else if(nuevoMenu.equalsIgnoreCase("start")){
 						Constants.enMenu = false;
-						game = new Game(width*scale, height*scale, Game.MODE_2D, Game.RUNNER, 1);
+						game = new Game(width*scale, height*scale, Game.MODE_2D, Game.COINS, 1);
 						window.add(game,BorderLayout.CENTER);
 						window.pack();
 						state = Constants.GAME;

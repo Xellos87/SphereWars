@@ -24,6 +24,9 @@ public class Sphere extends GameObject implements Sprite{
 	public static final int COLLSUPLAT = 4;
 	public static final int COLLDEATH = 5;
 	public static final int COLLKILL = 6;
+	public static final int COLLINFGET = 7;
+	public static final int COLLSUPGET = 8;
+	public static final int COLLLATGET = 9;
 	
 	//Posicion de la imagen a representar
 	private static int[] x_imgs={2};
@@ -135,35 +138,44 @@ public class Sphere extends GameObject implements Sprite{
 			}
 		}*/		
 		//Prioridad de colisiones	
-		if(collisionInf == 1 || collisionLat == 1 || collisionSup == 1){
+		if(collisionInf == MapObject.KILLS || collisionLat == MapObject.KILLS || collisionSup == MapObject.KILLS){
 			result = COLLDEATH;
 		}
-		else if(collisionInf == 2){
+		else if(collisionInf == MapObject.DEATH){
 			result = COLLKILL;
+		}//TODO, colision con monedas
+		else if(collisionInf == MapObject.GET){
+			result = COLLINFGET;
 		}
-		else if(collisionInf>=0 && collisionLat>=0){
+		else if(collisionSup == MapObject.GET){
+			result = COLLSUPGET;
+		}
+		else if(collisionLat == MapObject.GET){
+			result = COLLLATGET;
+		}
+		else if(collisionInf >= MapObject.COLLISION && collisionLat >= MapObject.COLLISION){
 			result = COLLINFLAT;
 			//this.x = this.x - xMove;
 			this.x = this.x - vx - xMove;
 			this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock()-this.height+1;
 		}
-		else if(collisionSup>=0 && collisionLat>=0){
+		else if(collisionSup >= MapObject.COLLISION && collisionLat >= MapObject.COLLISION){
 			result = COLLSUPLAT;
 			//this.x = this.x - xMove;
 			this.x = this.x - vx - xMove;
 			this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock();
 		}	
-		else if(collisionLat>=0){
+		else if(collisionLat >= MapObject.COLLISION){
 			result = COLLLAT;
 			//this.x = this.x - xMove;
 			this.x = this.x - vx - xMove;
 		}
-		else if(collisionInf>=0){
+		else if(collisionInf >= MapObject.COLLISION){
 			result = COLLINF;
 			//Fix de posicion
 			this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock()-this.height+1;
 		}
-		else if(collisionSup>=0){
+		else if(collisionSup >= MapObject.COLLISION){
 			result = COLLSUP;
 			this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock();
 		}		

@@ -16,6 +16,10 @@ public class Game2D extends JPanel {
 	private Parallax back_parallax;
 	//Contenedor del jugador
 	private Sphere player;
+	//Puntuaciones para mostrar en scoreboard
+	private double score_distance;
+	private int score_coins;
+	private int score_time; //TODO, eliminar si no se implementa
 	
 
 	public Game2D(int width, int height){
@@ -26,6 +30,13 @@ public class Game2D extends JPanel {
 		setFocusable(false);
 
 		loadImages();
+		
+		init_score();
+	}
+
+	private void init_score() {
+		this.score_distance = 0;
+		this.score_coins = 0;
 	}
 
 	private void loadImages() {
@@ -42,20 +53,12 @@ public class Game2D extends JPanel {
 	}
 
 	public void draw(Graphics2D g2d,int x_ori, int y_ori, MapController map_cont, boolean not_pause) {
-		//Carga el doble buffer en el que se dibuja todo y luego se vuelca a pantalla
-		//Image offscreen = createImage(width,height);
-		//Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
-		/* Dibuja todo en pantalla */
 		//Efecto Parallax(fondo movil)
 		back_parallax.draw(g2d,x_ori,y_ori);
 		//Jugador
 		player.draw2D(g2d,x_ori,y_ori);
 		//Mapa
 		map_cont.draw2D(g2d,x_ori,y_ori,not_pause);
-
-		//Vuelca en el panel lo que se ha dibujado
-		//getGraphics().drawImage(offscreen, 0, 0,width, height,null);
-		//getGraphics().dispose();
 	}
 
 
@@ -66,42 +69,49 @@ public class Game2D extends JPanel {
 		//TODO velocidad con la velocidad de plataformas
 		int block = player.checkCollision(map_cont,x_ori,y_ori);
 		switch (block) {
-		case 0:	//Colision inferior
+		case Sphere.COLLINF:	//Colision inferior
 			player.setVelocity(2, 0);
 			break;
-		case 1:	//Colision superior
+		case Sphere.COLLSUP:	//Colision superior
 			player.setVelocity(2, 0);
 			player.gravity();
 			break;
-		case 2:	//Colision lateral
+		case Sphere.COLLLAT:	//Colision lateral
 			player.setVelocity(0, player.vy);
 			player.gravity();
 			break;
-		case 3:
+		case Sphere.COLLINFLAT:
 			player.setVelocity(0, 0);
 			break;
-		case 4:
+		case Sphere.COLLSUPLAT:
 			player.setVelocity(0, player.vy);
 			player.gravity();
 			break;
-		case 5:
+		case Sphere.COLLDEATH:
 			restart(map_cont);
 			break;
-		case 6:
+		case Sphere.COLLKILL:
 			player.miniJump();
+			break;
+		case Sphere.COLLINFGET:
+		case Sphere.COLLSUPGET:
+		case Sphere.COLLLATGET:
+			score_coins += map_cont.removeTresure(player,block);
+			player.gravity();
 			break;
 		default:
 			player.gravity();
 			break;
 		}
 		//Mueve plataformas
-		map_cont.move();	
+		score_distance += map_cont.move();	
 		player.move();
 	}
 
 	private void restart(MapController map_cont){
 		map_cont.restart();
 		loadImages();
+		init_score();
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -109,6 +119,18 @@ public class Game2D extends JPanel {
 			player.jump();
 			System.out.println("Up key pressed");
 		}
+	}
+	
+	public int getCoins(){
+		return score_coins;
+	}
+	
+	public double getDistance(){
+		return score_distance;
+	}
+	
+	public double getTime(){
+		return score_time;
 	}
 
 }

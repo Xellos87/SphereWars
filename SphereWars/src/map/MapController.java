@@ -13,6 +13,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import character.Bot;
+import character.Sphere;
+import item.Treasure;
 import obstacle.Liquid;
 import obstacle.Platform;
 import obstacle.Spike;
@@ -22,7 +24,7 @@ public class MapController {
 	//Numero de bloques maximos para la altura
 	private final int MAX_HEIGHT = 9;
 	//Lista de mapas para cargar
-	private final String MAPS[] = {"maps/slimeTown.xml"};
+	private final String MAPS[] = {"maps/map00.xml"};
 	//Indice del mapa actual
 	private int current_map;
 	//Posición en bloque dentro del mapa, y pixel dentro del bloque
@@ -37,6 +39,9 @@ public class MapController {
 	//Mapa actual y siguiente
 	private MapObject first_map;
 	private MapObject second_map;
+	//Velocidades
+	private int speedLow;
+	private int speedHigh;
 
 	public MapController(int width, int height){
 		current_map = 0;
@@ -48,6 +53,9 @@ public class MapController {
 		block_width_screen = width / block_width + 1;
 		block_height_screen = height / block_height;
 		System.out.printf("bloques de ancho: %d, alto:%d\n", block_width_screen,block_height_screen);
+		//Calcula la velocidad en funcion del bloque
+		speedLow = block_width / 8;
+		speedHigh = block_width / 6;
 		//Carga aleatoriamente los 2 primeros mapas
 		loadMap();
 		loadMap();
@@ -55,7 +63,7 @@ public class MapController {
 
 	public void loadMap() {
 		int index = MapController.getNumberMap(current_map, MAPS.length);
-		
+
 		System.out.printf("Mapa: %d\n", index);
 		//Pone el segundo mapa como primero, el nuevo se carga en el segundo
 		first_map = second_map;
@@ -189,11 +197,30 @@ public class MapController {
 				int x = Integer.parseInt(element_bot.getAttribute("x"));
 				//Y(altura)
 				int y = Integer.parseInt(element_bot.getAttribute("y"));
-				
+
 				int type = Bot.SLIME;
-				
+
 				Bot b = new Bot(x*block_width, (height-y)*block_height,block_width,block_height,type);
 				second_map.addObject(b,x,y);
+			}
+			//Recorre todos los elementos treasure para agregarlo al mapa
+			NodeList lst_treasure = element_header.getElementsByTagName("treasure");
+			for(int i=0; i<lst_treasure.getLength(); i++){
+				Element element_treasure = (Element) lst_treasure.item(i);
+				//X(anchura)
+				int x = Integer.parseInt(element_treasure.getAttribute("x"));
+				//Y(altura)
+				int y = Integer.parseInt(element_treasure.getAttribute("y"));
+
+				String type_s = element_treasure.getAttribute("type");
+				
+				int type = Treasure.COIN;
+				if(type_s.equals("GEM")){
+					type = Treasure.GEM;
+				}
+				
+				Treasure t = new Treasure(x*block_width, (height-y)*block_height,block_width,block_height,type);
+				second_map.addObject(t,x,y);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -236,10 +263,11 @@ public class MapController {
 		}
 	}
 
-	public void move() {
+	public double move() {
 		//TODO: 9 niveles de alto, 2 bloque de alto en salto, y 3 o 5 de largo segun velocidad
 		//5 velocidad normal y 7 velocidad rapida
-		int speed = 5;
+		//TODO: usar speedLow y speedHigh, los valores fijos no funcionan bien si cambia la resolución de pantalla del juego
+		int speed = speedLow;
 		pixel_block += speed;
 		if(pixel_block / block_width >= 1){
 			pos_block++;
@@ -257,6 +285,7 @@ public class MapController {
 				}
 			}).start();
 		}
+		return ((double)speed) / block_width;
 	}
 
 	public int getNumMaps(){
@@ -270,19 +299,19 @@ public class MapController {
 	public int getHeightBlock(){
 		return block_height;
 	}
-	
+
 	public MapObject getCurrentMap(){
 		return first_map;
 	}
-	
+
 	public MapObject getNextMap(){
 		return second_map;
 	}
-	
+
 	public int getPos(){
 		return pos_block;
 	}
-	
+
 	public static synchronized int getNumberMap(int current, int num_maps){
 		int index;
 		if(Constants.map_index.size() <= current){
@@ -302,5 +331,38 @@ public class MapController {
 		//
 		loadMap();
 		loadMap();
+	}
+
+	public int removeTresure(Sphere player, int direction) {
+		int value = 0;
+		//Calculo coordenadas respecto mapa
+		int xMap = (player.getPositionX() + (player.getWidthScreen()/2)) / getWidthBlock() + getPos();
+		//TODO apaño, Richard es malvado y carga el mapa con las "y" invertidas
+		int yMap = Math.abs((player.getPositionY() + (player.getHeightScreen()/2)) / getHeightBlock() - MAX_HEIGHT);
+		//
+		switch (direction) {
+		case Sphere.COLLINFGET:
+			yMap -=1;
+			break;
+		case Sphere.COLLSUPGET:
+			yMap += 1;
+			break;
+		case Sphere.COLLLATGET:
+			xMap += 1;
+			break;
+		}
+		//Otiene el mapa que tiene la X e Y calculada
+		MapObject map = getCurrentMap();
+		if(xMap >= map.getWidthBlocks()){
+			xMap = xMap - map.getWidthBlocks();
+			map = getNextMap();	
+		}
+		System.out.printf("x:%d, y:%d\n", xMap,yMap);
+		//Obtiene el valor del tesoro y lo borra
+		if(map.getObject(xMap, yMap) instanceof Treasure){
+			value = ((Treasure)map.getObject(xMap, yMap)).getValue();
+			map.removeObject(xMap,yMap);
+		}
+		return value;
 	}
 }

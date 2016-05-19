@@ -4,18 +4,19 @@ import java.awt.Graphics2D;
 
 import character.Bot;
 import graphic.Sprite;
+import item.Treasure;
 import obstacle.Platform;
-import utils.Constants;
 import videogame.GameObject;
 
 public class MapObject {
-	
+
 	//Constantes colisiones
 	public static final int NOCOLLISION = -1;
 	public static final int COLLISION = 0;
 	public static final int KILLS = 1;			//Mata a pelota
 	public static final int DEATH = 2;			//Mata a bot
-		
+	public static final int GET = 3; //Coge el objeto
+
 	//Ancho y alto del mapa
 	private int width, height;
 	//Objetos que se encuentran en el mapa
@@ -31,7 +32,7 @@ public class MapObject {
 		objects[y][x] = obj;
 	}
 
-	public GameObject getObject( int x, int y){
+	public GameObject getObject(int x, int y){
 		return objects[y][x];
 	}
 
@@ -117,36 +118,38 @@ public class MapObject {
 	}
 
 	//Devuelve si hay colision con algun objeto del mapa
-		public int collision(int x, int y,int x_ori,int y_ori, GameObject object){
-			int result = NOCOLLISION;
-			if(x>=0 && x<width && y>=0 && y<height){
-				GameObject mapObject = objects[y][x];
-				if(mapObject != null){
-					//comprueba si intersecta
-					if(mapObject.intersects(object,x_ori,y_ori)){
-						result = COLLISION;
-						//Comprueba si mata
-						if(mapObject.kills()){
-							result = KILLS;
+	public int collision(int x, int y,int x_ori,int y_ori, GameObject object){
+		int result = NOCOLLISION;
+		if(x>=0 && x<width && y>=0 && y<height){
+			GameObject mapObject = objects[y][x];
+			if(mapObject != null){
+				//comprueba si intersecta
+				if(mapObject.intersects(object,x_ori,y_ori)){
+					result = COLLISION;
+					//Comprueba si mata
+					if(mapObject.kills()){
+						result = KILLS;
+					}
+					if(mapObject instanceof Bot){
+						Bot b = (Bot) mapObject;
+						//Comprueba si mata al bot(colision por encima)
+						if(object.getPositionY() < mapObject.getPositionY() &&
+								mapObject.getPositionX() < object.getPositionX() &&
+								mapObject.getPositionX() + mapObject.getWidthScreen() > object.getPositionX()){
+
+							b.death();
+							result = DEATH;
 						}
-						//TODO guarrada de try
-						try{
-							Bot b = (Bot) mapObject;
-							//Comprueba si mata al bot(colision por encima)
-							if(object.getPositionY() < mapObject.getPositionY() &&
-									mapObject.getPositionX() < object.getPositionX() &&
-									mapObject.getPositionX() + mapObject.getWidthScreen() > object.getPositionX()){
-								
-								b.death();
-								result = DEATH;
-							}
-						}					
-						catch(Exception e){};
+					}
+					if(mapObject instanceof Treasure){
+						//TODO, comprobar si es mejor reducir area de contacto
+						result = GET;
 					}
 				}
 			}
-			return result;
 		}
+		return result;
+	}
 
 	public void print(){
 		for(int i=0; i<height; i++){
@@ -160,5 +163,9 @@ public class MapObject {
 			}
 			System.out.println();
 		}
+	}
+
+	public void removeObject(int x, int y) {
+		objects[y][x] = null;
 	}
 }

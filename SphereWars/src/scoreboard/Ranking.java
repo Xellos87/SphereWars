@@ -16,6 +16,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import videogame.Game;
+
 public class Ranking {
 	private final int MAX_RANK = 10;
 	//Entradas de los ranking
@@ -150,19 +152,19 @@ public class Ranking {
 	}
 
 	public RankingEntry[] getRanking(int type){
-		if(type == GameScore.RUNNER){
+		if(type == Game.RUNNER){
 			return runner_ranking;
-		}else if(type == GameScore.POINTS){
+		}else if(type == Game.COINS){
 			return points_ranking;
 		}
 		return null;
 	}
 	
 	public void updateEntry(int type, int pos, RankingEntry entry){
-		if(type == GameScore.RUNNER){
+		if(type == Game.RUNNER){
 			updateRanking(runner_ranking,pos,entry);
 			writeRanking();
-		}else if(type == GameScore.POINTS){
+		}else if(type == Game.COINS){
 			updateRanking(points_ranking,pos,entry);
 			writeRanking();
 		}
