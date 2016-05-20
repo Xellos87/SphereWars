@@ -22,7 +22,7 @@ public class Ranking {
 	private final int MAX_RANK = 10;
 	//Entradas de los ranking
 	private RankingEntry[] runner_ranking;
-	private RankingEntry[] points_ranking;
+	private RankingEntry[] coins_ranking;
 	//Ruta del xml y etiquetas que usa
 	private String path_ranking = "ranking/ranking_aux.xml";
 	private String path_ranking_aux = "ranking/ranking_aux.xml";
@@ -34,13 +34,13 @@ public class Ranking {
 	private String name_entry_xml = "name";
 	private String score_entry_xml = "score";
 	private String type_runner_xml = "runner";
-	private String type_points_xml = "points";
+	private String type_coins_xml = "coins";
 	
 	
 	public Ranking(){
 		if(!readRanking()){
 			runner_ranking = new RankingEntry[MAX_RANK];
-			points_ranking = new RankingEntry[MAX_RANK];
+			coins_ranking = new RankingEntry[MAX_RANK];
 		}else{
 			//Lectura correcta, comprobación de lectura
 			/*System.out.println("Ranking de runner");
@@ -83,8 +83,8 @@ public class Ranking {
 				//Inserta el ranking en el correspondiente
 				if(type.equals(type_runner_xml)){
 					runner_ranking = entrys;
-				}else if(type.equals(type_points_xml)){
-					points_ranking = entrys;
+				}else if(type.equals(type_coins_xml)){
+					coins_ranking = entrys;
 				}
 			}
 		}catch(Exception e){
@@ -106,7 +106,7 @@ public class Ranking {
 			//Primer elemento del tipo runner
 			addElement(doc,header,type_runner_xml,runner_ranking);
 			//Segundo elemento del tipo points
-			addElement(doc,header,type_points_xml,points_ranking);
+			addElement(doc,header,type_coins_xml,coins_ranking);
 			
 			//Guardamos el fichero
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -155,7 +155,7 @@ public class Ranking {
 		if(type == Game.RUNNER){
 			return runner_ranking;
 		}else if(type == Game.COINS){
-			return points_ranking;
+			return coins_ranking;
 		}
 		return null;
 	}
@@ -165,7 +165,7 @@ public class Ranking {
 			updateRanking(runner_ranking,pos,entry);
 			writeRanking();
 		}else if(type == Game.COINS){
-			updateRanking(points_ranking,pos,entry);
+			updateRanking(coins_ranking,pos,entry);
 			writeRanking();
 		}
 	}

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JLayeredPane;
 
 import map.MapController;
+import menu.EndMenu;
 import menu.PauseMenu;
 import scoreboard.GameScore;
 import utils.Constants;
@@ -36,6 +37,8 @@ public class Game extends JLayeredPane{
 	private GameScore score;
 	//Menu de pausa
 	private PauseMenu pause;
+	//Menu de fin de juego
+	private EndMenu end;
 	//Modo actual del juego
 	private int mode;
 	//Tipo del juego
@@ -66,22 +69,27 @@ public class Game extends JLayeredPane{
 		pause.setBounds(0, 0, width, height);
 		pause.setVisible(false);
 		add(pause, new Integer(0),0);
+		//Menu de fin de juego
+		end = new EndMenu(width, height);
+		end.setBounds(0, 0, width, height);
+		end.setVisible(false);
+		add(end,new Integer(0),1);
 		//Inicializa el marcador
 		score = new GameScore(width, height_score, num_players, type);
 		score.setBounds(0, 0, width, height_score);
-		add(score, new Integer(0),1);
+		add(score, new Integer(0),2);
 		System.out.printf("w:%d, hs:%d, hg:%d\n",width,height_score,height_game );
 		//Inicializa el juego
 		if(mode == MODE_2D){
 			//Inicio de juego 2D, primer jugador
 			game2d_1p = new Game2D(width, height_game);
 			game2d_1p.setBounds(0, height_score, width, height_game);
-			add(game2d_1p, new Integer(0),2);
+			add(game2d_1p, new Integer(0),3);
 			if(num_players>1){
 				//Segundo jugador si lo hay
 				game2d_2p = new Game2D(width, height_game);
 				game2d_2p.setBounds(0, height_score+height_game, width, height_game);
-				add(game2d_2p, new Integer(0),3);
+				add(game2d_2p, new Integer(0),4);
 			}
 		}else if(mode == MODE_3D){
 			//Inicio de juego en 3D
@@ -116,6 +124,9 @@ public class Game extends JLayeredPane{
 		
 		if(pause.isVisible()){
 			pause.draw(g2d);
+		}
+		if(end.isVisible()){
+			end.draw(g2d);
 		}
 		getGraphics().drawImage(offscreen, 0, 0,width, height,null);
 		getGraphics().dispose();
@@ -162,7 +173,7 @@ public class Game extends JLayeredPane{
 		
 	}
 
-	//TODO: teclas para el segundo jugador
+	//TODO: teclas para el segundo jugador y menu de pausa y fin de juego
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
 			if(mode == MODE_2D){
@@ -172,10 +183,6 @@ public class Game extends JLayeredPane{
 				
 			}
 		}
-	}
-
-	public void drawPause() {
-		pause.draw();
 	}
 
 }

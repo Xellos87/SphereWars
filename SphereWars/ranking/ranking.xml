@@ -12,7 +12,7 @@
 		<entry pos="9" name="III" score="20"/>
 		<entry pos="10" name="JJJ" score="10"/>
 	</rank>
-	<rank type="points">
+	<rank type="coins">
 		<entry pos="1" name="AAA" score="100"/>
 		<entry pos="2" name="BBB" score="90"/>
 		<entry pos="3" name="CCC" score="80"/>

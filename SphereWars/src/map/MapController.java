@@ -215,7 +215,7 @@ public class MapController {
 				String type_s = element_treasure.getAttribute("type");
 				
 				int type = Treasure.COIN;
-				if(type_s.equals("GEM")){
+				if(type_s.equals("gem")){
 					type = Treasure.GEM;
 				}
 				
