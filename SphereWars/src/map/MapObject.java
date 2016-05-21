@@ -123,11 +123,15 @@ public class MapObject {
 		if(x>=0 && x<width && y>=0 && y<height){
 			GameObject mapObject = objects[y][x];
 			if(mapObject != null){
+				System.out.println("Existe");
 				//comprueba si intersecta
+				//result = COLLISION;
 				if(mapObject.intersects(object,x_ori,y_ori)){
+					System.out.println("Intersecta");
 					result = COLLISION;
 					//Comprueba si mata
 					if(mapObject.kills()){
+						System.out.println("Mata");
 						result = KILLS;
 					}
 					if(mapObject instanceof Bot){
@@ -142,7 +146,6 @@ public class MapObject {
 						}
 					}
 					if(mapObject instanceof Treasure){
-						//TODO, comprobar si es mejor reducir area de contacto
 						result = GET;
 					}
 				}

@@ -27,6 +27,11 @@ public class Treasure extends GameObject implements Sprite{
 		this.kills = false;
 		selectImage();
 		resize();
+		
+		real_x_block = real_x_block + real_block_width/4;
+		real_y_block = real_y_block + real_block_height/4;
+		real_block_width = (int) (real_block_width/1.8);
+		real_block_height = (int) (real_block_height/1.8);
 	}
 	
 	private void selectImage() {
@@ -37,6 +42,8 @@ public class Treasure extends GameObject implements Sprite{
 	@Override
 	public void draw2D(Graphics2D g2d, int x_ori, int y_ori) {
 		g2d.drawImage(image, x_ori+x, y_ori+y, null);
+		//Dibujo cada de colisiones
+		g2d.draw(this.getBox(x_ori,y_ori));
 	}
 
 	public int getValue() {

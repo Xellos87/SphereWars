@@ -24,7 +24,7 @@ public class MapController {
 	//Numero de bloques maximos para la altura
 	private final int MAX_HEIGHT = 9;
 	//Lista de mapas para cargar
-	private final String MAPS[] = {"maps/map00.xml"};
+	private final String MAPS[] = {"maps/map01.xml"};
 	//Indice del mapa actual
 	private int current_map;
 	//Posición en bloque dentro del mapa, y pixel dentro del bloque
@@ -213,12 +213,12 @@ public class MapController {
 				int y = Integer.parseInt(element_treasure.getAttribute("y"));
 
 				String type_s = element_treasure.getAttribute("type");
-				
+
 				int type = Treasure.COIN;
 				if(type_s.equals("gem")){
 					type = Treasure.GEM;
 				}
-				
+
 				Treasure t = new Treasure(x*block_width, (height-y)*block_height,block_width,block_height,type);
 				second_map.addObject(t,x,y);
 			}
@@ -333,36 +333,44 @@ public class MapController {
 		loadMap();
 	}
 
-	public int removeTresure(Sphere player, int direction) {
+	public int removeTresure(Sphere player, int direction, int x_ori, int y_ori) {
 		int value = 0;
 		//Calculo coordenadas respecto mapa
 		int xMap = (player.getPositionX() + (player.getWidthScreen()/2)) / getWidthBlock() + getPos();
-		//TODO apaño, Richard es malvado y carga el mapa con las "y" invertidas
+		//Apaño, Richard es malvado y carga el mapa con las "y" invertidas
 		int yMap = Math.abs((player.getPositionY() + (player.getHeightScreen()/2)) / getHeightBlock() - MAX_HEIGHT);
-		//
-		switch (direction) {
-		case Sphere.COLLINFGET:
-			yMap -=1;
-			break;
-		case Sphere.COLLSUPGET:
-			yMap += 1;
-			break;
-		case Sphere.COLLLATGET:
-			xMap += 1;
-			break;
-		}
 		//Otiene el mapa que tiene la X e Y calculada
 		MapObject map = getCurrentMap();
 		if(xMap >= map.getWidthBlocks()){
 			xMap = xMap - map.getWidthBlocks();
 			map = getNextMap();	
 		}
-		System.out.printf("x:%d, y:%d\n", xMap,yMap);
-		//Obtiene el valor del tesoro y lo borra
-		if(map.getObject(xMap, yMap) instanceof Treasure){
-			value = ((Treasure)map.getObject(xMap, yMap)).getValue();
-			map.removeObject(xMap,yMap);
+		//Posibles posiciones de los tesoros(Actual,superior,inferior,lateral,lat superior,lat inferior)
+		int[] x_pos = {0,0,0,1,1,1};
+		int[] y_pos = {0,1,-1,0,1,-1};
+		for(int i=0; i<x_pos.length;i++){
+			int x_obj = xMap + x_pos[i];
+			int y_obj = yMap + y_pos[i];
+			if(x_obj >= 0 && x_obj < map.getWidthBlocks() && y_obj >= 0 && y_obj < map.getHeightBlocks()){
+				//Posición dentro del mapa
+				if(map.getObject(x_obj, y_obj) != null && map.getObject(x_obj, y_obj) instanceof Treasure){
+					if(player.intersects(map.getObject(x_obj, y_obj), x_ori, y_ori)){
+						//Obtiene el valor del tesoro y lo borra
+						value += ((Treasure)map.getObject(x_obj, y_obj)).getValue();
+						map.removeObject(x_obj,y_obj);
+					}
+				}
+			}
 		}
 		return value;
+	}
+
+	//TODO devolver la velocidad correspondiente
+	public int getVelocity() {
+		return speedLow;
+	}
+	
+	public int getBlockMov(){
+		return pixel_block;
 	}
 }

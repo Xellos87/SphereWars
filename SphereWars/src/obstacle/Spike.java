@@ -15,10 +15,10 @@ public class Spike extends GameObject implements Sprite{
 	public static final int LEFT = 3;
 	//Posición de los la imagen
 	private static int x_img = 347;
-	private static int y_img = 0;
+	private static int y_img = 30;
 	//Tamaño de la imagen
 	private static int width = 70;
-	private static int height = 70;
+	private static int height = 40;
 	//Direccion del pincho
 	private int direction;
 
@@ -27,8 +27,8 @@ public class Spike extends GameObject implements Sprite{
 		this.direction = direction;
 		this.kills = true;
 		selectImage();
-		rotateImage();
 		resize();
+		rotateImage();
 	}
 
 	private void selectImage() {
@@ -46,6 +46,27 @@ public class Spike extends GameObject implements Sprite{
 			g2.rotate(direction*Math.PI/2, w/2, h/2);  
 			g2.drawImage(image,null,0,0);
 			image = newImage;
+			//Calcula las posiciones relativas de la imagen para las colisiones
+			int aux;
+			switch (direction){
+			case LOWER:
+				real_y_block = 0;
+				break;
+			case LEFT:
+				aux = real_block_height;
+				real_block_height = real_block_width;
+				real_block_width = aux;
+				real_y_block = 0;
+				real_x_block = block_width - real_block_width;
+				break;
+			case RIGHT:
+				aux = real_block_height;
+				real_block_height = real_block_width;
+				real_block_width = aux;
+				real_y_block = 0;
+				real_x_block = 0;
+				break;
+			}
 		}
 	}
 
