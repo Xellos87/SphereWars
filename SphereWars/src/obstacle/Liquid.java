@@ -15,10 +15,10 @@ public class Liquid extends GameObject implements Sprite{
 	public static final int DEEP = 1;
 	//Posicion de cada imagen en su contenedor para cargarla
 	private static int[] x_imgs={432,504,432,504};
-	private static int[] y_imgs={576,216,792,0};
+	private static int[] y_imgs={601,216,817,0};
 	//Tamaño de la imagen
 	private static int[] width_imgs={70,70,70,70};
-	private static int[] height_imgs={70,70,70,70};
+	private static int[] height_imgs={45,70,45,70};
 	//Tipo de elemento
 	private int type;
 	private int nature;

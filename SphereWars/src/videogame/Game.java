@@ -56,7 +56,7 @@ public class Game extends JLayeredPane{
 		this.mode = mode;
 		this.type = type;
 		this.num_players = num_players;
-		this.height_game = (height/num_players) - height_score;
+		this.height_game = (height-height_score)/num_players;
 		setPreferredSize(new Dimension(width, height));
 		setDoubleBuffered(true);
 		setFocusable(false);
@@ -109,7 +109,6 @@ public class Game extends JLayeredPane{
 		Image offscreen = createImage(width,height);
 		Graphics2D g2d = (Graphics2D) offscreen.getGraphics();
 		if(mode == MODE_2D){
-			System.out.println("Pintamos el tablero");
 			game2d_1p.draw(g2d,0,height_score,map_p1,not_pause);
 			if(num_players>1){
 				game2d_2p.draw(g2d,0,height_score+height_game,map_p2,not_pause);

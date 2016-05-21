@@ -32,6 +32,12 @@ public class GameObject {
 	//Dimensiones en pantalla
 	protected int block_width;
 	protected int block_height;
+	//Disemnsiones de la imagen representado en pantalla(para colisiones, mas realista)
+	protected int real_block_width;
+	protected int real_block_height;
+	//Posición real de la x e y dentro del bloque
+	protected int real_x_block;
+	protected int real_y_block;
 	
 	//TODO: Añadir animaciones de sprites
 	//Sprite
@@ -69,6 +75,10 @@ public class GameObject {
 			w = (int) (((float)block_height) / height * width);
 			h = block_height;
 		}
+		real_block_height=h;
+		real_block_width=w;
+		real_x_block = block_width-real_block_width;
+		real_y_block = block_height-real_block_height;
 		//Escala la imagen
 		Image tmp = image.getScaledInstance(w, h, Image.SCALE_DEFAULT);
 	    BufferedImage dimg = new BufferedImage(block_width, block_height, BufferedImage.TYPE_INT_ARGB);
@@ -95,11 +105,13 @@ public class GameObject {
 	
 	//TODO: mejorar intersecciones(esquinas)
 	public boolean intersects(GameObject o,int x_ori, int y_ori){
+		Rectangle r = getBox(x_ori,y_ori).intersection(o.getBox(x_ori,y_ori));
+		System.out.println(r.toString());
 		return getBox(x_ori,y_ori).intersects(o.getBox(x_ori,y_ori));		
 	}
 	
 	public Rectangle getBox(int x_ori, int y_ori){
-		return new Rectangle(x_ori+x, y_ori+y, block_width, block_height);
+		return new Rectangle(x_ori+x+real_x_block, y_ori+y+real_y_block, real_block_width, real_block_height);
 	}
 
 	public void updatePositionX(int x) {

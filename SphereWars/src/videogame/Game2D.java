@@ -20,7 +20,7 @@ public class Game2D extends JPanel {
 	private double score_distance;
 	private int score_coins;
 	private int score_time; //TODO, eliminar si no se implementa
-	
+
 
 	public Game2D(int width, int height){
 		this.width = width;
@@ -30,7 +30,7 @@ public class Game2D extends JPanel {
 		setFocusable(false);
 
 		loadImages();
-		
+
 		init_score();
 	}
 
@@ -65,6 +65,8 @@ public class Game2D extends JPanel {
 	public void actionGame(int x_ori,int y_ori,MapController map_cont) {
 		/* Accion del parallax */
 		back_parallax.move();
+		//Mueve plataformas
+		score_distance += map_cont.move();
 		/* Acciones a realizar */
 		//TODO velocidad con la velocidad de plataformas
 		int block = player.checkCollision(map_cont,x_ori,y_ori);
@@ -77,14 +79,14 @@ public class Game2D extends JPanel {
 			player.gravity();
 			break;
 		case Sphere.COLLLAT:	//Colision lateral
-			player.setVelocity(0, player.vy);
+			player.setVelocity(-map_cont.getVelocity(), player.vy);
 			player.gravity();
 			break;
 		case Sphere.COLLINFLAT:
-			player.setVelocity(0, 0);
+			player.setVelocity(-map_cont.getVelocity(), 0);
 			break;
 		case Sphere.COLLSUPLAT:
-			player.setVelocity(0, player.vy);
+			player.setVelocity(-map_cont.getVelocity(), player.vy);
 			player.gravity();
 			break;
 		case Sphere.COLLDEATH:
@@ -93,18 +95,15 @@ public class Game2D extends JPanel {
 		case Sphere.COLLKILL:
 			player.miniJump();
 			break;
-		case Sphere.COLLINFGET:
-		case Sphere.COLLSUPGET:
-		case Sphere.COLLLATGET:
-			score_coins += map_cont.removeTresure(player,block);
+		case Sphere.COLLGET:
+			score_coins += map_cont.removeTresure(player,block,x_ori,y_ori);
 			player.gravity();
 			break;
 		default:
+			player.setVelocity(2, player.vy);
 			player.gravity();
 			break;
-		}
-		//Mueve plataformas
-		score_distance += map_cont.move();	
+		}	
 		player.move();
 	}
 
@@ -120,15 +119,15 @@ public class Game2D extends JPanel {
 			System.out.println("Up key pressed");
 		}
 	}
-	
+
 	public int getCoins(){
 		return score_coins;
 	}
-	
+
 	public double getDistance(){
 		return score_distance;
 	}
-	
+
 	public double getTime(){
 		return score_time;
 	}
