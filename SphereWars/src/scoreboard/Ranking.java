@@ -76,7 +76,7 @@ public class Ranking {
 					Element element_entry = (Element) lst_entry.item(k);
 					int pos = Integer.parseInt(element_entry.getAttribute(pos_entry_xml));
 					String name = element_entry.getAttribute(name_entry_xml);
-					int score = Integer.parseInt(element_entry.getAttribute(score_entry_xml));
+					float score = Float.parseFloat(element_entry.getAttribute(score_entry_xml));
 					
 					entrys[pos-1] = new RankingEntry(name, score);
 				}
@@ -146,7 +146,7 @@ public class Ranking {
 			entry.setAttributeNode(name);
 			//Puntuacion
 			Attr score = doc.createAttribute(score_entry_xml);
-			score.setValue(String.valueOf(ranking[i].getScore()));
+			score.setValue(ranking[i].getScoreString());
 			entry.setAttributeNode(score);
 		}
 	}
@@ -158,6 +158,28 @@ public class Ranking {
 			return coins_ranking;
 		}
 		return null;
+	}
+	
+	public int getPosRanking(int type, float score){
+		int pos = -1;
+		if(type == Game.RUNNER){
+			pos = getPosition(runner_ranking, score);
+		}else if(type == Game.COINS){
+			pos = getPosition(coins_ranking, score);
+		}
+		return pos;
+	}
+	
+	private int getPosition(RankingEntry[] rank, float score){
+		int pos = -1;
+		int index = 0;
+		while(pos < 0 && index < rank.length){
+			if(rank[index].getScore() < score){
+				pos = index;
+			}
+			index++;
+		}
+		return pos;
 	}
 	
 	public void updateEntry(int type, int pos, RankingEntry entry){

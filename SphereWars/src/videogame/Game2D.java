@@ -1,6 +1,8 @@
 package videogame;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
@@ -16,15 +18,26 @@ public class Game2D extends JPanel {
 	private Parallax back_parallax;
 	//Contenedor del jugador
 	private Sphere player;
+	//Flag que indica si la partida ha acabado
+	private boolean end_game;
+	//Valor de alfa para oscurecimiento de pantalla por muerte y valor maximo
+	private int alpha_death;
+	private final int MAX_ALPHA = 100;
+	private final String DEATH_STR = "Has muerto...";
+	//Indica si se ha de esperar a la muerte de otro jugador
+	private boolean wait_other_player;
 	//Puntuaciones para mostrar en scoreboard
 	private double score_distance;
 	private int score_coins;
 	private int score_time; //TODO, eliminar si no se implementa
 
 
-	public Game2D(int width, int height){
+	public Game2D(int width, int height, int num_player){
 		this.width = width;
 		this.height = height;
+		this.end_game = false;
+		this.alpha_death = 0;
+		this.wait_other_player = num_player > 1;
 		setPreferredSize(new Dimension(width, height));
 		setDoubleBuffered(true);
 		setFocusable(false);
@@ -59,58 +72,78 @@ public class Game2D extends JPanel {
 		player.draw2D(g2d,x_ori,y_ori);
 		//Mapa
 		map_cont.draw2D(g2d,x_ori,y_ori,not_pause);
+		if(end_game && wait_other_player){
+			if(alpha_death < MAX_ALPHA){
+				alpha_death+=5;
+			}
+			g2d.setColor(new Color(0,0,0,alpha_death));
+			g2d.fillRect(x_ori, y_ori, width, height);
+			g2d.setFont(new Font("Arial", Font.BOLD, 36));
+			g2d.setColor(new Color(255,255,255,alpha_death));
+			int width_text = g2d.getFontMetrics().stringWidth(DEATH_STR);
+			int height_text = g2d.getFontMetrics().getHeight();
+			g2d.drawString(DEATH_STR, x_ori + width/2 - width_text/2, y_ori + height/2 - height_text/2);
+		}
 	}
 
 
-	public void actionGame(int x_ori,int y_ori,MapController map_cont) {
-		/* Accion del parallax */
-		back_parallax.move();
-		//Mueve plataformas
-		score_distance += map_cont.move();
-		/* Acciones a realizar */
-		//TODO velocidad con la velocidad de plataformas
-		int block = player.checkCollision(map_cont,x_ori,y_ori);
-		switch (block) {
-		case Sphere.COLLINF:	//Colision inferior
-			player.setVelocity(2, 0);
-			break;
-		case Sphere.COLLSUP:	//Colision superior
-			player.setVelocity(2, 0);
-			player.gravity();
-			break;
-		case Sphere.COLLLAT:	//Colision lateral
-			player.setVelocity(0, player.vy);
-			player.gravity();
-			break;
-		case Sphere.COLLINFLAT:
-			player.setVelocity(0, 0);
-			break;
-		case Sphere.COLLSUPLAT:
-			player.setVelocity(0, player.vy);
-			player.gravity();
-			break;
-		case Sphere.COLLDEATH:
-			restart(map_cont);
-			break;
-		case Sphere.COLLKILL:
-			player.miniJump();
-			break;
-		case Sphere.COLLGET:
-			score_coins += map_cont.removeTresure(player,block,x_ori,y_ori);
-			player.gravity();
-			break;
-		default:
-			player.setVelocity(2, player.vy);
-			player.gravity();
-			break;
-		}	
-		player.move();
+	public boolean actionGame(int x_ori,int y_ori,MapController map_cont) {
+		//TODO si el juego acaba se puede hacer una acción de mover el jugador por las Y
+		//hasta que se salga de la pantalla
+		if(!end_game){
+			/* Accion del parallax */
+			back_parallax.move();
+			//Mueve plataformas
+			score_distance += map_cont.move();
+			/* Acciones a realizar */
+			//TODO velocidad con la velocidad de plataformas
+			int block = player.checkCollision(map_cont,x_ori,y_ori);
+			switch (block) {
+			case Sphere.COLLINF:	//Colision inferior
+				player.setVelocity(2, 0);
+				break;
+			case Sphere.COLLSUP:	//Colision superior
+				player.setVelocity(2, 0);
+				player.gravity();
+				break;
+			case Sphere.COLLLAT:	//Colision lateral
+				player.setVelocity(0, player.vy);
+				player.gravity();
+				break;
+			case Sphere.COLLINFLAT:
+				player.setVelocity(0, 0);
+				break;
+			case Sphere.COLLSUPLAT:
+				player.setVelocity(0, player.vy);
+				player.gravity();
+				break;
+			case Sphere.COLLDEATH:
+				end_game = true;
+				//restart(map_cont);
+				break;
+			case Sphere.COLLKILL:
+				player.miniJump();
+				break;
+			case Sphere.COLLGET:
+				score_coins += map_cont.removeTresure(player,block,x_ori,y_ori);
+				player.gravity();
+				break;
+			default:
+				player.setVelocity(2, player.vy);
+				player.gravity();
+				break;
+			}	
+			player.move();
+		}
+		return end_game;
 	}
 
 	private void restart(MapController map_cont){
 		map_cont.restart();
 		loadImages();
 		init_score();
+		end_game = false;
+		alpha_death = 0;
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -130,6 +163,10 @@ public class Game2D extends JPanel {
 
 	public double getTime(){
 		return score_time;
+	}
+
+	public void deathOtherPlayer() {
+		wait_other_player = false;
 	}
 
 }

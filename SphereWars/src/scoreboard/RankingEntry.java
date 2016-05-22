@@ -2,9 +2,9 @@ package scoreboard;
 
 public class RankingEntry {
 	private String name;
-	private int score;
+	private float score;
 	
-	public RankingEntry(String name, int score){
+	public RankingEntry(String name, float score){
 		this.name = name;
 		this.score = score;
 	}
@@ -13,7 +13,11 @@ public class RankingEntry {
 		return name;
 	}
 	
-	public int getScore(){
+	public float getScore(){
 		return score;
+	}
+	
+	public String getScoreString(){
+		return String.format("%.3f", score);
 	}
 }

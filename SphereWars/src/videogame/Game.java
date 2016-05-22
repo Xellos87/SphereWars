@@ -48,6 +48,9 @@ public class Game extends JLayeredPane{
 	//Mapas para cada jugador
 	private MapController map_p1;
 	private MapController map_p2;
+	//Flag para saber si los jugadores estan muertos
+	private boolean death_p1;
+	private boolean death_p2;
 	
 
 	public Game(int width, int height, int mode, int type, int num_players){
@@ -57,6 +60,8 @@ public class Game extends JLayeredPane{
 		this.type = type;
 		this.num_players = num_players;
 		this.height_game = (height-height_score)/num_players;
+		this.death_p1 = false;
+		this.death_p2 = num_players==1;
 		setPreferredSize(new Dimension(width, height));
 		setDoubleBuffered(true);
 		setFocusable(false);
@@ -82,19 +87,19 @@ public class Game extends JLayeredPane{
 		//Inicializa el juego
 		if(mode == MODE_2D){
 			//Inicio de juego 2D, primer jugador
-			game2d_1p = new Game2D(width, height_game);
+			game2d_1p = new Game2D(width, height_game,num_players);
 			game2d_1p.setBounds(0, height_score, width, height_game);
 			add(game2d_1p, new Integer(0),3);
 			if(num_players>1){
 				//Segundo jugador si lo hay
-				game2d_2p = new Game2D(width, height_game);
+				game2d_2p = new Game2D(width, height_game,num_players);
 				game2d_2p.setBounds(0, height_score+height_game, width, height_game);
 				add(game2d_2p, new Integer(0),4);
 			}
 		}else if(mode == MODE_3D){
 			//Inicio de juego en 3D
 			if(num_players>1){
-
+				
 			}
 		}
 		//Inicializa los controladores de mapas necesarios
@@ -124,15 +129,19 @@ public class Game extends JLayeredPane{
 		if(pause.isVisible()){
 			pause.draw(g2d);
 		}
-		if(end.isVisible()){
+		//if(end.isVisible()){
 			end.draw(g2d);
-		}
+		//}
 		getGraphics().drawImage(offscreen, 0, 0,width, height,null);
 		getGraphics().dispose();
 	}
 	
-	public void showPause(){
-		pause.setVisible(true);
+	public boolean showPause(){
+		if(!death_p1 || !death_p2){
+			pause.setVisible(true);
+			return true;
+		}
+		return false;
 	}
 
 	public void hiddenPause(){
@@ -141,10 +150,17 @@ public class Game extends JLayeredPane{
 	
 	public void actionGame(){
 		if(mode == MODE_2D){
-			game2d_1p.actionGame(0,height_score,map_p1);
+			death_p1 = game2d_1p.actionGame(0,height_score,map_p1);
 			if(num_players>1){
-				game2d_2p.actionGame(0,height_score+height_game,map_p2);
+				death_p2 = game2d_2p.actionGame(0,height_score+height_game,map_p2);
+				if(death_p1){
+					game2d_2p.deathOtherPlayer();
+				}
+				if(death_p2){
+					game2d_1p.deathOtherPlayer();
+				}
 			}
+			
 			//Obtiene las puntuaciones
 			if(type == RUNNER){
 				double dist = game2d_1p.getDistance();
@@ -169,7 +185,12 @@ public class Game extends JLayeredPane{
 				//game3d_2p.actionGame();
 			}
 		}
-		
+		if(!end.isVisible() && death_p1 && death_p2){
+			//Todos los jugadores has muerto, se pone el menu de fin de juego
+			System.out.println("Fin de juego");
+			end.initAlpha();
+			end.setVisible(true);
+		}
 	}
 
 	//TODO: teclas para el segundo jugador y menu de pausa y fin de juego

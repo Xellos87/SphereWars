@@ -142,7 +142,7 @@ public class Sphere extends GameObject implements Sprite{
 		else if(collisionInf == MapObject.DEATH || collisionCen == MapObject.DEATH){
 			result = COLLKILL;
 		}//TODO, colision con monedas
-		else if(collisionInf == MapObject.GET || collisionLat == MapObject.GET || collisionSup == MapObject.GET){
+		else if(collisionInf == MapObject.GET || collisionLat == MapObject.GET || collisionSup == MapObject.GET || collisionCen == MapObject.GET){
 			result = COLLGET;
 		}
 		else if(collisionInf >= MapObject.COLLISION && collisionLat >= MapObject.COLLISION){
