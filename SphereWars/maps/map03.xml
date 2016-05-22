@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<map height="9" width="19">
+	<plataform x_start="0" x_end="16" y_start="0" y_end="3"/>
+	<plataform x_start="8" x_end="9" y_start="4" y_end="6"/>
+	<plataform x_start="4" x_end="4" y_start="4" y_end="6"/>
+	<liquid x_start="17" x_end="18" y_start="0" y_end="3"/>
+	<plataform x_start="4" x_end="4" y_start="4" y_end="6"/>
+	<plataform x_start="13" x_end="13" y_start="4" y_end="6"/>
+	<plataform x_start="0" x_end="0" y_start="4" y_end="6"/>
+</map>
