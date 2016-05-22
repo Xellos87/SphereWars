@@ -104,9 +104,9 @@ public class Ranking {
 			Element header = doc.createElement(header_xml);
 			doc.appendChild(header);
 			//Primer elemento del tipo runner
-			addElement(doc,header,type_runner_xml,runner_ranking);
+			addElement(doc,header,type_runner_xml,runner_ranking,Game.RUNNER);
 			//Segundo elemento del tipo points
-			addElement(doc,header,type_coins_xml,coins_ranking);
+			addElement(doc,header,type_coins_xml,coins_ranking,Game.COINS);
 			
 			//Guardamos el fichero
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -122,14 +122,14 @@ public class Ranking {
 		}
 	}
 	
-	private void addElement(Document doc, Element header, String type_xml, RankingEntry[] ranking) {
+	private void addElement(Document doc, Element header, String type_xml, RankingEntry[] ranking, int type) {
 		//Cabecera del grupo
 		Element group = doc.createElement(group_xml);
 		header.appendChild(group);
 		//Atributo de la cabecera
-		Attr type = doc.createAttribute(type_group_xml);
-		type.setValue(type_xml);
-		group.setAttributeNode(type);
+		Attr type_group = doc.createAttribute(type_group_xml);
+		type_group.setValue(type_xml);
+		group.setAttributeNode(type_group);
 		//Insertamos todos los elementos del ranking
 		for(int i=0; i<ranking.length; i++){
 			//Entrada de ranking
@@ -146,7 +146,7 @@ public class Ranking {
 			entry.setAttributeNode(name);
 			//Puntuacion
 			Attr score = doc.createAttribute(score_entry_xml);
-			score.setValue(ranking[i].getScoreString());
+			score.setValue(ranking[i].getScoreString(type));
 			entry.setAttributeNode(score);
 		}
 	}
@@ -160,7 +160,7 @@ public class Ranking {
 		return null;
 	}
 	
-	public int getPosRanking(int type, float score){
+	public int getPosRanking(int type, double score){
 		int pos = -1;
 		if(type == Game.RUNNER){
 			pos = getPosition(runner_ranking, score);
@@ -170,7 +170,7 @@ public class Ranking {
 		return pos;
 	}
 	
-	private int getPosition(RankingEntry[] rank, float score){
+	private int getPosition(RankingEntry[] rank, double score){
 		int pos = -1;
 		int index = 0;
 		while(pos < 0 && index < rank.length){

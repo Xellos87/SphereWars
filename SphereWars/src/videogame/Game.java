@@ -187,8 +187,30 @@ public class Game extends JLayeredPane{
 		}
 		if(!end.isVisible() && death_p1 && death_p2){
 			//Todos los jugadores has muerto, se pone el menu de fin de juego
-			System.out.println("Fin de juego");
-			end.initAlpha();
+			//Extraemos las puntuaciones de cada jugador
+			double score_p1 = 0;
+			double score_p2 = 0;
+			if(mode == MODE_2D){
+				if(type == Game.RUNNER){
+					score_p1 = game2d_1p.getDistance();
+				}else if(type == Game.COINS){
+					score_p1 = game2d_1p.getCoins();
+				}
+				if(num_players>1){
+					if(type == Game.RUNNER){
+						score_p2 = game2d_2p.getDistance();
+					}else if(type == Game.COINS){
+						score_p2 = game2d_2p.getCoins();
+					}
+				}
+			}else if(mode == MODE_3D){
+				//game3d_1p.actionGame();
+				if(num_players>1){
+					//game3d_2p.actionGame();
+				}
+			}
+			//Inicializamos la pantalla de fin de juego
+			end.init(num_players,type,score_p1,score_p2);
 			end.setVisible(true);
 		}
 	}

@@ -1,5 +1,7 @@
 package scoreboard;
 
+import videogame.Game;
+
 public class RankingEntry {
 	private String name;
 	private float score;
@@ -17,7 +19,13 @@ public class RankingEntry {
 		return score;
 	}
 	
-	public String getScoreString(){
-		return String.format("%.3f", score);
+	public String getScoreString(int type){
+		String tmp = "";
+		if(type == Game.RUNNER){
+			tmp = String.format("%.3f", score);
+		}else if(type == Game.COINS){
+			tmp = String.format("%d", (int)score);
+		}
+		return tmp;
 	}
 }
