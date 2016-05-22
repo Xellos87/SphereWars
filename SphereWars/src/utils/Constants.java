@@ -1,7 +1,12 @@
 package utils;
 
 import java.awt.Event;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.event.KeyEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import media.ImageHandler;
@@ -63,9 +68,12 @@ public class Constants {
 	public static boolean sound = true;
 	public static boolean conTeclado = true;
 	public static int scale = 2;
-	public static int teclaSalto = KeyEvent.VK_UP;
-	public static int teclaPausa = KeyEvent.VK_SPACE;
-	public static int teclaSprint = KeyEvent.VK_ENTER;
+	public static int teclaSaltop1 = KeyEvent.VK_UP;
+	public static int teclaPausap1 = KeyEvent.VK_SPACE;
+	public static int teclaSprintp1 = KeyEvent.VK_ENTER;
+	public static int teclaSaltop2 = KeyEvent.VK_UP;
+	public static int teclaPausap2 = KeyEvent.VK_SPACE;
+	public static int teclaSprintp2 = KeyEvent.VK_ENTER;
 	
 	public static  float alphaComp = 1f;	
 	
@@ -98,4 +106,36 @@ public class Constants {
 	
 	//Array de indices de mapas generados, se comparte entre los dos jugadores y permite repetir pantalla
 	public static ArrayList<Integer> map_index;
+	
+	//Fuente y ruta de las fuente
+	private static String path_font = "fonts/M04.TTF";
+	private static String path_font_bold = "fonts/M04B.TTF";
+	public static Font font = crearFuente();
+	public static Font font_bold = crearFuenteBold();
+	
+	private static Font crearFuente() {
+		try {
+			return Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(path_font));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private static Font crearFuenteBold() {
+		try {
+			return Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(path_font_bold));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

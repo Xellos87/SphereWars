@@ -64,13 +64,8 @@ public class EndMenu extends Menu{
 		setOpaque(false);
 		alpha_back = 0;
 		alpha_text = 0;
-		try {
-			font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(path_font));
-			font_bold = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(path_font_bold));
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		font = Constants.font;
+		font_bold = Constants.font_bold;
 		
 		calculatePositions();
 	}

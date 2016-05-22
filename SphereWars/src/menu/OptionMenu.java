@@ -37,7 +37,7 @@ public class OptionMenu extends Menu {
 	BufferedImage saltar;
 	BufferedImage correr;
 	BufferedImage volver;
-
+	//TODO: jugador1, jugador2
 	public OptionMenu(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -100,15 +100,17 @@ public class OptionMenu extends Menu {
 		}else{
 			offgc.drawImage(volver, Constants.backPos.getX()+Constants.desplazamiento, Constants.backPos.getY(), volver.getWidth()/2,volver.getHeight()/2, null);
 		}
-		if(teclas!=null){
-			offgc.drawImage(teclas, Constants.keyPos.getX(), Constants.keyPos.getY(), (int)(teclas.getWidth()/2.25), (int)(teclas.getHeight()/2.25), null);
-		}
-		if(saltar!=null){
-			offgc.drawImage(saltar, Constants.jumpPos.getX(), Constants.jumpPos.getY(), (int)(saltar.getWidth()/2), (int)(saltar.getHeight()/2), null);
-		}
-		if(correr!=null){
-			offgc.drawImage(correr, Constants.runPos.getX(), Constants.runPos.getY(), (int)(correr.getWidth()/2), (int)(correr.getHeight()/2), null);
-		}
+		if(Constants.conTeclado){
+			if(teclas!=null){
+				offgc.drawImage(teclas, Constants.keyPos.getX(), Constants.keyPos.getY(), (int)(teclas.getWidth()/2.25), (int)(teclas.getHeight()/2.25), null);
+			}
+			if(saltar!=null){
+				offgc.drawImage(saltar, Constants.jumpPos.getX(), Constants.jumpPos.getY(), (int)(saltar.getWidth()/2), (int)(saltar.getHeight()/2), null);
+			}
+			if(correr!=null){
+				offgc.drawImage(correr, Constants.runPos.getX(), Constants.runPos.getY(), (int)(correr.getWidth()/2), (int)(correr.getHeight()/2), null);
+			}
+		}		
 	}
 	
 	private void initParallax() {
