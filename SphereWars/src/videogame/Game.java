@@ -260,6 +260,9 @@ public class Game extends JLayeredPane{
 
 					break;
 				}
+				if(opt != EndMenu.NONE){
+					end.setVisible(false);
+				}
 			}
 		}else{
 			if(e.getKeyCode() == Constants.teclaSaltop1 || e.getKeyCode() == Constants.teclaSprintp1){
