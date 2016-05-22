@@ -67,6 +67,7 @@ public class EndMenu extends Menu{
 	private String path_font_bold = "fonts/M04B.TTF";
 	//Movimiento de la opcion señalada
 	private int movX;
+	private BufferedImage cursor_img;
 	//Opcion del menu
 	private int option;
 	//Posiciones de los textos
@@ -82,6 +83,7 @@ public class EndMenu extends Menu{
 	private int retryX,retryY;
 	private int quitX,quitY;
 	private int cursorX,cursorY;
+	private int cursor_width,cursor_height;
 
 
 	public EndMenu(int width, int height) {
@@ -95,6 +97,12 @@ public class EndMenu extends Menu{
 		font = Constants.font;
 		font_bold = Constants.font_bold;
 		option = RESTART;
+		try{
+			cursor_img = ImageIO.read(new File("images/cursor.png"));
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		calculatePositions();
 	}
 
@@ -144,8 +152,11 @@ public class EndMenu extends Menu{
 		//Calculo del movimiento
 		movX = restartX;
 		//Calculo de la posicion del cursor
+		cursor_width = movX-10;
+		cursor_height = (int) (cursor_img.getHeight() / (cursor_img.getWidth() / ((float) cursor_width)));
 		cursorX = restartX;
-		cursorY = restartY;
+		cursorY = restartY - cursor_height/4*3;
+		
 	}
 
 	public void draw(Graphics2D g2d) {
@@ -170,8 +181,9 @@ public class EndMenu extends Menu{
 			f = font_bold.deriveFont(26.0f);
 			g2d.setFont(f);
 			g2d.drawString(PLAYER1, player_1X, player_1Y);
+			int height_text = g2d.getFontMetrics().getHeight();
 			//Cabecera del juegador 2 si lo hay
-			if(num_players >= 1){
+			if(num_players > 1){
 				//width_text = g2d.getFontMetrics().stringWidth(PLAYER2);
 				g2d.drawString(PLAYER2, player_2X, player_2Y);
 			}
@@ -179,10 +191,28 @@ public class EndMenu extends Menu{
 			g2d.drawString(RANKING, ranking_titleX, ranking_titleY);
 			//Imprime las opciones
 			if(show_options){
+				int mov_restart = 0;
+				int mov_retry = 0;
+				int mov_quit = 0;
 				//Muestra las opciones
-				g2d.drawString(TXT_RESTART, restartX+movX, restartY);
-				g2d.drawString(TXT_REPEAT, retryX, retryY);
-				g2d.drawString(TXT_QUIT, quitX, quitY);
+				switch (option) {
+				case RESTART:
+					cursorY = restartY - cursor_height/4*3;
+					mov_restart = movX;
+					break;
+				case REPEAT:
+					cursorY = retryY - cursor_height/4*3;
+					mov_retry = movX;
+					break;
+				case QUIT:
+					cursorY = quitY - cursor_height/4*3;
+					mov_quit = movX;
+					break;
+				}
+				g2d.drawImage(cursor_img,cursorX,cursorY,cursor_width,cursor_height, null);
+				g2d.drawString(TXT_RESTART, restartX+mov_restart, restartY);
+				g2d.drawString(TXT_REPEAT, retryX+mov_retry, retryY);
+				g2d.drawString(TXT_QUIT, quitX+mov_quit, quitY);
 			}
 			//Puntuacion del jugador 1
 			f = font_bold.deriveFont(20.0f);
@@ -195,7 +225,7 @@ public class EndMenu extends Menu{
 			}
 			g2d.drawString(score, score_p1X, score_p1Y);
 			//Puntuación del juegador 2 si lo hay
-			if(num_players >= 1){
+			if(num_players > 1){
 				if(type == Game.RUNNER){
 					score = String.format("%.2f %s",score_p2,METERS);
 				}else if(type == Game.COINS){
@@ -206,7 +236,7 @@ public class EndMenu extends Menu{
 			//Imprime el ranking
 			f = font_bold.deriveFont(15.0f);
 			g2d.setFont(f);
-			int height_text = g2d.getFontMetrics().getHeight();
+			height_text = g2d.getFontMetrics().getHeight();
 			RankingEntry[] rank = Constants.ranking.getRanking(type);
 			String rank_entry = "";
 			int dec = 0;
@@ -295,14 +325,17 @@ public class EndMenu extends Menu{
 
 	@Override
 	public void cursorDown() {
-		// TODO Auto-generated method stub
-
+		if(option<QUIT){
+			option++;
+		}
 	}
 
 	@Override
 	public void cursorUp() {
-		// TODO Auto-generated method stub
-
+		if(option>RESTART){
+			option--;
+			System.out.println(option);
+		}
 	}
 
 	@Override
@@ -334,6 +367,7 @@ public class EndMenu extends Menu{
 		}else if(pos_rank_p1 < pos_rank_p2){
 			write_p2 = true;
 		}
+		option = RESTART;
 		//Si nungun jugador escribe muestra las opciones
 		show_options = !write_p1 && !write_p2;
 		show = true;
