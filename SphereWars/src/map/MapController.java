@@ -373,4 +373,8 @@ public class MapController {
 	public int getBlockMov(){
 		return pixel_block;
 	}
+	
+	public int getMaxHeight(){
+		return MAX_HEIGHT;
+	}
 }

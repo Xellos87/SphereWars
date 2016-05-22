@@ -49,7 +49,7 @@ public class Game2D extends JPanel {
 		back_parallax = new Parallax(num, back_images, velocity, posX, posY, width, height);
 		/* Carga el personaje en pantalla con su posición */
 		player = new Sphere(0,0,30,30);
-		player.setVelocity(2, 3);
+		player.setVelocity(0, 3);
 	}
 
 	public void draw(Graphics2D g2d,int x_ori, int y_ori, MapController map_cont, boolean not_pause) {
@@ -79,14 +79,14 @@ public class Game2D extends JPanel {
 			player.gravity();
 			break;
 		case Sphere.COLLLAT:	//Colision lateral
-			player.setVelocity(-map_cont.getVelocity(), player.vy);
+			player.setVelocity(0, player.vy);
 			player.gravity();
 			break;
 		case Sphere.COLLINFLAT:
-			player.setVelocity(-map_cont.getVelocity(), 0);
+			player.setVelocity(0, 0);
 			break;
 		case Sphere.COLLSUPLAT:
-			player.setVelocity(-map_cont.getVelocity(), player.vy);
+			player.setVelocity(0, player.vy);
 			player.gravity();
 			break;
 		case Sphere.COLLDEATH:
