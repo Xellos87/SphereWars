@@ -67,7 +67,7 @@ public class Sphere extends GameObject implements Sprite{
 
 	public void gravity(){
 		//this.setVelocity(this.vx, 1);
-		int maxGravity = 15;
+		int maxGravity = 14;
 		if(vy+1 >= maxGravity){
 			this.setVelocity(vx, maxGravity);
 		}
@@ -81,6 +81,10 @@ public class Sphere extends GameObject implements Sprite{
 		int result = -1;
 		//TODO colisiones con sprite que no ocupa todo el bloque
 		int collisionInf,collisionLat,collisionSup,collisionCen;
+		//Comprueba si toca fin de mapa
+		if(x + width < 0){
+			return COLLDEATH;
+		}
 		//Mapa actual
 		MapObject map;
 		if(nextMap && mc.getPos()>0){
@@ -149,7 +153,7 @@ public class Sphere extends GameObject implements Sprite{
 			result = COLLINFLAT;
 			totalX = totalX - mc.getVelocity() - vx;
 			//this.x = this.x - mc.getVelocity() - vx;
-			x = map.getObject(xMap+1, yMap).getPositionX() - this.getWidthScreen();
+			x = map.getObject(xMap+1, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;
 			//this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock()-this.height+1;
 			y = map.getObject(xMap, yMap-1).getPositionY() - this.getHeightScreen() + 1;
 		}
@@ -157,7 +161,7 @@ public class Sphere extends GameObject implements Sprite{
 			result = COLLSUPLAT;
 			totalX = totalX - mc.getVelocity() - vx;
 			//this.x = this.x - mc.getVelocity() - vx;
-			x = map.getObject(xMap+1, yMap).getPositionX() - this.getWidthScreen();
+			x = map.getObject(xMap+1, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;
 			//this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock();
 			y = map.getObject(xMap, yMap+1).getPositionY() + map.getObject(xMap, yMap+1).getHeightScreen();
 		}	
@@ -165,7 +169,7 @@ public class Sphere extends GameObject implements Sprite{
 			result = COLLLAT;
 			totalX = totalX - mc.getVelocity() - vx;
 			//this.x = this.x - mc.getVelocity() - vx;
-			x = map.getObject(xMap+1, yMap).getPositionX() - this.getWidthScreen();
+			x = map.getObject(xMap+1, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;
 		}
 		else if(collisionInf >= MapObject.COLLISION){
 			result = COLLINF;

@@ -134,6 +134,15 @@ public class Game2D extends JPanel {
 				break;
 			}	
 			player.move();
+			if(end_game){
+				//animacion de muerte
+				player.setVelocity(0, -15);
+			}
+		}
+		if(end_game && player.y<height){
+			//animacion de muerte
+			player.gravity();
+			player.move();
 		}
 		return end_game;
 	}
