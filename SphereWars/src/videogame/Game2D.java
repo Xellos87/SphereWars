@@ -68,8 +68,6 @@ public class Game2D extends JPanel {
 	public void draw(Graphics2D g2d,int x_ori, int y_ori, MapController map_cont, boolean not_pause) {
 		//Efecto Parallax(fondo movil)
 		back_parallax.draw(g2d,x_ori,y_ori);
-		//Jugador
-		player.draw2D(g2d,x_ori,y_ori);
 		//Mapa
 		map_cont.draw2D(g2d,x_ori,y_ori,not_pause);
 		if(end_game && wait_other_player){
@@ -84,6 +82,8 @@ public class Game2D extends JPanel {
 			int height_text = g2d.getFontMetrics().getHeight();
 			g2d.drawString(DEATH_STR, x_ori + width/2 - width_text/2, y_ori + height/2 - height_text/2);
 		}
+		//Jugador
+		player.draw2D(g2d,x_ori,y_ori);
 	}
 
 
