@@ -34,17 +34,15 @@ public class Constants {
 	public static final Position titlePos = new Position(60,20);	//posicion del titulo
 	public static Position jugarPos = new Position(xPos,110);		//posicion de "jugar"
 	public static Position versusPos = new Position(xPos, 170);
-	public static Position dosDjPos = new Position(xPos+300,110);
-	public static Position dosDvPos = new Position(xPos+300,170);
-	public static Position tresDjPos = new Position(xPos+380,110);
-	public static Position tresDvPos = new Position(xPos+380,170);
+	public static Position dosDjPos = new Position(xPos+300,140);
+	public static Position tresDjPos = new Position(xPos+380,140);
 	public static Position helpPos = new Position(xPos,230);		
 	public static Position opcionesPos = new Position(xPos,290);	
 	public static Position creditPos = new Position(xPos,350);
 	public static Position salirPos = new Position(xPos,410);	
 	//Opciones del menu principal
 	public static int numJugadores = 1;	//numero jugadores
-	public static String visualMode = "3D";
+	public static String visualMode = "2D";
 	
 	//rutas a las imagenes del menu de opciones
 	public static final String soundName = "fonts/opciones_sonido.png";
@@ -60,6 +58,9 @@ public class Constants {
 	public static final String jumpName = "fonts/opciones_saltar.png";
 	public static final String runName = "fonts/opciones_correr.png";
 	public static final String backName = "fonts/opciones_volver.png";
+	public static final String controller1Name = "fonts/opciones_control1.png";
+	public static final String controller2Name = "fonts/opciones_controles2.png";
+	public static final String okName = "fonts/opciones_ok.png";
 	//posiciones (iniciales) de los elementos del menu de opciones
 	static int optX = 40;
 	public static final Position soundPos = new Position(optX,110);
@@ -68,16 +69,19 @@ public class Constants {
 	public static final Position resPos = new Position(optX,170);
 	public static final Position res480Pos = new Position(optX+330,170);
 	public static final Position res960Pos = new Position(optX+330,170);
+	public static final Position backPos = new Position(optX,230);
 	public static final Position controllerPos= new Position(optX,230);
 	public static final Position keyboardPos = new Position(optX+360,230);
 	public static final Position kinnectPos = new Position(optX+360,230);
 	public static final Position keyPos = new Position(optX+150,290);
 	public static final Position jumpPos = new Position(optX+20,350);
 	public static final Position runPos = new Position(optX+280,350);
-	public static final Position backPos = new Position(optX,410);
+	public static final Position controller1Pos = new Position(optX,230);
+	public static final Position controller2Pos = new Position(optX,230);
+	public static final Position okPos = new Position(optX,410);
 	//opciones del menu de opciones
 	public static boolean sound = true;
-	public static boolean conTeclado = true;
+	public static boolean conTeclado = true;	//solo para jugador uno
 	public static int scale = 2;
 	public static int teclaSaltop1 = KeyEvent.VK_UP;
 	public static int teclaPausap1 = KeyEvent.VK_SPACE;
@@ -85,6 +89,8 @@ public class Constants {
 	public static int teclaSaltop2 = KeyEvent.VK_UP;
 	public static int teclaPausap2 = KeyEvent.VK_SPACE;
 	public static int teclaSprintp2 = KeyEvent.VK_ENTER;
+	public static boolean elegidoJugador = false;
+	public static int jugador = 1;
 	
 	public static  float alphaComp = 1f;	
 	

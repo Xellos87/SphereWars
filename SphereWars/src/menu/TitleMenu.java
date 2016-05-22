@@ -134,18 +134,14 @@ public class TitleMenu extends Menu {
 		}
 		if(dosD!=null && Constants.visualMode.equalsIgnoreCase("2D")){
 			offgc.drawImage(dosD, Constants.dosDjPos.getX(), Constants.dosDjPos.getY(), dosD.getWidth()/2,dosD.getHeight()/2, null);
-			offgc.drawImage(dosD, Constants.dosDvPos.getX(), Constants.dosDvPos.getY(), dosD.getWidth()/2,dosD.getHeight()/2, null);
 		}else{
 			offgc.drawImage(dosD, Constants.dosDjPos.getX(), Constants.dosDjPos.getY(), (int)(dosD.getWidth()/2.5),(int)(dosD.getHeight()/2.5), null);
-			offgc.drawImage(dosD, Constants.dosDvPos.getX(), Constants.dosDvPos.getY(), (int)(dosD.getWidth()/2.5),(int)(dosD.getHeight()/2.5), null);
 			
 		}
 		if(tresD!=null && Constants.visualMode.equalsIgnoreCase("3D")){
 			offgc.drawImage(tresD, Constants.tresDjPos.getX()-5, Constants.tresDjPos.getY(), tresD.getWidth()/2,tresD.getHeight()/2, null);
-			offgc.drawImage(tresD, Constants.tresDvPos.getX()-5, Constants.tresDvPos.getY(), tresD.getWidth()/2,tresD.getHeight()/2, null);
 		}else{
 			offgc.drawImage(tresD, Constants.tresDjPos.getX(), Constants.tresDjPos.getY(), (int)(tresD.getWidth()/2.5),(int)(tresD.getHeight()/2.5), null);
-			offgc.drawImage(tresD, Constants.tresDvPos.getX(), Constants.tresDvPos.getY(), (int)(tresD.getWidth()/2.5),(int)(tresD.getHeight()/2.5), null);
 			
 		}
 		if(versus!=null && !cursor.getOpcion().equalsIgnoreCase("versus")){	
