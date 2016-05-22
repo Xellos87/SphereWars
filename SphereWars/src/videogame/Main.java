@@ -9,6 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
+import audio.Music;
 import media.ImageHandler;
 import menu.Menu;
 import menu.OptionMenu;
@@ -53,6 +54,9 @@ public class Main implements Runnable, KeyListener{
 	int state;
 	boolean pause = false;
 		
+	// Musica
+	Music music;
+	
 	//Menu del juego
 	private Menu menu;	//TODO: este menu puede cambiar entre menu de titulo, de pausa, de opciones?
 	//TODO: de titulo y de opciones si, de pausa segun se requiera
@@ -109,6 +113,8 @@ public class Main implements Runnable, KeyListener{
 		window.pack();
 		window.setVisible(true);
 		window.requestFocus();
+		music = new Music();
+		music.playMenu();
 	}
 
 	@Override
@@ -123,7 +129,9 @@ public class Main implements Runnable, KeyListener{
 				}
 			}
 			draw();
-
+			// Funcion que comprueba el tiempo que le queda a la cancion
+			// para hacer el fade in out
+			if(music != null) music.update();
 			elapsed = System.nanoTime() - start;
 			wait = targetTime - elapsed;
 			//Duerme el hilo hasta la siguiente actualización
