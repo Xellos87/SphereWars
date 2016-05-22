@@ -37,6 +37,8 @@ public class OptionMenu extends Menu {
 	BufferedImage saltar;
 	BufferedImage correr;
 	BufferedImage volver;
+	
+	private boolean jugador1 = true;
 	//TODO: jugador1, jugador2
 	public OptionMenu(int width, int height) {
 		this.width = width;

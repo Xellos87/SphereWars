@@ -25,6 +25,9 @@ public class TitleMenu extends Menu {
 	BufferedImage opciones;
 	BufferedImage creditos;
 	BufferedImage salir;
+	BufferedImage versus;
+	BufferedImage dosD;
+	BufferedImage tresD;
 	
 	boolean firstTime = true;
 	
@@ -57,6 +60,21 @@ public class TitleMenu extends Menu {
 			mountainBack = ImageIO.read(new File(Constants.mountainBackName));
 		} catch (IOException e) {
 			System.err.println("Problem with source " + Constants.mountainBackName);
+		}
+		try {
+			dosD = ImageIO.read(new File(Constants.dosdName));
+		} catch (IOException e) {
+			System.err.println("Problem with source: " + Constants.dosdName);
+		}
+		try {
+			tresD = ImageIO.read(new File(Constants.tresdName));
+		} catch (IOException e) {
+			System.err.println("Problem with source: " + Constants.tresdName);
+		}
+		try {
+			versus = ImageIO.read(new File(Constants.versusName));
+		} catch (IOException e) {
+			System.err.println("Problem with source: " + Constants.versusName);
 		}
 		try{
 			title = ImageIO.read(new File(Constants.titleName));
@@ -109,27 +127,48 @@ public class TitleMenu extends Menu {
 		if(title!=null){
 			offgc.drawImage(title, Constants.titlePos.getX(), Constants.titlePos.getY(), (int)(title.getWidth()/5), (int)(title.getHeight()/5), null);
 		}
-		if(jugar!=null && !cursor.getOpcion().equalsIgnoreCase("start")){	//PROBANDO
+		if(jugar!=null && !cursor.getOpcion().equalsIgnoreCase("start")){	
 			offgc.drawImage(jugar, Constants.jugarPos.getX(), Constants.jugarPos.getY(), jugar.getWidth()/2,jugar.getHeight()/2, null);
 		}else{
 			offgc.drawImage(jugar, Constants.jugarPos.getX()+Constants.desplazamiento, Constants.jugarPos.getY(), jugar.getWidth()/2,jugar.getHeight()/2, null);
 		}
-		if(help!=null && !cursor.getOpcion().equalsIgnoreCase("help")){	//PROBANDO
+		if(dosD!=null && Constants.visualMode.equalsIgnoreCase("2D")){
+			offgc.drawImage(dosD, Constants.dosDjPos.getX(), Constants.dosDjPos.getY(), dosD.getWidth()/2,dosD.getHeight()/2, null);
+			offgc.drawImage(dosD, Constants.dosDvPos.getX(), Constants.dosDvPos.getY(), dosD.getWidth()/2,dosD.getHeight()/2, null);
+		}else{
+			offgc.drawImage(dosD, Constants.dosDjPos.getX(), Constants.dosDjPos.getY(), (int)(dosD.getWidth()/2.5),(int)(dosD.getHeight()/2.5), null);
+			offgc.drawImage(dosD, Constants.dosDvPos.getX(), Constants.dosDvPos.getY(), (int)(dosD.getWidth()/2.5),(int)(dosD.getHeight()/2.5), null);
+			
+		}
+		if(tresD!=null && Constants.visualMode.equalsIgnoreCase("3D")){
+			offgc.drawImage(tresD, Constants.tresDjPos.getX()-5, Constants.tresDjPos.getY(), tresD.getWidth()/2,tresD.getHeight()/2, null);
+			offgc.drawImage(tresD, Constants.tresDvPos.getX()-5, Constants.tresDvPos.getY(), tresD.getWidth()/2,tresD.getHeight()/2, null);
+		}else{
+			offgc.drawImage(tresD, Constants.tresDjPos.getX(), Constants.tresDjPos.getY(), (int)(tresD.getWidth()/2.5),(int)(tresD.getHeight()/2.5), null);
+			offgc.drawImage(tresD, Constants.tresDvPos.getX(), Constants.tresDvPos.getY(), (int)(tresD.getWidth()/2.5),(int)(tresD.getHeight()/2.5), null);
+			
+		}
+		if(versus!=null && !cursor.getOpcion().equalsIgnoreCase("versus")){	
+			offgc.drawImage(versus, Constants.versusPos.getX(), Constants.versusPos.getY(), versus.getWidth()/2,versus.getHeight()/2, null);
+		}else{
+			offgc.drawImage(versus, Constants.versusPos.getX()+Constants.desplazamiento, Constants.versusPos.getY(), versus.getWidth()/2,versus.getHeight()/2, null);
+		}
+		if(help!=null && !cursor.getOpcion().equalsIgnoreCase("help")){
 			offgc.drawImage(help, Constants.helpPos.getX(), Constants.helpPos.getY(), help.getWidth()/2,help.getHeight()/2, null);
 		}else{
 			offgc.drawImage(help, Constants.helpPos.getX()+Constants.desplazamiento, Constants.helpPos.getY(), help.getWidth()/2,help.getHeight()/2, null);
 		}
-		if(creditos!=null && !cursor.getOpcion().equalsIgnoreCase("credits")){	//PROBANDO
+		if(creditos!=null && !cursor.getOpcion().equalsIgnoreCase("credits")){	
 			offgc.drawImage(creditos, Constants.creditPos.getX(), Constants.creditPos.getY(), creditos.getWidth()/2,creditos.getHeight()/2, null);
 		}else{
 			offgc.drawImage(creditos, Constants.creditPos.getX()+Constants.desplazamiento, Constants.creditPos.getY(), creditos.getWidth()/2,creditos.getHeight()/2, null);
 		}
-		if(opciones!=null && !cursor.getOpcion().equalsIgnoreCase("options")){	//PROBANDO
+		if(opciones!=null && !cursor.getOpcion().equalsIgnoreCase("options")){
 			offgc.drawImage(opciones, Constants.opcionesPos.getX(), Constants.opcionesPos.getY(), opciones.getWidth()/2,opciones.getHeight()/2, null);
 		}else{
 			offgc.drawImage(opciones, Constants.opcionesPos.getX()+Constants.desplazamiento, Constants.opcionesPos.getY(), opciones.getWidth()/2,opciones.getHeight()/2, null);
 		}
-		if(salir!=null && !cursor.getOpcion().equalsIgnoreCase("Exit")){	//PROBANDO
+		if(salir!=null && !cursor.getOpcion().equalsIgnoreCase("Exit")){
 			offgc.drawImage(salir, Constants.salirPos.getX(), Constants.salirPos.getY(), salir.getWidth()/2,salir.getHeight()/2, null);
 		}else{
 			offgc.drawImage(salir, Constants.salirPos.getX()+Constants.desplazamiento, Constants.salirPos.getY(), salir.getWidth()/2,salir.getHeight()/2, null);

@@ -13,7 +13,7 @@ import media.ImageHandler;
 import scoreboard.Ranking;
 
 public class Constants {
-	public static  String[] list_menu = { "Start", "Help", "options", "credits","Exit" };
+	public static  String[] list_menu = { "Start", "versus","Help", "options", "credits", "Exit" };
 	public static  String[] list_options = { "sound", "resolution", "controller", "jump","run", "back" };
 	
 	
@@ -26,14 +26,25 @@ public class Constants {
 	public static final String salirName = "fonts/menu_salir.png";
 	public static final String opcionesName = "fonts/menu_opciones.png";
 	public static final String creditosName = "fonts/menu_creditos.png";
+	public static final String versusName = "fonts/menu_versus.png";
+	public static final String dosdName = "fonts/menu_2D.png";
+	public static final String tresdName = "fonts/menu_3D.png";
 	//posiciones (iniciales) de los elementos del menu de titulo
 	static int xPos = 125;
 	public static final Position titlePos = new Position(60,20);	//posicion del titulo
-	public static Position jugarPos = new Position(xPos,120);		//posicion de "jugar"
-	public static Position helpPos = new Position(xPos,180);		
-	public static Position opcionesPos = new Position(xPos,240);	
-	public static Position creditPos = new Position(xPos,300);
-	public static Position salirPos = new Position(xPos,360);	
+	public static Position jugarPos = new Position(xPos,110);		//posicion de "jugar"
+	public static Position versusPos = new Position(xPos, 170);
+	public static Position dosDjPos = new Position(xPos+300,110);
+	public static Position dosDvPos = new Position(xPos+300,170);
+	public static Position tresDjPos = new Position(xPos+380,110);
+	public static Position tresDvPos = new Position(xPos+380,170);
+	public static Position helpPos = new Position(xPos,230);		
+	public static Position opcionesPos = new Position(xPos,290);	
+	public static Position creditPos = new Position(xPos,350);
+	public static Position salirPos = new Position(xPos,410);	
+	//Opciones del menu principal
+	public static int numJugadores = 1;	//numero jugadores
+	public static String visualMode = "3D";
 	
 	//rutas a las imagenes del menu de opciones
 	public static final String soundName = "fonts/opciones_sonido.png";
@@ -78,13 +89,13 @@ public class Constants {
 	public static  float alphaComp = 1f;	
 	
 	//posiciones del cursor	
-	public static final Position titleIniPos = new Position(xPos-25,120);	//posicion inicial del cursor en menu inicio
-	public static  int titleMaxPos = 5;	//posiciones cursor en menu de titulo
+	public static final Position titleIniPos = new Position(xPos-25,110);	//posicion inicial del cursor en menu inicio
+	public static  int titleMaxPos = list_menu.length;	//posiciones cursor en menu de titulo
 	public static  int titleGap = 60;	//espacio entre posiciones en menu de titulo
 	public static final int desplazamiento = 40;
 	
 	public static final Position optionIniPos = new Position(optX-25,110);	//posicion inicial del cursor en menu opciones
-	public static  int optionMaxPos = 6;	//posiciones cursor en menu de opciones
+	public static  int optionMaxPos = list_options.length;	//posiciones cursor en menu de opciones
 	//public static  int optionGap = 60;	//espacio entre posiciones en menu de titulo
 	//public static final int odesplazamiento = 40;
 	
