@@ -6,6 +6,10 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import scoreboard.RankingEntry;
 import utils.Constants;
@@ -30,6 +34,9 @@ public class EndMenu extends Menu{
 	private final String WRITE_RANK_2 = "Ambos jugadores graban en el ranking";
 	private final String WRITE_P1 = "El jugador 1 escribe a continuación";
 	private final String WRITE_P2 = "El jugador 2 escribe a continuación";
+	private final String TXT_RESTART = "Reiniciar";
+	private final String TXT_REPEAT = "Reintentar";
+	private final String TXT_QUIT = "Salir";
 	//Alpha del fondo
 	private final int MAX_ALPHA_BACK = 180;
 	private int alpha_back;
@@ -58,6 +65,10 @@ public class EndMenu extends Menu{
 	private Font font_bold;
 	private String path_font = "fonts/M04.TTF";
 	private String path_font_bold = "fonts/M04B.TTF";
+	//Movimiento de la opcion señalada
+	private int movX;
+	//Opcion del menu
+	private int option;
 	//Posiciones de los textos
 	private int game_overX, game_overY;
 	private int player_1X, player_1Y;
@@ -67,6 +78,10 @@ public class EndMenu extends Menu{
 	private int ranking_titleX, ranking_titleY;
 	private int ranking_entryX, ranking_entryY;
 	private int ranking_msgX;
+	private int restartX,restartY;
+	private int retryX,retryY;
+	private int quitX,quitY;
+	private int cursorX,cursorY;
 
 
 	public EndMenu(int width, int height) {
@@ -79,8 +94,7 @@ public class EndMenu extends Menu{
 		alpha_text = 0;
 		font = Constants.font;
 		font_bold = Constants.font_bold;
-
-
+		option = RESTART;
 		calculatePositions();
 	}
 
@@ -116,9 +130,22 @@ public class EndMenu extends Menu{
 		//Calculo de la primera entrada del ranking
 		ranking_entryX = ranking_titleX;
 		ranking_entryY = ranking_titleY + height_text;
-		//Posicion del mensaje
+		//Calculo de la posicion del mensaje
 		ranking_msgX = width/2;
-
+		//Calculo de la posicion de reiniciar
+		restartX = width/10;
+		restartY = score_p2Y + 3*height_text;
+		//Calculo de la posicion de reintentar
+		retryX = restartX;
+		retryY = restartY + 2*height_text;
+		//Calculo de la posicion de quitar
+		quitX = restartX;
+		quitY = retryY + 2*height_text;
+		//Calculo del movimiento
+		movX = restartX;
+		//Calculo de la posicion del cursor
+		cursorX = restartX;
+		cursorY = restartY;
 	}
 
 	public void draw(Graphics2D g2d) {
@@ -150,6 +177,13 @@ public class EndMenu extends Menu{
 			}
 			//Titulo del ranking
 			g2d.drawString(RANKING, ranking_titleX, ranking_titleY);
+			//Imprime las opciones
+			if(show_options){
+				//Muestra las opciones
+				g2d.drawString(TXT_RESTART, restartX+movX, restartY);
+				g2d.drawString(TXT_REPEAT, retryX, retryY);
+				g2d.drawString(TXT_QUIT, quitX, quitY);
+			}
 			//Puntuacion del jugador 1
 			f = font_bold.deriveFont(20.0f);
 			g2d.setFont(f);
@@ -175,14 +209,14 @@ public class EndMenu extends Menu{
 			int height_text = g2d.getFontMetrics().getHeight();
 			RankingEntry[] rank = Constants.ranking.getRanking(type);
 			String rank_entry = "";
-			int inc = 0;
+			int dec = 0;
 			int aux_y = ranking_entryY;
 			tick_counter++;
 			if(tick_counter>=MAX_TICK){
 				tick_counter-=MAX_TICK;
 				show = !show;
 			}
-			for(int i=0; i+inc<rank.length; i++){
+			for(int i=0; i<rank.length; i++){
 				if(pos_rank_p1 == i){
 					if(type == Game.RUNNER){
 						score = String.format("%.3f",score_p1);
@@ -190,15 +224,15 @@ public class EndMenu extends Menu{
 						score = String.format("%d",(int)score_p1);
 					}
 					String name = name_p1;
-					if(write_p1 && show){
-						int num = 3 - name.length();
+					if(write_p1 && show && name.length() < 3){
 						name += "-";
-						for(int j=0; j<num; j++){
-							name += " ";
-						}
 					}
-					rank_entry = String.format("%2d-%4s %s",i+1,name,score);
-					inc++;
+					int num = 3 - name.length();
+					for(int j=0; j<num; j++){
+						name += " ";
+					}
+					rank_entry = String.format("%2d-%3s %s",i+1,name,score);
+					dec++;
 				}else if(pos_rank_p2 == i){
 					if(type == Game.RUNNER){
 						score = String.format("%.3f",score_p2);
@@ -207,16 +241,16 @@ public class EndMenu extends Menu{
 					}
 					String name = name_p2;
 					if(write_p2 && show){
-						int num = 3 - name.length();
 						name += "-";
-						for(int j=0; j<num; j++){
-							name += " ";
-						}
 					}
-					rank_entry = String.format("%2d-%4s %s",i+1,name,score);
-					inc++;
+					int num = 3 - name.length();
+					for(int j=0; j<num; j++){
+						name += " ";
+					}
+					rank_entry = String.format("%2d-%3s %s",i+1,name,score);
+					dec++;
 				}else{
-					rank_entry = String.format("%2d-%4s %s", i+inc+1,rank[i].getName(),rank[i].getScoreString(type));
+					rank_entry = String.format("%2d-%3s %s", i+1,rank[i-dec].getName(),rank[i-dec].getScoreString(type));
 				}
 				g2d.drawString(rank_entry, ranking_entryX, aux_y);
 				aux_y += height_text;
@@ -247,11 +281,6 @@ public class EndMenu extends Menu{
 					int width_text = g2d.getFontMetrics().stringWidth(msg);
 					g2d.drawString(msg, ranking_msgX - width_text/2, aux_y);
 				}
-			}
-			//Imprime las opciones
-			if(show_options){
-				//Muestra las opciones
-
 			}
 			//TODO Imprimir puntuaciones y opciones
 		}else{
@@ -296,15 +325,13 @@ public class EndMenu extends Menu{
 				pos_rank_p2++;
 			}
 		}
-		name_p1 = "p";
-		name_p2 = "p";
+		name_p1 = "";
+		name_p2 = "";
 		write_p1 = false;
 		write_p2 = false;
 		if(pos_rank_p1 > pos_rank_p2){
-			name_p1 = "_";
 			write_p1 = true;
-		}else{
-			name_p2 = "_";
+		}else if(pos_rank_p1 < pos_rank_p2){
 			write_p2 = true;
 		}
 		//Si nungun jugador escribe muestra las opciones
@@ -314,6 +341,7 @@ public class EndMenu extends Menu{
 		alpha_text = 0;
 	}
 
+	//TODO parpado al escribir por encima de la posición 9
 	public int keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ENTER){
 			//Tecla de enter, se pasa de letra para escribir o se selecciona lo opcion
@@ -324,7 +352,6 @@ public class EndMenu extends Menu{
 				for(int i=0; i<num; i++){
 					name_p1 += " ";
 				}
-				Constants.ranking.updateEntry(type, pos_rank_p1, new RankingEntry(name_p1, score_p1));
 				if(pos_rank_p1>pos_rank_p2 && pos_rank_p2 < 10){
 					//Debe escribir aun el otro jugador
 					write_p2 = true;
@@ -332,6 +359,8 @@ public class EndMenu extends Menu{
 					//Fin de escribir, muestra las opciones
 					show_options = true;
 				}
+				Constants.ranking.updateEntry(type, pos_rank_p1+1, new RankingEntry(name_p1, score_p1));
+				pos_rank_p1 = -1;
 			}else if(write_p2){
 				//Fin de escritura del jugador 2
 				write_p2 = false;
@@ -339,7 +368,6 @@ public class EndMenu extends Menu{
 				for(int i=0; i<num; i++){
 					name_p2 += " ";
 				}
-				Constants.ranking.updateEntry(type, pos_rank_p2, new RankingEntry(name_p2, score_p2));
 				if(pos_rank_p2>pos_rank_p1 && pos_rank_p1 < 10){
 					//Debe escribir aun el otro jugador
 					write_p1 = true;
@@ -347,14 +375,16 @@ public class EndMenu extends Menu{
 					//Fin de escribir, muestra las opciones
 					show_options = true;
 				}
+				Constants.ranking.updateEntry(type, pos_rank_p2+1, new RankingEntry(name_p2, score_p2));
+				pos_rank_p2 = -1;
 			}else if(show_options){
 				//Elige opcion seleccionada
-
+				return option;
 			}
 		}else{
 			//Otra tecla, se comprueba que se espere escritura
 			if(write_p1 || write_p2){
-				if(e.getKeyCode() == KeyEvent.VK_DELETE){
+				if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
 					//Borra caracter si lo hubiera
 					if(write_p1 && name_p1.length()>0){
 						name_p1 = name_p1.substring(0, name_p1.length()-1);
@@ -365,17 +395,16 @@ public class EndMenu extends Menu{
 				}else{
 					//Se comprueba si el caracter es alfanumerico
 					if(Character.isLetterOrDigit(e.getKeyChar())){
-						if(write_p1 && name_p1.length()<3){
+						if(write_p1 && name_p1.length()<=3){
 							name_p1 += Character.toUpperCase(e.getKeyChar());
 						}
-						if(write_p2 && name_p2.length()<3){
+						if(write_p2 && name_p2.length()<=3){
 							name_p2 += Character.toUpperCase(e.getKeyChar());
 						}
 					}
 				}
 			}
 		}
-		System.out.println(e.getKeyCode());
 		return NONE;
 	}
 

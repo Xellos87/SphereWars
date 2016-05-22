@@ -1,5 +1,7 @@
 package scoreboard;
 
+import java.util.Locale;
+
 import videogame.Game;
 
 public class RankingEntry {
@@ -22,7 +24,7 @@ public class RankingEntry {
 	public String getScoreString(int type){
 		String tmp = "";
 		if(type == Game.RUNNER){
-			tmp = String.format("%.3f", score);
+			tmp = String.format(Locale.ENGLISH,"%.3f", score);
 		}else if(type == Game.COINS){
 			tmp = String.format("%d", (int)score);
 		}

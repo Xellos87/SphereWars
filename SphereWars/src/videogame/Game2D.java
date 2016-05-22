@@ -147,7 +147,7 @@ public class Game2D extends JPanel {
 		return end_game;
 	}
 
-	private void restart(MapController map_cont){
+	public void restart(MapController map_cont){
 		map_cont.restart();
 		loadImages();
 		init_score();

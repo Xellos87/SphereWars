@@ -51,7 +51,7 @@ public class Game extends JLayeredPane{
 	//Flag para saber si los jugadores estan muertos
 	private boolean death_p1;
 	private boolean death_p2;
-	
+
 
 	public Game(int width, int height, int mode, int type, int num_players){
 		this.width = width;
@@ -99,7 +99,7 @@ public class Game extends JLayeredPane{
 		}else if(mode == MODE_3D){
 			//Inicio de juego en 3D
 			if(num_players>1){
-				
+
 			}
 		}
 		//Inicializa los controladores de mapas necesarios
@@ -125,17 +125,17 @@ public class Game extends JLayeredPane{
 			}
 		}
 		score.draw(g2d);
-		
+
 		if(pause.isVisible()){
 			pause.draw(g2d);
 		}
 		//if(end.isVisible()){
-			end.draw(g2d);
+		end.draw(g2d);
 		//}
 		getGraphics().drawImage(offscreen, 0, 0,width, height,null);
 		getGraphics().dispose();
 	}
-	
+
 	public boolean showPause(){
 		if(!death_p1 || !death_p2){
 			pause.setVisible(true);
@@ -147,7 +147,7 @@ public class Game extends JLayeredPane{
 	public void hiddenPause(){
 		pause.setVisible(false);
 	}
-	
+
 	public void actionGame(){
 		if(mode == MODE_2D){
 			death_p1 = game2d_1p.actionGame(0,height_score,map_p1);
@@ -160,7 +160,7 @@ public class Game extends JLayeredPane{
 					game2d_1p.deathOtherPlayer();
 				}
 			}
-			
+
 			//Obtiene las puntuaciones
 			if(type == RUNNER){
 				double dist = game2d_1p.getDistance();
@@ -177,7 +177,7 @@ public class Game extends JLayeredPane{
 					score.setScoreCoinsP2(coins);
 				}
 			}else if(type == TIME){
-				
+
 			}
 		}else if(mode == MODE_3D){
 			//game3d_1p.actionGame();
@@ -216,47 +216,68 @@ public class Game extends JLayeredPane{
 	}
 
 	//TODO: teclas para el segundo jugador y menu de pausa y fin de juego
-	  public void keyPressed(KeyEvent e) {
-	    if(pause.isVisible()){
-	      //Menu de pausa abierto, se propaga
-	      
-	    }else if(end.isVisible()){
-	      //Menu de fin abierto, se realizan las acciones
-	      if(e.getKeyCode() == KeyEvent.VK_DOWN){
-	        end.cursorDown();
-	      }else if(e.getKeyCode() == KeyEvent.VK_UP){
-	        end.cursorUp();
-	      }else{
-	        int opt = end.keyPressed(e);
-	        switch(opt){
-	        case EndMenu.RESTART:
-	          
-	          break;
-	        case EndMenu.REPEAT:
-	          
-	          break;
-	        case EndMenu.QUIT:
-	          
-	          break;
-	        }
-	      }
-	    }else{
-	      if(e.getKeyCode() == Constants.teclaSaltop1 || e.getKeyCode() == Constants.teclaSprintp1){
-	        if(mode == MODE_2D){
-	          System.out.println("Tecla pulsada");
-	          game2d_1p.keyPressed(e);
-	        }else if(mode == MODE_3D){
+	public void keyPressed(KeyEvent e) {
+		if(pause.isVisible()){
+			//Menu de pausa abierto, se propaga
 
-	        }
-	      }
-	      if(num_players > 1 && (e.getKeyCode() == Constants.teclaSaltop2 || e.getKeyCode() == Constants.teclaSprintp2)){
-	        if(mode == MODE_2D){
-	          System.out.println("Tecla pulsada");
-	          game2d_2p.keyPressed(e);
-	        }else if(mode == MODE_3D){
+		}else if(end.isVisible()){
+			//Menu de fin abierto, se realizan las acciones
+			if(e.getKeyCode() == KeyEvent.VK_DOWN){
+				end.cursorDown();
+			}else if(e.getKeyCode() == KeyEvent.VK_UP){
+				end.cursorUp();
+			}else{
+				int opt = end.keyPressed(e);
+				switch(opt){
+				case EndMenu.RESTART:
+					Constants.map_index = new ArrayList<Integer>();
+					if(mode == MODE_2D){
+						game2d_1p.restart(map_p1);
+						if(num_players > 1){
+							game2d_2p.restart(map_p2);
+						}
+					}else if(mode == MODE_3D){
+						//
+						if(num_players > 1){
+							//
+						}
+					}
+					break;
+				case EndMenu.REPEAT:
+					if(mode == MODE_2D){
+						game2d_1p.restart(map_p1);
+						if(num_players > 1){
+							game2d_2p.restart(map_p2);
+						}
+					}else if(mode == MODE_3D){
+						//
+						if(num_players > 1){
+							//
+						}
+					}
+					break;
+				case EndMenu.QUIT:
 
-	        }
-	      }
-	    }
-	  }
+					break;
+				}
+			}
+		}else{
+			if(e.getKeyCode() == Constants.teclaSaltop1 || e.getKeyCode() == Constants.teclaSprintp1){
+				if(mode == MODE_2D){
+					System.out.println("Tecla pulsada");
+					game2d_1p.keyPressed(e);
+				}else if(mode == MODE_3D){
+
+				}
+			}
+			if(num_players > 1 && (e.getKeyCode() == Constants.teclaSaltop2 || e.getKeyCode() == Constants.teclaSprintp2)){
+				if(mode == MODE_2D){
+					System.out.println("Tecla pulsada");
+					game2d_2p.keyPressed(e);
+				}else if(mode == MODE_3D){
+
+				}
+			}
+		}
+	}
 }
