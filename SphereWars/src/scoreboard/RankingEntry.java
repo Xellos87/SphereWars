@@ -4,9 +4,9 @@ import videogame.Game;
 
 public class RankingEntry {
 	private String name;
-	private float score;
+	private double score;
 	
-	public RankingEntry(String name, float score){
+	public RankingEntry(String name, double score){
 		this.name = name;
 		this.score = score;
 	}
@@ -15,7 +15,7 @@ public class RankingEntry {
 		return name;
 	}
 	
-	public float getScore(){
+	public double getScore(){
 		return score;
 	}
 	
