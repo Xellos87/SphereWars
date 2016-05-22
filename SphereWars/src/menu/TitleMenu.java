@@ -29,7 +29,7 @@ public class TitleMenu extends Menu {
 	boolean firstTime = true;
 	
 	Parallax parallax;
-	Cursor cursor;
+	private Cursor cursor;
 
 	public TitleMenu(int width, int height) {
 		this.width = width;
@@ -42,7 +42,7 @@ public class TitleMenu extends Menu {
 		cargarImagenes();
 		// set background
 		
-		cursor = new Cursor("title");
+		cursor = new Cursor(Constants.titMenu);
 		
 		initParallax();
 	}
