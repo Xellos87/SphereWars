@@ -3,16 +3,10 @@ package menu;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
-import scoreboard.Ranking;
 import scoreboard.RankingEntry;
 import utils.Constants;
 import videogame.Game;
@@ -20,6 +14,12 @@ import videogame.Game;
 //TODO: continuar, reiniciar, escribir ranking.
 @SuppressWarnings("serial")
 public class EndMenu extends Menu{
+	//
+	public static final int NONE = 0;
+	public static final int RESTART = 1;
+	public static final int REPEAT = 2;
+	public static final int QUIT = 3;
+	//
 	private final String FIN_JUEGO = "GAME OVER";
 	private final String PLAYER1 = "Jugador 1";
 	private final String PLAYER2 = "Jugador 2";
@@ -41,6 +41,12 @@ public class EndMenu extends Menu{
 	private int pos_rank_p2;
 	private String name_p1;
 	private String name_p2;
+	private boolean write_p1;
+	private boolean write_p2;
+	//Contador para animaciones
+	private int tick_counter;
+	private final int MAX_TICK = 10;
+	private boolean show;
 	//Fuente y ruta de las fuente
 	private Font font;
 	private Font font_bold;
@@ -66,6 +72,7 @@ public class EndMenu extends Menu{
 		alpha_text = 0;
 		font = Constants.font;
 		font_bold = Constants.font_bold;
+		
 		
 		calculatePositions();
 	}
@@ -161,6 +168,11 @@ public class EndMenu extends Menu{
 			String rank_entry = "";
 			int inc = 0;
 			int aux_y = ranking_entryY;
+			tick_counter++;
+			if(tick_counter>=MAX_TICK){
+				tick_counter-=MAX_TICK;
+				show = !show;
+			}
 			for(int i=0; i+inc<rank.length; i++){
 				if(pos_rank_p1 == i){
 					if(type == Game.RUNNER){
@@ -168,7 +180,15 @@ public class EndMenu extends Menu{
 					}else if(type == Game.COINS){
 						score = String.format("%d",(int)score_p1);
 					}
-					rank_entry = String.format("%2d-%s %s",i+1,name_p1,score);
+					String name = name_p1;
+					if(write_p1 && show){
+						int num = 3 - name.length();
+						name += "-";
+						for(int j=0; j<num; j++){
+							name += " ";
+						}
+					}
+					rank_entry = String.format("%2d-%4s %s",i+1,name,score);
 					inc++;
 				}else if(pos_rank_p2 == i){
 					if(type == Game.RUNNER){
@@ -176,10 +196,18 @@ public class EndMenu extends Menu{
 					}else if(type == Game.COINS){
 						score = String.format("%d",(int)score_p2);
 					}
-					rank_entry = String.format("%2d-%s %s",i+1,name_p2,score);
+					String name = name_p2;
+					if(write_p2 && show){
+						int num = 3 - name.length();
+						name += "-";
+						for(int j=0; j<num; j++){
+							name += " ";
+						}
+					}
+					rank_entry = String.format("%2d-%4s %s",i+1,name,score);
 					inc++;
 				}else{
-					rank_entry = String.format("%2d-%3s %s", i+inc+1,rank[i].getName(),rank[i].getScoreString(type));
+					rank_entry = String.format("%2d-%4s %s", i+inc+1,rank[i].getName(),rank[i].getScoreString(type));
 				}
 				g2d.drawString(rank_entry, ranking_entryX, aux_y);
 				aux_y += height_text;
@@ -229,10 +257,25 @@ public class EndMenu extends Menu{
 				pos_rank_p2++;
 			}
 		}
-		name_p1 = "Player 1";
-		name_p2 = "Player 2";
+		name_p1 = "p";
+		name_p2 = "p";
+		write_p1 = false;
+		write_p2 = false;
+		if(pos_rank_p1 > pos_rank_p2){
+			name_p1 = "_";
+			write_p1 = true;
+		}else{
+			name_p2 = "_";
+			write_p2 = true;
+		}
+		show = true;
 		alpha_back = 0;
 		alpha_text = 0;
+	}
+
+	public int keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
