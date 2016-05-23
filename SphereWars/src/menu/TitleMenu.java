@@ -110,6 +110,7 @@ public class TitleMenu extends Menu {
 	}
 
 	public void draw() {
+		//TODO: corregir bug de desplazamiento al volver de 2D/3D
 		Image offscreen = createImage(width,height);
 		Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
 		int rule = AlphaComposite.SRC_OVER;

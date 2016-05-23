@@ -123,6 +123,7 @@ public class Cursor {
 			int newX = Constants.dosDjPos.getX() - 60;
 			int newY = Constants.dosDjPos.getY();
 			pos.changePosition(newX, newY);
+			Constants.cursorDesplazado=true;
 		}
 	}
 
@@ -131,6 +132,7 @@ public class Cursor {
 			int newX = iniposX;
 			int newY = iniposY;
 			pos.changePosition(newX, newY);
+			Constants.cursorDesplazado=false;
 		}
 	}
 }

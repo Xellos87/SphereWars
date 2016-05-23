@@ -43,6 +43,7 @@ public class Constants {
 	//Opciones del menu principal
 	public static int numJugadores = 1;	//numero jugadores
 	public static String visualMode = "2D";
+	public static boolean cursorDesplazado = false;
 	
 	//rutas a las imagenes del menu de opciones
 	public static final String soundName = "fonts/opciones_sonido.png";

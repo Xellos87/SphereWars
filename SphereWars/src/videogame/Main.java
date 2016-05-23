@@ -191,25 +191,33 @@ public class Main implements Runnable, KeyListener{
 				//desde el menu principal
 				if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
 					//TODO: acciones cuando se selecciona una opcion del menu principal
-					if(nuevoMenu.equalsIgnoreCase("credits")){
-						
-					}else if(nuevoMenu.equalsIgnoreCase("start")){
-						Constants.enMenu = false;
-						game = new Game(width*Constants.scale, height*Constants.scale, Game.MODE_2D, Game.COINS, 1);
-						window.add(game,BorderLayout.CENTER);
-						window.pack();
-						state = Constants.GAME;
-					}else if(nuevoMenu.equalsIgnoreCase("exit")){
-						System.exit(0);
-					}else if(nuevoMenu.equalsIgnoreCase("options")){
-						menu = new OptionMenu(width*Constants.scale, height*Constants.scale);
-						Constants.tipoMenu = Constants.optMenu;
-						menu.setDoubleBuffered(true);
-						state = Constants.MENU;	//redundante
-						window.add(menu, BorderLayout.CENTER);
-						window.pack();
-					}else if(nuevoMenu.equalsIgnoreCase("help")){
-						
+					if(!Constants.cursorDesplazado){
+						if(nuevoMenu.equalsIgnoreCase("credits")){
+							
+						}else if(nuevoMenu.equalsIgnoreCase("start")){
+							Constants.enMenu = false;
+							game = new Game(width*Constants.scale, height*Constants.scale, Game.MODE_2D, Game.COINS, 1);
+							window.add(game,BorderLayout.CENTER);
+							window.pack();
+							state = Constants.GAME;
+						}else if(nuevoMenu.equalsIgnoreCase("exit")){
+							System.exit(0);
+						}else if(nuevoMenu.equalsIgnoreCase("options")){
+							menu = new OptionMenu(width*Constants.scale, height*Constants.scale);
+							Constants.tipoMenu = Constants.optMenu;
+							menu.setDoubleBuffered(true);
+							state = Constants.MENU;	//redundante
+							window.add(menu, BorderLayout.CENTER);
+							window.pack();
+						}else if(nuevoMenu.equalsIgnoreCase("help")){
+							
+						}
+					}else {
+						if(Constants.visualMode.equalsIgnoreCase("2D")){
+							Constants.visualMode="3D";
+						}else{
+							Constants.visualMode="2D";
+						}
 					}
 				//desde el menu de opciones
 				}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.optMenu)){
