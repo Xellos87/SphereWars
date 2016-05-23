@@ -58,9 +58,9 @@ public class GameScore extends JPanel{
 		setDoubleBuffered(true);
 		setFocusable(false);
 		this.font_bold = Constants.font_bold;
-		
+
 		initScoreBoard();
-		
+
 		calculatePositions();
 	}
 
@@ -77,22 +77,25 @@ public class GameScore extends JPanel{
 		//Posicion del jugador 2
 		player2X = width/2 + player1X;
 		player2Y = player1Y;
-		//Posicion de la puntuacion de jugador 1
+		//Calculo de dimensiones del texto
 		f = font_bold.deriveFont(22.0f);
 		g.setFont(f);
 		heigth_text = g.getFontMetrics().getHeight();
-		
-		//Posicion de la puntuacion del jugador 2
-		
 		//Posicion del marcador del jugador 1
 		marker_p1X = player1X;
 		marker_p1Y = height/2 + heigth_text/4;
 		//Posicion del marcador del jugador 2
-		marker_p2X = player1X;
-		marker_p2Y = marker_p2Y;
+		marker_p2X = player2X;
+		marker_p2Y = marker_p1Y;
 		//Altura y anchura dlel marcador
 		marker_height = heigth_text;
 		marker_width = (int) (marker_img.getWidth() / (marker_img.getHeight() / ((float) marker_height)));
+		//Posicion de la puntuacion del jugador 1
+		score_p1X = player1X + marker_width;
+		score_p1Y = marker_p1Y;
+		//Posicion de la puntuacion del jugador 2
+		score_p2X = player2X + marker_width;
+		score_p2Y = marker_p1Y;
 	}
 
 	private void initScoreBoard() {
@@ -140,15 +143,15 @@ public class GameScore extends JPanel{
 	public void setScoreDistanceP1(double dist) {
 		dist_p1 = String.format("%08.2f", dist);
 	}
-	
+
 	public void setScoreDistanceP2(double dist) {
 		dist_p2 = String.format("%08.2f", dist);
 	}
-	
+
 	public void setScoreCoinsP1(int coins){
 		coins_p1 = String.format("%03d", coins);
 	}
-	
+
 	public void setScoreCoinsP2(int coins){
 		coins_p2 = String.format("%03d", coins);
 	}
