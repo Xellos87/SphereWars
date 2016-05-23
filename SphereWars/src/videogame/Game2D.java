@@ -55,7 +55,7 @@ public class Game2D extends JPanel {
 	private void loadImages() {
 		/* Carga el efecto de fondo Parallax */
 		int num = 1;
-		String back_images[] = {"images/sky_clear.jpg"};
+		String back_images[] = {"images/sky_clear_extended.png"};
 		int velocity[] = {2};
 		int posX[] = {0};
 		int posY[] = {0};
