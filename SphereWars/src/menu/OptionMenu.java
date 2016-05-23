@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -40,8 +41,6 @@ public class OptionMenu extends Menu {
 	BufferedImage controles1;
 	BufferedImage controles2;
 	
-	
-	//TODO: jugador1, jugador2
 	public OptionMenu(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -140,6 +139,76 @@ public class OptionMenu extends Menu {
 				}else{
 					offgc.drawImage(correr, Constants.runPos.getX()+Constants.desplazamiento, Constants.runPos.getY(), (int)(correr.getWidth()/2), (int)(correr.getHeight()/2), null);
 				}
+				String pauseChar,jumpChar,runChar;
+				//TODO: hacer mejor. Add down, left, right por lo menos?
+				if(Constants.jugador==1){
+					int car = Constants.teclaPausap1;
+					String aux = ""+(char)Constants.teclaPausap1;
+					if(car == 32){
+						aux = "espacio";
+					}else if(car == 10){
+						aux = "enter";
+					}else if(car == 38){
+						aux = "up";
+					}
+					pauseChar = aux;
+					car = Constants.teclaSaltop1;
+					System.out.println(car);
+					aux = ""+(char)Constants.teclaSaltop1;
+					if(car == 32){
+						aux = "espacio";
+					}else if(car == 10){
+						aux = "enter";
+					}else if(car == 38){
+						aux = "up";
+					}
+					jumpChar = aux;
+					car = Constants.teclaSprintp1;
+					System.out.println(car);
+					aux = ""+(char)Constants.teclaSprintp1;
+					if(car == 32){
+						aux = "espacio";
+					}else if(car == 10){
+						aux = "enter";
+					}else if(car == 38){
+						aux = "up";
+					}
+					runChar = aux;
+				}else{
+					int car = Constants.teclaPausap2;
+					String aux = ""+(char)Constants.teclaPausap2;
+					if(car == 32){
+						aux = "espacio";
+					}else if(car == 10){
+						aux = "enter";
+					}else if(car == 38){
+						aux = "up";
+					}
+					pauseChar = aux;
+					car = Constants.teclaSaltop2;
+					aux = ""+(char)Constants.teclaSaltop2;
+					if(car == 32){
+						aux = "espacio";
+					}else if(car == 10){
+						aux = "enter";
+					}else if(car == 38){
+						aux = "up";
+					}
+					jumpChar = aux;
+					car = Constants.teclaSprintp2;
+					aux = ""+(char)Constants.teclaSprintp2;
+					if(car == 32){
+						aux = "espacio";
+					}else if(car == 10){
+						aux = "enter";
+					}else if(car == 38){
+						aux = "up";
+					}
+					runChar = aux;
+				}					
+				offgc.drawString(pauseChar, Constants.keyPos.getX()+270, Constants.keyPos.getY()+40);
+				offgc.drawString(jumpChar, Constants.jumpPos.getX()+270, Constants.jumpPos.getY()+40);
+				offgc.drawString(runChar, Constants.runPos.getX()+270, Constants.runPos.getY()+40);
 			}
 		}		
 	}
@@ -257,6 +326,9 @@ public class OptionMenu extends Menu {
 			parallax.move();
 			parallax.draw(offgc, 0, 0);
 		}
+		Font f = Constants.font_bold.deriveFont(40.0f);
+		offgc.setFont(f);
+		
 		dibujarLetras(offgc);
 		// dibujar cursor
 		if (cursor != null) {

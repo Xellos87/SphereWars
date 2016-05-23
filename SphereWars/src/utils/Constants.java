@@ -87,9 +87,9 @@ public class Constants {
 	public static int teclaSaltop1 = KeyEvent.VK_UP;
 	public static int teclaPausap1 = KeyEvent.VK_SPACE;
 	public static int teclaSprintp1 = KeyEvent.VK_ENTER;
-	public static int teclaSaltop2 = KeyEvent.VK_UP;
+	public static int teclaSaltop2 = KeyEvent.VK_W;
 	public static int teclaPausap2 = KeyEvent.VK_SPACE;
-	public static int teclaSprintp2 = KeyEvent.VK_ENTER;
+	public static int teclaSprintp2 = KeyEvent.VK_Z;
 	public static boolean elegidoJugador = false;
 	public static int jugador = 1;
 	

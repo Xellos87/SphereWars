@@ -234,8 +234,7 @@ public class Main implements Runnable, KeyListener{
 						}else if(Constants.scale == 4){
 							Constants.scale = 2;
 						}
-					}
-					//TODO: cambio entre controlador Kinect y teclado (en juego)
+					}					
 					else if(nuevoMenu.equalsIgnoreCase("controller")){
 						if(!Constants.elegidoJugador){
 							Constants.elegidoJugador=true;
@@ -253,6 +252,10 @@ public class Main implements Runnable, KeyListener{
 								}
 							}
 						}
+					}
+					//TODO: cambio entre controlador Kinect y teclado (en juego)
+					else if(nuevoMenu.equalsIgnoreCase("device")){
+						Constants.conTeclado = !Constants.conTeclado;
 					}
 					else if(nuevoMenu.equalsIgnoreCase("back")){
 						System.out.println("back to main menu");
