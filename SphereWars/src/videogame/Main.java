@@ -318,7 +318,14 @@ public class Main implements Runnable, KeyListener{
 			}else{
 				int option = game.keyPressed(e);
 				if(option == EndMenu.QUIT){
-					
+					System.out.println("exit pulsado en menu end");
+					menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
+					Constants.enMenu = true;
+					Constants.tipoMenu = Constants.titMenu;
+					menu.setDoubleBuffered(true);
+					state = Constants.MENU;
+					window.add(menu, BorderLayout.CENTER);
+					window.pack();
 				}
 			}
 			break;
@@ -334,15 +341,14 @@ public class Main implements Runnable, KeyListener{
 					state = Constants.GAME;
 					game.hiddenPause();	
 				}else if(option == PauseMenu.QUIT){
-					/*menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
+					System.out.println("exit pulsado en menu pause");
+					menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
 					Constants.enMenu = true;
 					Constants.tipoMenu = Constants.titMenu;
 					menu.setDoubleBuffered(true);
 					state = Constants.MENU;
-					window.removeAll();
 					window.add(menu, BorderLayout.CENTER);
 					window.pack();
-					*/
 				}
 			}
 		default:
