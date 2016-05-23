@@ -128,7 +128,7 @@ public class GameScore extends JPanel{
 		g2d.setColor(new Color(255,255,255,255));
 		g2d.drawString("Player 1", player1X, player1Y);
 		//Nombre del jugador 2 si lo hay
-		if(numPlayers >= 1){
+		if(numPlayers > 1){
 			g2d.drawString("Player 2", player2X, player2Y);
 		}
 		//Puntuaciones
@@ -143,7 +143,7 @@ public class GameScore extends JPanel{
 		//Puntuacion del jugador 1
 		g2d.drawString(getScoreString(1), score_p1X + inc_p1X, score_p1Y);
 		//Puntuacion del jugador 2
-		if(numPlayers >= 1){
+		if(numPlayers > 1){
 			int inc_p2X = 0;;
 			//Marcador del jugador 2
 			if(marker_img != null){
