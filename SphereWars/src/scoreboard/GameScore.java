@@ -18,7 +18,7 @@ import videogame.Game;
 public class GameScore extends JPanel{
 	//Elemento que se pueden pintar en el marcador
 	private final int COIN = 0;
-	private final int SEP = 1;
+	private final int FLAG = 1;
 	//Dimensiones del panel
 	private int width;
 	private int height;
@@ -27,10 +27,10 @@ public class GameScore extends JPanel{
 	//Tipo de juego para poner unos marcadores u otros
 	private int type;
 	//Datos para extraer las imagenes de su spritesheet
-	private int[] x_imgs = {55,0};
-	private int[] y_imgs = {0,239};
-	private int[] width_imgs = {47,30};
-	private int[] height_imgs = {47,28};
+	private int[] x_imgs = {55,274};
+	private int[] y_imgs = {0,144};
+	private int[] width_imgs = {47,70};
+	private int[] height_imgs = {47,70};
 	//Imagenes del marcador
 	private BufferedImage marker_img;
 	//Fuente a utilizar
@@ -91,17 +91,17 @@ public class GameScore extends JPanel{
 		marker_height = heigth_text;
 		marker_width = (int) (marker_img.getWidth() / (marker_img.getHeight() / ((float) marker_height)));
 		//Posicion de la puntuacion del jugador 1
-		score_p1X = player1X + marker_width;
-		score_p1Y = marker_p1Y;
+		score_p1X = player1X;
+		score_p1Y = marker_p1Y + heigth_text;
 		//Posicion de la puntuacion del jugador 2
-		score_p2X = player2X + marker_width;
-		score_p2Y = marker_p1Y;
+		score_p2X = player2X;
+		score_p2Y = score_p1Y;
 	}
 
 	private void initScoreBoard() {
 		switch (type) {
 		case Game.RUNNER:
-			//marker_img = Constants.img_handler.getImageHud(x_imgs[COIN], y_imgs[COIN], width_imgs[COIN], height_imgs[COIN]);
+			marker_img = Constants.img_handler.getImageItem(x_imgs[FLAG], y_imgs[FLAG], width_imgs[FLAG], height_imgs[FLAG]);
 			break;
 		case Game.COINS:
 			marker_img = Constants.img_handler.getImageHud(x_imgs[COIN], y_imgs[COIN], width_imgs[COIN], height_imgs[COIN]);
@@ -128,16 +128,55 @@ public class GameScore extends JPanel{
 		g2d.setColor(new Color(255,255,255,255));
 		g2d.drawString("Player 1", player1X, player1Y);
 		//Nombre del jugador 2 si lo hay
-		if(numPlayers >= 1){
+		if(numPlayers > 1){
 			g2d.drawString("Player 2", player2X, player2Y);
 		}
 		//Puntuaciones
 		f = font_bold.deriveFont(22.0f);
 		g2d.setFont(f);
+		int inc_p1X = 0;;
 		//Marcador del jugador 1
 		if(marker_img != null){
 			g2d.drawImage(marker_img, marker_p1X, marker_p1Y,marker_width,marker_height, null);
+			inc_p1X = marker_width;
 		}
+		//Puntuacion del jugador 1
+		g2d.drawString(getScoreString(1), score_p1X + inc_p1X, score_p1Y);
+		//Puntuacion del jugador 2
+		if(numPlayers > 1){
+			int inc_p2X = 0;;
+			//Marcador del jugador 2
+			if(marker_img != null){
+				g2d.drawImage(marker_img, marker_p2X, marker_p2Y,marker_width,marker_height, null);
+				inc_p2X = marker_width;
+			}
+			//Puntuacion del jugador 2
+			g2d.drawString(getScoreString(2), score_p2X + inc_p2X, score_p2Y);
+		}
+	}
+
+	private String getScoreString(int player) {
+		String tmp = "";
+		switch (type) {
+		case Game.RUNNER:
+			if(player == 1){
+				tmp = dist_p1 + "m";
+			}else{
+				tmp = dist_p2 + "m";
+			}
+			break;
+		case Game.COINS:
+			if(player == 1){
+				tmp = " X "+ coins_p1;
+			}else{
+				tmp = " X "+ coins_p2;
+			}
+			break;
+		case Game.TIME:
+			
+			break;
+		}
+		return tmp;
 	}
 
 	public void setScoreDistanceP1(double dist) {
