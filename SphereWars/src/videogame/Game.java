@@ -57,6 +57,7 @@ public class Game extends JLayeredPane{
 		this.width = width;
 		this.height = height;
 		this.mode = mode;
+		//this.mode = MODE_3D;
 		this.type = type;
 		this.num_players = num_players;
 		this.height_game = (height-height_score)/num_players;
@@ -98,8 +99,14 @@ public class Game extends JLayeredPane{
 			}
 		}else if(mode == MODE_3D){
 			//Inicio de juego en 3D
+			game3d_1p = new Game3D(width, height, num_players);
+			game3d_1p.setBounds(0, height_score, width, height_game);
+			add(game3d_1p, new Integer(0),3);
 			if(num_players>1){
-
+				//Segundo jugador si lo hay
+				game3d_2p = new Game3D(width, height_game,num_players);
+				game3d_2p.setBounds(0, height_score+height_game, width, height_game);
+				add(game3d_2p, new Integer(0),4);
 			}
 		}
 		//Inicializa los controladores de mapas necesarios
@@ -119,9 +126,9 @@ public class Game extends JLayeredPane{
 				game2d_2p.draw(g2d,0,height_score+height_game,map_p2,not_pause);
 			}
 		}else if(mode == MODE_3D){
-			game3d_1p.draw();
+			game3d_1p.draw(g2d,0,height_score,map_p1,not_pause);
 			if(num_players>1){
-				game3d_2p.draw();
+				game3d_2p.draw(g2d,0,height_score+height_game,map_p2,not_pause);
 			}
 		}
 		score.draw(g2d);
@@ -129,9 +136,9 @@ public class Game extends JLayeredPane{
 		if(pause.isVisible()){
 			pause.draw(g2d);
 		}
-		//if(end.isVisible()){
-		end.draw(g2d);
-		//}
+		if(end.isVisible()){
+			end.draw(g2d);
+		}
 		getGraphics().drawImage(offscreen, 0, 0,width, height,null);
 		getGraphics().dispose();
 	}
@@ -243,6 +250,9 @@ public class Game extends JLayeredPane{
 				end.cursorUp();
 			}else{
 				int opt = end.keyPressed(e);
+				if(opt != EndMenu.NONE){
+					end.setVisible(false);
+				}
 				switch(opt){
 				case EndMenu.RESTART:
 					restartGame();
@@ -253,9 +263,6 @@ public class Game extends JLayeredPane{
 				case EndMenu.QUIT:
 					response = EndMenu.QUIT;
 					break;
-				}
-				if(opt != EndMenu.NONE){
-					end.setVisible(false);
 				}
 			}
 		}else{
