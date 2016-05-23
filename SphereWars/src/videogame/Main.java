@@ -169,109 +169,144 @@ public class Main implements Runnable, KeyListener{
 	public void keyPressed(KeyEvent e) {
 		switch (state) {
 		case Constants.MENU:
-			if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S){
-				menu.cursorDown();
-				System.out.println("Down key pressed");
-			}else if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
-				menu.cursorUp();
-				System.out.println("Up key pressed");
-			}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-				System.out.println("right key pressed");
-				if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
-					menu.cursorRight();
-				}
-			}else if(e.getKeyCode() == KeyEvent.VK_LEFT){
-				System.out.println("left key pressed");
-				if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
-					menu.cursorLeft();
-				}
-			}else if(e.getKeyCode() == KeyEvent.VK_ENTER){	//pulsacion de enter
-				String nuevoMenu = menu.cursorEnter();
-				System.out.println("Enter pressed. Option: "+nuevoMenu);
-				//desde el menu principal
-				if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
-					//TODO: acciones cuando se selecciona una opcion del menu principal
-					if(!Constants.cursorDesplazado){
-						if(nuevoMenu.equalsIgnoreCase("credits")){
-							
-						}else if(nuevoMenu.equalsIgnoreCase("start")){
-							Constants.enMenu = false;
-							game = new Game(width*Constants.scale, height*Constants.scale, Game.MODE_2D, Game.COINS, 1);
-							window.add(game,BorderLayout.CENTER);
-							window.pack();
-							state = Constants.GAME;
-						}else if(nuevoMenu.equalsIgnoreCase("exit")){
-							System.exit(0);
-						}else if(nuevoMenu.equalsIgnoreCase("options")){
-							menu = new OptionMenu(width*Constants.scale, height*Constants.scale);
-							Constants.tipoMenu = Constants.optMenu;
+			if(!Constants.esperandoTecla){
+				if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S){
+					menu.cursorDown();
+					System.out.println("Down key pressed");
+				}else if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
+					menu.cursorUp();
+					System.out.println("Up key pressed");
+				}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+					System.out.println("right key pressed");
+					if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
+						menu.cursorRight();
+					}
+				}else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+					System.out.println("left key pressed");
+					if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
+						menu.cursorLeft();
+					}
+				}else if(e.getKeyCode() == KeyEvent.VK_ENTER){	//pulsacion de enter
+					String nuevoMenu = menu.cursorEnter();
+					System.out.println("Enter pressed. Option: "+nuevoMenu);
+					//desde el menu principal
+					if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
+						//TODO: acciones cuando se selecciona una opcion del menu principal
+						if(!Constants.cursorDesplazado){
+							if(nuevoMenu.equalsIgnoreCase("credits")){
+								
+							}else if(nuevoMenu.equalsIgnoreCase("start")){
+								Constants.enMenu = false;
+								game = new Game(width*Constants.scale, height*Constants.scale, Game.MODE_2D, Game.COINS, 1);
+								window.add(game,BorderLayout.CENTER);
+								window.pack();
+								state = Constants.GAME;
+							}else if(nuevoMenu.equalsIgnoreCase("exit")){
+								System.exit(0);
+							}else if(nuevoMenu.equalsIgnoreCase("options")){
+								menu = new OptionMenu(width*Constants.scale, height*Constants.scale);
+								Constants.tipoMenu = Constants.optMenu;
+								menu.setDoubleBuffered(true);
+								state = Constants.MENU;	//redundante
+								window.add(menu, BorderLayout.CENTER);
+								window.pack();
+							}else if(nuevoMenu.equalsIgnoreCase("help")){
+								
+							}
+						}else {
+							if(Constants.visualMode.equalsIgnoreCase("2D")){
+								Constants.visualMode="3D";
+							}else{
+								Constants.visualMode="2D";
+							}
+						}
+					//desde el menu de opciones
+					}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.optMenu)){
+						//TODO: poner y quitar el sonido
+						if(nuevoMenu.equalsIgnoreCase("sound")){
+							System.out.println(Constants.sound);
+							Constants.sound = !Constants.sound;
+						}
+						//TODO: que funcione el cambio de resolucion de la pantalla
+						else if(nuevoMenu.equalsIgnoreCase("resolution")){
+							System.out.println(Constants.scale);
+							if(Constants.scale == 2){
+								Constants.scale = 4;
+							}else if(Constants.scale == 4){
+								Constants.scale = 2;
+							}
+						}					
+						else if(nuevoMenu.equalsIgnoreCase("controller")){
+							if(!Constants.elegidoJugador){
+								Constants.elegidoJugador=true;
+								if(menu instanceof OptionMenu){
+									((OptionMenu)menu).cambiarCursor();
+								}
+							}else{
+								if(Constants.jugador==1){
+									Constants.jugador = 2;
+								}else{
+									Constants.elegidoJugador=false;
+									Constants.jugador=1;
+									if(menu instanceof OptionMenu){
+										((OptionMenu)menu).cambiarCursor();
+									}
+								}
+							}
+						}
+						//TODO: cambio entre controlador Kinect y teclado (en juego)
+						else if(nuevoMenu.equalsIgnoreCase("device")){
+							Constants.conTeclado = !Constants.conTeclado;
+						}
+						else if(nuevoMenu.equalsIgnoreCase("back")){
+							System.out.println("back to main menu");
+							menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
+							Constants.tipoMenu = Constants.titMenu;
 							menu.setDoubleBuffered(true);
 							state = Constants.MENU;	//redundante
 							window.add(menu, BorderLayout.CENTER);
 							window.pack();
-						}else if(nuevoMenu.equalsIgnoreCase("help")){
-							
 						}
-					}else {
-						if(Constants.visualMode.equalsIgnoreCase("2D")){
-							Constants.visualMode="3D";
-						}else{
-							Constants.visualMode="2D";
-						}
-					}
-				//desde el menu de opciones
-				}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.optMenu)){
-					//TODO: poner y quitar el sonido
-					if(nuevoMenu.equalsIgnoreCase("sound")){
-						System.out.println(Constants.sound);
-						Constants.sound = !Constants.sound;
-					}
-					//TODO: que funcione el cambio de resolucion de la pantalla
-					else if(nuevoMenu.equalsIgnoreCase("resolution")){
-						System.out.println(Constants.scale);
-						if(Constants.scale == 2){
-							Constants.scale = 4;
-						}else if(Constants.scale == 4){
-							Constants.scale = 2;
-						}
-					}					
-					else if(nuevoMenu.equalsIgnoreCase("controller")){
-						if(!Constants.elegidoJugador){
-							Constants.elegidoJugador=true;
-							if(menu instanceof OptionMenu){
-								((OptionMenu)menu).cambiarCursor();
-							}
-						}else{
+						else if(nuevoMenu.equalsIgnoreCase("pause")){
 							if(Constants.jugador==1){
-								Constants.jugador = 2;
+								Constants.teclaPausap1=Constants.guion;
 							}else{
-								Constants.elegidoJugador=false;
-								Constants.jugador=1;
-								if(menu instanceof OptionMenu){
-									((OptionMenu)menu).cambiarCursor();
-								}
+								Constants.teclaPausap2=Constants.guion;
 							}
+							Constants.esperandoTecla=true;
+						}else if(nuevoMenu.equalsIgnoreCase("jump")){
+							if(Constants.jugador==1){
+								Constants.teclaSaltop1=Constants.guion;
+							}else{
+								Constants.teclaSaltop2=Constants.guion;
+							}
+							Constants.esperandoTecla=true;
+						}else if(nuevoMenu.equalsIgnoreCase("run")){
+							if(Constants.jugador==1){
+								Constants.teclaSprintp1=Constants.guion;
+							}else{
+								Constants.teclaSprintp2=Constants.guion;
+							}
+							Constants.esperandoTecla=true;
 						}
 					}
-					//TODO: cambio entre controlador Kinect y teclado (en juego)
-					else if(nuevoMenu.equalsIgnoreCase("device")){
-						Constants.conTeclado = !Constants.conTeclado;
-					}
-					else if(nuevoMenu.equalsIgnoreCase("back")){
-						System.out.println("back to main menu");
-						menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
-						Constants.tipoMenu = Constants.titMenu;
-						menu.setDoubleBuffered(true);
-						state = Constants.MENU;	//redundante
-						window.add(menu, BorderLayout.CENTER);
-						window.pack();
-					}
-					else if(nuevoMenu.equalsIgnoreCase("jump") || nuevoMenu.equalsIgnoreCase("run")){
-						//TODO: dejar elegir una tecla
-					}
+					//TODO: resto de casos
 				}
-				//TODO: resto de casos
-			}
+			}else{
+				if(Constants.teclaPausap1==Constants.guion){
+					Constants.teclaPausap1 = e.getKeyCode();
+				}else if(Constants.teclaPausap2==Constants.guion){
+					Constants.teclaPausap2 = e.getKeyCode();
+				}else if(Constants.teclaSaltop1==Constants.guion){
+					Constants.teclaSaltop1 = e.getKeyCode();
+				}else if(Constants.teclaSaltop2==Constants.guion){
+					Constants.teclaSaltop2 = e.getKeyCode();
+				}else if(Constants.teclaSprintp1==Constants.guion){
+					Constants.teclaSprintp1 = e.getKeyCode();
+				}else if(Constants.teclaSprintp2==Constants.guion){
+					Constants.teclaSprintp2 = e.getKeyCode();
+				}
+			}			
 			break;
 		case Constants.GAME:			
 			if(e.getKeyCode() == KeyEvent.VK_SPACE){

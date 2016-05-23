@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.KeyStroke;
+
 import media.ImageHandler;
 import scoreboard.Ranking;
 
@@ -93,6 +95,7 @@ public class Constants {
 	public static boolean elegidoJugador = false;
 	public static int jugador = 1;
 	
+	public static final int guion = '-';
 	public static  float alphaComp = 1f;	
 	
 	//posiciones del cursor	
@@ -119,6 +122,9 @@ public class Constants {
 	public static final int MENU = 0;
 	public static final int PAUSE = 1;
 	public static final int GAME = 2;
+	
+	//esperando a que el jugador escriba una tecla
+	public static boolean esperandoTecla = false;
 	
 	//Manejador de imagenes para las pantallas
 	public static ImageHandler img_handler;

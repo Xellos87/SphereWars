@@ -205,10 +205,22 @@ public class OptionMenu extends Menu {
 						aux = "up";
 					}
 					runChar = aux;
-				}					
-				offgc.drawString(pauseChar, Constants.keyPos.getX()+270, Constants.keyPos.getY()+40);
-				offgc.drawString(jumpChar, Constants.jumpPos.getX()+270, Constants.jumpPos.getY()+40);
-				offgc.drawString(runChar, Constants.runPos.getX()+270, Constants.runPos.getY()+40);
+				}		
+				if(pauseChar.equalsIgnoreCase("-")&&System.currentTimeMillis()%1000<500){
+					offgc.drawString(pauseChar, Constants.keyPos.getX()+270, Constants.keyPos.getY()+40);
+				}else if(!pauseChar.equalsIgnoreCase("-")){
+					offgc.drawString(pauseChar, Constants.keyPos.getX()+270, Constants.keyPos.getY()+40);
+				}
+				if(jumpChar.equalsIgnoreCase("-")&&System.currentTimeMillis()%1000<500){
+					offgc.drawString(jumpChar, Constants.jumpPos.getX()+270, Constants.jumpPos.getY()+40);
+				}else if(!jumpChar.equalsIgnoreCase("-")){
+					offgc.drawString(jumpChar, Constants.jumpPos.getX()+270, Constants.jumpPos.getY()+40);
+				}
+				if(runChar.equalsIgnoreCase("-")&&System.currentTimeMillis()%1000<500){
+					offgc.drawString(runChar, Constants.runPos.getX()+270, Constants.runPos.getY()+40);
+				}else if(!runChar.equalsIgnoreCase("-")){
+					offgc.drawString(runChar, Constants.runPos.getX()+270, Constants.runPos.getY()+40);
+				}
 			}
 		}		
 	}
