@@ -198,6 +198,7 @@ public class Main implements Runnable, KeyListener{
 								
 							}else if(nuevoMenu.equalsIgnoreCase("start")){
 								Constants.enMenu = false;
+								music.playGame();
 								game = new Game(width*Constants.scale, height*Constants.scale, Game.MODE_2D, Game.COINS, 1);
 								window.add(game,BorderLayout.CENTER);
 								window.pack();
