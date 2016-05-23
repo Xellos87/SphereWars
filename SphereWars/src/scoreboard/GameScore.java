@@ -32,12 +32,22 @@ public class GameScore extends JPanel{
 	private int[] width_imgs = {47,30};
 	private int[] height_imgs = {47,28};
 	//Imagenes del marcador
-	private BufferedImage marker;
-	private BufferedImage separator;
+	private BufferedImage marker_img;
+	//Fuente a utilizar
+	private Font font_bold;
 	//Puntuaciones de cada jugador
 	private String dist_p1, dist_p2;
 	private String coins_p1, coins_p2;
 	private String time_p1, time_p2;
+	//Posiciones de los elementos de pantalla
+	private int player1X, player1Y;
+	private int player2X, player2Y;
+	private int score_p1X, score_p1Y;
+	private int score_p2X, score_p2Y;
+	private int marker_p1X, marker_p1Y;
+	private int marker_p2X, marker_p2Y;
+	//Altura y anchura del marcador
+	private int marker_height, marker_width;
 
 	public GameScore(int width, int height, int numPlayers, int typeGame){
 		this.width = width;
@@ -47,22 +57,56 @@ public class GameScore extends JPanel{
 		setPreferredSize(new Dimension(width, height));
 		setDoubleBuffered(true);
 		setFocusable(false);
+		this.font_bold = Constants.font_bold;
+		
 		initScoreBoard();
+		
+		calculatePositions();
+	}
+
+	private void calculatePositions() {
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = (Graphics2D) image.getGraphics();
+		//Calculo de la posicion de los nombres
+		Font f = font_bold.deriveFont(28.0f);
+		g.setFont(f);
+		int heigth_text = g.getFontMetrics().getHeight();
+		//Posicion del jugador 1
+		player1X = width/15;
+		player1Y = height/2 - heigth_text/4;
+		//Posicion del jugador 2
+		player2X = width/2 + player1X;
+		player2Y = player1Y;
+		//Posicion de la puntuacion de jugador 1
+		f = font_bold.deriveFont(22.0f);
+		g.setFont(f);
+		heigth_text = g.getFontMetrics().getHeight();
+		
+		//Posicion de la puntuacion del jugador 2
+		
+		//Posicion del marcador del jugador 1
+		marker_p1X = player1X;
+		marker_p1Y = height/2 + heigth_text/4;
+		//Posicion del marcador del jugador 2
+		marker_p2X = player1X;
+		marker_p2Y = marker_p2Y;
+		//Altura y anchura dlel marcador
+		marker_height = heigth_text;
+		marker_width = (int) (marker_img.getWidth() / (marker_img.getHeight() / ((float) marker_height)));
 	}
 
 	private void initScoreBoard() {
 		switch (type) {
 		case Game.RUNNER:
-			marker = Constants.img_handler.getImageHud(x_imgs[COIN], y_imgs[COIN], width_imgs[COIN], height_imgs[COIN]);
+			//marker_img = Constants.img_handler.getImageHud(x_imgs[COIN], y_imgs[COIN], width_imgs[COIN], height_imgs[COIN]);
 			break;
 		case Game.COINS:
-			marker = Constants.img_handler.getImageHud(x_imgs[COIN], y_imgs[COIN], width_imgs[COIN], height_imgs[COIN]);
+			marker_img = Constants.img_handler.getImageHud(x_imgs[COIN], y_imgs[COIN], width_imgs[COIN], height_imgs[COIN]);
 			break;
 		case Game.TIME:
-			marker = Constants.img_handler.getImageHud(x_imgs[COIN], y_imgs[COIN], width_imgs[COIN], height_imgs[COIN]);
+			//marker_img = Constants.img_handler.getImageHud(x_imgs[COIN], y_imgs[COIN], width_imgs[COIN], height_imgs[COIN]);
 			break;
 		}
-		separator = Constants.img_handler.getImageHud(x_imgs[SEP], y_imgs[SEP], width_imgs[SEP], height_imgs[SEP]);
 		//Inicializa los marcadores
 		setScoreDistanceP1(0);
 		setScoreDistanceP2(0);
@@ -71,50 +115,26 @@ public class GameScore extends JPanel{
 	}
 
 	public void draw(Graphics2D g2d){
-		//Carga el doble buffer en el que se dibuja todo y luego se vuelca a pantalla
-		//Image offscreen = createImage(width,height);
-		//Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
-
 		/* Dibuja en pantalla */
+		//Fondo
 		g2d.setColor(new Color(0, 0, 0,255));
 		g2d.fillRect(0, 0, width, height);
+		//Nombre del jugador 1
+		Font f = font_bold.deriveFont(28.0f);
+		g2d.setFont(f);
 		g2d.setColor(new Color(255,255,255,255));
-		g2d.setFont(new Font("Arial", Font.BOLD, 16));
-		g2d.drawString("Player 1", 10, 15);
-		if(numPlayers > 1){
-			g2d.drawString("Player 2", width/2 + 10, 15);
+		g2d.drawString("Player 1", player1X, player1Y);
+		//Nombre del jugador 2 si lo hay
+		if(numPlayers >= 1){
+			g2d.drawString("Player 2", player2X, player2Y);
 		}
-
-		switch (type) {
-		case Game.RUNNER:
-			g2d.setFont(new Font("Arial", Font.BOLD, 36));
-			g2d.drawString(dist_p1, 20+marker.getWidth()+separator.getWidth(), height-10);
-			if(numPlayers > 1){
-				g2d.drawString(dist_p2,width/2+ 20+marker.getWidth()+separator.getWidth(), height-10);
-			}
-			break;
-		case Game.COINS:
-			g2d.drawImage(marker, 10, height-marker.getHeight() -10, null);
-			g2d.drawImage(separator, 15+marker.getWidth(), height-separator.getHeight() -10, null);
-			g2d.setFont(new Font("Arial", Font.BOLD, 36));
-			g2d.drawString(coins_p1, 20+marker.getWidth()+separator.getWidth(), height-10);
-			if(numPlayers > 1){
-				g2d.drawImage(marker, width/2 + 10, height-marker.getHeight() -10, null);
-				g2d.drawImage(separator, width/2 + 15+marker.getWidth(), height-separator.getHeight() -10, null);
-				g2d.drawString(coins_p2,width/2+ 20+marker.getWidth()+separator.getWidth(), height-10);
-			}
-			break;
-		case Game.TIME:
-			marker = Constants.img_handler.getImageHud(x_imgs[COIN], y_imgs[COIN], width_imgs[COIN], height_imgs[COIN]);
-			break;
+		//Puntuaciones
+		f = font_bold.deriveFont(22.0f);
+		g2d.setFont(f);
+		//Marcador del jugador 1
+		if(marker_img != null){
+			g2d.drawImage(marker_img, marker_p1X, marker_p1Y,marker_width,marker_height, null);
 		}
-		
-		//
-		
-
-		//Vuelca en el panel lo que se ha dibujado
-		//getGraphics().drawImage(offscreen, 0, 0,width, height,null);
-		//getGraphics().dispose();
 	}
 
 	public void setScoreDistanceP1(double dist) {

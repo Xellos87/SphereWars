@@ -327,6 +327,8 @@ public class EndMenu extends Menu{
 	public void cursorDown() {
 		if(option<QUIT){
 			option++;
+		}else{
+			option = RESTART;
 		}
 	}
 
@@ -334,7 +336,8 @@ public class EndMenu extends Menu{
 	public void cursorUp() {
 		if(option>RESTART){
 			option--;
-			System.out.println(option);
+		}else{
+			option = QUIT;
 		}
 	}
 
@@ -386,7 +389,7 @@ public class EndMenu extends Menu{
 				for(int i=0; i<num; i++){
 					name_p1 += " ";
 				}
-				if(pos_rank_p1>pos_rank_p2 && pos_rank_p2 < 10){
+				if(pos_rank_p1<pos_rank_p2 && pos_rank_p2 < 10){
 					//Debe escribir aun el otro jugador
 					write_p2 = true;
 				}else{
@@ -402,7 +405,7 @@ public class EndMenu extends Menu{
 				for(int i=0; i<num; i++){
 					name_p2 += " ";
 				}
-				if(pos_rank_p2>pos_rank_p1 && pos_rank_p1 < 10){
+				if(pos_rank_p2<pos_rank_p1 && pos_rank_p1 < 10){
 					//Debe escribir aun el otro jugador
 					write_p1 = true;
 				}else{

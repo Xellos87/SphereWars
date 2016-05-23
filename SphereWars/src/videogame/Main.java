@@ -11,6 +11,7 @@ import javax.swing.JLayeredPane;
 
 import audio.Music;
 import media.ImageHandler;
+import menu.EndMenu;
 import menu.Menu;
 import menu.OptionMenu;
 import menu.PauseMenu;
@@ -309,19 +310,41 @@ public class Main implements Runnable, KeyListener{
 			}			
 			break;
 		case Constants.GAME:			
-			if(e.getKeyCode() == KeyEvent.VK_SPACE){
+			if(e.getKeyCode() == Constants.teclaPausap1 || e.getKeyCode() == Constants.teclaPausap2){
 				pause = true;
 				state = Constants.PAUSE;
 				game.showPause();
 				System.out.println("PAUSA!");				
 			}else{
-				game.keyPressed(e);
+				int option = game.keyPressed(e);
+				if(option == EndMenu.QUIT){
+					
+				}
 			}
 			break;
 		case Constants.PAUSE:
-			pause = false;
-			state = Constants.GAME;
-			game.hiddenPause();
+			if(e.getKeyCode() == Constants.teclaPausap1 || e.getKeyCode() == Constants.teclaPausap2){
+				pause = false;
+				state = Constants.GAME;
+				game.hiddenPause();			
+			}else{
+				int option = game.keyPressed(e);
+				if(option == PauseMenu.CONTINUE || option == PauseMenu.RESTART){
+					pause = false;
+					state = Constants.GAME;
+					game.hiddenPause();	
+				}else if(option == PauseMenu.QUIT){
+					/*menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
+					Constants.enMenu = true;
+					Constants.tipoMenu = Constants.titMenu;
+					menu.setDoubleBuffered(true);
+					state = Constants.MENU;
+					window.removeAll();
+					window.add(menu, BorderLayout.CENTER);
+					window.pack();
+					*/
+				}
+			}
 		default:
 			break;
 		}

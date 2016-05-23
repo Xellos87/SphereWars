@@ -216,10 +216,25 @@ public class Game extends JLayeredPane{
 	}
 
 	//TODO: teclas para el segundo jugador y menu de pausa y fin de juego
-	public void keyPressed(KeyEvent e) {
+	public int keyPressed(KeyEvent e) {
+		int response = 0;
 		if(pause.isVisible()){
 			//Menu de pausa abierto, se propaga
-
+			if(e.getKeyCode() == KeyEvent.VK_DOWN){
+				pause.cursorDown();
+			}else if(e.getKeyCode() == KeyEvent.VK_UP){
+				pause.cursorUp();
+			}else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+				String opc = pause.cursorEnter();
+				if(Integer.parseInt(opc) == PauseMenu.CONTINUE){
+					response = PauseMenu.CONTINUE;
+				}else if(Integer.parseInt(opc) == PauseMenu.RESTART){
+					restartGame();
+					response = PauseMenu.RESTART;
+				}else if(Integer.parseInt(opc) == PauseMenu.QUIT){
+					response = PauseMenu.QUIT;
+				}
+			}
 		}else if(end.isVisible()){
 			//Menu de fin abierto, se realizan las acciones
 			if(e.getKeyCode() == KeyEvent.VK_DOWN){
@@ -230,34 +245,13 @@ public class Game extends JLayeredPane{
 				int opt = end.keyPressed(e);
 				switch(opt){
 				case EndMenu.RESTART:
-					Constants.map_index = new ArrayList<Integer>();
-					if(mode == MODE_2D){
-						game2d_1p.restart(map_p1);
-						if(num_players > 1){
-							game2d_2p.restart(map_p2);
-						}
-					}else if(mode == MODE_3D){
-						//
-						if(num_players > 1){
-							//
-						}
-					}
+					restartGame();
 					break;
 				case EndMenu.REPEAT:
-					if(mode == MODE_2D){
-						game2d_1p.restart(map_p1);
-						if(num_players > 1){
-							game2d_2p.restart(map_p2);
-						}
-					}else if(mode == MODE_3D){
-						//
-						if(num_players > 1){
-							//
-						}
-					}
+					reinitGame();
 					break;
 				case EndMenu.QUIT:
-
+					response = EndMenu.QUIT;
 					break;
 				}
 				if(opt != EndMenu.NONE){
@@ -280,6 +274,26 @@ public class Game extends JLayeredPane{
 				}else if(mode == MODE_3D){
 
 				}
+			}
+		}
+		return response;
+	}
+
+	private void restartGame() {
+		Constants.map_index = new ArrayList<Integer>();
+		reinitGame();
+	}
+	
+	private void reinitGame(){
+		if(mode == MODE_2D){
+			game2d_1p.restart(map_p1);
+			if(num_players > 1){
+				game2d_2p.restart(map_p2);
+			}
+		}else if(mode == MODE_3D){
+			//
+			if(num_players > 1){
+				//
 			}
 		}
 	}
