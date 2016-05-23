@@ -200,4 +200,16 @@ public class TitleMenu extends Menu {
 	public String cursorEnter() {
 		return cursor.enter();
 	}
+
+	@Override
+	public void cursorRight() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cursorLeft() {
+		// TODO Auto-generated method stub
+		
+	}
 }

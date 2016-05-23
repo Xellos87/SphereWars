@@ -58,4 +58,18 @@ public class PauseMenu extends Menu {
 		
 	}
 
+
+	@Override
+	public void cursorRight() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void cursorLeft() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

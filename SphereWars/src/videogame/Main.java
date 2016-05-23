@@ -175,6 +175,16 @@ public class Main implements Runnable, KeyListener{
 			}else if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
 				menu.cursorUp();
 				System.out.println("Up key pressed");
+			}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+				System.out.println("right key pressed");
+				if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
+					menu.cursorRight();
+				}
+			}else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+				System.out.println("left key pressed");
+				if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
+					menu.cursorLeft();
+				}
 			}else if(e.getKeyCode() == KeyEvent.VK_ENTER){	//pulsacion de enter
 				String nuevoMenu = menu.cursorEnter();
 				System.out.println("Enter pressed. Option: "+nuevoMenu);
