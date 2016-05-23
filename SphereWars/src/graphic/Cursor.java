@@ -30,16 +30,16 @@ public class Cursor {
 		if(menuType.equalsIgnoreCase(Constants.titMenu)){
 			maxPos = Constants.titleMaxPos;
 			gap = Constants.titleGap;
-			pos = Constants.titleIniPos;
 			iniposX = Constants.titleIniPos.getX();
 			iniposY = Constants.titleIniPos.getY();
+			pos = new Position(iniposX,iniposY);
 			opcion = Constants.list_menu[numPos];
 		}else if(menuType.equals(Constants.optMenu)){
 			maxPos = Constants.optionMaxPos;
 			gap = Constants.titleGap;
-			pos = Constants.optionIniPos;
 			iniposX = Constants.optionIniPos.getX();
 			iniposY = Constants.optionIniPos.getY();
+			pos = new Position(iniposX,iniposY);
 			opcion = Constants.list_options[numPos];
 		}
 	}
@@ -116,5 +116,21 @@ public class Cursor {
 	
 	public String getOpcion() {
 		return opcion;
+	}
+
+	public void right() {
+		if(menuType.equals(Constants.titMenu)){
+			int newX = Constants.dosDjPos.getX() - 60;
+			int newY = Constants.dosDjPos.getY();
+			pos.changePosition(newX, newY);
+		}
+	}
+
+	public void left() {
+		if(menuType.equals(Constants.titMenu)){
+			int newX = iniposX;
+			int newY = iniposY;
+			pos.changePosition(newX, newY);
+		}
 	}
 }

@@ -202,14 +202,12 @@ public class TitleMenu extends Menu {
 	}
 
 	@Override
-	public void cursorRight() {
-		// TODO Auto-generated method stub
-		
+	public void cursorRight() {		
+		cursor.right();
 	}
 
 	@Override
 	public void cursorLeft() {
-		// TODO Auto-generated method stub
-		
+		cursor.left();
 	}
 }
