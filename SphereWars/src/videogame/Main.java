@@ -198,6 +198,7 @@ public class Main implements Runnable, KeyListener{
 								
 							}else if(nuevoMenu.equalsIgnoreCase("start")){
 								Constants.enMenu = false;
+								music.playGame();
 								game = new Game(width*Constants.scale, height*Constants.scale, Game.MODE_2D, Game.COINS, 1);
 								window.add(game,BorderLayout.CENTER);
 								window.pack();
@@ -228,7 +229,6 @@ public class Main implements Runnable, KeyListener{
 							System.out.println(Constants.sound);
 							Constants.sound = !Constants.sound;
 						}
-						//TODO: que funcione el cambio de resolucion de la pantalla
 						else if(nuevoMenu.equalsIgnoreCase("resolution")){
 							System.out.println(Constants.scale);
 							if(Constants.scale == 2){
@@ -236,6 +236,11 @@ public class Main implements Runnable, KeyListener{
 							}else if(Constants.scale == 4){
 								Constants.scale = 2;
 							}
+							window.setPreferredSize(new Dimension(width*Constants.scale, height*Constants.scale));
+							menu = new OptionMenu(width*Constants.scale, height*Constants.scale);
+							menu.setDoubleBuffered(true);
+							window.add(menu, BorderLayout.CENTER);
+							window.pack();
 						}					
 						else if(nuevoMenu.equalsIgnoreCase("controller")){
 							if(!Constants.elegidoJugador){

@@ -14,9 +14,10 @@ import paulscode.sound.SoundSystemConfig;
 import paulscode.sound.SoundSystemException;
 import paulscode.sound.codecs.CodecJOgg;
 import paulscode.sound.libraries.LibraryJavaSound;
+import utils.Constants;
 
 public class Music {
-	final int TIME = 10000; // En ms
+	final int TIME = 5000; // En ms
 
 	private Random r;
 
@@ -28,7 +29,9 @@ public class Music {
 	private String nextSong = "";
 	private int nextLength = -1;
 	private SoundSystem mySoundSystem;
-	float volume = 1f;
+	private boolean fade = false;
+	private float fadeTime;
+	//float volume = 1f;
 	
 	// Se pone a cierto cuando a la cancion le quedan TIME ms
 	// para cargar la siguiente cancion
@@ -121,18 +124,22 @@ public class Music {
 	public void play(int i) {
 		File f = actualList.get(i);
 		String name = f.getName();
-		
+		// Si no hay sonido no ejecutamos sonido
+		if (!Constants.sound) return;
 		try {
 			if(!mySoundSystem.playing()){
-				System.out.println("Reproduciendo " + actualSong);
 				actualSong = name;
 				actualLength = songLength();
-				mySoundSystem.backgroundMusic(actualSong, f.toURI().toURL(), actualSong, true);
+				System.out.println("Reproduciendo " + actualSong + " " + actualLength);
+				//mySoundSystem.backgroundMusic(sourcename, url, identifier, toLoop);
+				mySoundSystem.backgroundMusic(actualSong, f.toURI().toURL(), actualSong, false);
 				mySoundSystem.setVolume(actualSong, 1.0f);
 			}else{
+				System.out.println("Fade " + name);
 				nextSong = name;
 				nextLength = songLength(name);	
-				mySoundSystem.fadeOutIn(name, f.toURI().toURL(), name, TIME, TIME);
+				//mySoundSystem.fadeOutIn(sourcename, url, identifier, 1000, milisIn);
+				mySoundSystem.fadeOutIn(name, f.toURI().toURL(), name, 1000, TIME);
 			
 				//mySoundSystem.backgroundMusic(actualSong, f.toURI().toURL(), actualSong, true);
 				//mySoundSystem.setVolume(actualSong, 1.0f);
@@ -197,17 +204,34 @@ public class Music {
 		if(actualSong.equals("") || !mySoundSystem.playing())	return;
 		float timeLeft = (actualLength * 1000) - mySoundSystem.millisecondsPlayed(actualSong);
 		//int timeLeft = player.getDuration() - player.getPosition();
-		System.out.println(actualSong);
-		System.out.println(timeLeft);
+		//System.out.println(actualSong);
+		System.out.println(timeLeft + " " + mySoundSystem.getVolume(actualSong) + " " + mySoundSystem.getVolume(nextSong));
+		//System.out.print("\b\b\b\b\b\b\b\b\b\b\b");
 
 		// La cancion que estaba sonando acaba, actualizamos a la nueva cancion
-		if(actualSong.equals("") || !mySoundSystem.playing()){
+		//if(actualSong.equals("") || !mySoundSystem.playing()){
+		//mySoundSystem.
+		//if(changing == false && !mySoundSystem.playing(actualSong)){
+		if(fade && (mySoundSystem.millisecondsPlayed(actualSong) - fadeTime > TIME)){
+			mySoundSystem.stop(actualSong);
+			actualSong = nextSong;
+			actualLength = nextLength;
+			nextSong = "";
+			nextLength = -1;
+			changing = true;
+			actual = next;
+			fade = false;
+		}else
+		if(changing == false && timeLeft < 0){
+			//System.out.println("Cambiando cancion");
+			mySoundSystem.stop(actualSong);
 			actualSong = nextSong;
 			actualLength = nextLength;
 			changing = true;
-			
+			actual = next;
+			fade = false;
 		}
-		if (timeLeft < TIME) {
+		if (timeLeft < TIME || fade) {
 			if (changing == true) {
 				int nueva = -1;
 				do {
@@ -217,12 +241,26 @@ public class Music {
 				changing = false;
 				File n = actualList.get(nueva);
 				try {
-					mySoundSystem.fadeOutIn(actualSong, n.toURI().toURL(), n.getName(), TIME, TIME);
+					nextSong = n.getName();
+					nextLength = songLength(nextSong);
+					//System.err.println("");
+					//System.err.println("Introduciendo nueva cancion " + nextSong + " " + nextLength);
+					mySoundSystem.backgroundMusic(nextSong, n.toURI().toURL(), nextSong, false);
+					//mySoundSystem.fadeOutIn(nextSong, n.toURI().toURL(), nextSong, TIME, TIME);
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
+				
+			}
+			//System.out.println((timeLeft / ((float)TIME)));
+			if(fade){
+				float t = mySoundSystem.millisecondsPlayed(actualSong) - fadeTime;
+				mySoundSystem.setVolume(actualSong,1- (t / ((float)TIME)));
+				mySoundSystem.setVolume(nextSong,(t / ((float)TIME)));
+			}else{
+				mySoundSystem.setVolume(actualSong, (timeLeft / ((float)TIME)));
+				mySoundSystem.setVolume(nextSong,1-(timeLeft / ((float)TIME)));
 			}
 
 		}
@@ -230,25 +268,37 @@ public class Music {
 	public void playMenu(){
 		actualList = menuFiles;
 		int nueva = -1;
+		
 		//System.out.println("En playmenu");
 		nueva = r.nextInt(actualList.size());
+		next = nueva;
 		//nextSong = actualList.get(nueva).getName();
 		play(nueva);
 	}
 	public void playGame(){
 		actualList = gameFiles;
 		int nueva = -1;
-		
 		nueva = r.nextInt(actualList.size());
+		next = nueva;
+		fade = true;
+		fadeTime = mySoundSystem.millisecondsPlayed(actualSong);
 		//nextSong = actualList.get(nueva).getName();
 		play(nueva);
 	}
 	public void playBoss(){
 		actualList = bossFiles;
 		int nueva = -1;
-		
 		nueva = r.nextInt(actualList.size());
+		next = nueva;
 		//nextSong = actualList.get(nueva).getName();
 		play(nueva);
+	}
+
+	public boolean isFade() {
+		return fade;
+	}
+
+	public void setFade(boolean fade) {
+		this.fade = fade;
 	}
 }
