@@ -39,7 +39,6 @@ public class OptionMenu extends Menu {
 	BufferedImage volver;
 	BufferedImage controles1;
 	BufferedImage controles2;
-	BufferedImage ok;
 	
 	
 	//TODO: jugador1, jugador2
@@ -59,11 +58,11 @@ public class OptionMenu extends Menu {
 	}
 
 	private void dibujarLetras(Graphics2D offgc) {
+		//dibujar opciones de menu
+		if(title!=null){
+			offgc.drawImage(title, Constants.titlePos.getX(), Constants.titlePos.getY(), (int)(title.getWidth()/5), (int)(title.getHeight()/5), null);
+		}
 		if(!Constants.elegidoJugador){
-			//dibujar opciones de menu
-			if(title!=null){
-				offgc.drawImage(title, Constants.titlePos.getX(), Constants.titlePos.getY(), (int)(title.getWidth()/5), (int)(title.getHeight()/5), null);
-			}
 			if(sonido!=null && !cursor.getOpcion().equalsIgnoreCase("sound")){
 				offgc.drawImage(sonido, Constants.soundPos.getX(), Constants.soundPos.getY(), (int)(sonido.getWidth()/2), (int)(sonido.getHeight()/2), null);
 			}else{
@@ -102,34 +101,44 @@ public class OptionMenu extends Menu {
 			}
 		}else{
 			if(Constants.jugador==1){
-				if(controles1!=null){
+				if(controles1!=null && !cursor.getOpcion().equalsIgnoreCase("controller")){
 					offgc.drawImage(controles1, Constants.controller1Pos.getX(), Constants.controller1Pos.getY(), (int)(controles1.getWidth()/2), (int)(controles1.getHeight()/2), null);
 				}else{
 					offgc.drawImage(controles1, Constants.controller1Pos.getX()+Constants.desplazamiento, Constants.controller1Pos.getY(), controles1.getWidth()/2,controles1.getHeight()/2, null);
 				}
-				if(teclado!=null && Constants.conTeclado){
-					offgc.drawImage(teclado, Constants.keyboardPos.getX(), Constants.keyboardPos.getY()+5, (int)(teclado.getWidth()/2.5), (int)(teclado.getHeight()/2.5), null);
+				if(teclado!=null && Constants.conTeclado && !cursor.getOpcion().equalsIgnoreCase("device")){
+					offgc.drawImage(teclado, Constants.keyboardPos.getX(), Constants.keyboardPos.getY(), (int)(teclado.getWidth()/2), (int)(teclado.getHeight()/2), null);
+				}else if(teclado!=null && Constants.conTeclado){
+					offgc.drawImage(teclado, Constants.keyboardPos.getX()+Constants.desplazamiento, Constants.keyboardPos.getY(), (int)(teclado.getWidth()/2), (int)(teclado.getHeight()/2), null);
 				}
-				if(kinect!=null && !Constants.conTeclado){
-					offgc.drawImage(kinect, Constants.kinnectPos.getX(), Constants.kinnectPos.getY()+5, (int)(kinect.getWidth()/2.5), (int)(kinect.getHeight()/2.5), null);
+				if(kinect!=null && !Constants.conTeclado && !cursor.getOpcion().equalsIgnoreCase("device")){
+					offgc.drawImage(kinect, Constants.kinnectPos.getX(), Constants.kinnectPos.getY(), (int)(kinect.getWidth()/2), (int)(kinect.getHeight()/2), null);
+				}else if(kinect!=null && !Constants.conTeclado){
+					offgc.drawImage(kinect, Constants.kinnectPos.getX()+Constants.desplazamiento, Constants.kinnectPos.getY(), (int)(kinect.getWidth()/2), (int)(kinect.getHeight()/2), null);
 				}
 			}
 			if(Constants.jugador==2){
-				if(controles2!=null){
+				if(controles2!=null && !cursor.getOpcion().equalsIgnoreCase("controller")){
 					offgc.drawImage(controles2, Constants.controller2Pos.getX(), Constants.controller2Pos.getY(), (int)(controles2.getWidth()/2), (int)(controles2.getHeight()/2), null);
 				}else{
 					offgc.drawImage(controles2, Constants.controller2Pos.getX()+Constants.desplazamiento, Constants.controller2Pos.getY(), controles2.getWidth()/2,controles2.getHeight()/2, null);
 				}
 			}			
 			if(Constants.conTeclado || Constants.jugador == 2){
-				if(teclas!=null){
-					offgc.drawImage(teclas, Constants.keyPos.getX(), Constants.keyPos.getY(), (int)(teclas.getWidth()/2.25), (int)(teclas.getHeight()/2.25), null);
+				if(teclas!=null && !cursor.getOpcion().equalsIgnoreCase("pause")){
+					offgc.drawImage(teclas, Constants.keyPos.getX(), Constants.keyPos.getY(), (int)(teclas.getWidth()/2), (int)(teclas.getHeight()/2), null);
+				}else{
+					offgc.drawImage(teclas, Constants.keyPos.getX()+Constants.desplazamiento, Constants.keyPos.getY(), (int)(teclas.getWidth()/2), (int)(teclas.getHeight()/2), null);
 				}
-				if(saltar!=null){
+				if(saltar!=null && !cursor.getOpcion().equalsIgnoreCase("jump")){
 					offgc.drawImage(saltar, Constants.jumpPos.getX(), Constants.jumpPos.getY(), (int)(saltar.getWidth()/2), (int)(saltar.getHeight()/2), null);
+				}else{
+					offgc.drawImage(saltar, Constants.jumpPos.getX()+Constants.desplazamiento, Constants.jumpPos.getY(), (int)(saltar.getWidth()/2), (int)(saltar.getHeight()/2), null);
 				}
-				if(correr!=null){
+				if(correr!=null && !cursor.getOpcion().equalsIgnoreCase("run")){
 					offgc.drawImage(correr, Constants.runPos.getX(), Constants.runPos.getY(), (int)(correr.getWidth()/2), (int)(correr.getHeight()/2), null);
+				}else{
+					offgc.drawImage(correr, Constants.runPos.getX()+Constants.desplazamiento, Constants.runPos.getY(), (int)(correr.getWidth()/2), (int)(correr.getHeight()/2), null);
 				}
 			}
 		}		
@@ -165,9 +174,9 @@ public class OptionMenu extends Menu {
 			System.err.println("Problem with source " + Constants.jumpName);
 		}
 		try {
-			teclas= ImageIO.read(new File(Constants.keyName));
+			teclas= ImageIO.read(new File(Constants.pauseName));
 		} catch (IOException e) {
-			System.err.println("Problem with source " + Constants.keyName);
+			System.err.println("Problem with source " + Constants.pauseName);
 		}
 		try {
 			kinect= ImageIO.read(new File(Constants.kinnectName));
@@ -225,11 +234,6 @@ public class OptionMenu extends Menu {
 			System.err.println("Problem with source " + Constants.yesName);
 		}
 		try {
-			ok= ImageIO.read(new File(Constants.okName));
-		} catch (IOException e) {
-			System.err.println("Problem with source " + Constants.okName);
-		}
-		try {
 			controles1 = ImageIO.read(new File(Constants.controller1Name));
 		} catch (IOException e) {
 			System.err.println("Problem with source " + Constants.controller1Name);
@@ -283,14 +287,18 @@ public class OptionMenu extends Menu {
 
 	@Override
 	public void cursorRight() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void cursorLeft() {
-		// TODO Auto-generated method stub
-		
+	}
+
+	public void cambiarCursor() {
+		if(Constants.elegidoJugador){
+			cursor = new Cursor(Constants.conMenu);
+		}else{
+			cursor = new Cursor(Constants.optMenu); 
+		}		
 	}
 
 }

@@ -18,7 +18,6 @@ public class Cursor {
 	private String opcion;
 	private int numPos, maxPos, gap;
 	private String menuType;
-	//TODO: ARREGLAR PROBLEMAS DE CURSOR. POR QUE HAGO SIEMPRE LAS COSAS MAL A LA PRIMERA
 	public Cursor(String menuType){		
 		this.menuType = menuType;
 		numPos = 0;
@@ -41,6 +40,13 @@ public class Cursor {
 			iniposY = Constants.optionIniPos.getY();
 			pos = new Position(iniposX,iniposY);
 			opcion = Constants.list_options[numPos];
+		}else if(menuType.equalsIgnoreCase(Constants.conMenu)){
+			maxPos = Constants.controlMaxPos;
+			gap = Constants.titleGap;
+			iniposX = Constants.optionIniPos.getX();
+			iniposY = Constants.optionIniPos.getY();
+			pos = new Position(iniposX,iniposY);
+			opcion = Constants.list_controller[numPos];
 		}
 	}
 	
@@ -67,20 +73,26 @@ public class Cursor {
 	public void nextPosition() {
 		System.out.println(numPos+"/"+maxPos);
 		numPos = (numPos + 1) % maxPos;
+		if(menuType.equalsIgnoreCase(Constants.conMenu) && Constants.jugador==2 && numPos == 1){
+			numPos ++;
+		}
 		if(menuType.equalsIgnoreCase(Constants.titMenu)){
 			opcion = Constants.list_menu[numPos];
 		}else if(menuType.equalsIgnoreCase(Constants.optMenu)){
 			opcion = Constants.list_options[numPos];
-		}		
-		int newY, newX;
-		newY = iniposY + gap * numPos;
-		newX = iniposX;
-		if(opcion.equalsIgnoreCase("jump")){
-			System.out.println("in jump "+newX +" "+newY);
-			newY+=gap;
-		}else if(opcion.equalsIgnoreCase("run")){
-			newX+=260;
+		}else if(menuType.equalsIgnoreCase(Constants.conMenu)){
+			opcion = Constants.list_controller[numPos];
+					
 		}
+		int newY, newX;
+		newY = (iniposY + gap * numPos);
+		newX = iniposX;
+//		if(opcion.equalsIgnoreCase("jump")){
+//			System.out.println("in jump "+newX +" "+newY);
+//			newY+=gap;
+//		}else if(opcion.equalsIgnoreCase("run")){
+//			newX+=260;
+//		}
 		System.out.println(newY+" "+newX);
 		
 		pos.changePosition(newX, newY);
@@ -92,19 +104,24 @@ public class Cursor {
 			numPos = Math.abs((numPos - 1)) % maxPos;
 		else
 			numPos = maxPos-1;
+		if(menuType.equalsIgnoreCase(Constants.conMenu) && Constants.jugador==2 && numPos == 1){
+			numPos --;
+		}
 		if(menuType.equalsIgnoreCase(Constants.titMenu)){
 			opcion = Constants.list_menu[numPos];
 		}else if(menuType.equalsIgnoreCase(Constants.optMenu)){
 			opcion = Constants.list_options[numPos];
+		}else if(menuType.equalsIgnoreCase(Constants.conMenu)){
+			opcion = Constants.list_controller[numPos];
 		}
 		int newY, newX;
 		newY = iniposY + gap * numPos;
 		newX = iniposX;
-		if(opcion.equalsIgnoreCase("run")){
-			newX += 260;
-		}else if(opcion.equalsIgnoreCase("jump")){
-			newY+=gap;
-		}
+//		if(opcion.equalsIgnoreCase("run")){
+//			newX += 260;
+//		}else if(opcion.equalsIgnoreCase("jump")){
+//			newY+=gap;
+//		}
 		System.out.println(newY);
 		
 		pos.changePosition(newX, newY);

@@ -237,10 +237,23 @@ public class Main implements Runnable, KeyListener{
 					}
 					//TODO: cambio entre controlador Kinect y teclado (en juego)
 					else if(nuevoMenu.equalsIgnoreCase("controller")){
-						System.out.println(Constants.conTeclado);
-						Constants.conTeclado = !Constants.conTeclado;
+						if(!Constants.elegidoJugador){
+							Constants.elegidoJugador=true;
+							if(menu instanceof OptionMenu){
+								((OptionMenu)menu).cambiarCursor();
+							}
+						}else{
+							if(Constants.jugador==1){
+								Constants.jugador = 2;
+							}else{
+								Constants.elegidoJugador=false;
+								Constants.jugador=1;
+								if(menu instanceof OptionMenu){
+									((OptionMenu)menu).cambiarCursor();
+								}
+							}
+						}
 					}
-					//TODO: arreglar
 					else if(nuevoMenu.equalsIgnoreCase("back")){
 						System.out.println("back to main menu");
 						menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
@@ -251,18 +264,8 @@ public class Main implements Runnable, KeyListener{
 						window.pack();
 					}
 					else if(nuevoMenu.equalsIgnoreCase("jump") || nuevoMenu.equalsIgnoreCase("run")){
-						//TODO: pop up dialog para elegir una nueva tecla?
+						//TODO: dejar elegir una tecla
 					}
-					//aun no va, ponerlo en la opcion de volver
-					/*if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
-						System.out.println("delete key pressed");
-						menu = new TitleMenu(width*scale, height*scale);
-						Constants.tipoMenu = Constants.titMenu;
-						menu.setDoubleBuffered(true);
-						state = Constants.MENU;	//redundante
-						window.add(menu, BorderLayout.CENTER);
-						window.pack();
-					}*/
 				}
 				//TODO: resto de casos
 			}
