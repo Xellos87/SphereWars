@@ -29,6 +29,9 @@ public class PauseMenu extends Menu {
 	private BufferedImage cursor_img;
 	//Fuente a utilizar
 	private Font font_bold;
+	//Tamaño de los textos
+	private float title_size = 21.0f;
+	private float option_size = 13.0f;
 	//Posiciones de los textos
 	private int pauseX, pauseY;
 	private int continueX, continueY;
@@ -62,7 +65,7 @@ public class PauseMenu extends Menu {
 	private void calculatePositions() {
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
-		Font f = font_bold.deriveFont(42.0f);
+		Font f = font_bold.deriveFont(title_size*Constants.scale);
 		g.setFont(f);
 		//Calculo de posicion del titulo
 		int width_text = g.getFontMetrics().stringWidth(PAUSE);
@@ -72,7 +75,7 @@ public class PauseMenu extends Menu {
 		//Calculo del movimiento de la opcion
 		movX = width/10;
 		//Calculo de la posicion de los menus
-		f = font_bold.deriveFont(26.0f);
+		f = font_bold.deriveFont(option_size*Constants.scale);
 		g.setFont(f);
 		width_text = g.getFontMetrics().stringWidth(TXT_RESTART);
 		//Calculo de continuar
@@ -98,13 +101,13 @@ public class PauseMenu extends Menu {
 		g2d.setColor(new Color(0, 0, 0, 180));
 		g2d.fillRect(0, 0, width, height);
 		
-		Font f = font_bold.deriveFont(42.0f);
+		Font f = font_bold.deriveFont(title_size*Constants.scale);
 		g2d.setFont(f);
 		g2d.setColor(new Color(255,255,255,255));
 		//Pinta el titulo de la pantalla
 		g2d.drawString(PAUSE, pauseX, pauseY);
 		//Pinta las opciones
-		f = font_bold.deriveFont(26.0f);
+		f = font_bold.deriveFont(option_size*Constants.scale);
 		g2d.setFont(f);
 		//Calcula la posicion de la opcion seleccionada
 		int mov_continue = 0;

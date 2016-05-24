@@ -70,6 +70,11 @@ public class EndMenu extends Menu{
 	private BufferedImage cursor_img;
 	//Opcion del menu
 	private int option;
+	//Tamaño de los textos
+	private float title_size = 21.0f;
+	private float option_size = 13.0f;
+	private float score_size = 10.0f;
+	private float ranking_size = 7.5f;
 	//Posiciones de los textos
 	private int game_overX, game_overY;
 	private int player_1X, player_1Y;
@@ -110,13 +115,13 @@ public class EndMenu extends Menu{
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 		//Calculo de posicion del titulo
-		Font f = font_bold.deriveFont(42.0f);
+		Font f = font_bold.deriveFont(title_size * Constants.scale);
 		g.setFont(f);
 		int width_text = g.getFontMetrics().stringWidth(FIN_JUEGO);
 		game_overX = width/2 - width_text/2;
 		game_overY = height/6;
 		//Calculo de la posicion del player 1
-		f = font_bold.deriveFont(26.0f);
+		f = font_bold.deriveFont(option_size * Constants.scale);
 		g.setFont(f);
 		width_text = g.getFontMetrics().stringWidth(PLAYER1);
 		int height_text = g.getFontMetrics().getHeight();
@@ -172,13 +177,13 @@ public class EndMenu extends Menu{
 				alpha_text += 5;
 			}
 			//Fuente de la letra y color
-			Font f = font_bold.deriveFont(42.0f);
+			Font f = font_bold.deriveFont(title_size * Constants.scale);
 			g2d.setFont(f);
 			g2d.setColor(new Color(255,255,255,alpha_text));
 			//Titulo de fin de juego
 			g2d.drawString(FIN_JUEGO, game_overX, game_overY);
 			//Cabeceras del jugador 1
-			f = font_bold.deriveFont(26.0f);
+			f = font_bold.deriveFont(option_size * Constants.scale);
 			g2d.setFont(f);
 			g2d.drawString(PLAYER1, player_1X, player_1Y);
 			int height_text = g2d.getFontMetrics().getHeight();
@@ -215,7 +220,7 @@ public class EndMenu extends Menu{
 				g2d.drawString(TXT_QUIT, quitX+mov_quit, quitY);
 			}
 			//Puntuacion del jugador 1
-			f = font_bold.deriveFont(20.0f);
+			f = font_bold.deriveFont(score_size * Constants.scale);
 			g2d.setFont(f);
 			String score = "";
 			if(type == Game.RUNNER){
@@ -234,7 +239,7 @@ public class EndMenu extends Menu{
 				g2d.drawString(score, score_p2X, score_p2Y);
 			}
 			//Imprime el ranking
-			f = font_bold.deriveFont(15.0f);
+			f = font_bold.deriveFont(ranking_size * Constants.scale);
 			g2d.setFont(f);
 			height_text = g2d.getFontMetrics().getHeight();
 			RankingEntry[] rank = Constants.ranking.getRanking(type);
