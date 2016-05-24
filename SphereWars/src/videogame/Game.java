@@ -250,9 +250,6 @@ public class Game extends JLayeredPane{
 				end.cursorUp();
 			}else{
 				int opt = end.keyPressed(e);
-				if(opt != EndMenu.NONE){
-					end.setVisible(false);
-				}
 				switch(opt){
 				case EndMenu.RESTART:
 					restartGame();
@@ -303,5 +300,8 @@ public class Game extends JLayeredPane{
 				//
 			}
 		}
+		death_p1 = false;
+		death_p2 = num_players==1;
+		end.setVisible(false);
 	}
 }

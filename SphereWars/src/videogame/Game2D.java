@@ -20,6 +20,8 @@ public class Game2D extends JPanel {
 	private Sphere player;
 	//Flag que indica si la partida ha acabado
 	private boolean end_game;
+	//Numero de jugadores
+	private int num_player;
 	//Valor de alfa para oscurecimiento de pantalla por muerte y valor maximo
 	private int alpha_death;
 	private final int MAX_ALPHA = 100;
@@ -37,6 +39,7 @@ public class Game2D extends JPanel {
 		this.height = height;
 		this.end_game = false;
 		this.alpha_death = 0;
+		this.num_player = num_player;
 		this.wait_other_player = num_player > 1;
 		setPreferredSize(new Dimension(width, height));
 		setDoubleBuffered(true);
@@ -153,6 +156,7 @@ public class Game2D extends JPanel {
 		init_score();
 		end_game = false;
 		alpha_death = 0;
+		wait_other_player = num_player > 1;
 	}
 
 	public void keyPressed(KeyEvent e) {
