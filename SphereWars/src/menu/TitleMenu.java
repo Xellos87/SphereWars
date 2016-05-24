@@ -126,53 +126,53 @@ public class TitleMenu extends Menu {
 		}		
 		//dibujar opciones de menu
 		if(title!=null){
-			offgc.drawImage(title, Constants.titlePos.getX(), Constants.titlePos.getY(), (int)(title.getWidth()/5), (int)(title.getHeight()/5), null);
+			offgc.drawImage(title, Constants.titlePos.getX()+Constants.ax, Constants.titlePos.getY()+Constants.ay, (int)(title.getWidth()/5), (int)(title.getHeight()/5), null);
 		}
 		if(jugar!=null && !cursor.getOpcion().equalsIgnoreCase("start")){	
-			offgc.drawImage(jugar, Constants.jugarPos.getX(), Constants.jugarPos.getY(), jugar.getWidth()/2,jugar.getHeight()/2, null);
+			offgc.drawImage(jugar, Constants.jugarPos.getX()+Constants.ax, Constants.jugarPos.getY()+Constants.ay, jugar.getWidth()/2,jugar.getHeight()/2, null);
 		}else{
-			offgc.drawImage(jugar, Constants.jugarPos.getX()+Constants.desplazamiento, Constants.jugarPos.getY(), jugar.getWidth()/2,jugar.getHeight()/2, null);
+			offgc.drawImage(jugar, Constants.jugarPos.getX()+Constants.desplazamiento+Constants.ax, Constants.jugarPos.getY()+Constants.ay, jugar.getWidth()/2,jugar.getHeight()/2, null);
 		}
 		if(dosD!=null && Constants.visualMode.equalsIgnoreCase("2D")){
-			offgc.drawImage(dosD, Constants.dosDjPos.getX(), Constants.dosDjPos.getY(), dosD.getWidth()/2,dosD.getHeight()/2, null);
+			offgc.drawImage(dosD, Constants.dosDjPos.getX()+Constants.ax, Constants.dosDjPos.getY()+Constants.ay, dosD.getWidth()/2,dosD.getHeight()/2, null);
 		}else{
-			offgc.drawImage(dosD, Constants.dosDjPos.getX(), Constants.dosDjPos.getY(), (int)(dosD.getWidth()/2.5),(int)(dosD.getHeight()/2.5), null);
+			offgc.drawImage(dosD, Constants.dosDjPos.getX()+Constants.ax, Constants.dosDjPos.getY()+Constants.ay, (int)(dosD.getWidth()/2.5),(int)(dosD.getHeight()/2.5), null);
 			
 		}
 		if(tresD!=null && Constants.visualMode.equalsIgnoreCase("3D")){
-			offgc.drawImage(tresD, Constants.tresDjPos.getX()-5, Constants.tresDjPos.getY(), tresD.getWidth()/2,tresD.getHeight()/2, null);
+			offgc.drawImage(tresD, Constants.tresDjPos.getX()-5+Constants.ax, Constants.tresDjPos.getY()+Constants.ay, tresD.getWidth()/2,tresD.getHeight()/2, null);
 		}else{
-			offgc.drawImage(tresD, Constants.tresDjPos.getX(), Constants.tresDjPos.getY(), (int)(tresD.getWidth()/2.5),(int)(tresD.getHeight()/2.5), null);
+			offgc.drawImage(tresD, Constants.tresDjPos.getX()+Constants.ax, Constants.tresDjPos.getY()+Constants.ay, (int)(tresD.getWidth()/2.5),(int)(tresD.getHeight()/2.5), null);
 			
 		}
 		if(versus!=null && !cursor.getOpcion().equalsIgnoreCase("versus")){	
-			offgc.drawImage(versus, Constants.versusPos.getX(), Constants.versusPos.getY(), versus.getWidth()/2,versus.getHeight()/2, null);
+			offgc.drawImage(versus, Constants.versusPos.getX()+Constants.ax, Constants.versusPos.getY()+Constants.ay, versus.getWidth()/2,versus.getHeight()/2, null);
 		}else{
-			offgc.drawImage(versus, Constants.versusPos.getX()+Constants.desplazamiento, Constants.versusPos.getY(), versus.getWidth()/2,versus.getHeight()/2, null);
+			offgc.drawImage(versus, Constants.versusPos.getX()+Constants.desplazamiento+Constants.ax, Constants.versusPos.getY()+Constants.ay, versus.getWidth()/2,versus.getHeight()/2, null);
 		}
 		if(help!=null && !cursor.getOpcion().equalsIgnoreCase("help")){
-			offgc.drawImage(help, Constants.helpPos.getX(), Constants.helpPos.getY(), help.getWidth()/2,help.getHeight()/2, null);
+			offgc.drawImage(help, Constants.helpPos.getX()+Constants.ax, Constants.helpPos.getY()+Constants.ay, help.getWidth()/2,help.getHeight()/2, null);
 		}else{
-			offgc.drawImage(help, Constants.helpPos.getX()+Constants.desplazamiento, Constants.helpPos.getY(), help.getWidth()/2,help.getHeight()/2, null);
+			offgc.drawImage(help, Constants.helpPos.getX()+Constants.desplazamiento+Constants.ax, Constants.helpPos.getY()+Constants.ay, help.getWidth()/2,help.getHeight()/2, null);
 		}
 		if(creditos!=null && !cursor.getOpcion().equalsIgnoreCase("credits")){	
-			offgc.drawImage(creditos, Constants.creditPos.getX(), Constants.creditPos.getY(), creditos.getWidth()/2,creditos.getHeight()/2, null);
+			offgc.drawImage(creditos, Constants.creditPos.getX()+Constants.ax, Constants.creditPos.getY()+Constants.ay, creditos.getWidth()/2,creditos.getHeight()/2, null);
 		}else{
-			offgc.drawImage(creditos, Constants.creditPos.getX()+Constants.desplazamiento, Constants.creditPos.getY(), creditos.getWidth()/2,creditos.getHeight()/2, null);
+			offgc.drawImage(creditos, Constants.creditPos.getX()+Constants.desplazamiento+Constants.ax, Constants.creditPos.getY()+Constants.ay, creditos.getWidth()/2,creditos.getHeight()/2, null);
 		}
 		if(opciones!=null && !cursor.getOpcion().equalsIgnoreCase("options")){
-			offgc.drawImage(opciones, Constants.opcionesPos.getX(), Constants.opcionesPos.getY(), opciones.getWidth()/2,opciones.getHeight()/2, null);
+			offgc.drawImage(opciones, Constants.opcionesPos.getX()+Constants.ax, Constants.opcionesPos.getY()+Constants.ay, opciones.getWidth()/2,opciones.getHeight()/2, null);
 		}else{
-			offgc.drawImage(opciones, Constants.opcionesPos.getX()+Constants.desplazamiento, Constants.opcionesPos.getY(), opciones.getWidth()/2,opciones.getHeight()/2, null);
+			offgc.drawImage(opciones, Constants.opcionesPos.getX()+Constants.desplazamiento+Constants.ax, Constants.opcionesPos.getY()+Constants.ay, opciones.getWidth()/2,opciones.getHeight()/2, null);
 		}
 		if(salir!=null && !cursor.getOpcion().equalsIgnoreCase("Exit")){
-			offgc.drawImage(salir, Constants.salirPos.getX(), Constants.salirPos.getY(), salir.getWidth()/2,salir.getHeight()/2, null);
+			offgc.drawImage(salir, Constants.salirPos.getX()+Constants.ax, Constants.salirPos.getY()+Constants.ay, salir.getWidth()/2,salir.getHeight()/2, null);
 		}else{
-			offgc.drawImage(salir, Constants.salirPos.getX()+Constants.desplazamiento, Constants.salirPos.getY(), salir.getWidth()/2,salir.getHeight()/2, null);
+			offgc.drawImage(salir, Constants.salirPos.getX()+Constants.desplazamiento+Constants.ax, Constants.salirPos.getY()+Constants.ay, salir.getWidth()/2,salir.getHeight()/2, null);
 		}
 		//dibujar cursor
 		if(cursor != null){
-			offgc.drawImage(cursor.getImage(), cursor.getPosition().getX(),cursor.getPosition().getY(), cursor.getWidth()/4, cursor.getHeight()/4, null);
+			offgc.drawImage(cursor.getImage(), cursor.getPosition().getX()+Constants.ax,cursor.getPosition().getY()+Constants.ay, cursor.getWidth()/4, cursor.getHeight()/4, null);
 		}
 		
 		 getGraphics().drawImage(offscreen,0,0,width,height,null);

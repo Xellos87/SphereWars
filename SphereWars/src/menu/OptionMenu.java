@@ -59,85 +59,85 @@ public class OptionMenu extends Menu {
 	private void dibujarLetras(Graphics2D offgc) {
 		//dibujar opciones de menu
 		if(title!=null){
-			offgc.drawImage(title, Constants.titlePos.getX(), Constants.titlePos.getY(), (int)(title.getWidth()/5), (int)(title.getHeight()/5), null);
+			offgc.drawImage(title, Constants.titlePos.getX()+Constants.ax, Constants.titlePos.getY()+Constants.ay, (int)(title.getWidth()/5), (int)(title.getHeight()/5), null);
 		}
 		if(!Constants.elegidoJugador){
 			if(sonido!=null && !cursor.getOpcion().equalsIgnoreCase("sound")){
-				offgc.drawImage(sonido, Constants.soundPos.getX(), Constants.soundPos.getY(), (int)(sonido.getWidth()/2), (int)(sonido.getHeight()/2), null);
+				offgc.drawImage(sonido, Constants.soundPos.getX()+Constants.ax, Constants.soundPos.getY()+Constants.ay, (int)(sonido.getWidth()/2), (int)(sonido.getHeight()/2), null);
 			}else{
-				offgc.drawImage(sonido, Constants.soundPos.getX()+Constants.desplazamiento, Constants.soundPos.getY(), sonido.getWidth()/2,sonido.getHeight()/2, null);
+				offgc.drawImage(sonido, Constants.soundPos.getX()+Constants.desplazamiento+Constants.ax, Constants.soundPos.getY()+Constants.ay, sonido.getWidth()/2,sonido.getHeight()/2, null);
 			}
 			if(si!=null && Constants.sound){
-				offgc.drawImage(si, Constants.yesPos.getX(), Constants.yesPos.getY(), (int)(si.getWidth()/2), (int)(si.getHeight()/2), null);
+				offgc.drawImage(si, Constants.yesPos.getX()+Constants.ax, Constants.yesPos.getY()+Constants.ay, (int)(si.getWidth()/2), (int)(si.getHeight()/2), null);
 			}else{
-				offgc.drawImage(si, Constants.yesPos.getX(), Constants.yesPos.getY(), (int)(si.getWidth()/2.5),(int)(si.getHeight()/2.5), null);
+				offgc.drawImage(si, Constants.yesPos.getX()+Constants.ax, Constants.yesPos.getY()+Constants.ay, (int)(si.getWidth()/2.5),(int)(si.getHeight()/2.5), null);
 			}
 			if(no!=null && !Constants.sound){
-				offgc.drawImage(no, Constants.noPos.getX(), Constants.noPos.getY(), (int)(no.getWidth()/2), (int)(no.getHeight()/2), null);
+				offgc.drawImage(no, Constants.noPos.getX()+Constants.ax, Constants.noPos.getY()+Constants.ay, (int)(no.getWidth()/2), (int)(no.getHeight()/2), null);
 			}else{
-				offgc.drawImage(no, Constants.noPos.getX(), Constants.noPos.getY(), (int)(no.getWidth()/2.5),(int)(no.getHeight()/2.5), null);
+				offgc.drawImage(no, Constants.noPos.getX()+Constants.ax, Constants.noPos.getY()+Constants.ay, (int)(no.getWidth()/2.5),(int)(no.getHeight()/2.5), null);
 			}
 			if(resolucion!=null && !cursor.getOpcion().equalsIgnoreCase("resolution")){
-				offgc.drawImage(resolucion, Constants.resPos.getX(), Constants.resPos.getY(), (int)(resolucion.getWidth()/2), (int)(resolucion.getHeight()/2), null);
+				offgc.drawImage(resolucion, Constants.resPos.getX()+Constants.ax, Constants.resPos.getY()+Constants.ay, (int)(resolucion.getWidth()/2), (int)(resolucion.getHeight()/2), null);
 			}else{
-				offgc.drawImage(resolucion, Constants.resPos.getX()+Constants.desplazamiento-10, Constants.resPos.getY(), resolucion.getWidth()/2,resolucion.getHeight()/2, null);
+				offgc.drawImage(resolucion, Constants.resPos.getX()+Constants.desplazamiento-10+Constants.ax, Constants.resPos.getY()+Constants.ay, resolucion.getWidth()/2,resolucion.getHeight()/2, null);
 			}
 			if(res480!=null && Constants.scale == 2){
-				offgc.drawImage(res480, Constants.res480Pos.getX()+Constants.desplazamiento, Constants.res480Pos.getY()+5, (int)(res480.getWidth()/2.5),(int)(res480.getHeight()/2.5), null);
+				offgc.drawImage(res480, Constants.res480Pos.getX()+Constants.desplazamiento+Constants.ax, Constants.res480Pos.getY()+5+Constants.ay, (int)(res480.getWidth()/2.5),(int)(res480.getHeight()/2.5), null);
 			}
 			if(res960!=null && Constants.scale == 4){
-				offgc.drawImage(res960, Constants.res960Pos.getX()+Constants.desplazamiento, Constants.res960Pos.getY()+5, (int)(res960.getWidth()/2.5),(int)(res960.getHeight()/2.5), null);
+				offgc.drawImage(res960, Constants.res960Pos.getX()+Constants.desplazamiento+Constants.ax, Constants.res960Pos.getY()+5+Constants.ay, (int)(res960.getWidth()/2.5),(int)(res960.getHeight()/2.5), null);
 			}
 			if(controles!=null && !cursor.getOpcion().equalsIgnoreCase("controller")){
-				offgc.drawImage(controles, Constants.controllerPos.getX(), Constants.controllerPos.getY(), (int)(controles.getWidth()/2), (int)(controles.getHeight()/2), null);
+				offgc.drawImage(controles, Constants.controllerPos.getX()+Constants.ax, Constants.controllerPos.getY()+Constants.ay, (int)(controles.getWidth()/2), (int)(controles.getHeight()/2), null);
 			}else{
-				offgc.drawImage(controles, Constants.controllerPos.getX()+Constants.desplazamiento-10, Constants.controllerPos.getY(), controles.getWidth()/2,controles.getHeight()/2, null);
+				offgc.drawImage(controles, Constants.controllerPos.getX()+Constants.desplazamiento-10+Constants.ax, Constants.controllerPos.getY()+Constants.ay, controles.getWidth()/2,controles.getHeight()/2, null);
 			}			
 			if(volver!=null && !cursor.getOpcion().equalsIgnoreCase("back")){
-				offgc.drawImage(volver, Constants.backPos.getX(), Constants.backPos.getY(), (int)(volver.getWidth()/2), (int)(volver.getHeight()/2), null);
+				offgc.drawImage(volver, Constants.backPos.getX()+Constants.ax, Constants.backPos.getY()+Constants.ay, (int)(volver.getWidth()/2), (int)(volver.getHeight()/2), null);
 			}else{
-				offgc.drawImage(volver, Constants.backPos.getX()+Constants.desplazamiento, Constants.backPos.getY(), volver.getWidth()/2,volver.getHeight()/2, null);
+				offgc.drawImage(volver, Constants.backPos.getX()+Constants.desplazamiento+Constants.ax, Constants.backPos.getY()+Constants.ay, volver.getWidth()/2,volver.getHeight()/2, null);
 			}
 		}else{
 			if(Constants.jugador==1){
 				if(controles1!=null && !cursor.getOpcion().equalsIgnoreCase("controller")){
-					offgc.drawImage(controles1, Constants.controller1Pos.getX(), Constants.controller1Pos.getY(), (int)(controles1.getWidth()/2), (int)(controles1.getHeight()/2), null);
+					offgc.drawImage(controles1, Constants.controller1Pos.getX()+Constants.ax, Constants.controller1Pos.getY()+Constants.ay, (int)(controles1.getWidth()/2), (int)(controles1.getHeight()/2), null);
 				}else{
-					offgc.drawImage(controles1, Constants.controller1Pos.getX()+Constants.desplazamiento, Constants.controller1Pos.getY(), controles1.getWidth()/2,controles1.getHeight()/2, null);
+					offgc.drawImage(controles1, Constants.controller1Pos.getX()+Constants.desplazamiento+Constants.ax, Constants.controller1Pos.getY()+Constants.ay, controles1.getWidth()/2,controles1.getHeight()/2, null);
 				}
 				if(teclado!=null && Constants.conTeclado && !cursor.getOpcion().equalsIgnoreCase("device")){
-					offgc.drawImage(teclado, Constants.keyboardPos.getX(), Constants.keyboardPos.getY(), (int)(teclado.getWidth()/2), (int)(teclado.getHeight()/2), null);
+					offgc.drawImage(teclado, Constants.keyboardPos.getX()+Constants.ax, Constants.keyboardPos.getY()+Constants.ay, (int)(teclado.getWidth()/2), (int)(teclado.getHeight()/2), null);
 				}else if(teclado!=null && Constants.conTeclado){
-					offgc.drawImage(teclado, Constants.keyboardPos.getX()+Constants.desplazamiento, Constants.keyboardPos.getY(), (int)(teclado.getWidth()/2), (int)(teclado.getHeight()/2), null);
+					offgc.drawImage(teclado, Constants.keyboardPos.getX()+Constants.desplazamiento+Constants.ax, Constants.keyboardPos.getY()+Constants.ay, (int)(teclado.getWidth()/2), (int)(teclado.getHeight()/2), null);
 				}
 				if(kinect!=null && !Constants.conTeclado && !cursor.getOpcion().equalsIgnoreCase("device")){
-					offgc.drawImage(kinect, Constants.kinnectPos.getX(), Constants.kinnectPos.getY(), (int)(kinect.getWidth()/2), (int)(kinect.getHeight()/2), null);
+					offgc.drawImage(kinect, Constants.kinnectPos.getX()+Constants.ax, Constants.kinnectPos.getY()+Constants.ay, (int)(kinect.getWidth()/2), (int)(kinect.getHeight()/2), null);
 				}else if(kinect!=null && !Constants.conTeclado){
-					offgc.drawImage(kinect, Constants.kinnectPos.getX()+Constants.desplazamiento, Constants.kinnectPos.getY(), (int)(kinect.getWidth()/2), (int)(kinect.getHeight()/2), null);
+					offgc.drawImage(kinect, Constants.kinnectPos.getX()+Constants.desplazamiento+Constants.ax, Constants.kinnectPos.getY()+Constants.ay, (int)(kinect.getWidth()/2), (int)(kinect.getHeight()/2), null);
 				}
 			}
 			if(Constants.jugador==2){
 				if(controles2!=null && !cursor.getOpcion().equalsIgnoreCase("controller")){
-					offgc.drawImage(controles2, Constants.controller2Pos.getX(), Constants.controller2Pos.getY(), (int)(controles2.getWidth()/2), (int)(controles2.getHeight()/2), null);
+					offgc.drawImage(controles2, Constants.controller2Pos.getX()+Constants.ax, Constants.controller2Pos.getY()+Constants.ay, (int)(controles2.getWidth()/2), (int)(controles2.getHeight()/2), null);
 				}else{
-					offgc.drawImage(controles2, Constants.controller2Pos.getX()+Constants.desplazamiento, Constants.controller2Pos.getY(), controles2.getWidth()/2,controles2.getHeight()/2, null);
+					offgc.drawImage(controles2, Constants.controller2Pos.getX()+Constants.desplazamiento+Constants.ax, Constants.controller2Pos.getY()+Constants.ay, controles2.getWidth()/2,controles2.getHeight()/2, null);
 				}
 			}			
 			if(Constants.conTeclado || Constants.jugador == 2){
 				if(teclas!=null && !cursor.getOpcion().equalsIgnoreCase("pause")){
-					offgc.drawImage(teclas, Constants.keyPos.getX(), Constants.keyPos.getY(), (int)(teclas.getWidth()/2), (int)(teclas.getHeight()/2), null);
+					offgc.drawImage(teclas, Constants.keyPos.getX()+Constants.ax, Constants.keyPos.getY()+Constants.ay, (int)(teclas.getWidth()/2), (int)(teclas.getHeight()/2), null);
 				}else{
-					offgc.drawImage(teclas, Constants.keyPos.getX()+Constants.desplazamiento, Constants.keyPos.getY(), (int)(teclas.getWidth()/2), (int)(teclas.getHeight()/2), null);
+					offgc.drawImage(teclas, Constants.keyPos.getX()+Constants.desplazamiento+Constants.ax, Constants.keyPos.getY()+Constants.ay, (int)(teclas.getWidth()/2), (int)(teclas.getHeight()/2), null);
 				}
 				if(saltar!=null && !cursor.getOpcion().equalsIgnoreCase("jump")){
-					offgc.drawImage(saltar, Constants.jumpPos.getX(), Constants.jumpPos.getY(), (int)(saltar.getWidth()/2), (int)(saltar.getHeight()/2), null);
+					offgc.drawImage(saltar, Constants.jumpPos.getX()+Constants.ax, Constants.jumpPos.getY()+Constants.ay, (int)(saltar.getWidth()/2), (int)(saltar.getHeight()/2), null);
 				}else{
-					offgc.drawImage(saltar, Constants.jumpPos.getX()+Constants.desplazamiento, Constants.jumpPos.getY(), (int)(saltar.getWidth()/2), (int)(saltar.getHeight()/2), null);
+					offgc.drawImage(saltar, Constants.jumpPos.getX()+Constants.desplazamiento+Constants.ax, Constants.jumpPos.getY()+Constants.ay, (int)(saltar.getWidth()/2), (int)(saltar.getHeight()/2), null);
 				}
 				if(correr!=null && !cursor.getOpcion().equalsIgnoreCase("run")){
-					offgc.drawImage(correr, Constants.runPos.getX(), Constants.runPos.getY(), (int)(correr.getWidth()/2), (int)(correr.getHeight()/2), null);
+					offgc.drawImage(correr, Constants.runPos.getX()+Constants.ax, Constants.runPos.getY()+Constants.ay, (int)(correr.getWidth()/2), (int)(correr.getHeight()/2), null);
 				}else{
-					offgc.drawImage(correr, Constants.runPos.getX()+Constants.desplazamiento, Constants.runPos.getY(), (int)(correr.getWidth()/2), (int)(correr.getHeight()/2), null);
+					offgc.drawImage(correr, Constants.runPos.getX()+Constants.desplazamiento+Constants.ax, Constants.runPos.getY()+Constants.ay, (int)(correr.getWidth()/2), (int)(correr.getHeight()/2), null);
 				}
 				String pauseChar,jumpChar,runChar;
 				//TODO: hacer mejor. Add down, left, right por lo menos?
@@ -207,19 +207,19 @@ public class OptionMenu extends Menu {
 					runChar = aux;
 				}		
 				if(pauseChar.equalsIgnoreCase("-")&&System.currentTimeMillis()%1000<500){
-					offgc.drawString(pauseChar, Constants.keyPos.getX()+270, Constants.keyPos.getY()+40);
+					offgc.drawString(pauseChar, Constants.keyPos.getX()+270+Constants.ax, Constants.keyPos.getY()+40+Constants.ay);
 				}else if(!pauseChar.equalsIgnoreCase("-")){
-					offgc.drawString(pauseChar, Constants.keyPos.getX()+270, Constants.keyPos.getY()+40);
+					offgc.drawString(pauseChar, Constants.keyPos.getX()+270+Constants.ax, Constants.keyPos.getY()+40+Constants.ay);
 				}
 				if(jumpChar.equalsIgnoreCase("-")&&System.currentTimeMillis()%1000<500){
-					offgc.drawString(jumpChar, Constants.jumpPos.getX()+270, Constants.jumpPos.getY()+40);
+					offgc.drawString(jumpChar, Constants.jumpPos.getX()+270+Constants.ax, Constants.jumpPos.getY()+40+Constants.ay);
 				}else if(!jumpChar.equalsIgnoreCase("-")){
-					offgc.drawString(jumpChar, Constants.jumpPos.getX()+270, Constants.jumpPos.getY()+40);
+					offgc.drawString(jumpChar, Constants.jumpPos.getX()+270+Constants.ax, Constants.jumpPos.getY()+40+Constants.ay);
 				}
 				if(runChar.equalsIgnoreCase("-")&&System.currentTimeMillis()%1000<500){
-					offgc.drawString(runChar, Constants.runPos.getX()+270, Constants.runPos.getY()+40);
+					offgc.drawString(runChar, Constants.runPos.getX()+270+Constants.ax, Constants.runPos.getY()+40+Constants.ay);
 				}else if(!runChar.equalsIgnoreCase("-")){
-					offgc.drawString(runChar, Constants.runPos.getX()+270, Constants.runPos.getY()+40);
+					offgc.drawString(runChar, Constants.runPos.getX()+270+Constants.ax, Constants.runPos.getY()+40+Constants.ay);
 				}
 			}
 		}		
@@ -344,7 +344,7 @@ public class OptionMenu extends Menu {
 		dibujarLetras(offgc);
 		// dibujar cursor
 		if (cursor != null) {
-			offgc.drawImage(cursor.getImage(), cursor.getPosition().getX(), cursor.getPosition().getY(),
+			offgc.drawImage(cursor.getImage(), cursor.getPosition().getX()+Constants.ax, cursor.getPosition().getY()+Constants.ay,
 					cursor.getWidth() / 4, cursor.getHeight() / 4, null);
 		}
 

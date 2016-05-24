@@ -233,8 +233,12 @@ public class Main implements Runnable, KeyListener{
 							System.out.println(Constants.scale);
 							if(Constants.scale == 2){
 								Constants.scale = 4;
+								Constants.ax=400;
+								Constants.ay=300;
 							}else if(Constants.scale == 4){
 								Constants.scale = 2;
+								Constants.ax=0;
+								Constants.ay=0;
 							}
 							window.setPreferredSize(new Dimension(width*Constants.scale, height*Constants.scale));
 							menu = new OptionMenu(width*Constants.scale, height*Constants.scale);
@@ -373,8 +377,6 @@ public class Main implements Runnable, KeyListener{
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void keyReleased(KeyEvent e) {		
 	}
 }

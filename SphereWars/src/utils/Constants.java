@@ -19,6 +19,10 @@ public class Constants {
 	public static final String[] list_options = { "sound", "resolution", "controller", "back" };
 	public static final String[] list_controller = {"controller", "device", "pause", "jump", "run"};
 	
+	//dependen de la escala que se este utilizando
+	public static int ax=0;
+	public static int ay=0;
+	
 	//rutas a las imagenes del menu de titulos
 	public static final String starBackName = "images/base_background.png";
 	public static final String mountainBackName = "images/mountain_edited.png";
@@ -33,15 +37,15 @@ public class Constants {
 	public static final String tresdName = "fonts/menu_3D.png";
 	//posiciones (iniciales) de los elementos del menu de titulo
 	static int xPos = 125;
-	public static final Position titlePos = new Position(60,20);	//posicion del titulo
-	public static Position jugarPos = new Position(xPos,110);		//posicion de "jugar"
-	public static Position versusPos = new Position(xPos, 170);
-	public static Position dosDjPos = new Position(xPos+300,140);
-	public static Position tresDjPos = new Position(xPos+380,140);
-	public static Position helpPos = new Position(xPos,230);		
-	public static Position opcionesPos = new Position(xPos,290);	
-	public static Position creditPos = new Position(xPos,350);
-	public static Position salirPos = new Position(xPos,410);	
+	public static final Position titlePos = new Position(60+ax,20+ay);	//posicion del titulo
+	public static Position jugarPos = new Position(xPos,110+ay);		//posicion de "jugar"
+	public static Position versusPos = new Position(xPos, 170+ay);
+	public static Position dosDjPos = new Position(xPos+300,140+ay);
+	public static Position tresDjPos = new Position(xPos+380,140+ay);
+	public static Position helpPos = new Position(xPos,230+ay);		
+	public static Position opcionesPos = new Position(xPos,290+ay);	
+	public static Position creditPos = new Position(xPos,350+ay);
+	public static Position salirPos = new Position(xPos,410+ay);	
 	//Opciones del menu principal
 	public static int numJugadores = 1;	//numero jugadores
 	public static String visualMode = "2D";
