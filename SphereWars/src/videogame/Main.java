@@ -201,6 +201,7 @@ public class Main implements Runnable, KeyListener{
 								window.add(game,BorderLayout.CENTER);
 								window.pack();
 								state = Constants.GAME;
+								pause = false;
 							}else if(nuevoMenu.equalsIgnoreCase("exit")){
 								System.exit(0);
 							}else if(nuevoMenu.equalsIgnoreCase("options")){
