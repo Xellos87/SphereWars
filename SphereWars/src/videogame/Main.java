@@ -38,26 +38,26 @@ public class Main implements Runnable, KeyListener{
 	//Dimensiones del juego
 	private static int width = 320;
 	private static int height = 240;	
-		
+
 
 	//Thread del juego
 	private boolean running;
 	private int FPS = 30;
 	private long targetTime = 1000000000/FPS; //ns
 	private Thread thread;
-	
+
 	//Tiempos de control de bucle
 	long start;
 	long elapsed;
 	long wait;
-	
+
 	//Estado del juego
 	int state;
 	boolean pause = false;
-		
+
 	// Musica
 	Music music;
-	
+
 	//Menu del juego
 	private Menu menu;	//TODO: este menu puede cambiar entre menu de titulo, de pausa, de opciones?
 	//TODO: de titulo y de opciones si, de pausa segun se requiera
@@ -80,7 +80,7 @@ public class Main implements Runnable, KeyListener{
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLayout(new BorderLayout());
 		//BoxLayout boxLayout = new BoxLayout(window.getContentPane(), BoxLayout.Y_AXIS); // top to bottom
-	    //window.setLayout(boxLayout);
+		//window.setLayout(boxLayout);
 		window.setResizable(false);
 		window.setVisible(true);
 		window.addKeyListener(this);
@@ -103,8 +103,8 @@ public class Main implements Runnable, KeyListener{
 		//game2D.setBounds(0, 0, width*scale, height*scale);
 		//game2D.setDoubleBuffered(true);
 		//window.add(game2D);
-		
-		
+
+
 		//menu = new PauseMenu(width*scale, height*scale);
 		//menu.setDoubleBuffered(true);
 		//menu.setBounds(0, 0, width*scale, height*scale);
@@ -120,7 +120,7 @@ public class Main implements Runnable, KeyListener{
 
 	@Override
 	public void run() {
-		
+
 		while(running){
 			start = System.nanoTime();
 			if(!pause){
@@ -148,12 +148,12 @@ public class Main implements Runnable, KeyListener{
 			};
 		}
 	}	
-	
+
 	private void draw() {
 		//TODO comprobar si es 2D o 3D
 		if(menu != null && Constants.enMenu){
 			menu.draw();
-			
+
 		}
 		if(game != null && !Constants.enMenu){
 			game.draw(!pause);
@@ -193,10 +193,14 @@ public class Main implements Runnable, KeyListener{
 						//TODO: acciones cuando se selecciona una opcion del menu principal
 						if(!Constants.cursorDesplazado){
 							if(nuevoMenu.equalsIgnoreCase("credits")){
-								
+
 							}else if(nuevoMenu.equalsIgnoreCase("start")){
 								Constants.enMenu = false;
-								music.playGame();
+								if(music != null){
+									music.playGame();
+								}else{
+									System.err.println("Richard no le des tan rapido");
+								}
 								game = new Game(width*Constants.scale, height*Constants.scale, Game.MODE_2D, Game.COINS, 1);
 								window.add(game,BorderLayout.CENTER);
 								window.pack();
@@ -212,7 +216,7 @@ public class Main implements Runnable, KeyListener{
 								window.add(menu, BorderLayout.CENTER);
 								window.pack();
 							}else if(nuevoMenu.equalsIgnoreCase("help")){
-								
+
 							}
 						}else {
 							if(Constants.visualMode.equalsIgnoreCase("2D")){
@@ -221,7 +225,7 @@ public class Main implements Runnable, KeyListener{
 								Constants.visualMode="2D";
 							}
 						}
-					//desde el menu de opciones
+						//desde el menu de opciones
 					}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.optMenu)){
 						//TODO: poner y quitar el sonido
 						if(nuevoMenu.equalsIgnoreCase("sound")){
