@@ -1,6 +1,9 @@
 package character;
 
 import java.awt.Graphics2D;
+
+import audio.Audio;
+import audio.AudioClip;
 import java.awt.Rectangle;
 import java.awt.dnd.DragGestureEvent;
 
@@ -41,11 +44,13 @@ public class Sphere extends GameObject implements Sprite{
 	private int maxX = 200;  
 	private int totalX = 0;
 	boolean nextMap = false;
+	private AudioClip soundJump;
 
 	public Sphere(int x, int y, int block_width,int block_height) {
 		super(x,y,x_imgs[0],y_imgs[0], width_imgs[0], height_imgs[0], block_width, block_height);
 		this.type = NORMAL;
 		this.kills = false;
+		soundJump = Audio.Load("audioEffects/boing_x.wav");
 		selectImage();
 		resize();
 	}
@@ -56,11 +61,21 @@ public class Sphere extends GameObject implements Sprite{
 	}
 
 	public void jump(){
+		if(soundJump == null){
+			System.err.println("soundnull");
+			System.exit(1);
+		}
+		soundJump.start();
 		jumpVelocity = -15;
 		jump = true;
 	}
 
 	public void miniJump(){
+		if(soundJump == null){
+			System.err.println("soundnull");
+			System.exit(1);
+		}
+		soundJump.start();
 		jumpVelocity = -7;
 		jump = true;
 	}
@@ -77,6 +92,7 @@ public class Sphere extends GameObject implements Sprite{
 	}
 
 	public int checkCollision(MapController mc, int x_ori, int y_ori){
+		//TODO bug choque lateral en cambio de mapa, ej: columna en x:0 del segundo mapa
 		boolean print = true;	//False para no ver mensajes
 		int result = -1;
 		//TODO colisiones con sprite que no ocupa todo el bloque
@@ -85,15 +101,24 @@ public class Sphere extends GameObject implements Sprite{
 		if(x + width < 0){
 			return COLLDEATH;
 		}
-		//Mapa actual
+		//Control de mapa
 		MapObject map;
-		if(nextMap && mc.getPos()>0){
-			map = mc.getNextMap();
-		}
-		else{
+		/*if(totalX < 0){
 			nextMap = false;
-			map = mc.getCurrentMap();	
-		}		
+			map = mc.getCurrentMap();
+			totalX = -block_width + map.getWidthBlocks()*mc.getWidthBlock();
+		}*/
+		//else{
+			//Mapa actual			
+			if(nextMap && mc.getPos()>0){
+				map = mc.getNextMap();
+			}
+			else{
+				nextMap = false;
+				map = mc.getCurrentMap();
+			}	
+		//}
+			
 		//Calculo coordenadas respecto mapa
 		//int xMap = (this.x + (this.block_width/2)) / mc.getWidthBlock() + mc.getPos();
 		int xMap = (totalX + (block_width/2)) / mc.getWidthBlock();
@@ -109,7 +134,7 @@ public class Sphere extends GameObject implements Sprite{
 		if(print){
 			System.out.println("-----------------------");
 			mc.getCurrentMap().print();
-			System.out.printf("esfera x: %d, y: %d, w: %d, h: %d\n", x, y, xMap, yMap);
+			System.out.printf("esfera x: %d, y: %d, w: %d, h: %d tx:%d\n", x, y, xMap, yMap,totalX);
 		}
 		//Colision inferior	
 		collisionInf = map.collision(xMap, yMap-1,x_ori,y_ori, this);
@@ -151,25 +176,54 @@ public class Sphere extends GameObject implements Sprite{
 		}
 		else if(collisionInf >= MapObject.COLLISION && collisionLat >= MapObject.COLLISION){
 			result = COLLINFLAT;
-			totalX = totalX - mc.getVelocity() - vx;
+			//totalX = totalX - mc.getVelocity() - vx;
 			//this.x = this.x - mc.getVelocity() - vx;
-			x = map.getObject(xMap+1, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;
 			//this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock()-this.height+1;
+			totalX = (xMap+1)*mc.getWidthBlock() - this.getWidthScreen() - mc.getVelocity()+1;
+			x = map.getObject(xMap+1, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;			
+			y = map.getObject(xMap, yMap-1).getPositionY() - this.getHeightScreen() + 1;
+			System.out.printf("prueba x:%d, y:%d\n", x,y);
+		}
+		//TODO cambial el totalX, para que este bien situado en las colisiones centrales
+		else if(collisionInf >= MapObject.COLLISION && collisionCen >= MapObject.COLLISION){
+			result = COLLINFLAT;
+			//totalX = totalX - mc.getVelocity() - vx;
+			//this.x = this.x - mc.getVelocity() - vx;
+			//this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock()-this.height+1;
+			totalX = (xMap)*mc.getWidthBlock() - this.getWidthScreen() - mc.getVelocity()+1;
+			x = map.getObject(xMap, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;			
 			y = map.getObject(xMap, yMap-1).getPositionY() - this.getHeightScreen() + 1;
 		}
 		else if(collisionSup >= MapObject.COLLISION && collisionLat >= MapObject.COLLISION){
 			result = COLLSUPLAT;
-			totalX = totalX - mc.getVelocity() - vx;
+			//totalX = totalX - mc.getVelocity() - vx;
 			//this.x = this.x - mc.getVelocity() - vx;
+			totalX = (xMap+1)*mc.getWidthBlock() - this.getWidthScreen() - mc.getVelocity()+1;
 			x = map.getObject(xMap+1, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;
 			//this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock();
 			y = map.getObject(xMap, yMap+1).getPositionY() + map.getObject(xMap, yMap+1).getHeightScreen();
 		}	
+		else if(collisionSup >= MapObject.COLLISION && collisionCen >= MapObject.COLLISION){
+			result = COLLSUPLAT;
+			//totalX = totalX - mc.getVelocity() - vx;
+			//this.x = this.x - mc.getVelocity() - vx;
+			totalX = (xMap)*mc.getWidthBlock() - this.getWidthScreen() - mc.getVelocity()+1;
+			x = map.getObject(xMap, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;
+			//this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock();
+			y = map.getObject(xMap, yMap+1).getPositionY() + map.getObject(xMap, yMap+1).getHeightScreen();
+		}
 		else if(collisionLat >= MapObject.COLLISION){
 			result = COLLLAT;
-			totalX = totalX - mc.getVelocity() - vx;
+			//totalX = totalX - mc.getVelocity() - vx;
+			totalX = (xMap+1)*mc.getWidthBlock() - this.getWidthScreen() - mc.getVelocity()+1;
 			//this.x = this.x - mc.getVelocity() - vx;
 			x = map.getObject(xMap+1, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;
+		}
+		else if(collisionCen >= MapObject.COLLISION){
+			result = COLLLAT;
+			totalX = (xMap)*mc.getWidthBlock() - this.getWidthScreen() - mc.getVelocity()+1;
+			//this.x = this.x - mc.getVelocity() - vx;
+			x = map.getObject(xMap, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;
 		}
 		else if(collisionInf >= MapObject.COLLISION){
 			result = COLLINF;
