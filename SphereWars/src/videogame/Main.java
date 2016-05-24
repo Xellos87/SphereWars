@@ -162,8 +162,6 @@ public class Main implements Runnable, KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -335,6 +333,7 @@ public class Main implements Runnable, KeyListener{
 					state = Constants.MENU;
 					window.add(menu, BorderLayout.CENTER);
 					window.pack();
+					music.playMenu();
 				}
 			}
 			break;
@@ -358,6 +357,7 @@ public class Main implements Runnable, KeyListener{
 					state = Constants.MENU;
 					window.add(menu, BorderLayout.CENTER);
 					window.pack();
+					music.playMenu();
 				}
 			}
 		default:
