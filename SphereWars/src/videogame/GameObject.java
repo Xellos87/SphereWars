@@ -17,9 +17,10 @@ import java.awt.image.BufferedImage;
  *
  */
 public class GameObject {
-	//PosiciÃ³n en pantalla
+	//Posición en pantalla
 	protected int x;
 	protected int y;
+	protected int z;
 	//Velocidad de movimiento
 	protected int vx;
 	protected int vy;
@@ -51,6 +52,7 @@ public class GameObject {
 	public GameObject(int x, int y,int x_img,int y_img, int width, int height,int block_width,int block_height){
 		this.x = x;
 		this.y = y;
+		this.z = 0;
 		this.x_img = x_img;
 		this.y_img = y_img;
 		vx = 0;
