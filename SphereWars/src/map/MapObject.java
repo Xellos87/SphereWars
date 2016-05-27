@@ -2,34 +2,52 @@ package map;
 
 import java.awt.Graphics2D;
 
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
+import javax.vecmath.Vector3f;
+
 import character.Bot;
 import graphic.Sprite;
 import item.Treasure;
 import obstacle.Platform;
+import utils.Constants;
+import videogame.Game;
 import videogame.GameObject;
 
 public class MapObject {
-
 	//Constantes colisiones
 	public static final int NOCOLLISION = -1;
 	public static final int COLLISION = 0;
-	public static final int KILLS = 1;			//Mata a pelota
-	public static final int DEATH = 2;			//Mata a bot
+	public static final int KILLS = 1; //Mata a pelota
+	public static final int DEATH = 2; //Mata a bot
 	public static final int GET = 3; //Coge el objeto
-
 	//Ancho y alto del mapa
 	private int width, height;
+	//Ancho y alto de cada bloque
+	private int block_width, block_height;
 	//Objetos que se encuentran en el mapa
 	private GameObject[][] objects;
+	//Contenedor de elementos en 3D
+	private TransformGroup group_object;
 
-	public MapObject(int width, int height){
+	public MapObject(int width, int height, int block_width, int block_height){
 		this.width = width;
 		this.height = height;
+		this.block_width = block_width;
+		this.block_height = block_height;
 		objects = new GameObject[height][width];
+		group_object = new TransformGroup();
 	}
 
 	public void addObject(GameObject obj, int x, int y){
 		objects[y][x] = obj;
+		if(Constants.visualMode == Game.MODE_3D){
+			Transform3D translate = new Transform3D();
+			translate.setTranslation(new Vector3f(x*block_width,y*block_height,0));
+			TransformGroup tg = new TransformGroup(translate);
+			//tg.addChild(((Model3D)obj).getModel3D());
+			group_object.addChild(tg);
+		}
 	}
 
 	public GameObject getObject(int x, int y){
@@ -170,5 +188,14 @@ public class MapObject {
 
 	public void removeObject(int x, int y) {
 		objects[y][x] = null;
+	}
+	
+	public void moveGroup(int desp){
+		Transform3D translate = new Transform3D();
+		group_object.getTransform(translate);
+		Vector3f trans = new Vector3f();
+		translate.get(trans);
+		trans.x = trans.x+desp;
+		group_object.setTransform(translate);
 	}
 }

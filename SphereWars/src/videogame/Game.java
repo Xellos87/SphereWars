@@ -109,23 +109,7 @@ public class Game extends JLayeredPane{
 			//Inicio de juego en 3D
 			game3d_1p = new Game3D(width, height_game, num_players);
 			game3d_1p.setBounds(0, height_score, width, height_game);
-			game3d_1p.addBox(1, 1, 1, new Color3f(1,0,0), new Color3f(1,0,0));
-			game3d_1p.addDirectionalLight(new Vector3f(0f, 0f, -1),
-					        new Color3f(1f, 1f, 0f));
-			game3d_1p.finalise();
-
-			
-			//add(game3d_1p.getCanvas(), 1);
-			//setLayout(new BorderLayout());
-			/*JFrame frame = new JFrame();
-			frame.getContentPane().add(game3d_1p);
-			frame.setLayout(new BorderLayout());
-			frame.setBounds(600, 400, width, height);
-			frame.setVisible(true);*/
-			//add(game3d_1p, new Integer(0),3);
 			add(game3d_1p, new Integer(0), 3);
-			System.err.println("AQUI");
-			//System.err.println("PENE");
 			if(num_players>1){
 				//Segundo jugador si lo hay
 				game3d_2p = new Game3D(width, height_game,num_players);

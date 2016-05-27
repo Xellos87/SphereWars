@@ -83,6 +83,12 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 		// Perform the initial setup, just once
 		initial_setup();
 		camera_setup();
+		
+		
+		addBox(0.5f, 0.5f, 0.5f, new Color3f(1,0,0), new Color3f(1,0,0));
+		addDirectionalLight(new Vector3f(0f, 0f, -1),
+				        new Color3f(1f, 1f, 1f));
+		finalise();
 	}
 
 	private void camera_setup() {
@@ -167,6 +173,7 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 
 		// Then add it to the root BranchGroup
 		rootBranchGroup.addChild(lightD);
+		
 	}
 
 	/**
@@ -191,11 +198,15 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 
 		app.setMaterial(mat);
 		Box box = new Box(x, y, z, app);
-
-		// Create a TransformGroup and make it the parent of the box
+		
 		TransformGroup tg = new TransformGroup();
-		Sphere s = new Sphere(0.1f);
-		tg.addChild(s);
+		tg.addChild(box);
+		
+		
+		// Create a TransformGroup and make it the parent of the box
+		//TransformGroup tg = new TransformGroup();
+		//Sphere s = new Sphere(0.1f);
+		//tg.addChild(s);
 		// Ball ball = new Ball(1f);
 		// tg.addChild(box);
 

@@ -30,7 +30,7 @@ public class MapController {
 	//Posicion en bloque dentro del mapa, y pixel dentro del bloque
 	private int pos_block;
 	private int pixel_block;
-	//TamaÃ±o que va a ocupar cada bloque en pantalla
+	//Tamaño que va a ocupar cada bloque en pantalla
 	private int block_width;
 	private int block_height;
 	//Numero de bloques en pantalla
@@ -88,7 +88,7 @@ public class MapController {
 			//height = Math.min(height, block_height_screen);
 			int width = Integer.parseInt(element_header.getAttribute("width"));
 			//Crea una nuevo MapObject para contener la info del mapa
-			second_map = new MapObject(width, height);
+			second_map = new MapObject(width, height, block_width, block_height);
 			//Recorre todos los elementos plataform para agregarlo al mapa
 			NodeList lst_plat = element_header.getElementsByTagName("plataform");
 			for(int i=0; i<lst_plat.getLength(); i++){
