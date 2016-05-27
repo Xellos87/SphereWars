@@ -2,6 +2,8 @@ package audio;
 
 import javax.sound.sampled.Clip;
 
+import utils.Constants;
+
 public class AudioClip {
 	private Clip sound;
 	public AudioClip(Clip clip){
@@ -10,6 +12,7 @@ public class AudioClip {
 	}
 	
 	public void start(){
+		if(!Constants.sound) return;
 		if(!sound.isActive()){
 			sound.stop();
 			sound.setFramePosition(0);

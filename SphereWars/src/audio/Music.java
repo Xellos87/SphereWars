@@ -29,13 +29,17 @@ public class Music {
 	private String nextSong = "";
 	private int nextLength = -1;
 	private SoundSystem mySoundSystem;
+	// Variable usada para hacer un fade si se cambia de menu con la cancion no terminada
 	private boolean fade = false;
 	private float fadeTime;
 	// float volume = 1f;
 
 	// Se pone a cierto cuando a la cancion le quedan TIME ms
-	// para cargar la siguiente cancion
+	// para cargar la siguiente cancion e instantaneamente se pone a false
+	// para no cargar varias veces la cancion
 	private boolean changing = true;
+	// Variable para saber si se esta haciendo un fade debido a que acaba la cancion
+	private boolean onChange = false;
 
 	// Indica la cancion actual que se esta reproduciendo
 	private int actual;
@@ -135,7 +139,7 @@ public class Music {
 			} else {
 				next = i;
 				nextSong = name;
-				nextLength = songLength();
+				nextLength = songLength(nextSong);
 			}
 			System.out.println("Reproduciendo " + actualSong + " " + actualLength);
 			// mySoundSystem.backgroundMusic(sourcename, url, identifier,
@@ -214,8 +218,8 @@ public class Music {
 		float timeLeft = (actualLength * 1000) - mySoundSystem.millisecondsPlayed(actualSong);
 		// int timeLeft = player.getDuration() - player.getPosition();
 		// System.out.println(actualSong);
-		//System.out.println(
-		//		timeLeft + " " + mySoundSystem.getVolume(actualSong) + " " + mySoundSystem.getVolume(nextSong));
+		System.out.println(
+				timeLeft + " " + mySoundSystem.getVolume(actualSong) + " " + mySoundSystem.getVolume(nextSong));
 		// System.out.print("\b\b\b\b\b\b\b\b\b\b\b");
 
 		// La cancion que estaba sonando acaba, actualizamos a la nueva cancion
@@ -224,7 +228,7 @@ public class Music {
 		// if(changing == false && !mySoundSystem.playing(actualSong)){
 		if (fade && (mySoundSystem.millisecondsPlayed(actualSong) - fadeTime > TIME)) {
 			// Se actualiza la cancion introducida por algun cambio de menu
-			System.err.println("Saliendo por fade" + actualSong);
+			System.err.println("Saliendo por fade " + actualSong + " " + nextSong);
 			// System.exit(1);
 			mySoundSystem.stop(actualSong);
 
@@ -237,7 +241,7 @@ public class Music {
 			fade = false;
 		} else if (changing == false && timeLeft < 0) {
 			// System.out.println("Cambiando cancion");
-			System.err.println("Saliendo por change");
+			System.err.println("Saliendo por change " + actualSong + " " + nextSong);
 			// System.exit(1);
 			mySoundSystem.stop(actualSong);
 			actualSong = nextSong;
@@ -245,10 +249,13 @@ public class Music {
 			changing = true;
 			actual = next;
 			fade = false;
+			timeLeft = (actualLength * 1000) - mySoundSystem.millisecondsPlayed(actualSong);
+			onChange = false;
 		}
 		if (timeLeft < TIME || fade) {
-			//System.out.println("Entrando");
+			System.out.println("Entrando");
 			if (changing == true) {
+				System.out.println("tf: " + timeLeft);
 				int nueva = -1;
 				do {
 					nueva = r.nextInt(actualList.size());
@@ -264,6 +271,7 @@ public class Music {
 					mySoundSystem.backgroundMusic(nextSong, n.toURI().toURL(), nextSong, false);
 					// mySoundSystem.fadeOutIn(nextSong, n.toURI().toURL(),
 					// nextSong, TIME, TIME);
+					onChange = true;
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -291,8 +299,9 @@ public class Music {
 
 		// System.out.println("En playmenu");
 		nueva = r.nextInt(actualList.size());
+		nueva = 1;
 		next = nueva;
-		if (fade)
+		if (fade || onChange)
 			mySoundSystem.stop(nextSong);
 		if (!actualSong.equals("")) {
 
@@ -301,6 +310,7 @@ public class Music {
 		}
 		// nextSong = actualList.get(nueva).getName();
 		changing = false;
+		onChange = false;
 		play(nueva);
 	}
 
@@ -308,11 +318,13 @@ public class Music {
 		actualList = gameFiles;
 		int nueva = -1;
 		nueva = r.nextInt(actualList.size());
+		nueva = 4;
 		next = nueva;
-		if (fade)
+		if (fade || onChange)
 			mySoundSystem.stop(nextSong);
 		fade = true;
 		changing = false;
+		onChange = false;
 		fadeTime = mySoundSystem.millisecondsPlayed(actualSong);
 
 		// nextSong = actualList.get(nueva).getName();

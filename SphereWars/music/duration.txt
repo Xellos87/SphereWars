@@ -1,6 +1,6 @@
 FinalBattleoftheDarkWizards.ogg 269
 Minima.ogg 212
-CantinaBlues.ogg 48
+CantinaBlues.ogg 40
 Chipper.ogg 83
 CoolRock.ogg 207
 Motherlode.ogg 235
