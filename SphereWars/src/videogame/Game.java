@@ -65,7 +65,7 @@ public class Game extends JLayeredPane{
 		this.width = width;
 		this.height = height;
 		this.mode = Constants.visualMode;
-		//this.mode = MODE_3D;
+		this.mode = MODE_3D;
 		this.type = type;
 		this.num_players = num_players;
 		this.height_game = (height-height_score)/num_players;
@@ -113,12 +113,12 @@ public class Game extends JLayeredPane{
 			}
 		}else if(mode == MODE_3D){
 			//Inicio de juego en 3D
-			game3d_1p = new Game3D(width, height_game, num_players);
+			game3d_1p = new Game3D(width, height_game, num_players, map_p1);
 			game3d_1p.setBounds(0, height_score, width, height_game);
 			add(game3d_1p, new Integer(0), 3);
 			if(num_players>1){
 				//Segundo jugador si lo hay
-				game3d_2p = new Game3D(width, height_game,num_players);
+				game3d_2p = new Game3D(width, height_game,num_players, map_p2);
 				//game3d_2p.getCanvas().setBounds(0, height_score+height_game, width, height_game);
 				//add(game3d_2p.getCanvas(), new Integer(0),4);
 			}

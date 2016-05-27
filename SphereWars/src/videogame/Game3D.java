@@ -40,10 +40,12 @@ import javax.media.j3d.TransformGroup;
 import com.sun.j3d.utils.behaviors.mouse.*;
 //import character.Sphere;
 import map.MapController;
+import obstacle.Platform;
 
 @SuppressWarnings("serial")
 public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener {
-	int width, height;
+	private int width, height;
+	
 	/**
 	 * The SimpleUniverse object
 	 */
@@ -73,7 +75,7 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 	 *            The name of the window, in String format
 	 */
 
-	public Game3D(int width, int height, int numplayers) {
+	public Game3D(int width, int height, int numplayers, MapController map) {
 		super(SimpleUniverse.getPreferredConfiguration());
 		// The next line will construct the window and name it
 		// with the given name
@@ -85,9 +87,18 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 		camera_setup();
 		
 		
-		addBox(0.5f, 0.5f, 0.5f, new Color3f(1,0,0), new Color3f(1,0,0));
+		//addBox(0.5f, 0.5f, 0.5f, new Color3f(1,0,0), new Color3f(1,0,0));
+		
+		//TransformGroup tg = new Platform(0, 0, 42, 42, Platform.UNDERGROUND, Platform.WORLD_FIELD).get3DModel();
+		TransformGroup tg = map.get3DModel();
+		rootBranchGroup.addChild(tg);
+		
+		tg.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		tg.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		
 		addDirectionalLight(new Vector3f(0f, 0f, -1),
-				        new Color3f(1f, 1f, 1f));
+		        new Color3f(1f, 1f, 1f));
+		
 		finalise();
 	}
 
@@ -97,6 +108,13 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 		this.addKeyListener(this);
 		// Get TransformGroup that hold the Camera
 		this.camera = simpleU.getViewingPlatform().getViewPlatformTransform();
+		
+		Transform3D translate = new Transform3D();
+		Vector3d vector_trans = new Vector3d();
+
+		// Making it the same as used
+		
+		
 		// simpleU.addBranchGraph(rootBranchGroup);
 		// Setting nominal setting for viewing
 		// simpleU.getViewingPlatform().setNominalViewingTransform();
@@ -199,8 +217,7 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 		app.setMaterial(mat);
 		Box box = new Box(x, y, z, app);
 		
-		TransformGroup tg = new TransformGroup();
-		tg.addChild(box);
+		TransformGroup tg = new Platform(0, 0, 42, 42, Platform.UNDERGROUND, Platform.WORLD_FIELD).get3DModel();
 		
 		
 		// Create a TransformGroup and make it the parent of the box
@@ -367,6 +384,10 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 			break;
 		case 's':
 			vector.y -= Game3D.MOVESPEED;
+		case 'z': //Aleja la camara
+			vector.z += Game3D.MOVESPEED;
+		case 'x': //Acerca la camara
+			vector.z -= Game3D.MOVESPEED;
 		}
 
 		// Setting the object back

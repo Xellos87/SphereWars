@@ -7,6 +7,7 @@ import javax.media.j3d.TransformGroup;
 import javax.vecmath.Vector3f;
 
 import character.Bot;
+import graphic.Model3D;
 import graphic.Sprite;
 import item.Treasure;
 import obstacle.Platform;
@@ -41,11 +42,12 @@ public class MapObject {
 
 	public void addObject(GameObject obj, int x, int y){
 		objects[y][x] = obj;
-		if(Constants.visualMode == Game.MODE_3D){
+		if(true){
+			System.out.printf("Add obj, x:%d, y:%d\n", x*block_width,y*block_height);
 			Transform3D translate = new Transform3D();
 			translate.setTranslation(new Vector3f(x*block_width,y*block_height,0));
 			TransformGroup tg = new TransformGroup(translate);
-			//tg.addChild(((Model3D)obj).getModel3D());
+			tg.addChild(((Model3D)obj).get3DModel());
 			group_object.addChild(tg);
 		}
 	}
@@ -197,5 +199,9 @@ public class MapObject {
 		translate.get(trans);
 		trans.x = trans.x+desp;
 		group_object.setTransform(translate);
+	}
+	
+	public TransformGroup get3DModel(){
+		return group_object;
 	}
 }

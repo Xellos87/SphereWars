@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.io.File;
 import java.util.Random;
 
+import javax.media.j3d.TransformGroup;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -24,13 +25,13 @@ public class MapController {
 	//Numero de bloques maximos para la altura
 	private final int MAX_HEIGHT = 9;
 	//Lista de mapas para cargar
-	private final String MAPS[] = {"maps/map01.xml"};
+	private final String MAPS[] = {"maps/map05.xml"};
 	//Indice del mapa actual
 	private int current_map;
 	//PosiciÃ³n en bloque dentro del mapa, y pixel dentro del bloque
 	private int pos_block;
 	private int pixel_block;
-	//Tamaño que va a ocupar cada bloque en pantalla
+	//Tamaï¿½o que va a ocupar cada bloque en pantalla
 	private int block_width;
 	private int block_height;
 	//Numero de bloques en pantalla
@@ -376,5 +377,9 @@ public class MapController {
 	
 	public int getMaxHeight(){
 		return MAX_HEIGHT;
+	}
+	
+	public TransformGroup get3DModel(){
+		return first_map.get3DModel();
 	}
 }
