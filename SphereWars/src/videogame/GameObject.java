@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
  *
  */
 public class GameObject {
-	//Posición en pantalla
+	//Posiciï¿½n en pantalla
 	protected int x;
 	protected int y;
 	protected int z;//TODO, entero o flotantes para 3D
@@ -36,7 +36,7 @@ public class GameObject {
 	//Disemnsiones de la imagen representado en pantalla(para colisiones, mas realista)
 	protected int real_block_width;
 	protected int real_block_height;
-	//Posición real de la x e y dentro del bloque
+	//Posiciï¿½n real de la x e y dentro del bloque
 	protected int real_x_block;
 	protected int real_y_block;
 	
