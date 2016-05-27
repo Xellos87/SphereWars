@@ -1,6 +1,7 @@
 package character;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import graphic.Sprite;
@@ -50,8 +51,16 @@ public class Boss extends GameObject implements Sprite {
 		this.health = 3;
 		this.visible = esVisible;
 		selectImage();
-		resize();
+		resizeDouble();
 		rotateImage();
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 
 	private void rotateImage() {
@@ -74,7 +83,7 @@ public class Boss extends GameObject implements Sprite {
 	public void draw2D(Graphics2D g2d, int x_ori, int y_ori) {
 		g2d.drawImage(image, x_ori+x, y_ori+y, null);
 		//Dibujo cada de colisiones
-		g2d.draw(this.getBox(x_ori,y_ori));
+		//g2d.draw(this.getBox(x_ori,y_ori));
 	}
 	
 	public void death(){
@@ -84,7 +93,7 @@ public class Boss extends GameObject implements Sprite {
 		width = width_imgs[state];
 		height = height_imgs[state];
 		selectImage();
-		resize();
+		resizeDouble();
 	}
 	
 	public int action(boolean not_pause) {
@@ -104,7 +113,7 @@ public class Boss extends GameObject implements Sprite {
 				width = width_imgs[state];
 				height = height_imgs[state];
 				selectImage();
-				resize();
+				resizeDouble();
 				rotateImage();
 			}
 			if(directionX == RIGHT){
@@ -139,8 +148,38 @@ public class Boss extends GameObject implements Sprite {
 				directionX = RIGHT;
 			}
 			selectImage();
-			resize();
+			resizeDouble();
 			rotateImage();
 		}
+	}
+	
+	protected void resizeDouble(){
+		//Comprobaciones por si la imagen no es cuadrada
+		int w;
+		int h;
+		if(width == height){
+			w = block_width;
+			h = block_height;
+		}else if(width > height){
+			w = block_width;
+			h = (int) (((float)block_width) / width * height);
+		}else{
+			w = (int) (((float)block_height) / height* width);
+			h = block_height;
+		}
+		h *= 2;
+		w *= 2;
+		real_block_height=h;
+		real_block_width=w;
+		real_x_block = 0;//(block_width-real_block_width);
+		real_y_block = 0;//(block_height-real_block_height);
+		//Escala la imagen
+		Image tmp = image.getScaledInstance(w, h, Image.SCALE_DEFAULT);
+	    BufferedImage dimg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+	    Graphics2D g2d = dimg.createGraphics();
+	    g2d.drawImage(tmp, 0, 0, null);
+	    g2d.dispose();
+		image = dimg;
+		//System.out.printf("Nuevo tamaño, ancho: %d, alto: %d\n",image.getWidth(),image.getHeight());
 	}
 }

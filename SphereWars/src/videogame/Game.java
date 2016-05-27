@@ -65,7 +65,7 @@ public class Game extends JLayeredPane{
 		this.width = width;
 		this.height = height;
 		this.mode = Constants.visualMode;
-		this.mode = MODE_3D;
+		//this.mode = MODE_3D;
 		this.type = type;
 		this.num_players = num_players;
 		this.height_game = (height-height_score)/num_players;
@@ -93,6 +93,12 @@ public class Game extends JLayeredPane{
 		score.setBounds(0, 0, width, height_score);
 		//add(score, new Integer(0),2);
 		System.out.printf("w:%d, hs:%d, hg:%d\n",width,height_score,height_game );
+		//Inicializa los controladores de mapas necesarios
+		Constants.map_index = new ArrayList<Integer>();
+		map_p1 = new MapController(width, height_game);
+		if(num_players>1){
+			map_p2 = new MapController(width, height_game);
+		}
 		//Inicializa el juego
 		if(mode == MODE_2D){
 			//Inicio de juego 2D, primer jugador
@@ -126,12 +132,6 @@ public class Game extends JLayeredPane{
 			 game3d_1p.setVisible(true);
 			 //this.setSize(1200, 768);
 			 //this.
-		}
-		//Inicializa los controladores de mapas necesarios
-		Constants.map_index = new ArrayList<Integer>();
-		map_p1 = new MapController(width, height_game);
-		if(num_players>1){
-			map_p2 = new MapController(width, height_game);
 		}
 	}
 
