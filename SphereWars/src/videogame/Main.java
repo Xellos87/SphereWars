@@ -21,10 +21,10 @@ import scoreboard.Ranking;
 import utils.Constants;
 
 /**
- * Autores: Victor Adrian Milla Español - 557022,
- * 			Juan Luis Burillo Ortín - 542083,
+ * Autores: Victor Adrian Milla EspaÃ±ol - 557022,
+ * 			Juan Luis Burillo OrtÃ­n - 542083,
  * 			Sandra Malpica Mallo - 670607,
- * 			Richard Elvira López-Echazarreta - 666800
+ * 			Richard Elvira LÃ³pez-Echazarreta - 666800
  * 	
  * Clase: Main.java
  * 
@@ -33,6 +33,7 @@ import utils.Constants;
  */
 public class Main implements Runnable, KeyListener{
 	private static JFrame window;
+	
 	private static final String TITLE = "Sphere Wars";
 
 	//Dimensiones del juego
@@ -66,11 +67,13 @@ public class Main implements Runnable, KeyListener{
 
 	public static void main(String[] args){
 		new Main();
+		//window.getContentPane().setLayout(game3d);
 	}
 
 	private Main() {
 		Constants.img_handler = new ImageHandler();
 		Constants.ranking = new Ranking();
+		Constants.sound = false;
 		init();
 	}
 	private void init() {
@@ -95,21 +98,6 @@ public class Main implements Runnable, KeyListener{
 		menu.setDoubleBuffered(true);
 		state = Constants.MENU;
 		window.add(menu);
-		//game_score = new GameScore(width*scale, 100, 2, GameScore.POINTS);
-		//game_score.setDoubleBuffered(true);
-		//state = Constants.GAME;
-		//window.add(game_score);
-		//game2D = new Game2D(width*scale, height*scale);
-		//game2D.setBounds(0, 0, width*scale, height*scale);
-		//game2D.setDoubleBuffered(true);
-		//window.add(game2D);
-
-
-		//menu = new PauseMenu(width*scale, height*scale);
-		//menu.setDoubleBuffered(true);
-		//menu.setBounds(0, 0, width*scale, height*scale);
-		//window.add(menu);
-		//window.add(game,BorderLayout.CENTER);
 		//Ajusta el tamaño de la ventana según los componentes
 		window.pack();
 		window.setVisible(true);
@@ -124,7 +112,7 @@ public class Main implements Runnable, KeyListener{
 		while(running){
 			start = System.nanoTime();
 			if(!pause){
-				//TODO: actualización del juego
+				//TODO: actualizaciÃ³n del juego
 				if(game != null){
 					game.actionGame();
 				}
@@ -135,7 +123,7 @@ public class Main implements Runnable, KeyListener{
 			if(music != null) music.update();
 			elapsed = System.nanoTime() - start;
 			wait = targetTime - elapsed;
-			//Duerme el hilo hasta la siguiente actualización
+			//Duerme el hilo hasta la siguiente actualizaciÃ³n
 			try {
 				if(wait>0) Thread.sleep(wait/1000000);
 			}
@@ -202,6 +190,8 @@ public class Main implements Runnable, KeyListener{
 									System.err.println("Richard no le des tan rapido");
 								}
 								game = new Game(width*Constants.scale, height*Constants.scale, Game.MODE_2D, Game.COINS, 1);
+								window.remove(menu);
+								window.revalidate();
 								window.add(game,BorderLayout.CENTER);
 								window.pack();
 								state = Constants.GAME;
@@ -368,7 +358,7 @@ public class Main implements Runnable, KeyListener{
 		default:
 			break;
 		}
-		//		//Duerme el hilo hasta la siguiente actualización despues de despachar el evento
+		//		//Duerme el hilo hasta la siguiente actualizaciÃ³n despues de despachar el evento
 		//		try {
 		//			Thread.sleep(wait/1000000);
 		//		}

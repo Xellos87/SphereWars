@@ -1,12 +1,18 @@
 package videogame;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
+import javax.vecmath.Color3f;
+import javax.vecmath.Vector3f;
+
+import com.sun.java.swing.plaf.windows.resources.windows;
 
 import map.MapController;
 import menu.EndMenu;
@@ -54,10 +60,12 @@ public class Game extends JLayeredPane{
 
 
 	public Game(int width, int height, int mode, int type, int num_players){
+		//Constants.sound = false;
+		//this.setl
 		this.width = width;
 		this.height = height;
 		this.mode = mode;
-		//this.mode = MODE_3D;
+		this.mode = MODE_3D;
 		this.type = type;
 		this.num_players = num_players;
 		this.height_game = (height-height_score)/num_players;
@@ -74,16 +82,16 @@ public class Game extends JLayeredPane{
 		pause = new PauseMenu(width, height);
 		pause.setBounds(0, 0, width, height);
 		pause.setVisible(false);
-		add(pause, new Integer(0),0);
+		//add(pause, new Integer(0),0);
 		//Menu de fin de juego
 		end = new EndMenu(width, height);
 		end.setBounds(0, 0, width, height);
 		end.setVisible(false);
-		add(end,new Integer(0),1);
+		//add(end,new Integer(0),1);
 		//Inicializa el marcador
 		score = new GameScore(width, height_score, num_players, type);
 		score.setBounds(0, 0, width, height_score);
-		add(score, new Integer(0),2);
+		//add(score, new Integer(0),2);
 		System.out.printf("w:%d, hs:%d, hg:%d\n",width,height_score,height_game );
 		//Inicializa el juego
 		if(mode == MODE_2D){
@@ -99,15 +107,41 @@ public class Game extends JLayeredPane{
 			}
 		}else if(mode == MODE_3D){
 			//Inicio de juego en 3D
-			game3d_1p = new Game3D(width, height, num_players);
+			game3d_1p = new Game3D(width, height_game, num_players);
 			game3d_1p.setBounds(0, height_score, width, height_game);
-			add(game3d_1p, new Integer(0),3);
+			game3d_1p.addBox(1, 1, 1, new Color3f(1,0,0), new Color3f(1,0,0));
+			game3d_1p.addDirectionalLight(new Vector3f(0f, 0f, -1),
+					        new Color3f(1f, 1f, 0f));
+			game3d_1p.finalise();
+
+			
+			//add(game3d_1p.getCanvas(), 1);
+			//setLayout(new BorderLayout());
+			/*JFrame frame = new JFrame();
+			frame.getContentPane().add(game3d_1p);
+			frame.setLayout(new BorderLayout());
+			frame.setBounds(600, 400, width, height);
+			frame.setVisible(true);*/
+			//add(game3d_1p, new Integer(0),3);
+			add(game3d_1p, new Integer(0), 3);
+			System.err.println("AQUI");
+			//System.err.println("PENE");
 			if(num_players>1){
 				//Segundo jugador si lo hay
 				game3d_2p = new Game3D(width, height_game,num_players);
-				game3d_2p.setBounds(0, height_score+height_game, width, height_game);
-				add(game3d_2p, new Integer(0),4);
+				//game3d_2p.getCanvas().setBounds(0, height_score+height_game, width, height_game);
+				//add(game3d_2p.getCanvas(), new Integer(0),4);
 			}
+			//this.getcon
+			 //game3d_1p.addBox(0.4f, 0.5f, 0.6f, new Color3f(1, 0, 0), new Color3f(1, 0, 0));
+			 //game3d_1p.addDirectionalLight(new Vector3f(0f, 0f, -1),
+			 //       new Color3f(1f, 1f, 0f));
+			 //game3d_1p.finalise();
+
+			 //game3d_1p.show();
+			 game3d_1p.setVisible(true);
+			 //this.setSize(1200, 768);
+			 //this.
 		}
 		//Inicializa los controladores de mapas necesarios
 		Constants.map_index = new ArrayList<Integer>();
@@ -126,9 +160,9 @@ public class Game extends JLayeredPane{
 				game2d_2p.draw(g2d,0,height_score+height_game,map_p2,not_pause);
 			}
 		}else if(mode == MODE_3D){
-			game3d_1p.draw(g2d,0,height_score,map_p1,not_pause);
+			//game3d_1p.draw(g2d,0,height_score,map_p1,not_pause);
 			if(num_players>1){
-				game3d_2p.draw(g2d,0,height_score+height_game,map_p2,not_pause);
+				//game3d_2p.draw(g2d,0,height_score+height_game,map_p2,not_pause);
 			}
 		}
 		score.draw(g2d);
