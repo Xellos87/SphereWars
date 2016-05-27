@@ -27,7 +27,7 @@ public class MapController {
 	private final String MAPS[] = {"maps/map01.xml"};
 	//Indice del mapa actual
 	private int current_map;
-	//Posición en bloque dentro del mapa, y pixel dentro del bloque
+	//Posicion en bloque dentro del mapa, y pixel dentro del bloque
 	private int pos_block;
 	private int pixel_block;
 	//Tamaño que va a ocupar cada bloque en pantalla
