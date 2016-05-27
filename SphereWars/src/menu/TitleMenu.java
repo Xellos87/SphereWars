@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import graphic.Cursor;
 import utils.Constants;
+import videogame.Game;
 import videogame.Parallax;
 
 @SuppressWarnings("serial")
@@ -133,13 +134,13 @@ public class TitleMenu extends Menu {
 		}else{
 			offgc.drawImage(jugar, Constants.jugarPos.getX()+Constants.desplazamiento+Constants.ax, Constants.jugarPos.getY()+Constants.ay, jugar.getWidth()/2,jugar.getHeight()/2, null);
 		}
-		if(dosD!=null && Constants.visualMode.equalsIgnoreCase("2D")){
+		if(dosD!=null && Constants.visualMode == Game.MODE_2D){
 			offgc.drawImage(dosD, Constants.dosDjPos.getX()+Constants.ax, Constants.dosDjPos.getY()+Constants.ay, dosD.getWidth()/2,dosD.getHeight()/2, null);
 		}else{
 			offgc.drawImage(dosD, Constants.dosDjPos.getX()+Constants.ax, Constants.dosDjPos.getY()+Constants.ay, (int)(dosD.getWidth()/2.5),(int)(dosD.getHeight()/2.5), null);
 			
 		}
-		if(tresD!=null && Constants.visualMode.equalsIgnoreCase("3D")){
+		if(tresD!=null && Constants.visualMode == Game.MODE_3D){
 			offgc.drawImage(tresD, Constants.tresDjPos.getX()-5+Constants.ax, Constants.tresDjPos.getY()+Constants.ay, tresD.getWidth()/2,tresD.getHeight()/2, null);
 		}else{
 			offgc.drawImage(tresD, Constants.tresDjPos.getX()+Constants.ax, Constants.tresDjPos.getY()+Constants.ay, (int)(tresD.getWidth()/2.5),(int)(tresD.getHeight()/2.5), null);

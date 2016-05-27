@@ -2,11 +2,19 @@ package obstacle;
 
 import java.awt.Graphics2D;
 
+import javax.media.j3d.Appearance;
+import javax.media.j3d.Material;
+import javax.vecmath.Color3f;
+
+import com.sun.j3d.utils.geometry.Box;
+
+import graphic.Model3D;
 import graphic.Sprite;
 import utils.Constants;
+import videogame.Game;
 import videogame.GameObject;
 
-public class Platform extends GameObject implements Sprite{
+public class Platform extends GameObject implements Sprite, Model3D{
 	//Tipo de plataforma, depende del tipo usa un sprite u otro
 	public static final int GROUND = 0;
 	public static final int BORDER_LEFT = 1;
@@ -28,6 +36,11 @@ public class Platform extends GameObject implements Sprite{
 	//Tipo de imagen a cargar, identifica los datos de la parte de imagen que lo representa
 	private int type;
 	private int world;
+	//Contenedor del modelo3D
+	private Box box;
+	//Color del objeto, ambiental y difusa
+	private Color3f earth_amb = new Color3f(0.3411f,0.1568f,0.0f);
+	private Color3f earth_dif = new Color3f(0.6745f, 0.3411f, 0.047f);
 
 	public Platform(int x, int y, int block_width,int block_height, int type, int world) {
 		super(x, y, x_imgs[world+type], y_imgs[world+type], width_imgs[world+type], height_imgs[world+type], block_width, block_height);
@@ -35,8 +48,18 @@ public class Platform extends GameObject implements Sprite{
 		this.type = type;
 		this.world = world;
 		this.kills = false;
-		selectImage();
-		resize();
+		
+		if(Constants.visualMode == Game.MODE_2D){
+			selectImage();
+			resize();
+		}else{
+			Appearance app = new Appearance();
+			Material mat = new Material();
+			mat.setAmbientColor(earth_amb);
+			mat.setDiffuseColor(earth_dif);
+			app.setMaterial(mat);
+			box = new Box(block_width, block_height, block_width, app);
+		}
 	}
 
 	private void selectImage() {
@@ -57,6 +80,11 @@ public class Platform extends GameObject implements Sprite{
 
 	public int getHeightImage(){
 		return height_imgs[world+type];
+	}
+
+	@Override
+	public void draw3D() {
+		
 	}
 
 }

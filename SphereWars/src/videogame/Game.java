@@ -59,12 +59,12 @@ public class Game extends JLayeredPane{
 	private boolean death_p2;
 
 
-	public Game(int width, int height, int mode, int type, int num_players){
+	public Game(int width, int height, int type, int num_players){
 		//Constants.sound = false;
 		//this.setl
 		this.width = width;
 		this.height = height;
-		this.mode = mode;
+		this.mode = Constants.visualMode;
 		this.mode = MODE_3D;
 		this.type = type;
 		this.num_players = num_players;
