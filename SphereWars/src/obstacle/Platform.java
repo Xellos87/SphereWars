@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Material;
+import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
 
 import com.sun.j3d.utils.geometry.Box;
@@ -39,8 +40,15 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	//Contenedor del modelo3D
 	private Box box;
 	//Color del objeto, ambiental y difusa
-	private Color3f earth_amb = new Color3f(0.3411f,0.1568f,0.0f);
-	private Color3f earth_dif = new Color3f(0.6745f, 0.3411f, 0.047f);
+	private Color3f field_amb = new Color3f(0.34f,0.15f,0.0f);
+	private Color3f field_dif = new Color3f(0.67f, 0.34f, 0.047f);
+	private Color3f dessert_amb = new Color3f(0.9f, 0.87f, 0.75f);
+	private Color3f dessert_dif = new Color3f(0.9f, 0.87f, 0.75f);
+	private Color3f castle_amb = new Color3f(0.67f, 0.57f, 0.75f);
+	private Color3f castle_dif = new Color3f(0.67f, 0.57f, 0.75f);
+	private Color3f snow_amb = new Color3f(1, 1, 1);
+	private Color3f snow_dif = new Color3f(1, 1, 1);
+	
 
 	public Platform(int x, int y, int block_width,int block_height, int type, int world) {
 		super(x, y, x_imgs[world+type], y_imgs[world+type], width_imgs[world+type], height_imgs[world+type], block_width, block_height);
@@ -52,14 +60,14 @@ public class Platform extends GameObject implements Sprite, Model3D{
 		if(Constants.visualMode == Game.MODE_2D){
 			selectImage();
 			resize();
-		}else{
+		}/*else{
 			Appearance app = new Appearance();
 			Material mat = new Material();
 			mat.setAmbientColor(earth_amb);
 			mat.setDiffuseColor(earth_dif);
 			app.setMaterial(mat);
 			box = new Box(block_width, block_height, block_width, app);
-		}
+		}*/
 	}
 
 	private void selectImage() {
@@ -85,6 +93,44 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	@Override
 	public void draw3D() {
 		
+	}
+
+	@Override
+	public TransformGroup get3DModel() {
+		//Apariencia de la plataforma
+		Appearance app = new Appearance();
+	    Material mat = new Material();
+	    switch (world) {
+		case WORLD_FIELD:
+			mat.setAmbientColor(field_amb);
+			mat.setDiffuseColor(field_dif);
+			break;
+		case WORLD_DESSERT:
+			mat.setAmbientColor(dessert_amb);
+			mat.setDiffuseColor(dessert_dif);
+			mat.setDiffuseColor(new Color3f(0.9f, 0.87f, 0.75f));
+			break;
+		case WORLD_CASTLE:
+			mat.setAmbientColor(castle_amb);
+			mat.setDiffuseColor(castle_dif);
+			mat.setDiffuseColor(new Color3f(0.67f, 0.57f, 0.75f));
+			break;
+		case WORLD_SNOW:
+			mat.setAmbientColor(snow_amb);
+			mat.setDiffuseColor(snow_dif);
+			mat.setDiffuseColor(new Color3f(1, 1, 1));
+			break;
+		default:
+			break;
+		}		    
+	    mat.setSpecularColor(new Color3f(0, 0, 0));
+	    mat.setShininess(1.0f);	 
+	    app.setMaterial(mat);
+	    //Creacion de la plataforma
+		Box box = new Box(0.1f, 0.1f, 0.1f, app);		
+		TransformGroup tg = new TransformGroup();
+		tg.addChild(box);
+		return tg;
 	}
 
 }

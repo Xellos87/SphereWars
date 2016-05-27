@@ -1,5 +1,7 @@
 package graphic;
 
+import javax.media.j3d.TransformGroup;
+
 /**
  * Autores: Victor Adrian Milla Español - 557022,
  * 			Juan Luis Burillo Ortín - 542083,
@@ -14,5 +16,7 @@ package graphic;
 public interface Model3D {
 	
 	public void draw3D();
+	
+	public TransformGroup get3DModel();
 	
 }

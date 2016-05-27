@@ -2,11 +2,19 @@ package obstacle;
 
 import java.awt.Graphics2D;
 
+import javax.media.j3d.Appearance;
+import javax.media.j3d.Material;
+import javax.media.j3d.TransformGroup;
+import javax.vecmath.Color3f;
+
+import com.sun.j3d.utils.geometry.Box;
+
+import graphic.Model3D;
 import graphic.Sprite;
 import utils.Constants;
 import videogame.GameObject;
 
-public class Liquid extends GameObject implements Sprite{
+public class Liquid extends GameObject implements Sprite, Model3D{
 	//Estilo del liquido
 	public static final int WATER = 0;
 	public static final int MAGMA = 2;
@@ -22,6 +30,11 @@ public class Liquid extends GameObject implements Sprite{
 	//Tipo de elemento
 	private int type;
 	private int nature;
+	//Color del objeto, ambiental y difusa
+	private Color3f water_amb = new Color3f(0,0,1);
+	private Color3f water_dif = new Color3f(0,0,1);
+	private Color3f magma_amb = new Color3f(1,0,0);
+	private Color3f magma_dif = new Color3f(1,0,0);
 
 	public Liquid(int x, int y, int block_width, int block_height, int type, int nature) {
 		super(x, y, x_imgs[nature+type], y_imgs[nature+type], width_imgs[nature+type], height_imgs[nature+type], block_width, block_height);
@@ -48,6 +61,49 @@ public class Liquid extends GameObject implements Sprite{
 
 	public int getHeightImage(){
 		return height_imgs[nature+type];
+	}
+
+	@Override
+	public void draw3D() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public TransformGroup get3DModel() {
+		//Apariencia de la plataforma
+		Appearance app = new Appearance();
+	    Material mat = new Material();
+	    switch (nature) {
+		case WATER:
+			mat.setAmbientColor(water_amb);
+			mat.setDiffuseColor(water_dif);
+			break;
+		case MAGMA:
+			mat.setAmbientColor(magma_amb);
+			mat.setDiffuseColor(magma_dif);
+			break;
+		default:
+			break;
+		}	    
+	    mat.setSpecularColor(new Color3f(0, 0, 0));
+	    mat.setShininess(5.0f);	 
+	    app.setMaterial(mat);
+	    //Creacion de la plataforma
+	    Box box = null;
+	    switch (type) {
+		case SURFACE:
+			box = new Box(0.1f, 0.05f, 0.1f, app);	
+			break;
+		case DEEP:
+			box = new Box(0.1f, 0.1f, 0.1f, app);
+			break;
+		default:
+			break;
+		}		 
+		TransformGroup tg = new TransformGroup();
+		tg.addChild(box);
+		return tg;
 	}
 
 }
