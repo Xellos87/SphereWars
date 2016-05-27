@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JPanel;
 
+import character.Boss;
 import character.Sphere;
 import map.MapController;
 
@@ -18,6 +19,7 @@ public class Game2D extends JPanel {
 	private Parallax back_parallax;
 	//Contenedor del jugador
 	private Sphere player;
+	private Boss boss;
 	//Flag que indica si la partida ha acabado
 	private boolean end_game;
 	//Numero de jugadores
@@ -31,16 +33,20 @@ public class Game2D extends JPanel {
 	//Puntuaciones para mostrar en scoreboard
 	private double score_distance;
 	private int score_coins;
-	private int score_time; //TODO, eliminar si no se implementa
+	private int score_time; //TODO, eliminar si no se implementa - modo contrarreloj
+	private int blockWidth;
+	private int blockHeight;
 
 
-	public Game2D(int width, int height, int num_player){
+	public Game2D(int width, int height, int num_player, int widthBlock, int heightBlock){
 		this.width = width;
 		this.height = height;
 		this.end_game = false;
 		this.alpha_death = 0;
 		this.num_player = num_player;
 		this.wait_other_player = num_player > 1;
+		this.blockWidth=widthBlock;
+		this.blockHeight=heightBlock;
 		setPreferredSize(new Dimension(width, height));
 		setDoubleBuffered(true);
 		setFocusable(false);
@@ -66,6 +72,8 @@ public class Game2D extends JPanel {
 		/* Carga el personaje en pantalla con su posición */
 		player = new Sphere(0,0,30,30);
 		player.setVelocity(0, 3);
+		//carga el boss
+		boss = new Boss(width-100,height-100,blockWidth,blockHeight,false);
 	}
 
 	public void draw(Graphics2D g2d,int x_ori, int y_ori, MapController map_cont, boolean not_pause) {
