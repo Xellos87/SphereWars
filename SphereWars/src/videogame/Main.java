@@ -189,7 +189,7 @@ public class Main implements Runnable, KeyListener{
 								}else{
 									System.err.println("Richard no le des tan rapido");
 								}
-								game = new Game(width*Constants.scale, height*Constants.scale, Game.MODE_2D, Game.COINS, 1);
+								game = new Game(width*Constants.scale, height*Constants.scale, Game.COINS, 1);
 								window.remove(menu);
 								window.revalidate();
 								window.add(game,BorderLayout.CENTER);
@@ -209,10 +209,10 @@ public class Main implements Runnable, KeyListener{
 
 							}
 						}else {
-							if(Constants.visualMode.equalsIgnoreCase("2D")){
-								Constants.visualMode="3D";
+							if(Constants.visualMode == Game.MODE_2D){
+								Constants.visualMode = Game.MODE_3D;
 							}else{
-								Constants.visualMode="2D";
+								Constants.visualMode = Game.MODE_2D;
 							}
 						}
 						//desde el menu de opciones

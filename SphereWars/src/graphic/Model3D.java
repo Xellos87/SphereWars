@@ -11,15 +11,8 @@ package graphic;
  * Comentarios: Representa el modelo 3D de un objeto con los metodos que contendra para ser visualizado
  * 
  * */
-public class Model3D {
-	private String path_model;
-	private int posX, posY;
+public interface Model3D {
 	
-	public Model3D(String path, int posX, int posY){
-		this.path_model = path;
-		this.posX = posX;
-		this.posY = posY;
-	}
-	
+	public void draw3D();
 	
 }

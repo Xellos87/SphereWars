@@ -20,7 +20,7 @@ public class GameObject {
 	//Posición en pantalla
 	protected int x;
 	protected int y;
-	protected int z;
+	protected int z;//TODO, entero o flotantes para 3D
 	//Velocidad de movimiento
 	protected int vx;
 	protected int vy;
@@ -36,11 +36,10 @@ public class GameObject {
 	//Disemnsiones de la imagen representado en pantalla(para colisiones, mas realista)
 	protected int real_block_width;
 	protected int real_block_height;
-	//PosiciÃ³n real de la x e y dentro del bloque
+	//Posición real de la x e y dentro del bloque
 	protected int real_x_block;
 	protected int real_y_block;
 	
-	//TODO: AÃ±adir animaciones de sprites
 	//Sprite
 	protected BufferedImage image;
 	

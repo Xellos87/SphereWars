@@ -13,6 +13,7 @@ import javax.swing.KeyStroke;
 
 import media.ImageHandler;
 import scoreboard.Ranking;
+import videogame.Game;
 
 public class Constants {
 	public static final String[] list_menu = { "Start", "versus","Help", "options", "credits", "Exit" };
@@ -48,7 +49,7 @@ public class Constants {
 	public static Position salirPos = new Position(xPos,410+ay);	
 	//Opciones del menu principal
 	public static int numJugadores = 1;	//numero jugadores
-	public static String visualMode = "2D";
+	public static int visualMode = Game.MODE_2D;
 	public static boolean cursorDesplazado = false;
 	
 	//rutas a las imagenes del menu de opciones
