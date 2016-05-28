@@ -4,7 +4,9 @@ import java.awt.Graphics2D;
 import java.io.File;
 import java.util.Random;
 
+import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
+import javax.vecmath.Vector3f;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -15,6 +17,7 @@ import org.w3c.dom.NodeList;
 
 import character.Bot;
 import character.Sphere;
+import graphic.Model3D;
 import item.Treasure;
 import obstacle.Liquid;
 import obstacle.Platform;
@@ -380,6 +383,15 @@ public class MapController {
 	}
 	
 	public TransformGroup get3DModel(){
-		return first_map.get3DModel();
+		Transform3D translate = new Transform3D();
+		
+		translate.setTranslation(new Vector3f(first_map.getWidthBlocks()*block_width*0.002f,0,0));
+		TransformGroup tg = new TransformGroup(translate);
+		tg.addChild(second_map.get3DModel());
+		
+		TransformGroup group = new TransformGroup();
+		group.addChild(first_map.get3DModel());
+		group.addChild(tg);
+		return group;
 	}
 }
