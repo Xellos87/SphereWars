@@ -122,16 +122,6 @@ public class Game extends JLayeredPane{
 				//game3d_2p.getCanvas().setBounds(0, height_score+height_game, width, height_game);
 				//add(game3d_2p.getCanvas(), new Integer(0),4);
 			}
-			//this.getcon
-			 //game3d_1p.addBox(0.4f, 0.5f, 0.6f, new Color3f(1, 0, 0), new Color3f(1, 0, 0));
-			 //game3d_1p.addDirectionalLight(new Vector3f(0f, 0f, -1),
-			 //       new Color3f(1f, 1f, 0f));
-			 //game3d_1p.finalise();
-
-			 //game3d_1p.show();
-			 game3d_1p.setVisible(true);
-			 //this.setSize(1200, 768);
-			 //this.
 		}
 	}
 
