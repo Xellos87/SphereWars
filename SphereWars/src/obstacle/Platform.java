@@ -42,11 +42,11 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	//Color del objeto, ambiental y difusa
 	private Color3f field_amb = new Color3f(0.34f,0.15f,0.0f);
 	private Color3f field_dif = new Color3f(0.67f, 0.34f, 0.047f);
-	private Color3f dessert_amb = new Color3f(0.9f, 0.87f, 0.75f);
+	private Color3f dessert_amb = new Color3f(0.45f, 0.4f, 0.35f);
 	private Color3f dessert_dif = new Color3f(0.9f, 0.87f, 0.75f);
-	private Color3f castle_amb = new Color3f(0.67f, 0.57f, 0.75f);
+	private Color3f castle_amb = new Color3f(0.35f, 0.25f, 0.35f);
 	private Color3f castle_dif = new Color3f(0.67f, 0.57f, 0.75f);
-	private Color3f snow_amb = new Color3f(1, 1, 1);
+	private Color3f snow_amb = new Color3f(0.5f, 0.5f, 0.5f);
 	private Color3f snow_dif = new Color3f(1, 1, 1);
 	
 
@@ -108,17 +108,14 @@ public class Platform extends GameObject implements Sprite, Model3D{
 		case WORLD_DESSERT:
 			mat.setAmbientColor(dessert_amb);
 			mat.setDiffuseColor(dessert_dif);
-			mat.setDiffuseColor(new Color3f(0.9f, 0.87f, 0.75f));
 			break;
 		case WORLD_CASTLE:
 			mat.setAmbientColor(castle_amb);
 			mat.setDiffuseColor(castle_dif);
-			mat.setDiffuseColor(new Color3f(0.67f, 0.57f, 0.75f));
 			break;
 		case WORLD_SNOW:
 			mat.setAmbientColor(snow_amb);
 			mat.setDiffuseColor(snow_dif);
-			mat.setDiffuseColor(new Color3f(1, 1, 1));
 			break;
 		default:
 			break;

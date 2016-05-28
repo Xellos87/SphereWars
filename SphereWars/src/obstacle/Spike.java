@@ -33,8 +33,8 @@ public class Spike extends GameObject implements Sprite, Model3D{
 	//Direccion del pincho
 	private int direction;
 	//Color del objeto, ambiental y difusa
-	private Color3f spike_amb = new Color3f(0.49f,0.49f,0.49f);
-	private Color3f spike_dif = new Color3f(0.49f,0.49f,0.49f);
+	private Color3f spike_amb = new Color3f(0.25f,0.25f,0.25f);
+	private Color3f spike_dif = new Color3f(0.5f,0.5f,0.5f);
 
 	public Spike(int x, int y,int block_width,int block_height, int direction) {
 		super(x, y, x_img, y_img, width, height, block_width, block_height);

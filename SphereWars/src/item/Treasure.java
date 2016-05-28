@@ -32,10 +32,10 @@ public class Treasure extends GameObject implements Sprite, Model3D{
 	//Tipo de tesoro
 	private int type;
 	//Color del objeto, ambiental y difusa 
-	private Color3f coin_amb = new Color3f(1f, 1f, 0f);	
+	private Color3f coin_amb = new Color3f(0.5f, 0.5f, 0f);	
 	private Color3f coin_dif = new Color3f(1f, 1f, 0f);
-	private Color3f gem_amb = new Color3f(0.31f, 0.93f, 0.97f);
-	private Color3f gem_dif = new Color3f(0.31f, 0.93f, 0.97f);
+	private Color3f gem_amb = new Color3f(0.15f, 0.45f, 0.97f);
+	private Color3f gem_dif = new Color3f(0.3f, 0.9f, 0.5f);
 
 
 	public Treasure(int x, int y, int block_width, int block_height, int type) {
@@ -90,7 +90,7 @@ public class Treasure extends GameObject implements Sprite, Model3D{
 		    mat.setSpecularColor(new Color3f(0, 0, 0));
 		    app.setMaterial(mat);
 		    //Creacion de la moneda
-			p = new Cylinder(block_width*0.0005f, block_width*0.0005f, app);
+			p = new Cylinder(block_width*0.0005f, block_width*0.001f, app);
 			t.rotX(Math.PI/2);
 			break;
 		case GEM:

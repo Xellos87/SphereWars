@@ -33,9 +33,9 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 	private int type;
 	private int nature;
 	//Color del objeto, ambiental y difusa
-	private Color3f water_amb = new Color3f(0,0,1);
+	private Color3f water_amb = new Color3f(0,0,0.5f);
 	private Color3f water_dif = new Color3f(0,0,1);
-	private Color3f magma_amb = new Color3f(1,0,0);
+	private Color3f magma_amb = new Color3f(0.5f,0,0);
 	private Color3f magma_dif = new Color3f(1,0,0);
 
 	public Liquid(int x, int y, int block_width, int block_height, int type, int nature) {
