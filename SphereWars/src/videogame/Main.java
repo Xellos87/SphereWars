@@ -52,10 +52,6 @@ public class Main implements Runnable, KeyListener{
 	long elapsed;
 	long wait;
 
-	//Estado del juego
-	int state;
-	boolean pause = false;
-
 	// Musica
 	Music music;
 
@@ -96,7 +92,7 @@ public class Main implements Runnable, KeyListener{
 		}
 		menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
 		menu.setDoubleBuffered(true);
-		state = Constants.MENU;
+		Constants.gameState = Constants.MENU;
 		window.add(menu);
 		//Ajusta el tamaño de la ventana según los componentes
 		window.pack();
@@ -111,7 +107,7 @@ public class Main implements Runnable, KeyListener{
 
 		while(running){
 			start = System.nanoTime();
-			if(!pause){
+			if(Constants.gameState == Constants.GAME){
 				//TODO: actualizaciÃ³n del juego
 				if(game != null){
 					game.actionGame();
@@ -144,7 +140,7 @@ public class Main implements Runnable, KeyListener{
 
 		}
 		if(game != null && !Constants.enMenu){
-			game.draw(!pause);
+			game.draw();
 		}
 	}
 
@@ -154,7 +150,7 @@ public class Main implements Runnable, KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		switch (state) {
+		switch (Constants.gameState) {
 		case Constants.MENU:
 			if(!Constants.esperandoTecla){
 				if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S){
@@ -189,20 +185,19 @@ public class Main implements Runnable, KeyListener{
 								}else{
 									System.err.println("Richard no le des tan rapido");
 								}
-								game = new Game(width*Constants.scale, height*Constants.scale, Game.COINS, 1);
+								game = new Game(width*Constants.scale, height*Constants.scale, Game.COINS, 1, this);
 								window.remove(menu);
 								window.revalidate();
 								window.add(game,BorderLayout.CENTER);
 								window.pack();
-								state = Constants.GAME;
-								pause = false;
+								Constants.gameState = Constants.GAME;
 							}else if(nuevoMenu.equalsIgnoreCase("exit")){
 								System.exit(0);
 							}else if(nuevoMenu.equalsIgnoreCase("options")){
 								menu = new OptionMenu(width*Constants.scale, height*Constants.scale);
 								Constants.tipoMenu = Constants.optMenu;
 								menu.setDoubleBuffered(true);
-								state = Constants.MENU;	//redundante
+								Constants.gameState = Constants.MENU;	//redundante
 								window.add(menu, BorderLayout.CENTER);
 								window.pack();
 							}else if(nuevoMenu.equalsIgnoreCase("help")){
@@ -266,7 +261,7 @@ public class Main implements Runnable, KeyListener{
 							menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
 							Constants.tipoMenu = Constants.titMenu;
 							menu.setDoubleBuffered(true);
-							state = Constants.MENU;	//redundante
+							Constants.gameState = Constants.MENU;	//redundante
 							window.add(menu, BorderLayout.CENTER);
 							window.pack();
 						}
@@ -313,8 +308,7 @@ public class Main implements Runnable, KeyListener{
 			break;
 		case Constants.GAME:			
 			if(e.getKeyCode() == Constants.teclaPausap1 || e.getKeyCode() == Constants.teclaPausap2){
-				pause = true;
-				state = Constants.PAUSE;
+				Constants.gameState = Constants.PAUSE;
 				game.showPause();
 				System.out.println("PAUSA!");				
 			}else{
@@ -325,7 +319,7 @@ public class Main implements Runnable, KeyListener{
 					Constants.enMenu = true;
 					Constants.tipoMenu = Constants.titMenu;
 					menu.setDoubleBuffered(true);
-					state = Constants.MENU;
+					Constants.gameState = Constants.MENU;
 					window.add(menu, BorderLayout.CENTER);
 					window.pack();
 					music.playMenu();
@@ -334,14 +328,12 @@ public class Main implements Runnable, KeyListener{
 			break;
 		case Constants.PAUSE:
 			if(e.getKeyCode() == Constants.teclaPausap1 || e.getKeyCode() == Constants.teclaPausap2){
-				pause = false;
-				state = Constants.GAME;
+				Constants.gameState = Constants.GAME;
 				game.hiddenPause();			
 			}else{
 				int option = game.keyPressed(e);
 				if(option == PauseMenu.CONTINUE || option == PauseMenu.RESTART){
-					pause = false;
-					state = Constants.GAME;
+					Constants.gameState = Constants.GAME;
 					game.hiddenPause();	
 				}else if(option == PauseMenu.QUIT){
 					System.out.println("exit pulsado en menu pause");
@@ -349,7 +341,7 @@ public class Main implements Runnable, KeyListener{
 					Constants.enMenu = true;
 					Constants.tipoMenu = Constants.titMenu;
 					menu.setDoubleBuffered(true);
-					state = Constants.MENU;
+					Constants.gameState = Constants.MENU;
 					window.add(menu, BorderLayout.CENTER);
 					window.pack();
 					music.playMenu();

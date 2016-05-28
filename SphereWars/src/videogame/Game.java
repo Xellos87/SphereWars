@@ -1,18 +1,13 @@
 package videogame;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
-import javax.vecmath.Color3f;
-import javax.vecmath.Vector3f;
-
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 import map.MapController;
 import menu.EndMenu;
@@ -38,7 +33,7 @@ public class Game extends JLayeredPane{
 	private int height;
 	//Juego en 2D y 3D
 	private Game2D game2d_1p, game2d_2p;
-	private Game3D game3d_1p, game3d_2p;
+	private Game3D game3d;
 	//Tabla de puntuacion
 	private GameScore score;
 	//Menu de pausa
@@ -57,9 +52,11 @@ public class Game extends JLayeredPane{
 	//Flag para saber si los jugadores estan muertos
 	private boolean death_p1;
 	private boolean death_p2;
+	//Metodo main
+	private Main main;
 
 
-	public Game(int width, int height, int type, int num_players){
+	public Game(int width, int height, int type, int num_players, Main main){
 		//Constants.sound = false;
 		//this.setl
 		this.width = width;
@@ -67,6 +64,7 @@ public class Game extends JLayeredPane{
 		this.mode = Constants.visualMode;
 		this.mode = MODE_3D;
 		this.type = type;
+		this.main = main;
 		this.num_players = num_players;
 		this.height_game = (height-height_score)/num_players;
 		this.death_p1 = false;
@@ -82,7 +80,7 @@ public class Game extends JLayeredPane{
 		pause = new PauseMenu(width, height);
 		pause.setBounds(0, 0, width, height);
 		pause.setVisible(false);
-		//add(pause, new Integer(0),0);
+		add(pause, new Integer(0),0);
 		//Menu de fin de juego
 		end = new EndMenu(width, height);
 		end.setBounds(0, 0, width, height);
@@ -113,36 +111,34 @@ public class Game extends JLayeredPane{
 			}
 		}else if(mode == MODE_3D){
 			//Inicio de juego en 3D
-			game3d_1p = new Game3D(width, height_game, num_players, map_p1);
-			game3d_1p.setBounds(0, height_score, width, height_game);
-			add(game3d_1p, new Integer(0), 3);
-			if(num_players>1){
-				//Segundo jugador si lo hay
-				game3d_2p = new Game3D(width, height_game,num_players, map_p2);
-				//game3d_2p.getCanvas().setBounds(0, height_score+height_game, width, height_game);
-				//add(game3d_2p.getCanvas(), new Integer(0),4);
-			}
+			game3d = new Game3D(width, height_game, map_p1, main);
+			game3d.setBounds(0, height_score, width, height_game);
+			add(game3d, new Integer(0), 3);
 		}
 	}
 
-	public void draw(boolean not_pause){
+	public void draw(){
 		Image offscreen = createImage(width,height);
 		Graphics2D g2d = (Graphics2D) offscreen.getGraphics();
 		if(mode == MODE_2D){
-			game2d_1p.draw(g2d,0,height_score,map_p1,not_pause);
+			game2d_1p.draw(g2d,0,height_score,map_p1,Constants.gameState != Constants.PAUSE);
 			if(num_players>1){
-				game2d_2p.draw(g2d,0,height_score+height_game,map_p2,not_pause);
+				game2d_2p.draw(g2d,0,height_score+height_game,map_p2,Constants.gameState != Constants.PAUSE);
 			}
 		}else if(mode == MODE_3D){
-			//game3d_1p.draw(g2d,0,height_score,map_p1,not_pause);
-			if(num_players>1){
-				//game3d_2p.draw(g2d,0,height_score+height_game,map_p2,not_pause);
-			}
+			//game3d.repaint();
 		}
 		score.draw(g2d);
 
-		if(pause.isVisible()){
+		if(Constants.gameState == Constants.PAUSE){
+			if(mode == MODE_3D){
+				BufferedImage img3D = game3d.createBufferedImageFromCanvas3D();
+				g2d.drawImage(img3D, 0 , height_score, null);
+			}
+			pause.setVisible(true);
 			pause.draw(g2d);
+		}else{
+			pause.setVisible(false);
 		}
 		if(end.isVisible()){
 			end.draw(g2d);
@@ -153,6 +149,7 @@ public class Game extends JLayeredPane{
 
 	public boolean showPause(){
 		if(!death_p1 || !death_p2){
+			Constants.optionSelect = -1;
 			pause.setVisible(true);
 			return true;
 		}
@@ -191,14 +188,10 @@ public class Game extends JLayeredPane{
 					coins = game2d_2p.getCoins();
 					score.setScoreCoinsP2(coins);
 				}
-			}else if(type == TIME){
-
 			}
 		}else if(mode == MODE_3D){
 			//game3d_1p.actionGame();
-			if(num_players>1){
-				//game3d_2p.actionGame();
-			}
+			
 		}
 		if(!end.isVisible() && death_p1 && death_p2){
 			//Todos los jugadores has muerto, se pone el menu de fin de juego
