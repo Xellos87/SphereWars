@@ -118,9 +118,10 @@ public class Spike extends GameObject implements Sprite, Model3D{
 		app.setMaterial(mat);
 		//Creacion de la plataforma
 		Transform3D t = new Transform3D();
-		TransformGroup tg = new TransformGroup();
+				
+		TransformGroup tg = new TransformGroup();		
 		Cone cone = new Cone(.02f, .05f, Cone.GENERATE_NORMALS, app);			
-		tg.addChild(cone);
+		tg.addChild(cone);		
 		Cone cone1 = new Cone(.02f, .05f, Cone.GENERATE_NORMALS, app);
 		Vector3f vector = new Vector3f(.03f,0f,0f);
 		t.setTranslation(vector);
@@ -128,14 +129,39 @@ public class Spike extends GameObject implements Sprite, Model3D{
 		tg1.setTransform(t);
 		tg1.addChild(cone1);
 		Cone cone2 = new Cone(.02f, .05f, Cone.GENERATE_NORMALS, app);
-		Vector3f vector1 = new Vector3f(-.03f,0f,0f);
-		t.setTranslation(vector1);
+		vector = new Vector3f(-.03f,0f,0f);
+		t.setTranslation(vector);
 		TransformGroup tg2 = new TransformGroup();
 		tg2.setTransform(t);
 		tg2.addChild(cone2);
 	    
 		tg.addChild(tg1);
-		tg.addChild(tg2);
+		tg.addChild(tg2);		
+		
+		//Rotacion 
+		switch (direction) {
+		case UPPER:
+			t.rotX(0);
+			vector = new Vector3f(.0f,0f,0f);
+			break;
+		case RIGHT:
+			t.rotZ(-Math.PI/2);	
+			vector = new Vector3f(-.03f,0f,0f);
+			break;
+		case LOWER:
+			t.rotX(Math.PI);
+			vector = new Vector3f(.0f,0f,0f);
+			break;
+		case LEFT:
+			t.rotZ(Math.PI/2);	
+			vector = new Vector3f(.03f,0f,0f);
+			break;
+		default:
+			break;
+		}		
+		tg.setTransform(t);
+		t.setTranslation(vector);
+		tg.setTransform(t);
 		
 		return tg;
 	}
