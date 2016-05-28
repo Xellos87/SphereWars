@@ -185,7 +185,7 @@ public class Main implements Runnable, KeyListener{
 								}else{
 									System.err.println("Richard no le des tan rapido");
 								}
-								game = new Game(width*Constants.scale, height*Constants.scale, Game.COINS, 1);
+								game = new Game(width*Constants.scale, height*Constants.scale, Game.COINS, 1, this);
 								window.remove(menu);
 								window.revalidate();
 								window.add(game,BorderLayout.CENTER);

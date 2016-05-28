@@ -1,6 +1,5 @@
 package utils;
 
-import java.awt.Event;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.KeyEvent;
@@ -8,8 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.swing.KeyStroke;
 
 import media.ImageHandler;
 import scoreboard.Ranking;
@@ -146,7 +143,10 @@ public class Constants {
 	public static Font font = crearFuente();
 	public static Font font_bold = crearFuenteBold();
 	
+	//Estado del juego
 	public static int gameState;
+	//Opcion seleccionada en menu de pausa
+	public static int optionSelect;
 	
 	private static Font crearFuente() {
 		try {

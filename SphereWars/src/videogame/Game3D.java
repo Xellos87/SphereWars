@@ -4,6 +4,7 @@ package videogame;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
 //Canvas3D
 import javax.media.j3d.Canvas3D;
@@ -22,7 +23,10 @@ import javax.vecmath.*;
 
 //The directional light
 import javax.media.j3d.DirectionalLight;
-
+import javax.media.j3d.GraphicsContext3D;
+import javax.media.j3d.ImageComponent;
+import javax.media.j3d.ImageComponent2D;
+import javax.media.j3d.Raster;
 //For the bouding sphere of the light source
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.AmbientLight;
@@ -32,6 +36,7 @@ import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 //import character.Sphere;
 import map.MapController;
 import menu.EndMenu;
+import menu.PauseMenu;
 import menu.TitleMenu;
 import utils.Constants;
 
@@ -49,21 +54,27 @@ public class Game3D extends Canvas3D implements KeyListener{
 	private double score_distance;
 	private int score_coins;
 	//Universo sobre el que se desarrolla la escena
-	protected SimpleUniverse simpleU;
+	private SimpleUniverse simpleU;
 	//Grupo que contiene todos los objetos de la escena
-	protected BranchGroup rootBranchGroup;
+	private BranchGroup rootBranchGroup;
+	//
+	private Main main;
 
 
-	public Game3D(int width, int height, MapController map) {
+	public Game3D(int width, int height, MapController map, Main main) {
 		super(SimpleUniverse.getPreferredConfiguration());
 		this.width = width;
 		this.height = height;
+		this.main = main;
+		setDoubleBufferEnable(true);
 		requestFocus();
-		
+
 		init_score();
 		// Perform the initial setup, just once
 		initial_setup();
 		camera_setup();
+
+
 
 		rootBranchGroup.addChild(map.get3DModel());
 
@@ -79,7 +90,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 		addAmbientalLight();
 
 		finalise();
-		
+
 		addKeyListener(this);
 	}
 
@@ -189,7 +200,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 		}
 		boss.action(not_pause);	*/	
 	}
-	
+
 	public int getCoins(){
 		return score_coins;
 	}
@@ -198,27 +209,68 @@ public class Game3D extends Canvas3D implements KeyListener{
 		return score_distance;
 	}
 
+	public BufferedImage createBufferedImageFromCanvas3D(){
+		//waitForOffScreenRendering();
+
+		GraphicsContext3D  ctx = getGraphicsContext3D();
+		int w = getWidth();
+		int h = getHeight();
+
+		BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+
+		ImageComponent2D im = new ImageComponent2D(ImageComponent.FORMAT_RGB, bi);
+
+		Raster ras = new Raster(new Point3f( -1.0f, -1.0f, -1.0f ),
+				Raster.RASTER_COLOR, 0, 0, w, h, im, null );
+
+		ctx.flush(true);
+
+		ctx.readRaster( ras );
+
+		return ras.getImage().getImage();
+	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("Listener en Game3D");
+		main.keyPressed(e);
+		/*System.out.println("Listener en Game3D");
 		if(Constants.gameState == Constants.GAME && (e.getKeyCode() == Constants.teclaPausap1 || e.getKeyCode() == Constants.teclaPausap2)){
 			Constants.gameState = Constants.PAUSE;
 			System.out.println("PAUSA!");				
 		}else if(Constants.gameState == Constants.PAUSE && (e.getKeyCode() == Constants.teclaPausap1 || e.getKeyCode() == Constants.teclaPausap2)){
 			Constants.gameState = Constants.GAME;
 			System.out.println("Juego!");
-		}
+		}else if(Constants.gameState == Constants.PAUSE){
+			//Opciones en el menu de pausa
+			//Menu de pausa abierto, se propaga
+			if(e.getKeyCode() == KeyEvent.VK_DOWN){
+				pause.cursorDown();
+			}else if(e.getKeyCode() == KeyEvent.VK_UP){
+				pause.cursorUp();
+			}else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+				String opc = pause.cursorEnter();
+				if(Integer.parseInt(opc) == PauseMenu.CONTINUE){
+					Constants.optionSelect = -1;
+					Constants.gameState = Constants.GAME;
+				}else if(Integer.parseInt(opc) == PauseMenu.RESTART){
+					//restartGame();
+					Constants.optionSelect = PauseMenu.RESTART;
+				}else if(Integer.parseInt(opc) == PauseMenu.QUIT){
+					Constants.optionSelect = PauseMenu.QUIT;
+				}
+			}
+		}*/
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

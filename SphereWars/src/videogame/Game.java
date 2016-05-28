@@ -1,18 +1,13 @@
 package videogame;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
-import javax.vecmath.Color3f;
-import javax.vecmath.Vector3f;
-
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 import map.MapController;
 import menu.EndMenu;
@@ -57,9 +52,11 @@ public class Game extends JLayeredPane{
 	//Flag para saber si los jugadores estan muertos
 	private boolean death_p1;
 	private boolean death_p2;
+	//Metodo main
+	private Main main;
 
 
-	public Game(int width, int height, int type, int num_players){
+	public Game(int width, int height, int type, int num_players, Main main){
 		//Constants.sound = false;
 		//this.setl
 		this.width = width;
@@ -67,6 +64,7 @@ public class Game extends JLayeredPane{
 		this.mode = Constants.visualMode;
 		this.mode = MODE_3D;
 		this.type = type;
+		this.main = main;
 		this.num_players = num_players;
 		this.height_game = (height-height_score)/num_players;
 		this.death_p1 = false;
@@ -113,7 +111,7 @@ public class Game extends JLayeredPane{
 			}
 		}else if(mode == MODE_3D){
 			//Inicio de juego en 3D
-			game3d = new Game3D(width, height_game, map_p1);
+			game3d = new Game3D(width, height_game, map_p1, main);
 			game3d.setBounds(0, height_score, width, height_game);
 			add(game3d, new Integer(0), 3);
 		}
@@ -128,14 +126,15 @@ public class Game extends JLayeredPane{
 				game2d_2p.draw(g2d,0,height_score+height_game,map_p2,Constants.gameState != Constants.PAUSE);
 			}
 		}else if(mode == MODE_3D){
-			//game3d_1p.draw(g2d,0,height_score,map_p1,not_pause);
-			if(num_players>1){
-				//game3d_2p.draw(g2d,0,height_score+height_game,map_p2,not_pause);
-			}
+			//game3d.repaint();
 		}
 		score.draw(g2d);
 
-		if(Constants.gameState == Constants.GAME){
+		if(Constants.gameState == Constants.PAUSE){
+			if(mode == MODE_3D){
+				BufferedImage img3D = game3d.createBufferedImageFromCanvas3D();
+				g2d.drawImage(img3D, 0 , height_score, null);
+			}
 			pause.setVisible(true);
 			pause.draw(g2d);
 		}else{
@@ -150,6 +149,7 @@ public class Game extends JLayeredPane{
 
 	public boolean showPause(){
 		if(!death_p1 || !death_p2){
+			Constants.optionSelect = -1;
 			pause.setVisible(true);
 			return true;
 		}
