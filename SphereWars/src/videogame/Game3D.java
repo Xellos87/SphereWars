@@ -50,7 +50,7 @@ import map.MapController;
 import obstacle.Platform;
 
 @SuppressWarnings("serial")
-public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener {
+public class Game3D extends Canvas3D implements /*MouseMotionListener,*/ KeyListener {
 	private int width, height;
 
 	/**
@@ -129,7 +129,7 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 	private void camera_setup() {
 		// Add the this as MouseMotionListener
 		//this.addMouseMotionListener(this);
-		//this.addKeyListener(this);
+		this.addKeyListener(this);
 		// Get TransformGroup that hold the Camera
 		this.camera = simpleU.getViewingPlatform().getViewPlatformTransform();
 
@@ -429,10 +429,11 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 			this.transform = new Transform3D();
 			this.vector = new Vector3d();
 
-			// Making it the same as used
-			camera.getTransform(transform);
-			transform.get(vector);
 		}
+
+		// Making it the same as used
+		camera.getTransform(transform);
+		transform.get(vector);
 
 		switch (e.getKeyChar()) {
 		case 'a':
@@ -462,7 +463,7 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 		camera.setTransform(transform);
 	}
 
-	@Override
+	/*@Override
 	public void mouseDragged(MouseEvent e) {
 		if (this.transform == null) {
 
@@ -486,7 +487,7 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
 
-	}
+	}*/
 }
 
 /*
