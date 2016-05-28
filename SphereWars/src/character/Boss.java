@@ -19,14 +19,18 @@ public class Boss extends GameObject implements Sprite {
 	// Tamaño de la imagen
 	private static int[] width_imgs = { 72, 75, 59 };
 	private static int[] height_imgs = { 36, 31, 33 };
-	// Propiedades del bot
+	// Propiedades del boss
 	private int health;
 	private int state;
 	private int directionX;
 	private int directionY;
+	private int vx;
+	private int vy;
 	// Variables relacionadas con la animación del movimiento en pantalla
 	private int tick_counter;
 	private int max_counter = 10;
+	private int stopCounter = 180;
+	private int stopTick;
 	private int acumulate_mov = 0;
 	// Variables relacionadas con el cambio de dirección
 	private int tick_change;
@@ -39,17 +43,27 @@ public class Boss extends GameObject implements Sprite {
 	private final int DOWN = 0;
 	//visibilidad del boss
 	private boolean visible;
+	private int anchoPantalla;
+	//posiciones del boss
+	private final int izq= -1;
+	private final int dcha = 1;
+	private final int arriba=2;
+	private final int medio=1;
+	private final int abajo=0;
+	
 
-	public Boss(int x, int y, int block_width, int block_height,boolean esVisible) {
+	public Boss(int x, int y, int block_width, int block_height,boolean esVisible, int anchoPantalla) {
 		super(x, y, x_imgs[0], y_imgs[0], width_imgs[0], height_imgs[0], block_width, block_height);
 		this.tick_counter = 0;
 		this.tick_change = 0;
+		this.stopTick=0;
 		this.state = FLY1;
 		this.directionX = STOP;
 		this.directionY = STOP;
 		this.kills = true;
 		this.health = 3;
 		this.visible = esVisible;
+		this.anchoPantalla = anchoPantalla;
 		selectImage();
 		resizeDouble();
 		rotateImage();
@@ -64,7 +78,7 @@ public class Boss extends GameObject implements Sprite {
 	}
 
 	private void rotateImage() {
-		if(directionX == LEFT){
+		if(directionX == RIGHT){
 			//Si la dirección es la izquierda, rota la imagen como si fuera un espejo
 			int w = image.getWidth();  
 			int h = image.getHeight();  
@@ -99,6 +113,7 @@ public class Boss extends GameObject implements Sprite {
 	public int action(boolean not_pause) {
 		if(not_pause && state != DEAD){
 			tick_counter++;
+			stopTick++;
 			int mov = 0;
 			if(tick_counter >= max_counter){
 				tick_counter -= max_counter;
@@ -120,8 +135,46 @@ public class Boss extends GameObject implements Sprite {
 				mov = -mov;
 			}
 			acumulate_mov = acumulate_mov + mov;
+			//logica del boss
+			if(stopTick<stopCounter){
+				directionX = STOP;
+				directionY = STOP;
+			}else{
+				//los movimientos del boss dependen de la vida que tenga
+				cambioDireccion();
+			}
+			//movimiento del boss
+			if(directionX != STOP){
+				x+=vx;
+			}
+			if(directionY !=STOP){
+				y+=vy;
+			}
 		}
 		return acumulate_mov;
+	}
+
+	private void cambioDireccion() {
+		if(health==3){
+			if(x>=20 && directionX == STOP){
+				directionX = LEFT;
+				vx = -10;
+			}else if(x<20 && directionX == LEFT){
+				stopTick=0;
+				vx=0;
+			}else if(x<20 && directionX == STOP){
+				directionX = RIGHT;
+				vx=10;
+				rotateImage();
+			}else if((x >= anchoPantalla - 100) && directionX == RIGHT){
+				stopTick=0;
+				vx=0;
+			}
+		}else if(health==2){
+			
+		}else if(health==1){
+			
+		}
 	}
 
 	public void resetMov() {
