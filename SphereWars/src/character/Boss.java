@@ -226,7 +226,7 @@ public class Boss extends GameObject implements Sprite {
 				posicion = new Position(siguientePosicion.getX(),siguientePosicion.getY());
 			}
 		}
-		
+		int haceDaño = -1;
 		//comprobacion de colisiones
 		Rectangle bossBox = this.getBox(x_ori, y_ori);
 		if(state != DEAD && bossBox.intersects(playerBox)){
@@ -236,6 +236,7 @@ public class Boss extends GameObject implements Sprite {
 					this.health--;
 					System.out.println("---Han herido al jefe!!");
 					tick_damage = 0;
+					haceDaño=1;
 				}
 				if(health==0){
 					death();
@@ -248,7 +249,7 @@ public class Boss extends GameObject implements Sprite {
 		if(state == DEAD){
 			y+=vy;
 		}
-		return acumulate_mov;
+		return haceDaño;
 	}
 
 	private void cambioDireccionX() {
