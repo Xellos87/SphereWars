@@ -97,7 +97,7 @@ public class Game2D extends JPanel {
 		if(boss.isVisible()){
 			boss.draw2D(g2d, x_ori, y_ori);
 		}
-		boss.action(not_pause);		
+		boss.action(not_pause, player.x, player.y, player.getBox(x_ori, y_ori));		
 	}
 
 

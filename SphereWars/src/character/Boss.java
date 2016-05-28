@@ -2,6 +2,7 @@ package character;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
@@ -34,6 +35,8 @@ public class Boss extends GameObject implements Sprite {
 	private int max_counter = 10;
 	private int stopCounterX = 180;
 	private int stopCounterY = 90;
+	private int damageCounter = 180;
+	private int tick_damage;
 	private int stopTickX;
 	private int stopTickY;
 	private int acumulate_mov = 0;
@@ -73,11 +76,14 @@ public class Boss extends GameObject implements Sprite {
 	private int altoPantalla;
 	private int xAnterior;
 
+	private int x_ori,y_ori;
+	
 	public Boss(int x, int y, int block_width, int block_height,boolean esVisible, int anchoPantalla, int altoPantalla) {
 		super(x, y, x_imgs[0], y_imgs[0], width_imgs[0], height_imgs[0], block_width, block_height);
 		this.tick_counter = 0;
 		this.stopTickX=0;
 		this.stopTickY=0;
+		this.tick_damage=0;
 		this.state = FLY1;
 		this.directionX = STOP;
 		this.directionY = STOP;
@@ -129,7 +135,9 @@ public class Boss extends GameObject implements Sprite {
 	public void draw2D(Graphics2D g2d, int x_ori, int y_ori) {
 		g2d.drawImage(image, x_ori+x, y_ori+y, null);
 		//Dibujo cada de colisiones
-		//g2d.draw(this.getBox(x_ori,y_ori));
+		g2d.draw(this.getBox(x_ori,y_ori));
+		this.x_ori=x_ori;
+		this.y_ori=y_ori;
 	}
 	
 	public void death(){
@@ -143,13 +151,17 @@ public class Boss extends GameObject implements Sprite {
 		}else{
 			image = deadright;
 		}
+		directionX=STOP;
+		directionY=STOP;
+		vy=20;
 	}
 	
-	public int action(boolean not_pause) {
+	public int action(boolean not_pause, int xPlayer, int yPlayer, Rectangle playerBox) {
 		if(not_pause && state != DEAD){
 			tick_counter++;
 			stopTickX++;
 			stopTickY++;
+			tick_damage++;
 			if(tick_counter >= max_counter){
 				tick_counter -= max_counter;
 				if(state == FLY2){
@@ -179,7 +191,7 @@ public class Boss extends GameObject implements Sprite {
 			}else{
 				cambioDireccionX();
 				if(stopTickY>=stopCounterY){
-					cambioDireccionY();
+					cambioDireccionY(xPlayer,yPlayer);
 				}				
 			}
 			if(stopTickY<stopCounterY){
@@ -205,7 +217,7 @@ public class Boss extends GameObject implements Sprite {
 			if((x<=anchoPantalla/2 && xAnterior > anchoPantalla/2)
 					|| (x>anchoPantalla/2 && xAnterior <= anchoPantalla/2)){
 				posicion = new Position(siguientePosicion.getX(),siguientePosicion.getY());
-				cambioDireccionY();
+				cambioDireccionY(xPlayer,yPlayer);
 			}
 			//cuando llegue al final
 			if(x<=10){
@@ -213,6 +225,28 @@ public class Boss extends GameObject implements Sprite {
 			}if(x>=anchoPantalla -100){
 				posicion = new Position(siguientePosicion.getX(),siguientePosicion.getY());
 			}
+		}
+		
+		//comprobacion de colisiones
+		Rectangle bossBox = this.getBox(x_ori, y_ori);
+		if(state != DEAD && bossBox.intersects(playerBox)){
+			if(playerBox.y<=bossBox.y){
+				
+				if(tick_damage >= damageCounter){
+					this.health--;
+					System.out.println("---Han herido al jefe!!");
+					tick_damage = 0;
+				}
+				if(health==0){
+					death();
+					System.out.println("---Han matado al jefe!!");
+				}
+			}
+		}
+		
+
+		if(state == DEAD){
+			y+=vy;
 		}
 		return acumulate_mov;
 	}
@@ -236,7 +270,7 @@ public class Boss extends GameObject implements Sprite {
 		}
 	}
 
-	private void cambioDireccionY(){
+	private void cambioDireccionY(int xPlayer, int yPlayer){
 		Random r= new Random();
 		//movimiento en y - depende de la salud del jefe y de unas probabilidades dadas
 		if(health==3){
@@ -247,7 +281,8 @@ public class Boss extends GameObject implements Sprite {
 			if(aleatorio < random){	//aleatorio
 				randomMove(r);
 			}else{					//va a por el jugador
-				
+				int difY = y - yPlayer; 
+				vy = difY / -10;
 			}
 		}else if(health==1){
 			random = 1/3.0;
@@ -256,7 +291,8 @@ public class Boss extends GameObject implements Sprite {
 			if(aleatorio < random){	//aleatorio
 				randomMove(r);
 			}else{					//va a por el jugador
-				
+				int difY = y - yPlayer; 
+				vy = difY / -10;
 			}
 		}
 	}
