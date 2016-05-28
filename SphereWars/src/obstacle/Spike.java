@@ -33,8 +33,8 @@ public class Spike extends GameObject implements Sprite, Model3D{
 	//Direccion del pincho
 	private int direction;
 	//Color del objeto, ambiental y difusa
-	private Color3f spike_amb = new Color3f(0.49f,0.49f,0.49f);
-	private Color3f spike_dif = new Color3f(0.49f,0.49f,0.49f);
+	private Color3f spike_amb = new Color3f(0.25f,0.25f,0.25f);
+	private Color3f spike_dif = new Color3f(0.5f,0.5f,0.5f);
 
 	public Spike(int x, int y,int block_width,int block_height, int direction) {
 		super(x, y, x_img, y_img, width, height, block_width, block_height);
@@ -108,7 +108,7 @@ public class Spike extends GameObject implements Sprite, Model3D{
 
 	@Override
 	public TransformGroup get3DModel() {
-		//Apariencia de la plataforma
+		//Apariencia de los pinchos
 		Appearance app = new Appearance();
 		Material mat = new Material();
 		mat.setAmbientColor(spike_amb);
@@ -116,19 +116,18 @@ public class Spike extends GameObject implements Sprite, Model3D{
 		mat.setSpecularColor(new Color3f(0, 0, 0));
 		mat.setShininess(5.0f);	 
 		app.setMaterial(mat);
-		//Creacion de la plataforma
-		Transform3D t = new Transform3D();
-				
+		//Creacion de los pinchos
+		Transform3D t = new Transform3D();				
 		TransformGroup tg = new TransformGroup();		
-		Cone cone = new Cone(.02f, .05f, Cone.GENERATE_NORMALS, app);			
+		Cone cone = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS, app);			
 		tg.addChild(cone);		
-		Cone cone1 = new Cone(.02f, .05f, Cone.GENERATE_NORMALS, app);
+		Cone cone1 = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS, app);
 		Vector3f vector = new Vector3f(.03f,0f,0f);
 		t.setTranslation(vector);
 		TransformGroup tg1 = new TransformGroup();
 		tg1.setTransform(t);
 		tg1.addChild(cone1);
-		Cone cone2 = new Cone(.02f, .05f, Cone.GENERATE_NORMALS, app);
+		Cone cone2 = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS, app);
 		vector = new Vector3f(-.03f,0f,0f);
 		t.setTranslation(vector);
 		TransformGroup tg2 = new TransformGroup();
@@ -142,19 +141,19 @@ public class Spike extends GameObject implements Sprite, Model3D{
 		switch (direction) {
 		case UPPER:
 			t.rotX(0);
-			vector = new Vector3f(.0f,0f,0f);
+			vector = new Vector3f(0f,-block_width*0.0005f,0f);
 			break;
 		case RIGHT:
 			t.rotZ(-Math.PI/2);	
-			vector = new Vector3f(-.03f,0f,0f);
+			vector = new Vector3f(-block_width*0.0005f,0f,0f);
 			break;
 		case LOWER:
 			t.rotX(Math.PI);
-			vector = new Vector3f(.0f,0f,0f);
+			vector = new Vector3f(.0f,block_width*0.0005f,0f);
 			break;
 		case LEFT:
 			t.rotZ(Math.PI/2);	
-			vector = new Vector3f(.03f,0f,0f);
+			vector = new Vector3f(block_width*0.0005f,0f,0f);
 			break;
 		default:
 			break;

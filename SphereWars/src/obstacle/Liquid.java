@@ -4,8 +4,10 @@ import java.awt.Graphics2D;
 
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Material;
+import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
+import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.geometry.Box;
 
@@ -31,9 +33,9 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 	private int type;
 	private int nature;
 	//Color del objeto, ambiental y difusa
-	private Color3f water_amb = new Color3f(0,0,1);
+	private Color3f water_amb = new Color3f(0,0,0.5f);
 	private Color3f water_dif = new Color3f(0,0,1);
-	private Color3f magma_amb = new Color3f(1,0,0);
+	private Color3f magma_amb = new Color3f(0.5f,0,0);
 	private Color3f magma_dif = new Color3f(1,0,0);
 
 	public Liquid(int x, int y, int block_width, int block_height, int type, int nature) {
@@ -71,7 +73,8 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 
 	@Override
 	public TransformGroup get3DModel() {
-		//Apariencia de la plataforma
+		Transform3D t = new Transform3D();
+		//Apariencia del liquido
 		Appearance app = new Appearance();
 	    Material mat = new Material();
 	    switch (nature) {
@@ -89,20 +92,22 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 	    mat.setSpecularColor(new Color3f(0, 0, 0));
 	    mat.setShininess(5.0f);	 
 	    app.setMaterial(mat);
-	    //Creacion de la plataforma
+	    //Creacion del liquido
 	    Box box = null;
 	    switch (type) {
 		case SURFACE:
-			box = new Box(0.1f, 0.05f, 0.1f, app);	
+			box = new Box(block_width*0.001f,block_width*0.0005f,block_width*0.001f, app);			
+			t.setTranslation(new Vector3f(0f,-block_width*0.0005f,0f));
 			break;
 		case DEEP:
-			box = new Box(0.1f, 0.1f, 0.1f, app);
+			box = new Box(block_width*0.001f,block_width*0.001f,block_width*0.001f, app);
 			break;
 		default:
 			break;
 		}		 
 		TransformGroup tg = new TransformGroup();
 		tg.addChild(box);
+		tg.setTransform(t);
 		return tg;
 	}
 
