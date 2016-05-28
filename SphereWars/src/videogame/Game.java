@@ -38,7 +38,7 @@ public class Game extends JLayeredPane{
 	private int height;
 	//Juego en 2D y 3D
 	private Game2D game2d_1p, game2d_2p;
-	private Game3D game3d_1p, game3d_2p;
+	private Game3D game3d;
 	//Tabla de puntuacion
 	private GameScore score;
 	//Menu de pausa
@@ -82,7 +82,7 @@ public class Game extends JLayeredPane{
 		pause = new PauseMenu(width, height);
 		pause.setBounds(0, 0, width, height);
 		pause.setVisible(false);
-		//add(pause, new Integer(0),0);
+		add(pause, new Integer(0),0);
 		//Menu de fin de juego
 		end = new EndMenu(width, height);
 		end.setBounds(0, 0, width, height);
@@ -113,25 +113,19 @@ public class Game extends JLayeredPane{
 			}
 		}else if(mode == MODE_3D){
 			//Inicio de juego en 3D
-			game3d_1p = new Game3D(width, height_game, num_players, map_p1);
-			game3d_1p.setBounds(0, height_score, width, height_game);
-			add(game3d_1p, new Integer(0), 3);
-			if(num_players>1){
-				//Segundo jugador si lo hay
-				game3d_2p = new Game3D(width, height_game,num_players, map_p2);
-				//game3d_2p.getCanvas().setBounds(0, height_score+height_game, width, height_game);
-				//add(game3d_2p.getCanvas(), new Integer(0),4);
-			}
+			game3d = new Game3D(width, height_game, map_p1);
+			game3d.setBounds(0, height_score, width, height_game);
+			add(game3d, new Integer(0), 3);
 		}
 	}
 
-	public void draw(boolean not_pause){
+	public void draw(){
 		Image offscreen = createImage(width,height);
 		Graphics2D g2d = (Graphics2D) offscreen.getGraphics();
 		if(mode == MODE_2D){
-			game2d_1p.draw(g2d,0,height_score,map_p1,not_pause);
+			game2d_1p.draw(g2d,0,height_score,map_p1,Constants.gameState != Constants.PAUSE);
 			if(num_players>1){
-				game2d_2p.draw(g2d,0,height_score+height_game,map_p2,not_pause);
+				game2d_2p.draw(g2d,0,height_score+height_game,map_p2,Constants.gameState != Constants.PAUSE);
 			}
 		}else if(mode == MODE_3D){
 			//game3d_1p.draw(g2d,0,height_score,map_p1,not_pause);
@@ -141,8 +135,11 @@ public class Game extends JLayeredPane{
 		}
 		score.draw(g2d);
 
-		if(pause.isVisible()){
+		if(Constants.gameState == Constants.GAME){
+			pause.setVisible(true);
 			pause.draw(g2d);
+		}else{
+			pause.setVisible(false);
 		}
 		if(end.isVisible()){
 			end.draw(g2d);
@@ -191,14 +188,10 @@ public class Game extends JLayeredPane{
 					coins = game2d_2p.getCoins();
 					score.setScoreCoinsP2(coins);
 				}
-			}else if(type == TIME){
-
 			}
 		}else if(mode == MODE_3D){
 			//game3d_1p.actionGame();
-			if(num_players>1){
-				//game3d_2p.actionGame();
-			}
+			
 		}
 		if(!end.isVisible() && death_p1 && death_p2){
 			//Todos los jugadores has muerto, se pone el menu de fin de juego

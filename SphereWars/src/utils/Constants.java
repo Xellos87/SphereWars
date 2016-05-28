@@ -146,6 +146,8 @@ public class Constants {
 	public static Font font = crearFuente();
 	public static Font font_bold = crearFuenteBold();
 	
+	public static int gameState;
+	
 	private static Font crearFuente() {
 		try {
 			return Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(path_font));
