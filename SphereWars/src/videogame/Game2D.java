@@ -36,13 +36,6 @@ public class Game2D extends JPanel {
 	private int score_time; //TODO, eliminar si no se implementa - modo contrarreloj
 	private int blockWidth;
 	private int blockHeight;
-	//valores de movimiento aleatorio del boss (iniciales)
-	private double random = 1;
-	private double low = 0.5;
-	private double mid = 1/3.0;
-	private double air = 1 - low - mid;
-	private double vuelveArriba = 1;
-	private double intervalo = 3;	//segundos quieto entre cada movimiento
 
 	public Game2D(int width, int height, int num_player, int widthBlock, int heightBlock){
 		this.width = width;
@@ -79,7 +72,7 @@ public class Game2D extends JPanel {
 		player = new Sphere(0,0,30,30);
 		player.setVelocity(0, 3);
 		//carga el boss
-		boss = new Boss(width-90,20,blockWidth,blockHeight,true, width);
+		boss = new Boss(width-90,20,blockWidth,blockHeight,true, width, height);
 	}
 
 	public void draw(Graphics2D g2d,int x_ori, int y_ori, MapController map_cont, boolean not_pause) {
@@ -180,7 +173,7 @@ public class Game2D extends JPanel {
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
 			player.jump();
-			System.out.println("Up key pressed");
+			//System.out.println("Up key pressed");
 		}
 	}
 
