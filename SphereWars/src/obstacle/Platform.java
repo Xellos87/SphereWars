@@ -127,7 +127,7 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	    mat.setShininess(1.0f);	 
 	    app.setMaterial(mat);
 	    //Creacion de la plataforma
-		Box box = new Box(0.1f, 0.1f, 0.1f, app);		
+		Box box = new Box(block_width*0.001f, block_height*0.001f, block_width*0.001f, app);		
 		TransformGroup tg = new TransformGroup();
 		tg.addChild(box);
 		return tg;

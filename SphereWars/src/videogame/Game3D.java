@@ -15,6 +15,8 @@ import javax.media.j3d.Canvas3D;
 //The Universe
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
+import graphic.Model3D;
+
 //The BranchGroup
 import javax.media.j3d.BranchGroup;
 
@@ -58,7 +60,7 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 	////////////////////////////////////////////////////////////////
 	// Rotation/moving Speed
 	private static final double TURNSPEED = 0.0005;
-	private static final double MOVESPEED = 0.05;
+	private static final double MOVESPEED = 0.05f;
 	private TransformGroup camera = null;
 	// Used to for the last posistion of the mouse
 	private int lastX = 0;
@@ -89,12 +91,20 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 		
 		//addBox(0.5f, 0.5f, 0.5f, new Color3f(1,0,0), new Color3f(1,0,0));
 		
-		//TransformGroup tg = new Platform(0, 0, 42, 42, Platform.UNDERGROUND, Platform.WORLD_FIELD).get3DModel();
-		TransformGroup tg = map.get3DModel();
-		rootBranchGroup.addChild(tg);
+		//TransformGroup tg = new TransformGroup();
+		//tg.addChild(new Platform(0, 0, 42, 42, Platform.UNDERGROUND, Platform.WORLD_FIELD).get3DModel());
+		//TransformGroup tg = map.get3DModel();
+		//rootBranchGroup.addChild(tg);
 		
-		tg.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		tg.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		/*Transform3D translate = new Transform3D();
+		translate.setTranslation(new Vector3f(42*0.002f,0,0));
+		TransformGroup tg2 = new TransformGroup(translate);
+		tg2.addChild(new Platform(0, 0, 42, 42, Platform.UNDERGROUND, Platform.WORLD_FIELD).get3DModel());
+		
+		rootBranchGroup.addChild(tg);
+		rootBranchGroup.addChild(tg2);*/
+		
+		rootBranchGroup.addChild(map.get3DModel());
 		
 		addDirectionalLight(new Vector3f(0f, 0f, -1),
 		        new Color3f(1f, 1f, 1f));
@@ -109,9 +119,8 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 		// Get TransformGroup that hold the Camera
 		this.camera = simpleU.getViewingPlatform().getViewPlatformTransform();
 		
-		Transform3D translate = new Transform3D();
-		Vector3d vector_trans = new Vector3d();
-
+		//TODO, probar a realizar rotación sobre el origen y deshacer traslación
+		
 		// Making it the same as used
 		
 		
@@ -188,7 +197,7 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 		// direction and color
 		DirectionalLight lightD = new DirectionalLight(color, direction);
 		lightD.setInfluencingBounds(bounds);
-
+		
 		// Then add it to the root BranchGroup
 		rootBranchGroup.addChild(lightD);
 		
@@ -384,10 +393,13 @@ public class Game3D extends Canvas3D implements MouseMotionListener, KeyListener
 			break;
 		case 's':
 			vector.y -= Game3D.MOVESPEED;
+			break;
 		case 'z': //Aleja la camara
 			vector.z += Game3D.MOVESPEED;
+			break;
 		case 'x': //Acerca la camara
 			vector.z -= Game3D.MOVESPEED;
+			break;
 		}
 
 		// Setting the object back
