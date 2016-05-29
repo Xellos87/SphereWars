@@ -108,7 +108,9 @@ public class Constants {
 	public static final Position maratonPos = new Position(xPos,110+ay);
 	public static final Position tesorosPos = new Position(xPos,170+ay);
 	public static final Position backModePos = new Position(xPos,230+ay);
-	//opciones del menu de modos de juego
+	
+	//rutas a las imagenes del menu de creditos
+	
 	
 	public static final int guion = '-';
 	public static  float alphaComp = 1f;	
@@ -137,6 +139,8 @@ public class Constants {
 	public static final String optMenu = "optionsMenu";
 	public static final String conMenu = "controllerMenu";
 	public static final String modMenu = "gameModeMenu";
+	public static final String helMenu = "helpMenu";
+	public static final String creMenu = "creditsMenu";
 	public static String tipoMenu = titMenu;
 	//Constantes de estado
 	public static final int MENU = 0;

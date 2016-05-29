@@ -153,7 +153,7 @@ public class OptionMenu extends Menu {
 					}
 					pauseChar = aux;
 					car = Constants.teclaSaltop1;
-					System.out.println(car);
+					//System.out.println(car);
 					aux = ""+(char)Constants.teclaSaltop1;
 					if(car == 32){
 						aux = "espacio";
@@ -164,7 +164,7 @@ public class OptionMenu extends Menu {
 					}
 					jumpChar = aux;
 					car = Constants.teclaSprintp1;
-					System.out.println(car);
+					//System.out.println(car);
 					aux = ""+(char)Constants.teclaSprintp1;
 					if(car == 32){
 						aux = "espacio";
@@ -330,6 +330,7 @@ public class OptionMenu extends Menu {
 	public void draw() {
 		Image offscreen = createImage(width, height);
 		Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
+		offgc.setColor(Color.white);
 		int rule = AlphaComposite.SRC_OVER;
 		Composite comp = AlphaComposite.getInstance(rule, Constants.alphaComp);
 		offgc.setComposite(comp);
