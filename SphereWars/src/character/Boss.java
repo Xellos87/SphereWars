@@ -4,7 +4,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 import graphic.Sprite;
 import utils.Constants;
@@ -80,6 +84,11 @@ public class Boss extends GameObject implements Sprite {
 	private long hazteVisible;
 
 	private int x_ori,y_ori;
+	private BufferedImage fly1redright;
+	private BufferedImage fly2redright;
+	private BufferedImage fly1redleft;
+	private BufferedImage fly2redleft;
+	private boolean reseteo = false;
 	
 	public Boss(int x, int y, int block_width, int block_height,boolean esVisible, int anchoPantalla, int altoPantalla) {
 		super(x, y, x_imgs[0], y_imgs[0], width_imgs[0], height_imgs[0], block_width, block_height);
@@ -101,12 +110,12 @@ public class Boss extends GameObject implements Sprite {
 		this.xAnterior = this.y;
 		rellenarImagenes();
 		if(facingleft){
-			image = fly1left;
-		}else{
 			image = fly1right;
+		}else{
+			image = fly1left;
 		}
 		this.tiempoInicio = System.currentTimeMillis();
-		this.hazteVisible = tiempoInicio + 60000;
+		this.hazteVisible = tiempoInicio + 30000;
 	}
 
 	private void rellenarImagenes() {
@@ -116,6 +125,14 @@ public class Boss extends GameObject implements Sprite {
 		fly1left = rotateImage(fly1right);
 		fly2left = rotateImage(fly2right);
 		deadleft = rotateImage(deadright);
+		try {
+			fly1redright = resizeDouble(ImageIO.read(new File("images/redBoss_fly1.png")));
+			fly2redright = resizeDouble(ImageIO.read(new File("images/redBoss_fly2.png")));
+		} catch (IOException e) {
+			System.err.println("problem loading red boss");
+		}		
+		fly1redleft = rotateImage(fly1redright);
+		fly2redleft = rotateImage(fly2redright);
 	}
 
 	public boolean isVisible() {
@@ -138,9 +155,25 @@ public class Boss extends GameObject implements Sprite {
 
 	@Override
 	public void draw2D(Graphics2D g2d, int x_ori, int y_ori) {
-		g2d.drawImage(image, x_ori+x, y_ori+y, null);
+		if(health!=1){
+			g2d.drawImage(image, x_ori+x, y_ori+y, null);
+		}else{
+			if(state == FLY1){
+				if(!facingleft){
+					g2d.drawImage(fly1redright, x_ori+x, y_ori+y, null);
+				}else{
+					g2d.drawImage(fly1redleft, x_ori+x, y_ori+y, null);
+				}				
+			}else if(state == FLY2){
+				if(!facingleft){
+					g2d.drawImage(fly2redright, x_ori+x, y_ori+y, null);
+				}else{
+					g2d.drawImage(fly2redleft, x_ori+x, y_ori+y, null);
+				}
+			}
+		}		
 		//Dibujo cada de colisiones
-		g2d.draw(this.getBox(x_ori,y_ori));
+		//g2d.draw(this.getBox(x_ori,y_ori));
 		this.x_ori=x_ori;
 		this.y_ori=y_ori;
 	}
@@ -159,23 +192,28 @@ public class Boss extends GameObject implements Sprite {
 		directionX=STOP;
 		directionY=STOP;
 		vy=20;
-		//this.visible=false;
+		rellenarImagenes();
 	}
 	
 	public int action(boolean not_pause, int xPlayer, int yPlayer, Rectangle playerBox) {
-		if(!visible && System.currentTimeMillis() >= hazteVisible){
+		if(reseteo && state == FLY1){
+			this.tiempoInicio = System.currentTimeMillis() + 2000;
+			this.hazteVisible = System.currentTimeMillis() + 30000;
+			reseteo = false;
+			visible=false;
+			System.out.println("reseteo tiempos");
+		}
+		if(!visible && (System.currentTimeMillis() >= hazteVisible)){
 			this.visible=true;
 			System.out.println("-----empieza el boss!!");
-		}else if(state == DEAD && System.currentTimeMillis() > tiempoInicio){
+		}		
+		else if(state == DEAD && System.currentTimeMillis() > tiempoInicio){
 			state = FLY1;
 			random=1;
 			health = 3;
 			this.visible=false;
 			System.out.println("-----reinicio boss");
-		}
-		if(state == DEAD){
-			this.tiempoInicio = System.currentTimeMillis() + 2000;
-			this.hazteVisible = tiempoInicio + 60000;
+			reseteo = true;
 		}
 		if(not_pause && state != DEAD){
 			tick_counter++;
@@ -248,7 +286,7 @@ public class Boss extends GameObject implements Sprite {
 		}
 		int haceDaño = -1;
 		//comprobacion de colisiones
-		if(visible){
+		if(visible && state!=DEAD){
 			Rectangle bossBox = this.getBox(x_ori, y_ori);
 			if(state != DEAD && bossBox.intersects(playerBox)){
 				if(playerBox.y<=bossBox.y){
@@ -262,6 +300,11 @@ public class Boss extends GameObject implements Sprite {
 					if(health==0){
 						death();
 						System.out.println("---Han matado al jefe!!");
+					}else if(health == 1){
+						this.fly1left=fly1redleft;
+						this.fly2left=fly2redleft;
+						this.fly1right=fly1redright;
+						this.fly2right=fly2redright;
 					}
 				}
 			}
@@ -273,49 +316,53 @@ public class Boss extends GameObject implements Sprite {
 	}
 
 	private void cambioDireccionX() {
-		//movimiento en X - siempre igual, barrido completo de un lado a otro
-		if(x>=20 && directionX == STOP){
-			directionX = LEFT;
-			vx = -10;
-		}else if(x<20 && directionX == LEFT){
-			stopTickX=0;
-			vx=0;
-			facingleft = true;
-		}else if(x<20 && directionX == STOP){
-			directionX = RIGHT;
-			vx=10;
-		}else if((x >= anchoPantalla - 100) && directionX == RIGHT){
-			stopTickX=0;
-			vx=0;
-			facingleft = false;
-		}
+		if(visible){
+			//movimiento en X - siempre igual, barrido completo de un lado a otro
+			if(x>=20 && directionX == STOP){
+				directionX = LEFT;
+				vx = -10;
+			}else if(x<20 && directionX == LEFT){
+				stopTickX=0;
+				vx=0;
+				facingleft = true;
+			}else if(x<20 && directionX == STOP){
+				directionX = RIGHT;
+				vx=10;
+			}else if((x >= anchoPantalla - 100) && directionX == RIGHT){
+				stopTickX=0;
+				vx=0;
+				facingleft = false;
+			}
+		}		
 	}
 
 	private void cambioDireccionY(int xPlayer, int yPlayer){
-		Random r= new Random();
-		//movimiento en y - depende de la salud del jefe y de unas probabilidades dadas
-		if(health==3){
-			randomMove(r);
-		}else if(health==2){
-			random = 1/2.0;
-			double aleatorio = r.nextDouble();
-			if(aleatorio < random){	//aleatorio
+		if(visible){
+			Random r= new Random();
+			//movimiento en y - depende de la salud del jefe y de unas probabilidades dadas
+			if(health==3){
 				randomMove(r);
-			}else{					//va a por el jugador
-				int difY = y - yPlayer; 
-				vy = difY / -10;
+			}else if(health==2){
+				random = 1/2.0;
+				double aleatorio = r.nextDouble();
+				if(aleatorio < random){	//aleatorio
+					randomMove(r);
+				}else{					//va a por el jugador
+					int difY = y - yPlayer; 
+					vy = difY / -10;
+				}
+			}else if(health==1){
+				random = 1/3.0;
+				vuelveArriba = 0.5;
+				double aleatorio = r.nextDouble();
+				if(aleatorio < random){	//aleatorio
+					randomMove(r);
+				}else{					//va a por el jugador
+					int difY = y - yPlayer; 
+					vy = difY / -10;
+				}
 			}
-		}else if(health==1){
-			random = 1/3.0;
-			vuelveArriba = 0.5;
-			double aleatorio = r.nextDouble();
-			if(aleatorio < random){	//aleatorio
-				randomMove(r);
-			}else{					//va a por el jugador
-				int difY = y - yPlayer; 
-				vy = difY / -10;
-			}
-		}
+		}		
 	}
 	
 	private void randomMove(Random r) {

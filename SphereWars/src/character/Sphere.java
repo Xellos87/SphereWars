@@ -277,6 +277,7 @@ public class Sphere extends GameObject implements Sprite{
 	public boolean bossCollision(Rectangle bossBox) {
 		Rectangle playerBox = this.getBox(x_ori, y_ori);
 		if(bossBox.intersects(playerBox) && playerBox.y<bossBox.y){
+			System.out.println("----------boss has killed you!!!");
 			return true;
 		}else{
 			return false;
