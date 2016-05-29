@@ -91,6 +91,7 @@ public class Constants {
 	//opciones del menu de opciones
 	public static boolean sound = true;
 	public static boolean conTeclado = true;	//solo para jugador uno
+	public static boolean zurdo = false;
 	public static int scale = 2;
 	public static int teclaSaltop1 = KeyEvent.VK_UP;
 	public static int teclaPausap1 = KeyEvent.VK_SPACE;
