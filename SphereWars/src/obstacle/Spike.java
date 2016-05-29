@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Material;
+import javax.media.j3d.Texture;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
@@ -12,10 +13,12 @@ import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.geometry.Cone;
+import com.sun.j3d.utils.image.TextureLoader;
 
 import graphic.Model3D;
 import graphic.Sprite;
 import utils.Constants;
+import videogame.Game;
 import videogame.GameObject;
 
 public class Spike extends GameObject implements Sprite, Model3D{
@@ -40,9 +43,13 @@ public class Spike extends GameObject implements Sprite, Model3D{
 		super(x, y, x_img, y_img, width, height, block_width, block_height);
 		this.direction = direction;
 		this.kills = true;
-		selectImage();
-		resize();
-		rotateImage();
+		if(Constants.visualMode == Game.MODE_2D){
+			selectImage();
+			resize();
+			rotateImage();
+		}else{
+			selectTexture();
+		}
 	}
 
 	private void selectImage() {
@@ -51,6 +58,11 @@ public class Spike extends GameObject implements Sprite, Model3D{
 		image = Constants.img_handler.getImageItem(x_img, y_img, width, height);
 	}
 
+	private void selectTexture() {
+		//TODO mejorar textura
+		texture = Constants.img_handler.getImageItem(x_img, y_img, width/3, height);
+	}
+	
 	private void rotateImage(){
 		if(direction != UPPER){
 			int w = image.getWidth();  
@@ -118,16 +130,22 @@ public class Spike extends GameObject implements Sprite, Model3D{
 		app.setMaterial(mat);
 		//Creacion de los pinchos
 		Transform3D t = new Transform3D();				
-		TransformGroup tg = new TransformGroup();		
-		Cone cone = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS, app);			
+		TransformGroup tg = new TransformGroup();	
+		
+		//Carga de textura
+	    TextureLoader  loader = new TextureLoader(texture);
+	    Texture texture = loader.getTexture();
+	    app.setTexture(texture);
+	    
+		Cone cone = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS + Cone.GENERATE_TEXTURE_COORDS, app);			
 		tg.addChild(cone);		
-		Cone cone1 = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS, app);
+		Cone cone1 = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS + Cone.GENERATE_TEXTURE_COORDS, app);
 		Vector3f vector = new Vector3f(.03f,0f,0f);
 		t.setTranslation(vector);
 		TransformGroup tg1 = new TransformGroup();
 		tg1.setTransform(t);
 		tg1.addChild(cone1);
-		Cone cone2 = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS, app);
+		Cone cone2 = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS + Cone.GENERATE_TEXTURE_COORDS, app);
 		vector = new Vector3f(-.03f,0f,0f);
 		t.setTranslation(vector);
 		TransformGroup tg2 = new TransformGroup();
