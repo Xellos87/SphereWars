@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 
 import character.Boss;
 import character.Sphere;
+import kinect.Panel;
 import map.MapController;
-import utils.Constants;
 
 @SuppressWarnings("serial")
 public class Game2D extends JPanel {
@@ -37,8 +37,9 @@ public class Game2D extends JPanel {
 	private int score_time; //TODO, eliminar si no se implementa - modo contrarreloj
 	private int blockWidth;
 	private int blockHeight;
+	private Panel panel;
 
-	public Game2D(int width, int height, int num_player, int widthBlock, int heightBlock){
+	public Game2D(int width, int height, int num_player, int widthBlock, int heightBlock, Panel panel){
 		this.width = width;
 		this.height = height;
 		this.end_game = false;
@@ -102,8 +103,6 @@ public class Game2D extends JPanel {
 			if(boss.isVisible() && player.bossCollision(boss.getBox(x_ori, y_ori))){
 				end_game=true;
 			} 
-		}else{
-			player.miniJump();
 		}
 	}
 
@@ -178,10 +177,9 @@ public class Game2D extends JPanel {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == Constants.teclaSaltop1 || e.getKeyCode() == Constants.teclaSaltop2){
+		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
 			player.jump();
-		}else if(e.getKeyCode() == Constants.teclaSprintp1 || e.getKeyCode() == Constants.teclaSprintp2){
-			//TODO: sprint
+			//System.out.println("Up key pressed");
 		}
 	}
 
