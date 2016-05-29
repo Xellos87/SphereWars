@@ -54,6 +54,10 @@ public class Bot extends GameObject implements Sprite, Model3D{
 	private int tick_counter;
 	private int max_counter = 10;
 	private int acumulate_mov = 0;
+	//Parpadeo al morir
+	private int num_blink;
+	private int max_blink;
+	private boolean visible;
 	//Variables relacionadas con el cambio de dirección ante un camino imposible
 	private int tick_change;
 	private int max_wait_change = 10;
@@ -69,6 +73,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		this.state = WALK1;
 		this.direction = RIGHT;
 		this.kills = true;
+		this.visible = true;
 		deathSound = Audio.Load("audioEffects/mutantdie.wav");
 		if(Constants.visualMode == Game.MODE_2D){
 			selectImage();
@@ -102,9 +107,11 @@ public class Bot extends GameObject implements Sprite, Model3D{
 
 	@Override
 	public void draw2D(Graphics2D g2d,int x_ori, int y_ori) {
-		g2d.drawImage(image, x_ori+x, y_ori+y, null);
-		//Dibujo cada de colisiones
-		g2d.draw(this.getBox(x_ori,y_ori));
+		if(visible){
+			g2d.drawImage(image, x_ori+x, y_ori+y, null);
+			//Dibujo cada de colisiones
+			g2d.draw(this.getBox(x_ori,y_ori));
+		}
 	}
 
 	public int action(boolean not_pause) {
@@ -131,6 +138,17 @@ public class Bot extends GameObject implements Sprite, Model3D{
 				mov = -mov;
 			}
 			acumulate_mov = acumulate_mov + mov;
+		}else if(num_blink < max_blink && not_pause && state == DEAD){
+			tick_counter++;
+			if(tick_counter >= max_counter){
+				tick_counter -= max_counter;
+				if(visible){
+					visible = false;
+					num_blink++;
+				}else{
+					visible = true;
+				}
+			}
 		}
 		return acumulate_mov;
 	}
@@ -198,16 +216,21 @@ public class Bot extends GameObject implements Sprite, Model3D{
 	public void death(){
 		this.kills = false;
 		this.state = DEAD;
+		this.tick_counter = 0;
+		this.max_counter = 5;
+		this.num_blink = 0;
+		this.max_blink = 5;
+		this.visible = true;
 		x_img = x_imgs[type+state];
 		y_img = y_imgs[type+state];
 		width = width_imgs[type+state];
 		height = height_imgs[type+state];
 		selectImage();
 		resize();
-		if(deathSound == null){
-			return;
+		if(deathSound != null){
+			deathSound.start();
 		}
-		deathSound.start();
+		
 	}
 	
 	private void loadModel3D(){
