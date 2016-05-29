@@ -141,7 +141,7 @@ public class Music {
 				nextSong = name;
 				nextLength = songLength(nextSong);
 			}
-			System.out.println("Reproduciendo " + actualSong + " " + actualLength);
+			//System.out.println("Reproduciendo " + actualSong + " " + actualLength);
 			// mySoundSystem.backgroundMusic(sourcename, url, identifier,
 			// toLoop);
 			mySoundSystem.backgroundMusic(name, f.toURI().toURL(), name, false);
@@ -218,8 +218,8 @@ public class Music {
 		float timeLeft = (actualLength * 1000) - mySoundSystem.millisecondsPlayed(actualSong);
 		// int timeLeft = player.getDuration() - player.getPosition();
 		// System.out.println(actualSong);
-		System.out.println(
-				timeLeft + " " + mySoundSystem.getVolume(actualSong) + " " + mySoundSystem.getVolume(nextSong));
+	//	System.out.println(
+		//		timeLeft + " " + mySoundSystem.getVolume(actualSong) + " " + mySoundSystem.getVolume(nextSong));
 		// System.out.print("\b\b\b\b\b\b\b\b\b\b\b");
 
 		// La cancion que estaba sonando acaba, actualizamos a la nueva cancion
