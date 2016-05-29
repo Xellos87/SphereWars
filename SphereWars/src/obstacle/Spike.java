@@ -187,9 +187,4 @@ public class Spike extends GameObject implements Sprite, Model3D{
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public TransformGroup get3DModel() {
-		return tg_model3D;
-	}
 }

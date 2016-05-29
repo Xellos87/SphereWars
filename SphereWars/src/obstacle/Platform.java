@@ -141,10 +141,4 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	public void draw3D() {
 		
 	}
-
-	@Override
-	public TransformGroup get3DModel() {
-		return tg_model3D;
-	}
-
 }
