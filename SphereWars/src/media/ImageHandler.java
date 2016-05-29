@@ -19,6 +19,8 @@ public class ImageHandler {
 	private BufferedImage topCastle_image;
 	private BufferedImage topSnow_image;
 	private BufferedImage topGhost_image;
+	private BufferedImage slimeTexture_image;
+	private BufferedImage gemTexture_image;
 	//Ruta de aceso a las imagenes
 	private String path_tiles = "images/platforms.png";
 	private String path_player = "images/ball.gif";
@@ -31,6 +33,8 @@ public class ImageHandler {
 	private String path_topCastle = "images/surface_castle.png";
 	private String path_topSnow = "images/surface_snow.png";
 	private String path_topGhost = "images/surface_ghost.png";
+	private String path_slimeTexture = "images/slime_texture.jpg";
+	private String path_gemTexture = "images/gem_texture.png";
 	
 	public ImageHandler(){
 		initHandler();
@@ -49,6 +53,8 @@ public class ImageHandler {
 			topCastle_image = ImageIO.read(new File(path_topCastle));
 			topSnow_image = ImageIO.read(new File(path_topSnow));
 			topGhost_image = ImageIO.read(new File(path_topGhost));
+			slimeTexture_image = ImageIO.read(new File(path_slimeTexture));
+			gemTexture_image = ImageIO.read(new File(path_gemTexture));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -84,28 +90,31 @@ public class ImageHandler {
 		return image;
 	}
 	
-	public BufferedImage getImageTopField(int x, int y, int width, int height){
-		BufferedImage image = topField_image.getSubimage(x, y, width, height);
-		return image;
+	public BufferedImage getImageTopField(){
+		return topField_image;
 	}
 	
-	public BufferedImage getImageTopDessert(int x, int y, int width, int height){
-		BufferedImage image = topDessert_image.getSubimage(x, y, width, height);
-		return image;
+	public BufferedImage getImageTopDessert(){
+		return topDessert_image;
 	}
 	
-	public BufferedImage getImageTopCastle(int x, int y, int width, int height){
-		BufferedImage image = topCastle_image.getSubimage(x, y, width, height);
-		return image;
+	public BufferedImage getImageTopCastle(){
+		return topCastle_image;
 	}
 	
-	public BufferedImage getImageTopSnow(int x, int y, int width, int height){
-		BufferedImage image = topSnow_image.getSubimage(x, y, width, height);
-		return image;
+	public BufferedImage getImageTopSnow(){
+		return topSnow_image;
 	}
 	
-	public BufferedImage getImageTopGhost(int x, int y, int width, int height){
-		BufferedImage image = topCastle_image.getSubimage(x, y, width, height);
-		return image;
+	public BufferedImage getImageTopGhost(){
+		return topGhost_image;
+	}
+	
+	public BufferedImage getImageSlimeTexture(){
+		return slimeTexture_image;
+	}
+	
+	public BufferedImage getGemTexture(){
+		return gemTexture_image;
 	}
 }

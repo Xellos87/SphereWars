@@ -23,6 +23,7 @@ import obstacle.Liquid;
 import obstacle.Platform;
 import obstacle.Spike;
 import utils.Constants;
+import videogame.Game;
 
 public class MapController {
 	//Numero de bloques maximos para la altura
@@ -57,8 +58,13 @@ public class MapController {
 		pos_block = 0;
 		pixel_block = 0;
 		width_total = 0;
-		block_height = height / MAX_HEIGHT;
-		block_width = block_height;
+		if(Constants.visualMode == Game.MODE_3D){
+			block_height = 42;
+			block_width = 42;
+		}else{
+			block_height = height / MAX_HEIGHT;
+			block_width = block_height;
+		}
 		//Se suma 1 ya que la división entre enteros si no es exacta desprecia los decimales, asi ocupa todo el ancho
 		block_width_screen = width / block_width + 1;
 		block_height_screen = height / block_height;

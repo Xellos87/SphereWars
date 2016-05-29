@@ -270,7 +270,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 				player.gravity();
 				break;
 			default:
-				System.out.println("Gravedad");
+				//System.out.println("Gravedad");
 				player.setVelocity(2, player.vy);
 				player.gravity();
 				break;

@@ -118,7 +118,7 @@ public class GameObject {
 	//TODO: mejorar intersecciones(esquinas)
 	public boolean intersects(GameObject o,int x_ori, int y_ori){
 		Rectangle r = getBox(x_ori,y_ori).intersection(o.getBox(x_ori,y_ori));
-		System.out.println(r.toString());
+		//System.out.println(r.toString());
 		return getBox(x_ori,y_ori).intersects(o.getBox(x_ori,y_ori));		
 	}
 	

@@ -37,8 +37,8 @@ public class Treasure extends GameObject implements Sprite, Model3D{
 	//Tipo de tesoro
 	private int type;
 	//Color del objeto, ambiental y difusa 
-	private Color3f coin_amb = new Color3f(0.5f, 0.5f, 0f);	
-	private Color3f coin_dif = new Color3f(1f, 1f, 0f);
+	private Color3f coin_amb = new Color3f(0.7851f, 0.625f, 0f);	
+	private Color3f coin_dif = new Color3f(0.7851f, 0.625f, 0f);
 	private Color3f gem_amb = new Color3f(0.15f, 0.45f, 0.97f);
 	private Color3f gem_dif = new Color3f(0.3f, 0.9f, 0.5f);
 
@@ -68,7 +68,17 @@ public class Treasure extends GameObject implements Sprite, Model3D{
 	}
 
 	private void selectTexture() {
-		texture = Constants.img_handler.getImageItem(x_imgs[type], y_imgs[type], width_imgs[type], height_imgs[type]);
+		switch (type) {
+		case COIN:
+			texture = Constants.img_handler.getImageHud(55, 0, 47, 47);
+			break;
+		case GEM:
+			texture = Constants.img_handler.getGemTexture();
+			break;
+		default:
+			break;
+		}
+		
 	}
 
 	private void loadModel3D(){
@@ -84,8 +94,6 @@ public class Treasure extends GameObject implements Sprite, Model3D{
 		//Carga de textura
 		TextureLoader  loader = new TextureLoader(texture);
 		Texture texture = loader.getTexture();
-		texture.setBoundaryModeS(Texture.WRAP);
-		texture.setBoundaryModeT(Texture.WRAP);
 		app.setTexture(texture);
 		//Atributos de textura
 	    TextureAttributes texAttr = new TextureAttributes();
@@ -109,8 +117,18 @@ public class Treasure extends GameObject implements Sprite, Model3D{
 		object_primitive = null;
 		switch (type) {
 		case COIN:
+			//Apariencia borde moneda
+			Appearance appCoin = new Appearance();
+			//Material del borde
+			Material matCoin = new Material();
+			matCoin.setAmbientColor(coin_amb);
+			matCoin.setDiffuseColor(coin_dif);
+			matCoin.setSpecularColor(Constants.black);
+			matCoin.setShininess(5.0f);	
+			appCoin.setMaterial(matCoin);	
 			//Creacion de la moneda
-			object_primitive = new Cylinder(block_width*0.0005f, block_width*0.001f, Cylinder.GENERATE_NORMALS + Cylinder.GENERATE_TEXTURE_COORDS, app);
+			object_primitive = new Cylinder(block_width*0.0005f, block_width*0.0003f, Cylinder.GENERATE_NORMALS + Cylinder.GENERATE_TEXTURE_COORDS, app);
+			object_primitive.setAppearance(Cylinder.BODY, appCoin);
 			t.rotX(Math.PI/2);
 			break;
 		case GEM:

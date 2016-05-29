@@ -90,19 +90,19 @@ public class Platform extends GameObject implements Sprite, Model3D{
 		base = Constants.img_handler.getImageTile(x_imgs[world+UNDERGROUND], y_imgs[world+UNDERGROUND], width_imgs[world+UNDERGROUND], height_imgs[world+UNDERGROUND]);
 		switch (world) {
 		case WORLD_FIELD:
-			top = Constants.img_handler.getImageTopField(0, 0, 70, 70);
+			top = Constants.img_handler.getImageTopField();
 			break;
 		case WORLD_DESSERT:
-			top = Constants.img_handler.getImageTopDessert(0, 0, 70, 70);
+			top = Constants.img_handler.getImageTopDessert();
 			break;
 		case WORLD_CASTLE:
-			top = Constants.img_handler.getImageTopCastle(0, 0, 70, 70);
+			top = Constants.img_handler.getImageTopCastle();
 			break;
 		case WORLD_SNOW:
-			top = Constants.img_handler.getImageTopSnow(0, 0, 70, 70);
+			top = Constants.img_handler.getImageTopSnow();
 			break;
 		case WORLD_GHOST:
-			top = Constants.img_handler.getImageTopGhost(0, 0, 70, 70);
+			top = Constants.img_handler.getImageTopGhost();
 			break;
 		default:
 			break;

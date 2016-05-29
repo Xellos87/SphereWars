@@ -2,7 +2,10 @@ package character;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Material;
@@ -11,11 +14,15 @@ import javax.media.j3d.TextureAttributes;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
+import javax.vecmath.Matrix3f;
+import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.geometry.Cylinder;
 import com.sun.j3d.utils.image.TextureLoader;
 
+import audio.Audio;
+import audio.AudioClip;
 import graphic.Model3D;
 import graphic.Sprite;
 import utils.Constants;
@@ -50,6 +57,9 @@ public class Bot extends GameObject implements Sprite, Model3D{
 	//Variables relacionadas con el cambio de dirección ante un camino imposible
 	private int tick_change;
 	private int max_wait_change = 10;
+	//
+	private AudioClip deathSound;
+	
 
 	public Bot(int x, int y, int block_width, int block_height, int type) {
 		super(x, y, x_imgs[type], y_imgs[type], width_imgs[type], height_imgs[type], block_width, block_height);
@@ -59,6 +69,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		this.state = WALK1;
 		this.direction = RIGHT;
 		this.kills = true;
+		deathSound = Audio.Load("audioEffects/mutantdie.wav");
 		if(Constants.visualMode == Game.MODE_2D){
 			selectImage();
 			resize();
@@ -86,7 +97,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		image = Constants.img_handler.getImageEnemie(x_img, y_img, width, height);
 	}
 	private void selectTexture(){
-		texture = Constants.img_handler.getImageEnemie(x_img, y_img, width, height);
+		texture = Constants.img_handler.getImageSlimeTexture();
 	}
 
 	@Override
@@ -130,6 +141,11 @@ public class Bot extends GameObject implements Sprite, Model3D{
 			int movX = 0;
 			if(tick_counter >= max_counter){
 				tick_counter -= max_counter;
+				if(state == WALK2){
+					state = WALK1;
+				}else{
+					state = WALK2;
+				}
 				movX = width / 20;
 			}
 			if(direction == RIGHT){
@@ -142,6 +158,15 @@ public class Bot extends GameObject implements Sprite, Model3D{
 			transform.get(translate_vector);
 			translate_vector.x += (movX*0.002f);
 			transform.set(translate_vector);
+			Matrix4f matrix = new Matrix4f();
+			transform.get(matrix);
+			matrix.m13 = -0.02f;
+			matrix.m11 = 1;
+			if(state == WALK2){
+				matrix.m13 -= 0.005f;
+				matrix.m11 = 0.7f;
+			}
+			transform.set(matrix);
 			tg_model3D.setTransform(transform);
 		}
 	}
@@ -178,6 +203,10 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		height = height_imgs[type+state];
 		selectImage();
 		resize();
+		if(deathSound == null){
+			return;
+		}
+		deathSound.start();
 	}
 	
 	private void loadModel3D(){
