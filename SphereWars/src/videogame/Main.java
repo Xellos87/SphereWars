@@ -14,8 +14,10 @@ import edu.ufl.digitalworlds.j4k.J4KSDK;
 import kinect.Kinect;
 import kinect.Panel;
 import media.ImageHandler;
+import menu.CreditsMenu;
 import menu.EndMenu;
 import menu.GameModeMenu;
+import menu.HelpMenu;
 import menu.Menu;
 import menu.OptionMenu;
 import menu.PauseMenu;
@@ -174,11 +176,15 @@ public class Main implements Runnable, KeyListener{
 					System.out.println("right key pressed");
 					if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
 						menu.cursorRight();
+					}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.helMenu)){
+						menu.cursorRight();
 					}
 				}else if(e.getKeyCode() == KeyEvent.VK_LEFT){
 					System.out.println("left key pressed");
 					if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
 						menu.cursorLeft();
+					}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.helMenu)){
+						menu.cursorRight();
 					}
 				}else if(e.getKeyCode() == KeyEvent.VK_ENTER){	//pulsacion de enter
 					String nuevoMenu = menu.cursorEnter();
@@ -188,7 +194,12 @@ public class Main implements Runnable, KeyListener{
 						//TODO: acciones cuando se selecciona una opcion del menu principal
 						if(!Constants.cursorDesplazado){
 							if(nuevoMenu.equalsIgnoreCase("credits")){
-
+								menu = new CreditsMenu(width*Constants.scale, height*Constants.scale);
+								Constants.tipoMenu=Constants.creMenu;
+								menu.setDoubleBuffered(true);
+								Constants.gameState = Constants.MENU;
+								window.add(menu, BorderLayout.CENTER);
+								window.pack();
 							}else if(nuevoMenu.equalsIgnoreCase("start")){
 								Constants.numJugadores = 1;
 								Menu newmenu = new GameModeMenu(width*Constants.scale, height*Constants.scale);
@@ -219,7 +230,12 @@ public class Main implements Runnable, KeyListener{
 								window.add(menu, BorderLayout.CENTER);
 								window.pack();
 							}else if(nuevoMenu.equalsIgnoreCase("help")){
-
+								menu = new HelpMenu(width*Constants.scale, height*Constants.scale);
+								Constants.tipoMenu=Constants.helMenu;
+								menu.setDoubleBuffered(true);
+								Constants.gameState = Constants.MENU;
+								window.add(menu, BorderLayout.CENTER);
+								window.pack();
 							}
 						}else {
 							if(Constants.visualMode == Game.MODE_2D){
@@ -342,18 +358,36 @@ public class Main implements Runnable, KeyListener{
 							window.add(menu, BorderLayout.CENTER);
 							window.pack();
 						}
+					}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.creMenu)){
+						System.out.println("back to main menu");
+						menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
+						Constants.tipoMenu = Constants.titMenu;
+						menu.setDoubleBuffered(true);
+						Constants.gameState = Constants.MENU;	//redundante
+						window.add(menu, BorderLayout.CENTER);
+						window.pack();
+					}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.helMenu)){
+						System.out.println("back to main menu");
+						menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
+						Constants.tipoMenu = Constants.titMenu;
+						menu.setDoubleBuffered(true);
+						Constants.gameState = Constants.MENU;	//redundante
+						window.add(menu, BorderLayout.CENTER);
+						window.pack();
 					}
 					//TODO: resto de casos
 					
 				}
 			}else{
 				Constants.esperandoTecla = false;
+				//System.out.println((char)Constants.teclaSaltop1);
 				if(Constants.teclaPausap1==Constants.guion){
 					Constants.teclaPausap1 = e.getKeyCode();
 				}else if(Constants.teclaPausap2==Constants.guion){
 					Constants.teclaPausap2 = e.getKeyCode();
 				}else if(Constants.teclaSaltop1==Constants.guion){
 					Constants.teclaSaltop1 = e.getKeyCode();
+					//System.out.println((char)Constants.teclaSaltop1);
 				}else if(Constants.teclaSaltop2==Constants.guion){
 					Constants.teclaSaltop2 = e.getKeyCode();
 				}else if(Constants.teclaSprintp1==Constants.guion){
