@@ -196,6 +196,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 	}
 	
 	public void death(){
+		this.kills = false;
 		this.state = DEAD;
 		x_img = x_imgs[type+state];
 		y_img = y_imgs[type+state];
