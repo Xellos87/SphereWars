@@ -6,6 +6,7 @@ import javax.media.j3d.Appearance;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Material;
 import javax.media.j3d.Texture;
+import javax.media.j3d.TextureAttributes;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
@@ -70,30 +71,23 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 		Transform3D t = new Transform3D();
 		//Apariencia del liquido
 		Appearance app = new Appearance();
+		//Material del liquido
 	    Material mat = new Material();
-	    switch (nature) {
-		case WATER:
-			mat.setAmbientColor(water_amb);
-			mat.setDiffuseColor(water_dif);
-			break;
-		case MAGMA:
-			mat.setAmbientColor(magma_amb);
-			mat.setDiffuseColor(magma_dif);
-			break;
-		default:
-			break;
-		}	    
-	    mat.setSpecularColor(new Color3f(0, 0, 0));
-	    mat.setShininess(5.0f);	 
-	    app.setMaterial(mat);
-	    //Creacion del liquido
-	    object_primitive = null;
-	    
+	    mat.setAmbientColor(Constants.white);
+		mat.setDiffuseColor(Constants.white);
+		mat.setSpecularColor(Constants.black);
+		mat.setShininess(1.0f);	 
+	    app.setMaterial(mat);	    
 	    //Carga de textura
 	    TextureLoader  loader = new TextureLoader(texture);
 	    Texture texture = loader.getTexture();
 	    app.setTexture(texture);
-	    
+	    //Atributos de textura
+	    TextureAttributes texAttr = new TextureAttributes();
+        texAttr.setTextureMode(TextureAttributes.MODULATE);
+        app.setTextureAttributes(texAttr);	
+	    //Creacion del liquido
+	    object_primitive = null;
 	    switch (type) {
 		case SURFACE:
 			object_primitive = new Box(block_width*0.001f,block_width*0.0005f,block_width*0.001f, Box.GENERATE_NORMALS + Box.GENERATE_TEXTURE_COORDS, app);			

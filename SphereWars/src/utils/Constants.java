@@ -1,5 +1,6 @@
 package utils;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.KeyEvent;
@@ -7,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.vecmath.Color3f;
 
 import media.ImageHandler;
 import scoreboard.Ranking;
@@ -99,6 +102,11 @@ public class Constants {
 	
 	public static final int guion = '-';
 	public static  float alphaComp = 1f;	
+	
+	//colores
+	public static final Color3f white = new Color3f(Color.white);
+	public static final Color3f black = new Color3f(Color.black);
+	
 	
 	//posiciones del cursor	
 	public static final Position titleIniPos = new Position(xPos-25,110);	//posicion inicial del cursor en menu inicio
