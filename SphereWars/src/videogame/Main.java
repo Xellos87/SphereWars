@@ -43,8 +43,8 @@ public class Main implements Runnable, KeyListener{
 	public static final String TITLE = "Sphere Wars";
 
 	//Dimensiones del juego
-	private static int width = 320;
-	private static int height = 240;	
+	private static int width = 540;
+	private static int height = 470;	
 
 
 	//Thread del juego
@@ -119,7 +119,9 @@ public class Main implements Runnable, KeyListener{
 
 	@Override
 	public void run() {
-
+		int track = 0;
+		int pausedKinect = 0;
+		Constants.conTeclado = false;
 		while(running){
 			start = System.nanoTime();
 			if(Constants.gameState == Constants.GAME){
@@ -127,7 +129,23 @@ public class Main implements Runnable, KeyListener{
 					game.actionGame();
 				}
 			}
-			panel.trackHand();
+			if(game != null){
+				track = panel.trackHand();
+				if(track == 1 && Constants.gameState == Constants.GAME && !game.isEndMenu()){
+					
+					Constants.gameState = Constants.PAUSE;
+					game.showPause();
+					pausedKinect = 1;
+					System.err.println("PAUSEANDO");
+				}else if(track != 1 && pausedKinect == 1){
+
+					System.err.println("Despausa");
+					Constants.gameState = Constants.GAME;
+					game.hiddenPause();
+					pausedKinect = 0;
+				}
+				track = 0;
+			}
 			draw();
 			// Funcion que comprueba el tiempo que le queda a la cancion
 			// para hacer el fade in out
