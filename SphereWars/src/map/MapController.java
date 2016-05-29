@@ -28,7 +28,7 @@ public class MapController {
 	//Numero de bloques maximos para la altura
 	private final int MAX_HEIGHT = 9;
 	//Lista de mapas para cargar
-	private final String MAPS[] = {"maps/map03.xml"};
+	private final String MAPS[] = {"maps/map01.xml"};
 	//Indice del mapa actual
 	private int current_map;
 	//Posición en bloque dentro del mapa, y pixel dentro del bloque
@@ -46,11 +46,17 @@ public class MapController {
 	//Velocidades
 	private int speedLow;
 	private int speedHigh;
+	//Flag que indica si se ha generado un mapa nuevo
+	private boolean newMap;
+	//
+	private int width_total;
 
 	public MapController(int width, int height){
+		newMap = false;
 		current_map = 0;
 		pos_block = 0;
 		pixel_block = 0;
+		width_total = 0;
 		block_height = height / MAX_HEIGHT;
 		block_width = block_height;
 		//Se suma 1 ya que la división entre enteros si no es exacta desprecia los decimales, asi ocupa todo el ancho
@@ -74,6 +80,9 @@ public class MapController {
 		//Parsear el fichero de mapas
 		parseMapXML(index);
 		current_map++;
+		if(first_map!= null){
+			width_total += first_map.getWidthBlocks()*block_width; 
+		}
 	}
 
 	private void parseMapXML(int index) {
@@ -286,6 +295,7 @@ public class MapController {
 				@Override
 				public void run() {
 					loadMap();
+					newMap = true;
 				}
 			}).start();
 		}
@@ -385,13 +395,44 @@ public class MapController {
 	public TransformGroup get3DModel(){
 		Transform3D translate = new Transform3D();
 		
-		translate.setTranslation(new Vector3f(first_map.getWidthBlocks()*block_width*0.002f,0,0));
+		translate.setTranslation(new Vector3f(width_total*0.002f,0,0));
 		TransformGroup tg = new TransformGroup(translate);
-		tg.addChild(second_map.get3DModel());
+		tg.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		tg.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		tg.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		tg.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		tg.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
 		
 		TransformGroup group = new TransformGroup();
+		group.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		group.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		group.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		group.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		group.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
 		group.addChild(first_map.get3DModel());
 		group.addChild(tg);
 		return group;
+	}
+	
+	public TransformGroup get3DFirstMap(){
+		return first_map.get3DModel();
+	}
+	
+	public TransformGroup get3DSecondMap(){
+		newMap = false;
+		Transform3D translate = new Transform3D();
+		translate.setTranslation(new Vector3f(width_total*0.002f,0,0));
+		TransformGroup tg = new TransformGroup(translate);
+		tg.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		tg.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		tg.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		tg.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		tg.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+		tg.addChild(second_map.get3DModel());
+		return tg;
+	}
+	
+	public boolean hasNewMap(){
+		return newMap;
 	}
 }

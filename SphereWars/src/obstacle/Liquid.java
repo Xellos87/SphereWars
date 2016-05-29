@@ -3,6 +3,7 @@ package obstacle;
 import java.awt.Graphics2D;
 
 import javax.media.j3d.Appearance;
+import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Material;
 import javax.media.j3d.Texture;
 import javax.media.j3d.Transform3D;
@@ -52,6 +53,7 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 			resize();
 		}else{
 			selectTexture();
+			loadModel3D();
 		}
 	}
 
@@ -62,6 +64,52 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 	
 	private void selectTexture() {
 		texture = Constants.img_handler.getImageTile(x_imgs[nature+1], y_imgs[nature+1], width_imgs[nature+1], height_imgs[nature+1]);
+	}
+	
+	private void loadModel3D(){
+		Transform3D t = new Transform3D();
+		//Apariencia del liquido
+		Appearance app = new Appearance();
+	    Material mat = new Material();
+	    switch (nature) {
+		case WATER:
+			mat.setAmbientColor(water_amb);
+			mat.setDiffuseColor(water_dif);
+			break;
+		case MAGMA:
+			mat.setAmbientColor(magma_amb);
+			mat.setDiffuseColor(magma_dif);
+			break;
+		default:
+			break;
+		}	    
+	    mat.setSpecularColor(new Color3f(0, 0, 0));
+	    mat.setShininess(5.0f);	 
+	    app.setMaterial(mat);
+	    //Creacion del liquido
+	    object_primitive = null;
+	    
+	    //Carga de textura
+	    TextureLoader  loader = new TextureLoader(texture);
+	    Texture texture = loader.getTexture();
+	    app.setTexture(texture);
+	    
+	    switch (type) {
+		case SURFACE:
+			object_primitive = new Box(block_width*0.001f,block_width*0.0005f,block_width*0.001f, Box.GENERATE_NORMALS + Box.GENERATE_TEXTURE_COORDS, app);			
+			t.setTranslation(new Vector3f(0f,-block_width*0.0005f,0f));
+			break;
+		case DEEP:
+			object_primitive = new Box(block_width*0.001f,block_width*0.001f,block_width*0.001f, Box.GENERATE_NORMALS + Box.GENERATE_TEXTURE_COORDS, app);
+			break;
+		default:
+			break;
+		}		 
+		tg_model3D = new TransformGroup();
+		branch_group = new BranchGroup();
+		branch_group.addChild(object_primitive);
+		tg_model3D.addChild(tg_model3D);
+		tg_model3D.setTransform(t);
 	}
 
 	@Override
@@ -85,48 +133,7 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 
 	@Override
 	public TransformGroup get3DModel() {
-		Transform3D t = new Transform3D();
-		//Apariencia del liquido
-		Appearance app = new Appearance();
-	    Material mat = new Material();
-	    switch (nature) {
-		case WATER:
-			mat.setAmbientColor(water_amb);
-			mat.setDiffuseColor(water_dif);
-			break;
-		case MAGMA:
-			mat.setAmbientColor(magma_amb);
-			mat.setDiffuseColor(magma_dif);
-			break;
-		default:
-			break;
-		}	    
-	    mat.setSpecularColor(new Color3f(0, 0, 0));
-	    mat.setShininess(5.0f);	 
-	    app.setMaterial(mat);
-	    //Creacion del liquido
-	    Box box = null;
-	    
-	    //Carga de textura
-	    TextureLoader  loader = new TextureLoader(texture);
-	    Texture texture = loader.getTexture();
-	    app.setTexture(texture);
-	    
-	    switch (type) {
-		case SURFACE:
-			box = new Box(block_width*0.001f,block_width*0.0005f,block_width*0.001f, Box.GENERATE_NORMALS + Box.GENERATE_TEXTURE_COORDS, app);			
-			t.setTranslation(new Vector3f(0f,-block_width*0.0005f,0f));
-			break;
-		case DEEP:
-			box = new Box(block_width*0.001f,block_width*0.001f,block_width*0.001f, Box.GENERATE_NORMALS + Box.GENERATE_TEXTURE_COORDS, app);
-			break;
-		default:
-			break;
-		}		 
-		TransformGroup tg = new TransformGroup();
-		tg.addChild(box);
-		tg.setTransform(t);
-		return tg;
+		return tg_model3D;
 	}
 
 }

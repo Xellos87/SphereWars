@@ -38,6 +38,11 @@ public class MapObject {
 		this.block_height = block_height;
 		objects = new GameObject[height][width];
 		group_object = new TransformGroup();
+		group_object.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		group_object.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		group_object.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		group_object.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		group_object.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
 	}
 
 	public void addObject(GameObject obj, int x, int y){

@@ -5,6 +5,11 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import javax.media.j3d.BranchGroup;
+import javax.media.j3d.TransformGroup;
+
+import com.sun.j3d.utils.geometry.Primitive;
+
 /**
  * Autores: Victor Adrian Milla Español - 557022,
  * 			Juan Luis Burillo Ortín - 542083,
@@ -43,6 +48,10 @@ public class GameObject {
 	//Sprite
 	protected BufferedImage image;
 	protected BufferedImage texture;	
+	//Modelo 3D
+	protected TransformGroup tg_model3D;
+	protected BranchGroup branch_group;
+	protected Primitive object_primitive;
 	
 	
 	//Variables de colisiones

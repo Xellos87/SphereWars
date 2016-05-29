@@ -15,6 +15,8 @@ import com.sun.j3d.utils.universe.ViewingPlatform;
 
 import character.Boss;
 import character.Sphere;
+import graphic.Model3D;
+import item.Treasure;
 
 //The BranchGroup
 import javax.media.j3d.BranchGroup;
@@ -27,6 +29,8 @@ import javax.media.j3d.GraphicsContext3D;
 import javax.media.j3d.ImageComponent;
 import javax.media.j3d.ImageComponent2D;
 import javax.media.j3d.Raster;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
 //For the bouding sphere of the light source
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.AmbientLight;
@@ -57,15 +61,22 @@ public class Game3D extends Canvas3D implements KeyListener{
 	private SimpleUniverse simpleU;
 	//Grupo que contiene todos los objetos de la escena
 	private BranchGroup rootBranchGroup;
-	//
+	//Metodo principal
 	private Main main;
+	//Mapa del juego
+	private MapController map;
+	//
+	private TransformGroup map_cont;
 
 
 	public Game3D(int width, int height, MapController map, Main main) {
 		super(SimpleUniverse.getPreferredConfiguration());
 		this.width = width;
 		this.height = height;
+		this.map = map;
 		this.main = main;
+		this.end_game = false;
+		setPreferredSize(new Dimension(width, height));
 		setDoubleBufferEnable(true);
 		requestFocus();
 
@@ -75,8 +86,28 @@ public class Game3D extends Canvas3D implements KeyListener{
 		camera_setup();
 
 
-
-		rootBranchGroup.addChild(map.get3DModel());
+		map_cont = new TransformGroup();
+		map_cont.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		map_cont.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		map_cont.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		map_cont.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		map_cont.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+		map_cont.addChild(map.get3DFirstMap());
+		map_cont.addChild(map.get3DSecondMap());
+		
+		
+		
+		
+		Transform3D transform_map = new Transform3D();
+		map_cont.getTransform(transform_map);
+		Vector3f translate = new Vector3f();
+		transform_map.get(translate);
+		translate.y -= 0.3f;
+		transform_map.set(translate);
+		map_cont.setTransform(transform_map);
+		
+		
+		rootBranchGroup.addChild(map_cont);
 
 		addDirectionalLight(new Vector3f(0f, 0f, -1f),
 				new Color3f(1f, 1f, 1f));
@@ -92,6 +123,8 @@ public class Game3D extends Canvas3D implements KeyListener{
 		finalise();
 
 		addKeyListener(this);
+		
+		((Treasure)map.getCurrentMap().getObject(7, 8)).removeObject();
 	}
 
 	private void init_score() {
@@ -141,7 +174,9 @@ public class Game3D extends Canvas3D implements KeyListener{
 
 		// First create the BranchGroup object
 		rootBranchGroup = new BranchGroup();
-
+		rootBranchGroup.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		rootBranchGroup.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		rootBranchGroup.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
 	}
 
 	/**
@@ -189,16 +224,32 @@ public class Game3D extends Canvas3D implements KeyListener{
 		// And set up the camera position
 		simpleU.getViewingPlatform().setNominalViewingTransform();
 	}
-
-
-
-	public void draw(Graphics2D g2d,int x_ori, int y_ori, MapController map_cont, boolean not_pause) {
-		//Jugador
-		//player.draw2D(g2d,x_ori,y_ori);
-		/*if(boss.isVisible()){
-			boss.draw2D(g2d, x_ori, y_ori);
+	
+	public boolean actionGame() {
+		if(!end_game){
+			//Mueve plataformas
+			double dist = map.move();
+			
+			Transform3D translate = new Transform3D();
+			Vector3f translate_vector = new Vector3f();
+			map_cont.getTransform(translate);
+			translate.get(translate_vector);
+			translate_vector.x -= dist*0.085f;
+			translate.set(translate_vector);
+			map_cont.setTransform(translate);
+			score_distance += dist;
+			
+			if(map.hasNewMap()){
+				System.out.println("Carga de mapa");
+				//Hay que cargar un mapa nuevo
+				TransformGroup nextMap = map.get3DSecondMap();
+				BranchGroup bg = new BranchGroup();
+				bg.addChild(nextMap);
+				map_cont.addChild(bg);
+				//map_cont.addChild(nextMap);
+			}
 		}
-		boss.action(not_pause);	*/	
+		return end_game;
 	}
 
 	public int getCoins(){
@@ -233,33 +284,6 @@ public class Game3D extends Canvas3D implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		main.keyPressed(e);
-		/*System.out.println("Listener en Game3D");
-		if(Constants.gameState == Constants.GAME && (e.getKeyCode() == Constants.teclaPausap1 || e.getKeyCode() == Constants.teclaPausap2)){
-			Constants.gameState = Constants.PAUSE;
-			System.out.println("PAUSA!");				
-		}else if(Constants.gameState == Constants.PAUSE && (e.getKeyCode() == Constants.teclaPausap1 || e.getKeyCode() == Constants.teclaPausap2)){
-			Constants.gameState = Constants.GAME;
-			System.out.println("Juego!");
-		}else if(Constants.gameState == Constants.PAUSE){
-			//Opciones en el menu de pausa
-			//Menu de pausa abierto, se propaga
-			if(e.getKeyCode() == KeyEvent.VK_DOWN){
-				pause.cursorDown();
-			}else if(e.getKeyCode() == KeyEvent.VK_UP){
-				pause.cursorUp();
-			}else if(e.getKeyCode() == KeyEvent.VK_ENTER){
-				String opc = pause.cursorEnter();
-				if(Integer.parseInt(opc) == PauseMenu.CONTINUE){
-					Constants.optionSelect = -1;
-					Constants.gameState = Constants.GAME;
-				}else if(Integer.parseInt(opc) == PauseMenu.RESTART){
-					//restartGame();
-					Constants.optionSelect = PauseMenu.RESTART;
-				}else if(Integer.parseInt(opc) == PauseMenu.QUIT){
-					Constants.optionSelect = PauseMenu.QUIT;
-				}
-			}
-		}*/
 	}
 
 	@Override

@@ -54,6 +54,7 @@ public class Game extends JLayeredPane{
 	private boolean death_p2;
 	//Metodo main
 	private Main main;
+	private boolean isPause;
 
 
 	public Game(int width, int height, int type, int num_players, Main main){
@@ -63,12 +64,14 @@ public class Game extends JLayeredPane{
 		this.height = height;
 		this.mode = Constants.visualMode;
 		this.mode = MODE_3D;
+		Constants.visualMode = MODE_3D;
 		this.type = type;
 		this.main = main;
 		this.num_players = num_players;
 		this.height_game = (height-height_score)/num_players;
 		this.death_p1 = false;
 		this.death_p2 = num_players==1;
+		this.isPause = false;
 		setPreferredSize(new Dimension(width, height));
 		setDoubleBuffered(true);
 		setFocusable(false);
@@ -94,7 +97,7 @@ public class Game extends JLayeredPane{
 		//Inicializa los controladores de mapas necesarios
 		Constants.map_index = new ArrayList<Integer>();
 		map_p1 = new MapController(width, height_game);
-		if(num_players>1){
+		if(mode == MODE_2D && num_players>1){
 			map_p2 = new MapController(width, height_game);
 		}
 		//Inicializa el juego
@@ -126,7 +129,10 @@ public class Game extends JLayeredPane{
 				game2d_2p.draw(g2d,0,height_score+height_game,map_p2,Constants.gameState != Constants.PAUSE);
 			}
 		}else if(mode == MODE_3D){
-			//game3d.repaint();
+			if(Constants.gameState == Constants.GAME && isPause){
+				System.out.println("Repintado");
+				
+			}
 		}
 		score.draw(g2d);
 
@@ -137,8 +143,10 @@ public class Game extends JLayeredPane{
 			}
 			pause.setVisible(true);
 			pause.draw(g2d);
+			isPause = true;
 		}else{
 			pause.setVisible(false);
+			isPause = false;
 		}
 		if(end.isVisible()){
 			end.draw(g2d);
@@ -190,8 +198,16 @@ public class Game extends JLayeredPane{
 				}
 			}
 		}else if(mode == MODE_3D){
-			//game3d_1p.actionGame();
+			//game3d.actionGame();
 			
+			//Obtiene las puntuaciones
+			if(type == RUNNER){
+				double dist = game3d.getDistance();
+				score.setScoreDistanceP1(dist);
+			}else if(type == COINS){
+				int coins = game3d.getCoins();
+				score.setScoreCoinsP1(coins);
+			}
 		}
 		if(!end.isVisible() && death_p1 && death_p2){
 			//Todos los jugadores has muerto, se pone el menu de fin de juego
@@ -213,9 +229,6 @@ public class Game extends JLayeredPane{
 				}
 			}else if(mode == MODE_3D){
 				//game3d_1p.actionGame();
-				if(num_players>1){
-					//game3d_2p.actionGame();
-				}
 			}
 			//Inicializamos la pantalla de fin de juego
 			end.init(num_players,type,score_p1,score_p2);
