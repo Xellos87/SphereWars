@@ -91,7 +91,8 @@ public class Game2D extends JPanel {
 			}
 			g2d.setColor(new Color(0,0,0,alpha_death));
 			g2d.fillRect(x_ori, y_ori, width, height);
-			g2d.setFont(new Font("Arial", Font.BOLD, 36));
+			Font f = Constants.font_bold.deriveFont(36.0f);
+			g2d.setFont(f);
 			g2d.setColor(new Color(255,255,255,alpha_death));
 			int width_text = g2d.getFontMetrics().stringWidth(DEATH_STR);
 			int height_text = g2d.getFontMetrics().getHeight();
