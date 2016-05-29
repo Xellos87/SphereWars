@@ -106,6 +106,8 @@ public class Game2D extends JPanel {
 			if(boss.isVisible() && player.bossCollision(boss.getBox(x_ori, y_ori))){
 				end_game=true;
 			} 
+		}else{
+			player.miniJump();
 		}
 	}
 

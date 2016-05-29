@@ -25,6 +25,7 @@ import com.sun.j3d.utils.image.TextureLoader;
 import graphic.Sprite;
 import map.MapController;
 import map.MapObject;
+import obstacle.Liquid;
 import utils.Constants;
 import videogame.Game;
 import videogame.GameObject;
@@ -61,6 +62,7 @@ public class Sphere extends GameObject implements Sprite{
 	private int totalX = 0;
 	boolean nextMap = false;
 	private AudioClip soundJump;
+	private AudioClip deathLiquid;
 	private int x_ori;
 	private int y_ori;
 
@@ -69,6 +71,7 @@ public class Sphere extends GameObject implements Sprite{
 		this.type = NORMAL;
 		this.kills = false;
 		soundJump = Audio.Load("audioEffects/boing_x.wav");
+		deathLiquid = Audio.Load("audioEffects/splash.wav");
 		if(Constants.visualMode == Game.MODE_2D){
 			selectImage();
 			resize();
@@ -263,6 +266,20 @@ public class Sphere extends GameObject implements Sprite{
 		
 		//Prioridad de colisiones	
 		if(collisionInf == MapObject.KILLS || collisionLat == MapObject.KILLS || collisionSup == MapObject.KILLS || collisionCen == MapObject.KILLS){
+			GameObject obj = null;
+			if(collisionInf == MapObject.KILLS){
+				//Colision inferior
+				obj = map.getObject(xMap, yMap-1);
+			}else if(collisionCen == MapObject.KILLS){
+				//Colision central
+				obj = map.getObject(xMap, yMap);
+			}
+			if(obj != null){
+				if(obj instanceof Liquid){
+					deathLiquid.start();
+				}
+			}
+			
 			result = COLLDEATH;
 		}
 		else if(collisionInf == MapObject.DEATH || collisionCen == MapObject.DEATH){
