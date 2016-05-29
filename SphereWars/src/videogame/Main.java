@@ -202,7 +202,7 @@ public class Main implements Runnable, KeyListener{
 					if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
 						menu.cursorLeft();
 					}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.helMenu)){
-						menu.cursorRight();
+						menu.cursorLeft();
 					}
 				}else if(e.getKeyCode() == KeyEvent.VK_ENTER){	//pulsacion de enter
 					String nuevoMenu = menu.cursorEnter();
