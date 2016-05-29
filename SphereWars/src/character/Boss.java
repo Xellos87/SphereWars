@@ -10,6 +10,8 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import audio.Audio;
+import audio.AudioClip;
 import graphic.Sprite;
 import utils.Constants;
 import utils.Position;
@@ -90,6 +92,9 @@ public class Boss extends GameObject implements Sprite {
 	private BufferedImage fly2redleft;
 	private boolean reseteo = false;
 	
+	// Audio
+	private AudioClip deathSound;
+	
 	public Boss(int x, int y, int block_width, int block_height,boolean esVisible, int anchoPantalla, int altoPantalla) {
 		super(x, y, x_imgs[0], y_imgs[0], width_imgs[0], height_imgs[0], block_width, block_height);
 		this.tick_counter = 0;
@@ -116,6 +121,7 @@ public class Boss extends GameObject implements Sprite {
 		}
 		this.tiempoInicio = System.currentTimeMillis();
 		this.hazteVisible = tiempoInicio + 30000;
+		deathSound = Audio.Load("audioEffects/flie.wav");
 	}
 
 	private void rellenarImagenes() {
@@ -193,6 +199,7 @@ public class Boss extends GameObject implements Sprite {
 		directionY=STOP;
 		vy=20;
 		rellenarImagenes();
+		deathSound.start();
 	}
 	
 	public int action(boolean not_pause, int xPlayer, int yPlayer, Rectangle playerBox) {
