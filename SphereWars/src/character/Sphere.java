@@ -182,7 +182,7 @@ public class Sphere extends GameObject implements Sprite{
 
 	public int checkCollision(MapController mc, int x_ori, int y_ori){
 		//TODO bug choque lateral en cambio de mapa, ej: columna en x:0 del segundo mapa
-		boolean print = true;	//False para no ver mensajes
+		boolean print = false;	//False para no ver mensajes
 		int result = -1;
 		//TODO colisiones con sprite que no ocupa todo el bloque
 		int collisionInf,collisionLat,collisionSup,collisionCen;

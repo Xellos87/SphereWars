@@ -19,6 +19,7 @@ public class ImageHandler {
 	private BufferedImage topCastle_image;
 	private BufferedImage topSnow_image;
 	private BufferedImage topGhost_image;
+	private BufferedImage slimeTexture_image;
 	//Ruta de aceso a las imagenes
 	private String path_tiles = "images/platforms.png";
 	private String path_player = "images/ball.gif";
@@ -31,6 +32,7 @@ public class ImageHandler {
 	private String path_topCastle = "images/surface_castle.png";
 	private String path_topSnow = "images/surface_snow.png";
 	private String path_topGhost = "images/surface_ghost.png";
+	private String path_slimeTexture = "images/slime_texture.jpg";
 	
 	public ImageHandler(){
 		initHandler();
@@ -49,6 +51,7 @@ public class ImageHandler {
 			topCastle_image = ImageIO.read(new File(path_topCastle));
 			topSnow_image = ImageIO.read(new File(path_topSnow));
 			topGhost_image = ImageIO.read(new File(path_topGhost));
+			slimeTexture_image = ImageIO.read(new File(path_slimeTexture));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -107,5 +110,9 @@ public class ImageHandler {
 	public BufferedImage getImageTopGhost(int x, int y, int width, int height){
 		BufferedImage image = topCastle_image.getSubimage(x, y, width, height);
 		return image;
+	}
+	
+	public BufferedImage getImageSlimeTexture(){
+		return slimeTexture_image;
 	}
 }

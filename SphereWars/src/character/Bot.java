@@ -2,7 +2,10 @@ package character;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Material;
@@ -50,6 +53,8 @@ public class Bot extends GameObject implements Sprite, Model3D{
 	//Variables relacionadas con el cambio de dirección ante un camino imposible
 	private int tick_change;
 	private int max_wait_change = 10;
+	//
+	
 
 	public Bot(int x, int y, int block_width, int block_height, int type) {
 		super(x, y, x_imgs[type], y_imgs[type], width_imgs[type], height_imgs[type], block_width, block_height);
@@ -86,7 +91,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		image = Constants.img_handler.getImageEnemie(x_img, y_img, width, height);
 	}
 	private void selectTexture(){
-		texture = Constants.img_handler.getImageEnemie(x_img, y_img, width, height);
+		texture = Constants.img_handler.getImageSlimeTexture();
 	}
 
 	@Override
