@@ -268,6 +268,11 @@ public class Main implements Runnable, KeyListener{
 						if(nuevoMenu.equalsIgnoreCase("sound")){
 							System.out.println(Constants.sound);
 							Constants.sound = !Constants.sound;
+							if(Constants.sound)
+								music.playMenu();
+								else
+									music.stop();
+							
 						}
 						else if(nuevoMenu.equalsIgnoreCase("resolution")){
 							System.out.println(Constants.scale);
