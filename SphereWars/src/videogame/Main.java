@@ -10,6 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
 import audio.Music;
+import edu.ufl.digitalworlds.j4k.J4KSDK;
+import kinect.Kinect;
+import kinect.Panel;
 import media.ImageHandler;
 import menu.EndMenu;
 import menu.GameModeMenu;
@@ -60,6 +63,10 @@ public class Main implements Runnable, KeyListener{
 	private Menu menu;	
 	//Modo de juego
 	private Game game;
+	
+	// Clases para kinect
+	private Kinect kinect;
+	private Panel panel;
 
 	public static void main(String[] args){
 		new Main();
@@ -85,6 +92,12 @@ public class Main implements Runnable, KeyListener{
 		window.addKeyListener(this);
 		running = true;
 
+		// Inicializamos kinect
+		panel = new Panel(1, true);
+		kinect = new Kinect();
+		kinect.setPanel(panel);
+		kinect.start(J4KSDK.COLOR | J4KSDK.DEPTH | J4KSDK.SKELETON);
+		
 		if(thread == null){
 			thread = new Thread(this);
 			thread.setPriority(Thread.MAX_PRIORITY);
@@ -112,6 +125,7 @@ public class Main implements Runnable, KeyListener{
 					game.actionGame();
 				}
 			}
+			panel.trackHand();
 			draw();
 			// Funcion que comprueba el tiempo que le queda a la cancion
 			// para hacer el fade in out
@@ -333,6 +347,7 @@ public class Main implements Runnable, KeyListener{
 					
 				}
 			}else{
+				Constants.esperandoTecla = false;
 				if(Constants.teclaPausap1==Constants.guion){
 					Constants.teclaPausap1 = e.getKeyCode();
 				}else if(Constants.teclaPausap2==Constants.guion){
@@ -410,4 +425,13 @@ public class Main implements Runnable, KeyListener{
 	@Override
 	public void keyReleased(KeyEvent e) {		
 	}
+
+	public Panel getPanel() {
+		return panel;
+	}
+
+	public void setPanel(Panel panel) {
+		this.panel = panel;
+	}
+
 }
