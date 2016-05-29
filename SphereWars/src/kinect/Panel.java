@@ -20,7 +20,7 @@ public class Panel {
 	private double newPos[];
 	private boolean memorized = false;
 	private int contMov = 0;
-	private final int movLim = 60; // 1 segundo 60 fps
+	private final int movLim = 10; // 1 segundo 60 fps
 	private int p1Hand = 11;
 	private int p2Hand = 11;
 	private int players;
@@ -43,7 +43,7 @@ public class Panel {
 	// si nueva posicion es peque�a contador++
 	// si contador == 60 actualizamos initpoint
 	public int trackHand() {
-		if(Constants.conTeclado || Constants.enMenu) return 0;
+		if(Constants.conTeclado || Constants.enMenu) return -1;
 		int player = 0;
 		// Se recorre el vector entero de esqueletos
 		// ya que no se sabe en que posicion guarda kinect el esqueleto
@@ -82,8 +82,10 @@ public class Panel {
 						if (newPos != null) {
 							xdelta += actpos[0] - newPos[0];
 							ydelta += actpos[1] - newPos[1];
-							if (ydelta > 0.3 && firstTime) {
+							System.out.println(ydelta);
+							if (ydelta > 0.06 && firstTime) {
 								System.out.println("Arriba: ");
+								//Constants.gameState = Constants.PAUSE;
 								//mano = "Arriba: " + ydelta;
 								firstTime = false;
 								if(sphere != null)
@@ -96,7 +98,7 @@ public class Panel {
 							}
 						}
 						if (distancia(initPoint, actpos) > 0.1) {
-							System.out.println("Mano movida");
+							//System.out.println("Mano movida");
 							// Si es la primera vez o la distancia aumenta
 							// considerablemente
 							// la actualizamos porque se sigue moviendo
@@ -112,6 +114,7 @@ public class Panel {
 								// Actualizamos el contador porque la mano
 								// parece estable
 								contMov++;
+								firstTime = true;
 							}
 							// Si la mano lleva estable mas de movLim
 							// Se asume que el jugador no ha devuelto bien la
@@ -120,13 +123,15 @@ public class Panel {
 							// inicial si no se ha detectado un movimiento de juego
 							// (Para que no se memorice si la mano esta muy alta)
 							if (contMov >= movLim && !handUp) {
+								System.out.println("Memorizada");
 								contMov = 0;
-								firstTime = false;
+								firstTime = true;
 								initPoint = newPos;
 								newPos = null;
 							}
 							
 						} else {
+							firstTime = true;
 							newPos = null;
 						}
 
@@ -139,10 +144,10 @@ public class Panel {
 				}
 			}
 		}
-		if (player != players && debug){
+		if (player < players && debug){
 			
-			//System.err.println("Numero de jugadores encontrados erroneo");
-			//System.err.println("Hay: " + player + " y se esperaban " + players);
+			System.err.println("Numero de jugadores encontrados erroneo");
+			System.err.println("Hay: " + player + " y se esperaban " + players);
 			return 1;
 		}
 		return 0;
