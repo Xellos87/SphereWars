@@ -157,4 +157,8 @@ public class GameObject {
 	public boolean kills(){
 		return kills;
 	}
+	
+	public TransformGroup get3DModel() {
+		return tg_model3D;
+	}
 }
