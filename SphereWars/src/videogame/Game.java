@@ -63,8 +63,6 @@ public class Game extends JLayeredPane{
 		this.width = width;
 		this.height = height;
 		this.mode = Constants.visualMode;
-		this.mode = MODE_3D;
-		Constants.visualMode = MODE_3D;
 		this.type = type;
 		this.main = main;
 		this.num_players = num_players;
@@ -149,6 +147,10 @@ public class Game extends JLayeredPane{
 			isPause = false;
 		}
 		if(end.isVisible()){
+			if(mode == MODE_3D){
+				BufferedImage img3D = game3d.createBufferedImageFromCanvas3D();
+				g2d.drawImage(img3D, 0 , height_score, null);
+			}
 			end.draw(g2d);
 		}
 		getGraphics().drawImage(offscreen, 0, 0,width, height,null);
@@ -198,8 +200,8 @@ public class Game extends JLayeredPane{
 				}
 			}
 		}else if(mode == MODE_3D){
-			//game3d.actionGame();
-			
+			//Realiza el movimiento del mapa y acciones del jugador
+			game3d.actionGame();
 			//Obtiene las puntuaciones
 			if(type == RUNNER){
 				double dist = game3d.getDistance();
@@ -236,7 +238,6 @@ public class Game extends JLayeredPane{
 		}
 	}
 
-	//TODO: teclas para el segundo jugador y menu de pausa y fin de juego
 	public int keyPressed(KeyEvent e) {
 		int response = 0;
 		if(pause.isVisible()){
@@ -309,10 +310,7 @@ public class Game extends JLayeredPane{
 				game2d_2p.restart(map_p2);
 			}
 		}else if(mode == MODE_3D){
-			//
-			if(num_players > 1){
-				//
-			}
+			game3d.restart();
 		}
 		death_p1 = false;
 		death_p2 = num_players==1;
