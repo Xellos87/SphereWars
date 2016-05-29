@@ -72,7 +72,7 @@ public class Game2D extends JPanel {
 		player = new Sphere(0,0,30,30);
 		player.setVelocity(0, 3);
 		//carga el boss
-		boss = new Boss(width-90,20,blockWidth,blockHeight,true, width, height);
+		boss = new Boss(width-90,20,blockWidth,blockHeight,false, width, height);
 	}
 
 	public void draw(Graphics2D g2d,int x_ori, int y_ori, MapController map_cont, boolean not_pause) {

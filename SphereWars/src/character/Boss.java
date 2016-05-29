@@ -75,6 +75,9 @@ public class Boss extends GameObject implements Sprite {
 	private int yAnterior;
 	private int altoPantalla;
 	private int xAnterior;
+	//el boss se hace visible después de 60 segundos
+	private long tiempoInicio;
+	private long hazteVisible;
 
 	private int x_ori,y_ori;
 	
@@ -102,6 +105,8 @@ public class Boss extends GameObject implements Sprite {
 		}else{
 			image = fly1right;
 		}
+		this.tiempoInicio = System.currentTimeMillis();
+		this.hazteVisible = tiempoInicio + 60000;
 	}
 
 	private void rellenarImagenes() {
@@ -154,9 +159,24 @@ public class Boss extends GameObject implements Sprite {
 		directionX=STOP;
 		directionY=STOP;
 		vy=20;
+		//this.visible=false;
 	}
 	
 	public int action(boolean not_pause, int xPlayer, int yPlayer, Rectangle playerBox) {
+		if(!visible && System.currentTimeMillis() >= hazteVisible){
+			this.visible=true;
+			System.out.println("-----empieza el boss!!");
+		}else if(state == DEAD && System.currentTimeMillis() > tiempoInicio){
+			state = FLY1;
+			random=1;
+			health = 3;
+			this.visible=false;
+			System.out.println("-----reinicio boss");
+		}
+		if(state == DEAD){
+			this.tiempoInicio = System.currentTimeMillis() + 2000;
+			this.hazteVisible = tiempoInicio + 60000;
+		}
 		if(not_pause && state != DEAD){
 			tick_counter++;
 			stopTickX++;
@@ -228,24 +248,24 @@ public class Boss extends GameObject implements Sprite {
 		}
 		int haceDaño = -1;
 		//comprobacion de colisiones
-		Rectangle bossBox = this.getBox(x_ori, y_ori);
-		if(state != DEAD && bossBox.intersects(playerBox)){
-			if(playerBox.y<=bossBox.y){
-				
-				if(tick_damage >= damageCounter){
-					this.health--;
-					System.out.println("---Han herido al jefe!!");
-					tick_damage = 0;
-					haceDaño=1;
-				}
-				if(health==0){
-					death();
-					System.out.println("---Han matado al jefe!!");
+		if(visible){
+			Rectangle bossBox = this.getBox(x_ori, y_ori);
+			if(state != DEAD && bossBox.intersects(playerBox)){
+				if(playerBox.y<=bossBox.y){
+					
+					if(tick_damage >= damageCounter){
+						this.health--;
+						System.out.println("---Han herido al jefe!!");
+						tick_damage = 0;
+						haceDaño=1;
+					}
+					if(health==0){
+						death();
+						System.out.println("---Han matado al jefe!!");
+					}
 				}
 			}
 		}
-		
-
 		if(state == DEAD){
 			y+=vy;
 		}
