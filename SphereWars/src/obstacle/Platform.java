@@ -15,6 +15,7 @@ import javax.vecmath.Color3f;
 
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.image.TextureLoader;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import graphic.Model3D;
 import graphic.Sprite;
@@ -56,8 +57,6 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	private Color3f castle_dif = new Color3f(0.67f, 0.57f, 0.75f);
 	private Color3f snow_amb = new Color3f(0.5f, 0.5f, 0.5f);
 	private Color3f snow_dif = new Color3f(1, 1, 1);
-	private Color3f white = new Color3f(Color.white);
-	private Color3f black = new Color3f(Color.black);
 	
 
 	public Platform(int x, int y, int block_width,int block_height, int type, int world) {
@@ -96,9 +95,9 @@ public class Platform extends GameObject implements Sprite, Model3D{
 		Appearance appBase = new Appearance();
 		//Material de la plataforma
 	    Material mat = new Material();
-	    mat.setAmbientColor(white);
-		mat.setDiffuseColor(white);
-		mat.setSpecularColor(black);
+	    mat.setAmbientColor(Constants.white);
+		mat.setDiffuseColor(Constants.white);
+		mat.setSpecularColor(Constants.black);
 		mat.setShininess(1.0f);	 
 	    app.setMaterial(mat);
 	    //Carga de textura

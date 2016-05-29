@@ -7,6 +7,7 @@ import javax.media.j3d.Appearance;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Material;
 import javax.media.j3d.Texture;
+import javax.media.j3d.TextureAttributes;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
@@ -67,66 +68,69 @@ public class Spike extends GameObject implements Sprite, Model3D{
 	
 	private void loadModel3D(){
 		//Apariencia de los pinchos
-				Appearance app = new Appearance();
-				Material mat = new Material();
-				mat.setAmbientColor(spike_amb);
-				mat.setDiffuseColor(spike_dif);
-				mat.setSpecularColor(new Color3f(0, 0, 0));
-				mat.setShininess(5.0f);	 
-				app.setMaterial(mat);
-				//Creacion de los pinchos
-				Transform3D t = new Transform3D();				
-				tg_model3D = new TransformGroup();	
-				branch_group = new BranchGroup();
-				
-				//Carga de textura
-			    TextureLoader  loader = new TextureLoader(texture);
-			    Texture texture = loader.getTexture();
-			    app.setTexture(texture);
-			    
-				Cone cone = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS + Cone.GENERATE_TEXTURE_COORDS, app);			
-				branch_group.addChild(cone);		
-				Cone cone1 = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS + Cone.GENERATE_TEXTURE_COORDS, app);
-				Vector3f vector = new Vector3f(.03f,0f,0f);
-				t.setTranslation(vector);
-				TransformGroup tg1 = new TransformGroup();
-				tg1.setTransform(t);
-				tg1.addChild(cone1);
-				Cone cone2 = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS + Cone.GENERATE_TEXTURE_COORDS, app);
-				vector = new Vector3f(-.03f,0f,0f);
-				t.setTranslation(vector);
-				TransformGroup tg2 = new TransformGroup();
-				tg2.setTransform(t);
-				tg2.addChild(cone2);
-			    
-				branch_group.addChild(tg1);
-				branch_group.addChild(tg2);		
-				
-				tg_model3D.addChild(branch_group);
-				//Rotacion 
-				switch (direction) {
-				case UPPER:
-					t.rotX(0);
-					vector = new Vector3f(0f,-block_width*0.0005f,0f);
-					break;
-				case RIGHT:
-					t.rotZ(-Math.PI/2);	
-					vector = new Vector3f(-block_width*0.0005f,0f,0f);
-					break;
-				case LOWER:
-					t.rotX(Math.PI);
-					vector = new Vector3f(.0f,block_width*0.0005f,0f);
-					break;
-				case LEFT:
-					t.rotZ(Math.PI/2);	
-					vector = new Vector3f(block_width*0.0005f,0f,0f);
-					break;
-				default:
-					break;
-				}		
-				tg_model3D.setTransform(t);
-				t.setTranslation(vector);
-				tg_model3D.setTransform(t);
+		Appearance app = new Appearance();
+		//Material de los pinchos
+		Material mat = new Material();
+		mat.setAmbientColor(Constants.white);
+		mat.setDiffuseColor(Constants.white);
+		mat.setSpecularColor(Constants.black);
+		mat.setShininess(5.0f);	
+		app.setMaterial(mat);		
+		//Carga de textura
+	    TextureLoader  loader = new TextureLoader(texture);
+	    Texture texture = loader.getTexture();
+	    app.setTexture(texture);
+	    //Atributos de textura
+	    TextureAttributes texAttr = new TextureAttributes();
+        texAttr.setTextureMode(TextureAttributes.MODULATE);
+        app.setTextureAttributes(texAttr);
+        //Creacion de los pinchos
+      	Transform3D t = new Transform3D();				
+      	tg_model3D = new TransformGroup();	
+      	branch_group = new BranchGroup();
+		Cone cone = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS + Cone.GENERATE_TEXTURE_COORDS, app);			
+		branch_group.addChild(cone);		
+		Cone cone1 = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS + Cone.GENERATE_TEXTURE_COORDS, app);
+		Vector3f vector = new Vector3f(.03f,0f,0f);
+		t.setTranslation(vector);
+		TransformGroup tg1 = new TransformGroup();
+		tg1.setTransform(t);
+		tg1.addChild(cone1);
+		Cone cone2 = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS + Cone.GENERATE_TEXTURE_COORDS, app);
+		vector = new Vector3f(-.03f,0f,0f);
+		t.setTranslation(vector);
+		TransformGroup tg2 = new TransformGroup();
+		tg2.setTransform(t);
+		tg2.addChild(cone2);
+	    
+		branch_group.addChild(tg1);
+		branch_group.addChild(tg2);		
+		
+		tg_model3D.addChild(branch_group);
+		//Rotacion 
+		switch (direction) {
+		case UPPER:
+			t.rotX(0);
+			vector = new Vector3f(0f,-block_width*0.0005f,0f);
+			break;
+		case RIGHT:
+			t.rotZ(-Math.PI/2);	
+			vector = new Vector3f(-block_width*0.0005f,0f,0f);
+			break;
+		case LOWER:
+			t.rotX(Math.PI);
+			vector = new Vector3f(.0f,block_width*0.0005f,0f);
+			break;
+		case LEFT:
+			t.rotZ(Math.PI/2);	
+			vector = new Vector3f(block_width*0.0005f,0f,0f);
+			break;
+		default:
+			break;
+		}		
+		tg_model3D.setTransform(t);
+		t.setTranslation(vector);
+		tg_model3D.setTransform(t);
 	}
 	
 	private void rotateImage(){
