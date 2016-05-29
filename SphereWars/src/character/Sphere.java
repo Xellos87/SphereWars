@@ -45,6 +45,8 @@ public class Sphere extends GameObject implements Sprite{
 	private int totalX = 0;
 	boolean nextMap = false;
 	private AudioClip soundJump;
+	private int x_ori;
+	private int y_ori;
 
 	public Sphere(int x, int y, int block_width,int block_height) {
 		super(x,y,x_imgs[0],y_imgs[0], width_imgs[0], height_imgs[0], block_width, block_height);
@@ -260,6 +262,8 @@ public class Sphere extends GameObject implements Sprite{
 		g2d.drawImage(image, x_ori+x, y_ori+y, null);
 		//Dibujo cada de colisiones
 		g2d.draw(this.getBox(x_ori,y_ori));
+		this.x_ori=x_ori;
+		this.y_ori=y_ori;
 	}
 
 	public int getWidthImage(){
@@ -268,6 +272,15 @@ public class Sphere extends GameObject implements Sprite{
 
 	public int getHeightImage(){
 		return height_imgs[type];
+	}
+
+	public boolean bossCollision(Rectangle bossBox) {
+		Rectangle playerBox = this.getBox(x_ori, y_ori);
+		if(bossBox.intersects(playerBox) && playerBox.y<bossBox.y){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 }
