@@ -21,6 +21,8 @@ import javax.vecmath.Vector3f;
 import com.sun.j3d.utils.geometry.Cylinder;
 import com.sun.j3d.utils.image.TextureLoader;
 
+import audio.Audio;
+import audio.AudioClip;
 import graphic.Model3D;
 import graphic.Sprite;
 import utils.Constants;
@@ -56,6 +58,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 	private int tick_change;
 	private int max_wait_change = 10;
 	//
+	private AudioClip deathSound;
 	
 
 	public Bot(int x, int y, int block_width, int block_height, int type) {
@@ -66,6 +69,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		this.state = WALK1;
 		this.direction = RIGHT;
 		this.kills = true;
+		deathSound = Audio.Load("audioEffects/mutantdie.wav");
 		if(Constants.visualMode == Game.MODE_2D){
 			selectImage();
 			resize();
@@ -199,6 +203,10 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		height = height_imgs[type+state];
 		selectImage();
 		resize();
+		if(deathSound == null){
+			return;
+		}
+		deathSound.start();
 	}
 	
 	private void loadModel3D(){
