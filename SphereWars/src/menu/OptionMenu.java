@@ -140,7 +140,6 @@ public class OptionMenu extends Menu {
 					offgc.drawImage(correr, Constants.runPos.getX()+Constants.desplazamiento+Constants.ax, Constants.runPos.getY()+Constants.ay, (int)(correr.getWidth()/2), (int)(correr.getHeight()/2), null);
 				}
 				String pauseChar,jumpChar,runChar;
-				//TODO: hacer mejor. Add down, left, right por lo menos?
 				if(Constants.jugador==1){
 					int car = Constants.teclaPausap1;
 					String aux = ""+(char)Constants.teclaPausap1;
@@ -221,6 +220,8 @@ public class OptionMenu extends Menu {
 				}else if(!runChar.equalsIgnoreCase("-")){
 					offgc.drawString(runChar, Constants.runPos.getX()+270+Constants.ax, Constants.runPos.getY()+40+Constants.ay);
 				}
+			}else if(!Constants.conTeclado && Constants.jugador==1){
+				
 			}
 		}		
 	}

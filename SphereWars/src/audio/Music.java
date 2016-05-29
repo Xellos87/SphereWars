@@ -253,7 +253,7 @@ public class Music {
 			onChange = false;
 		}
 		if (timeLeft < TIME || fade) {
-			System.out.println("Entrando");
+			//System.out.println("Entrando");
 			if (changing == true) {
 				System.out.println("tf: " + timeLeft);
 				int nueva = -1;
@@ -364,5 +364,11 @@ public class Music {
 		mySoundSystem.stop(actualSong);
 		if (!nextSong.equals(""))
 			mySoundSystem.stop(nextSong);
+		actualSong = "";
+		nextSong = "";
+		actual = -1;
+		next = -1;
+		actualLength = -1;
+		nextLength = -1;
 	}
 }
