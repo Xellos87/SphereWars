@@ -55,6 +55,8 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	private Color3f castle_dif = new Color3f(0.67f, 0.57f, 0.75f);
 	private Color3f snow_amb = new Color3f(0.5f, 0.5f, 0.5f);
 	private Color3f snow_dif = new Color3f(1, 1, 1);
+	private Color3f white = new Color3f(Color.white);
+	private Color3f black = new Color3f(Color.black);
 	
 
 	public Platform(int x, int y, int block_width,int block_height, int type, int world) {
@@ -118,18 +120,18 @@ public class Platform extends GameObject implements Sprite, Model3D{
 		//Apariencia de la plataforma
 		Appearance app = new Appearance();
 		Appearance appBase = new Appearance();
+		//Material de la plataforma
 	    Material mat = new Material();
+	    mat.setAmbientColor(white);
+		mat.setDiffuseColor(white);
+		mat.setSpecularColor(black);
+		mat.setShininess(1.0f);	 
+	    app.setMaterial(mat);
+	    /*
 	    switch (world) {
 		case WORLD_FIELD:
 			mat.setAmbientColor(field_amb);
-			mat.setDiffuseColor(field_dif);
-			//mat.setAmbientColor(new Color3f(Color.white));
-			//mat.setDiffuseColor(new Color3f(Color.white));
-			//mat.setSpecularColor(new Color3f(Color.white));
-			
-			/*TextureAttributes texAttr = new TextureAttributes();
-	        texAttr.setTextureMode(TextureAttributes.MODULATE);
-	        app.setTextureAttributes(texAttr);*/			    		
+			mat.setDiffuseColor(field_dif);					    		
 			break;
 		case WORLD_DESSERT:
 			mat.setAmbientColor(dessert_amb);
@@ -145,10 +147,8 @@ public class Platform extends GameObject implements Sprite, Model3D{
 			break;
 		default:
 			break;
-		}		    
-	    mat.setSpecularColor(new Color3f(0, 0, 0));
-	    mat.setShininess(1.0f);	 
-	    app.setMaterial(mat);
+		}	
+	    */
 	    //Carga de textura
 	    TextureLoader  loader = new TextureLoader(this.texture);
 	    Texture texture = loader.getTexture();
@@ -156,6 +156,11 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	    TextureLoader loaderBase = new TextureLoader(this.base);
 	    Texture textureBase = loaderBase.getTexture();
 	    appBase.setTexture(textureBase);
+	    //Atributos de textura
+	    TextureAttributes texAttr = new TextureAttributes();
+        texAttr.setTextureMode(TextureAttributes.MODULATE);
+        app.setTextureAttributes(texAttr);	
+        appBase.setTextureAttributes(texAttr);        
 	    //Creacion de la plataforma
 		Box box = new Box(block_width*0.001f, block_height*0.001f, block_width*0.001f, Box.GENERATE_NORMALS + Box.GENERATE_TEXTURE_COORDS, app);		
 		box.setAppearance(Box.TOP, appBase);
