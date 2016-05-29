@@ -2,6 +2,8 @@ package kinect;
 
 import java.io.IOException;
 
+import character.Sphere;
+
 //import com.jogamp.opengl.GL2;
 //import com.jogamp.opengl.util.awt.TextRenderer;
 
@@ -28,6 +30,8 @@ public class Panel {
 	private boolean handUp = false;
 	private boolean firstTime = true;
 	
+	private Sphere sphere;
+	
 	public Panel( int players, boolean debug) {
 		skeletons = new Skeleton[6];
 		this.players = players;
@@ -39,7 +43,7 @@ public class Panel {
 	// si nueva posicion es peque�a contador++
 	// si contador == 60 actualizamos initpoint
 	public int trackHand() {
-		if(Constants.conTeclado) return 0;
+		if(Constants.conTeclado || Constants.enMenu) return 0;
 		int player = 0;
 		// Se recorre el vector entero de esqueletos
 		// ya que no se sabe en que posicion guarda kinect el esqueleto
@@ -82,7 +86,9 @@ public class Panel {
 								System.out.println("Arriba: ");
 								//mano = "Arriba: " + ydelta;
 								firstTime = false;
-								
+								if(sphere != null)
+									sphere.jump();
+								else	System.err.println("Error (Panel): No hay jugador");
 								
 							}
 							if (xdelta > 0.3) {
@@ -135,8 +141,8 @@ public class Panel {
 		}
 		if (player != players && debug){
 			
-			System.err.println("Numero de jugadores encontrados erroneo");
-			System.err.println("Hay: " + player + " y se esperaban " + players);
+			//System.err.println("Numero de jugadores encontrados erroneo");
+			//System.err.println("Hay: " + player + " y se esperaban " + players);
 			return 1;
 		}
 		return 0;
@@ -274,5 +280,13 @@ public class Panel {
 
 	public void setHandUp(boolean handUp) {
 		this.handUp = handUp;
+	}
+
+	public Sphere getSphere() {
+		return sphere;
+	}
+
+	public void setSphere(Sphere sphere) {
+		this.sphere = sphere;
 	}
 }
