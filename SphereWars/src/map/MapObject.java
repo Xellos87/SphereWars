@@ -175,10 +175,10 @@ public class MapObject {
 					if(mapObject instanceof Bot){
 						Bot b = (Bot) mapObject;
 						//Comprueba si mata al bot(colision por encima)
-						if(object.getPositionY() < mapObject.getPositionY() &&
+						/*&&
 								mapObject.getPositionX() < object.getPositionX() &&
-								mapObject.getPositionX() + mapObject.getWidthScreen() > object.getPositionX()){
-
+								mapObject.getPositionX() + mapObject.getWidthScreen() > object.getPositionX()*/
+						if(object.getPositionY() < b.getPositionY()){
 							b.death();
 							result = DEATH;
 						}

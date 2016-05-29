@@ -58,6 +58,7 @@ public class Sphere extends GameObject implements Sprite{
 	//Logica
 	private boolean jump = false;
 	private int jumpVelocity = -15;
+	private int maxGravity = 10;
 	private int maxX = 200;  
 	private int totalX = 0;
 	boolean nextMap = false;
@@ -180,9 +181,7 @@ public class Sphere extends GameObject implements Sprite{
 		jump = true;
 	}
 
-	public void gravity(){
-		//this.setVelocity(this.vx, 1);
-		int maxGravity = 14;
+	public void gravity(){		
 		if(vy+1 >= maxGravity){
 			this.setVelocity(vx, maxGravity);
 		}
