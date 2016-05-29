@@ -299,7 +299,7 @@ public class Music {
 
 		// System.out.println("En playmenu");
 		nueva = r.nextInt(actualList.size());
-		nueva = 1;
+		//nueva = 1;
 		next = nueva;
 		if (fade || onChange)
 			mySoundSystem.stop(nextSong);
@@ -318,17 +318,21 @@ public class Music {
 		actualList = gameFiles;
 		int nueva = -1;
 		nueva = r.nextInt(actualList.size());
-		nueva = 4;
+		//nueva = 4;
 		next = nueva;
 		if (fade || onChange)
 			mySoundSystem.stop(nextSong);
-		fade = true;
+		if(!actualSong.equals("")){
+			fade = true;
+			fadeTime = mySoundSystem.millisecondsPlayed(actualSong);
+		}
 		changing = false;
 		onChange = false;
-		fadeTime = mySoundSystem.millisecondsPlayed(actualSong);
+		
+		play(nueva);
 
 		// nextSong = actualList.get(nueva).getName();
-		play(nueva);
+		
 	}
 
 	public void playBoss() {
@@ -336,10 +340,15 @@ public class Music {
 		int nueva = -1;
 		nueva = r.nextInt(actualList.size());
 		next = nueva;
-		if (fade)
+		if (fade || onChange)
 			mySoundSystem.stop(nextSong);
-		fade = true;
-		// nextSong = actualList.get(nueva).getName();
+		if(!actualSong.equals("")){
+			fade = true;
+			fadeTime = mySoundSystem.millisecondsPlayed(actualSong);
+		}
+		changing = false;
+		onChange = false;
+		
 		play(nueva);
 	}
 
