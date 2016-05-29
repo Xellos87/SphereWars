@@ -14,6 +14,8 @@ import javax.media.j3d.TextureAttributes;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
+import javax.vecmath.Matrix3f;
+import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.geometry.Cylinder;
@@ -135,6 +137,11 @@ public class Bot extends GameObject implements Sprite, Model3D{
 			int movX = 0;
 			if(tick_counter >= max_counter){
 				tick_counter -= max_counter;
+				if(state == WALK2){
+					state = WALK1;
+				}else{
+					state = WALK2;
+				}
 				movX = width / 20;
 			}
 			if(direction == RIGHT){
@@ -147,6 +154,15 @@ public class Bot extends GameObject implements Sprite, Model3D{
 			transform.get(translate_vector);
 			translate_vector.x += (movX*0.002f);
 			transform.set(translate_vector);
+			Matrix4f matrix = new Matrix4f();
+			transform.get(matrix);
+			matrix.m13 = -0.02f;
+			matrix.m11 = 1;
+			if(state == WALK2){
+				matrix.m13 -= 0.005f;
+				matrix.m11 = 0.7f;
+			}
+			transform.set(matrix);
 			tg_model3D.setTransform(transform);
 		}
 	}

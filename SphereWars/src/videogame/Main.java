@@ -43,8 +43,8 @@ public class Main implements Runnable, KeyListener{
 	public static final String TITLE = "Sphere Wars";
 
 	//Dimensiones del juego
-	private static int width = 540;
-	private static int height = 470;	
+	private static int width = 320;
+	private static int height = 240;	
 
 
 	//Thread del juego
@@ -121,7 +121,7 @@ public class Main implements Runnable, KeyListener{
 	public void run() {
 		int track = 0;
 		int pausedKinect = 0;
-		Constants.conTeclado = false;
+		//Constants.conTeclado = false;
 		while(running){
 			start = System.nanoTime();
 			if(Constants.gameState == Constants.GAME){
