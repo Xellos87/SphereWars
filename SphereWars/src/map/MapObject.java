@@ -47,7 +47,7 @@ public class MapObject {
 
 	public void addObject(GameObject obj, int x, int y){
 		objects[y][x] = obj;
-		if(true){
+		if(Constants.visualMode == Game.MODE_3D){
 			//System.out.printf("Add obj, x:%d, y:%d\n", x*block_width,y*block_height);
 			Transform3D translate = new Transform3D();
 			translate.setTranslation(new Vector3f(x*block_width*0.002f,y*block_height*0.002f,0));

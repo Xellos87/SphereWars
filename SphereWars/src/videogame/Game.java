@@ -63,8 +63,8 @@ public class Game extends JLayeredPane{
 		this.width = width;
 		this.height = height;
 		this.mode = Constants.visualMode;
-		this.mode = MODE_3D;
-		Constants.visualMode = MODE_3D;
+		//this.mode = MODE_3D;
+		//Constants.visualMode = MODE_3D;
 		this.type = type;
 		this.main = main;
 		this.num_players = num_players;
