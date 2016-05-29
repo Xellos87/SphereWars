@@ -82,13 +82,31 @@ public class Game3D extends Canvas3D implements KeyListener{
 		loadMap();
 		//Carga la iluminacion
 		addLights();
+		//Carga el jugador
+		initPlayer();
 		//Finaliza la creacion del mundo
 		finalise();
 		//Agrega el listener del teclado
 		addKeyListener(this);
-		
+
 		//Ejemplo de borrar un elemento del tipo tesoro del mapa
 		//((Treasure)map.getCurrentMap().getObject(7, 8)).removeObject();
+	}
+
+	private void initPlayer() {
+		player = new Sphere(2*map.getWidthBlock(), 5*map.getHeightBlock(), map.getWidthBlock(), map.getHeightBlock());
+		TransformGroup tg = player.get3DModel();
+
+		//Mueve el mapa en el eje de las Y hacia abajo para llenar la pantalla
+		/*Transform3D transform_map = new Transform3D();
+		tg.getTransform(transform_map);
+		Vector3f translate = new Vector3f();
+		transform_map.get(translate);
+		translate.y -= 0.3f;
+		transform_map.set(translate);
+		tg.setTransform(transform_map);
+		*/
+		rootBranchGroup.addChild(tg);
 	}
 
 	private void addLights() {
@@ -193,10 +211,10 @@ public class Game3D extends Canvas3D implements KeyListener{
 		//Establece la vista de la camara
 		simpleU.getViewingPlatform().setNominalViewingTransform();
 	}
-	
-	public boolean actionGame() {
+
+	public boolean actionGame(int x_ori,int y_ori) {
 		if(!end_game){
-			//Mueve plataformas
+			//Mueve el mapa
 			double dist = map.move();
 			//Realiza las transformaciones para mover el mapa
 			Transform3D translate = new Transform3D();
@@ -218,6 +236,49 @@ public class Game3D extends Canvas3D implements KeyListener{
 			}
 			//Mueve los bot del mapa si los hubiera, solo del mapa actual y el siguiente
 			map.moveBot();
+			/* Acciones a realizar */
+			//TODO velocidad con la velocidad de plataformas
+			int block = player.checkCollision(map,x_ori,y_ori);
+			switch (block) {
+			case Sphere.COLLINF:	//Colision inferior
+				player.setVelocity(2, 0);
+				break;
+			case Sphere.COLLSUP:	//Colision superior
+				player.setVelocity(2, 0);
+				player.gravity();
+				break;
+			case Sphere.COLLLAT:	//Colision lateral
+				player.setVelocity(0, player.vy);
+				player.gravity();
+				break;
+			case Sphere.COLLINFLAT:
+				player.setVelocity(0, 0);
+				break;
+			case Sphere.COLLSUPLAT:
+				player.setVelocity(0, player.vy);
+				player.gravity();
+				break;
+			case Sphere.COLLDEATH:
+				end_game = true;
+				//restart(map_cont);
+				break;
+			case Sphere.COLLKILL:
+				player.miniJump();
+				break;
+			case Sphere.COLLGET:
+				score_coins += map.removeTresure(player,block,x_ori,y_ori);
+				player.gravity();
+				break;
+			default:
+				player.setVelocity(2, player.vy);
+				player.gravity();
+				break;
+			}	
+			//player.move();
+			if(end_game){
+				//animacion de muerte
+				player.setVelocity(0, -15);
+			}
 		}
 		return end_game;
 	}
@@ -256,12 +317,12 @@ public class Game3D extends Canvas3D implements KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
+
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		
+
 	}
 
 	public void restart() {

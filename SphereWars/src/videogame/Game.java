@@ -220,7 +220,7 @@ public class Game extends JLayeredPane{
 			}
 		}else if(mode == MODE_3D){
 			//Realiza el movimiento del mapa y acciones del jugador
-			game3d.actionGame();
+			game3d.actionGame(0,height_score);
 			//Obtiene las puntuaciones
 			if(type == RUNNER){
 				double dist = game3d.getDistance();
@@ -322,6 +322,9 @@ public class Game extends JLayeredPane{
 		reinitGame();
 	}
 	
+	public boolean isEndMenu(){
+		return end.isVisible();
+	}
 	private void reinitGame(){
 		if(mode == MODE_2D){
 			game2d_1p.restart(map_p1);
@@ -334,5 +337,4 @@ public class Game extends JLayeredPane{
 		death_p1 = false;
 		death_p2 = num_players==1;
 		end.setVisible(false);
-	}
-}
+	}}

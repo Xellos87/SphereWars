@@ -19,6 +19,7 @@ import com.sun.j3d.utils.image.TextureLoader;
 
 import graphic.Model3D;
 import graphic.Sprite;
+import media.ImageHandler;
 import utils.Constants;
 import videogame.Game;
 import videogame.GameObject;
@@ -63,7 +64,7 @@ public class Spike extends GameObject implements Sprite, Model3D{
 
 	private void selectTexture() {
 		//TODO mejorar textura
-		texture = Constants.img_handler.getImageItem(x_img, y_img, width/3, height);
+		texture =  Constants.img_handler.getImageSpike(0, 0, 80, 100);
 	}
 	
 	private void loadModel3D(){
@@ -91,13 +92,13 @@ public class Spike extends GameObject implements Sprite, Model3D{
 		Cone cone = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS + Cone.GENERATE_TEXTURE_COORDS, app);			
 		branch_group.addChild(cone);		
 		Cone cone1 = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS + Cone.GENERATE_TEXTURE_COORDS, app);
-		Vector3f vector = new Vector3f(.03f,0f,0f);
+		Vector3f vector = new Vector3f(.028f,0f,0f);
 		t.setTranslation(vector);
 		TransformGroup tg1 = new TransformGroup();
 		tg1.setTransform(t);
 		tg1.addChild(cone1);
 		Cone cone2 = new Cone(block_width*0.001f/3, block_width*0.001f, Cone.GENERATE_NORMALS + Cone.GENERATE_TEXTURE_COORDS, app);
-		vector = new Vector3f(-.03f,0f,0f);
+		vector = new Vector3f(-.028f,0f,0f);
 		t.setTranslation(vector);
 		TransformGroup tg2 = new TransformGroup();
 		tg2.setTransform(t);

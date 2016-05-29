@@ -13,12 +13,24 @@ public class ImageHandler {
 	private BufferedImage items_image;
 	private BufferedImage enemies_image;
 	private BufferedImage hud_image;
+	private BufferedImage spike_image;
+	private BufferedImage topField_image;
+	private BufferedImage topDessert_image;
+	private BufferedImage topCastle_image;
+	private BufferedImage topSnow_image;
+	private BufferedImage topGhost_image;
 	//Ruta de aceso a las imagenes
 	private String path_tiles = "images/platforms.png";
 	private String path_player = "images/ball.gif";
 	private String path_items = "images/items_spritesheet.png";
 	private String path_enemies = "images/enemies_spritesheet.png";
 	private String path_hud = "images/hud_spritesheet.png";
+	private String path_spike = "images/spike.png";
+	private String path_topField = "images/surface_field.png";
+	private String path_topDessert = "images/surface_dessert.png";
+	private String path_topCastle = "images/surface_castle.png";
+	private String path_topSnow = "images/surface_snow.png";
+	private String path_topGhost = "images/surface_ghost.png";
 	
 	public ImageHandler(){
 		initHandler();
@@ -31,6 +43,12 @@ public class ImageHandler {
 			items_image = ImageIO.read(new File(path_items));
 			enemies_image = ImageIO.read(new File(path_enemies));
 			hud_image = ImageIO.read(new File(path_hud));
+			spike_image = ImageIO.read(new File(path_spike));
+			topField_image = ImageIO.read(new File(path_topField));
+			topDessert_image = ImageIO.read(new File(path_topDessert));
+			topCastle_image = ImageIO.read(new File(path_topCastle));
+			topSnow_image = ImageIO.read(new File(path_topSnow));
+			topGhost_image = ImageIO.read(new File(path_topGhost));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -58,6 +76,36 @@ public class ImageHandler {
 	
 	public BufferedImage getImageHud(int x, int y, int width, int height){
 		BufferedImage image = hud_image.getSubimage(x, y, width, height);
+		return image;
+	}
+	
+	public BufferedImage getImageSpike(int x, int y, int width, int height){
+		BufferedImage image = spike_image.getSubimage(x, y, width, height);
+		return image;
+	}
+	
+	public BufferedImage getImageTopField(int x, int y, int width, int height){
+		BufferedImage image = topField_image.getSubimage(x, y, width, height);
+		return image;
+	}
+	
+	public BufferedImage getImageTopDessert(int x, int y, int width, int height){
+		BufferedImage image = topDessert_image.getSubimage(x, y, width, height);
+		return image;
+	}
+	
+	public BufferedImage getImageTopCastle(int x, int y, int width, int height){
+		BufferedImage image = topCastle_image.getSubimage(x, y, width, height);
+		return image;
+	}
+	
+	public BufferedImage getImageTopSnow(int x, int y, int width, int height){
+		BufferedImage image = topSnow_image.getSubimage(x, y, width, height);
+		return image;
+	}
+	
+	public BufferedImage getImageTopGhost(int x, int y, int width, int height){
+		BufferedImage image = topCastle_image.getSubimage(x, y, width, height);
 		return image;
 	}
 }

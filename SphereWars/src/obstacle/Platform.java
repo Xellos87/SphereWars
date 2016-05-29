@@ -36,18 +36,20 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	public static final int WORLD_DESSERT = 6;
 	public static final int WORLD_CASTLE = 12;
 	public static final int WORLD_SNOW = 18;
+	public static final int WORLD_GHOST = 24;
 	//Posicion de cada imagen en su contenedor para cargarla
-	private static int[] x_imgs={504,504,504,576,648,648,288,288,288,576,360,360,792,792,792,504,288,288,144,144,144,720,288,288};
-	private static int[] y_imgs={576,648,504,864,0,0,576,648,504,864,792,792,144,216,72,288,792,792,792,864,720,864,144,144};
+	private static int[] x_imgs={504,504,504,576,648,648,288,288,288,576,360,360,792,792,792,504,288,288,144,144,144,720,288,288,72,72,72,144,144,144};
+	private static int[] y_imgs={576,648,504,864,0,0,576,648,504,864,792,792,144,216,72,288,792,792,792,864,720,864,144,144,432,504,360,576,648,648};
 	//Tamaño de la imagen
-	private static int[] width_imgs={70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70};
-	private static int[] height_imgs={70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70};
+	private static int[] width_imgs={70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70};
+	private static int[] height_imgs={70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70};
 	//Tipo de imagen a cargar, identifica los datos de la parte de imagen que lo representa
 	private int type;
 	private int world;
 	//Contenedor del modelo3D
 	private Box box;
 	private BufferedImage base;
+	private BufferedImage top;
 	//Color del objeto, ambiental y difusa
 	private Color3f field_amb = new Color3f(0.34f,0.15f,0.0f);
 	private Color3f field_dif = new Color3f(0.67f, 0.34f, 0.047f);
@@ -86,13 +88,32 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	private void selectTexture() {
 		texture = Constants.img_handler.getImageTile(x_imgs[world+type], y_imgs[world+type], width_imgs[world+type], height_imgs[world+type]);
 		base = Constants.img_handler.getImageTile(x_imgs[world+UNDERGROUND], y_imgs[world+UNDERGROUND], width_imgs[world+UNDERGROUND], height_imgs[world+UNDERGROUND]);
-
+		switch (world) {
+		case WORLD_FIELD:
+			top = Constants.img_handler.getImageTopField(0, 0, 70, 70);
+			break;
+		case WORLD_DESSERT:
+			top = Constants.img_handler.getImageTopDessert(0, 0, 70, 70);
+			break;
+		case WORLD_CASTLE:
+			top = Constants.img_handler.getImageTopCastle(0, 0, 70, 70);
+			break;
+		case WORLD_SNOW:
+			top = Constants.img_handler.getImageTopSnow(0, 0, 70, 70);
+			break;
+		case WORLD_GHOST:
+			top = Constants.img_handler.getImageTopGhost(0, 0, 70, 70);
+			break;
+		default:
+			break;
+		}
 	}
 	
 	private void loadModel3D(){
 		//Apariencia de la plataforma
 		Appearance app = new Appearance();
-		Appearance appBase = new Appearance();
+		Appearance appTop = new Appearance();
+		Appearance appBottom = new Appearance();
 		//Material de la plataforma
 	    Material mat = new Material();
 	    mat.setAmbientColor(Constants.white);
@@ -104,18 +125,22 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	    TextureLoader  loader = new TextureLoader(this.texture);
 	    Texture texture = loader.getTexture();
 	    app.setTexture(texture);
-	    TextureLoader loaderBase = new TextureLoader(this.base);
-	    Texture textureBase = loaderBase.getTexture();
-	    appBase.setTexture(textureBase);
+	    TextureLoader loaderBottom = new TextureLoader(this.base);
+	    Texture textureBottom = loaderBottom.getTexture();
+	    appBottom.setTexture(textureBottom);
+	    TextureLoader loaderTop = new TextureLoader(this.top);
+	    Texture textureTop = loaderTop.getTexture();
+	    appTop.setTexture(textureTop);
 	    //Atributos de textura
 	    TextureAttributes texAttr = new TextureAttributes();
         texAttr.setTextureMode(TextureAttributes.MODULATE);
         app.setTextureAttributes(texAttr);	
-        appBase.setTextureAttributes(texAttr);        
+        appBottom.setTextureAttributes(texAttr);
+        appTop.setTextureAttributes(texAttr);
 	    //Creacion de la plataforma
         object_primitive = new Box(block_width*0.001f, block_height*0.001f, block_width*0.001f, Box.GENERATE_NORMALS + Box.GENERATE_TEXTURE_COORDS, app);		
-		object_primitive.setAppearance(Box.TOP, appBase);
-		object_primitive.setAppearance(Box.BOTTOM, appBase);
+		object_primitive.setAppearance(Box.TOP, appTop);
+		object_primitive.setAppearance(Box.BOTTOM, appBottom);
 		tg_model3D = new TransformGroup();
 		branch_group = new BranchGroup();
 		branch_group.addChild(object_primitive);
