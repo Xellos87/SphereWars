@@ -140,7 +140,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 			Vector3f translate_vector = new Vector3f();
 			tg_model3D.getTransform(transform);
 			transform.get(translate_vector);
-			translate_vector.x += (movX*0.001f);
+			translate_vector.x += (movX*0.002f);
 			transform.set(translate_vector);
 			tg_model3D.setTransform(transform);
 		}

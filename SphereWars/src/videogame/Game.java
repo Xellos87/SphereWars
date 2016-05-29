@@ -220,7 +220,7 @@ public class Game extends JLayeredPane{
 			}
 		}else if(mode == MODE_3D){
 			//Realiza el movimiento del mapa y acciones del jugador
-			game3d.actionGame();
+			game3d.actionGame(0,height_score);
 			//Obtiene las puntuaciones
 			if(type == RUNNER){
 				double dist = game3d.getDistance();

@@ -7,10 +7,24 @@ import audio.AudioClip;
 import java.awt.Rectangle;
 import java.awt.dnd.DragGestureEvent;
 
+import javax.media.j3d.Appearance;
+import javax.media.j3d.BranchGroup;
+import javax.media.j3d.Material;
+import javax.media.j3d.Texture;
+import javax.media.j3d.TextureAttributes;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
+import javax.vecmath.Color3f;
+import javax.vecmath.Vector3f;
+
+import com.sun.j3d.utils.geometry.Cylinder;
+import com.sun.j3d.utils.image.TextureLoader;
+
 import graphic.Sprite;
 import map.MapController;
 import map.MapObject;
 import utils.Constants;
+import videogame.Game;
 import videogame.GameObject;
 
 public class Sphere extends GameObject implements Sprite{
@@ -53,8 +67,81 @@ public class Sphere extends GameObject implements Sprite{
 		this.type = NORMAL;
 		this.kills = false;
 		soundJump = Audio.Load("audioEffects/boing_x.wav");
-		selectImage();
-		resize();
+		if(Constants.visualMode == Game.MODE_2D){
+			selectImage();
+			resize();
+		}else{
+			selectTexture();
+			loadModel3D();
+		}
+	}
+	
+	private void selectTexture(){
+		//TODO rellenar con textura
+	}
+	
+	private void loadModel3D(){
+		//Apariencia de la esfera
+		Appearance app = new Appearance();
+		//Material de la esfera
+	    Material mat = new Material();
+	    mat.setAmbientColor(new Color3f(0.015f,0.03f,0.2f));
+		mat.setDiffuseColor(new Color3f(0.0784f,0.1254f,0.8078f));
+		app.setMaterial(mat);	    
+	    //TODO Carga de textura
+	    /*TextureLoader  loader = new TextureLoader(texture);
+	    Texture texture = loader.getTexture();
+	    app.setTexture(texture);
+	    //Atributos de textura
+	    TextureAttributes texAttr = new TextureAttributes();
+        texAttr.setTextureMode(TextureAttributes.MODULATE);
+        app.setTextureAttributes(texAttr);*/
+	    //Creacion de la esfera
+	    object_primitive = new com.sun.j3d.utils.geometry.Sphere(block_width*0.0007f,app);
+		tg_model3D = new TransformGroup();
+		tg_model3D.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		tg_model3D.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		tg_model3D.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		tg_model3D.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		tg_model3D.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+		branch_group = new BranchGroup();
+		branch_group.addChild(object_primitive);
+		branch_group.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		branch_group.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		branch_group.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		branch_group.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		branch_group.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+		tg_model3D.addChild(branch_group);
+		//Establece la posicion en 3D
+		setPosition3D();
+	}
+
+	private void setPosition3D() {
+		Transform3D transform = new Transform3D();
+		Vector3f translate_vector = new Vector3f();
+		//Otiene la transformacion actual
+		tg_model3D.getTransform(transform);
+		transform.get(translate_vector);
+		//Mueve la esfera
+		translate_vector.x = x*0.001f;
+		translate_vector.y = y*0.001f;
+		//Establece la nueva posición
+		transform.set(translate_vector);
+		tg_model3D.setTransform(transform);
+	}
+	
+	private void setPosition3D(int x, int y) {
+		Transform3D transform = new Transform3D();
+		Vector3f translate_vector = new Vector3f();
+		//Otiene la transformacion actual
+		tg_model3D.getTransform(transform);
+		transform.get(translate_vector);
+		//Mueve la esfera
+		translate_vector.x += x*0.001f;
+		translate_vector.y -= y*0.001f;
+		//Establece la nueva posición
+		transform.set(translate_vector);
+		tg_model3D.setTransform(transform);
 	}
 
 	private void selectImage() {
@@ -253,6 +340,9 @@ public class Sphere extends GameObject implements Sprite{
 			this.setVelocity(vx, jumpVelocity);
 		}
 		setPosition(x+vx, y+vy);
+		if(Constants.gameState == Game.MODE_3D){
+			setPosition3D(vx,vy);
+		}
 	}
 
 	@Override
