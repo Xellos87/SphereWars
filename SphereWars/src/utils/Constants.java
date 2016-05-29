@@ -19,6 +19,7 @@ public class Constants {
 	public static final String[] list_menu = { "Start", "versus","Help", "options", "credits", "Exit" };
 	public static final String[] list_options = { "sound", "resolution", "controller", "back" };
 	public static final String[] list_controller = {"controller", "device", "pause", "jump", "run"};
+	public static final String[] list_modes = {"maraton", "treasure", "back"};
 	
 	//dependen de la escala que se este utilizando
 	public static int ax=0;
@@ -100,6 +101,15 @@ public class Constants {
 	public static boolean elegidoJugador = false;
 	public static int jugador = 1;
 	
+	//rutas a las imagenes del menu de modos de juego
+	public static final String maratonName = "fonts/modo_maraton.png";
+	public static final String tesorosName = "fonts/modo_cazatesoros.png";
+	//posiciones de las opciones del menu de modos de juego
+	public static final Position maratonPos = new Position(xPos,110+ay);
+	public static final Position tesorosPos = new Position(xPos,170+ay);
+	public static final Position backModePos = new Position(xPos,230+ay);
+	//opciones del menu de modos de juego
+	
 	public static final int guion = '-';
 	public static  float alphaComp = 1f;	
 	
@@ -116,17 +126,17 @@ public class Constants {
 	
 	public static final Position optionIniPos = new Position(optX-25,110);	//posicion inicial del cursor en menu opciones
 	public static final int optionMaxPos = list_options.length;	//posiciones cursor en menu de opciones
-	//public static  int optionGap = 60;	//espacio entre posiciones en menu de titulo
-	//public static final int odesplazamiento = 40;
 	public static final int controlMaxPos = list_controller.length;
 	
-	
+	public static final Position modeIniPos = new Position(xPos-25,110);	//posicion inicial del cursor en menu inicio
+	public static final int modeMaxPos = list_modes.length;
 	
 	//booleanos menus
 	public static boolean enMenu = true;
 	public static final String titMenu = "titleMenu";
 	public static final String optMenu = "optionsMenu";
 	public static final String conMenu = "controllerMenu";
+	public static final String modMenu = "gameModeMenu";
 	public static String tipoMenu = titMenu;
 	//Constantes de estado
 	public static final int MENU = 0;

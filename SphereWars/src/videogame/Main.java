@@ -12,6 +12,7 @@ import javax.swing.JLayeredPane;
 import audio.Music;
 import media.ImageHandler;
 import menu.EndMenu;
+import menu.GameModeMenu;
 import menu.Menu;
 import menu.OptionMenu;
 import menu.PauseMenu;
@@ -56,8 +57,7 @@ public class Main implements Runnable, KeyListener{
 	Music music;
 
 	//Menu del juego
-	private Menu menu;	//TODO: este menu puede cambiar entre menu de titulo, de pausa, de opciones?
-	//TODO: de titulo y de opciones si, de pausa segun se requiera
+	private Menu menu;	
 	//Modo de juego
 	private Game game;
 
@@ -108,7 +108,6 @@ public class Main implements Runnable, KeyListener{
 		while(running){
 			start = System.nanoTime();
 			if(Constants.gameState == Constants.GAME){
-				//TODO: actualizaciÃ³n del juego
 				if(game != null){
 					game.actionGame();
 				}
@@ -134,10 +133,8 @@ public class Main implements Runnable, KeyListener{
 	}	
 
 	private void draw() {
-		//TODO comprobar si es 2D o 3D
 		if(menu != null && Constants.enMenu){
 			menu.draw();
-
 		}
 		if(game != null && !Constants.enMenu){
 			game.draw();
@@ -179,18 +176,21 @@ public class Main implements Runnable, KeyListener{
 							if(nuevoMenu.equalsIgnoreCase("credits")){
 
 							}else if(nuevoMenu.equalsIgnoreCase("start")){
-								Constants.enMenu = false;
-								if(music != null){
-									music.playGame();
-								}else{
-									System.err.println("Richard no le des tan rapido");
-								}
-								game = new Game(width*Constants.scale, height*Constants.scale, Game.COINS, 1, this);
-								window.remove(menu);
-								window.revalidate();
-								window.add(game,BorderLayout.CENTER);
+								Constants.numJugadores = 1;
+								menu = new GameModeMenu(width*Constants.scale, height*Constants.scale);
+								Constants.tipoMenu = Constants.modMenu;
+								menu.setDoubleBuffered(true);
+								Constants.gameState = Constants.MENU;
+								window.add(menu, BorderLayout.CENTER);
 								window.pack();
-								Constants.gameState = Constants.GAME;
+							}else if(nuevoMenu.equalsIgnoreCase("versus")){
+								Constants.numJugadores = 2;
+								menu = new GameModeMenu(width*Constants.scale, height*Constants.scale);
+								Constants.tipoMenu = Constants.modMenu;
+								menu.setDoubleBuffered(true);
+								Constants.gameState = Constants.MENU;
+								window.add(menu, BorderLayout.CENTER);
+								window.pack();
 							}else if(nuevoMenu.equalsIgnoreCase("exit")){
 								System.exit(0);
 							}else if(nuevoMenu.equalsIgnoreCase("options")){
@@ -287,8 +287,45 @@ public class Main implements Runnable, KeyListener{
 							}
 							Constants.esperandoTecla=true;
 						}
+					}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.modMenu)){
+						if(nuevoMenu.equalsIgnoreCase("maraton")){
+							Constants.enMenu = false;
+							if(music != null){
+								music.playGame();
+							}else{
+								System.err.println("Richard no le des tan rapido");
+							}
+							game = new Game(width*Constants.scale, height*Constants.scale, Game.RUNNER, Constants.numJugadores, this);
+							window.remove(menu);
+							window.revalidate();
+							window.add(game,BorderLayout.CENTER);
+							window.pack();
+							Constants.gameState = Constants.GAME;
+						}else if(nuevoMenu.equalsIgnoreCase("treasure")){
+							Constants.enMenu = false;
+							if(music != null){
+								music.playGame();
+							}else{
+								System.err.println("Richard no le des tan rapido");
+							}
+							game = new Game(width*Constants.scale, height*Constants.scale, Game.COINS, Constants.numJugadores, this);
+							window.remove(menu);
+							window.revalidate();
+							window.add(game,BorderLayout.CENTER);
+							window.pack();
+							Constants.gameState = Constants.GAME;
+						}else if(nuevoMenu.equalsIgnoreCase("back")){
+							System.out.println("back to main menu");
+							menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
+							Constants.tipoMenu = Constants.titMenu;
+							menu.setDoubleBuffered(true);
+							Constants.gameState = Constants.MENU;	//redundante
+							window.add(menu, BorderLayout.CENTER);
+							window.pack();
+						}
 					}
 					//TODO: resto de casos
+					
 				}
 			}else{
 				if(Constants.teclaPausap1==Constants.guion){
