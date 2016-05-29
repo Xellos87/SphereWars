@@ -1,5 +1,6 @@
 package videogame;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -7,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
 import map.MapController;
@@ -70,6 +72,23 @@ public class Game extends JLayeredPane{
 		this.death_p1 = false;
 		this.death_p2 = num_players==1;
 		this.isPause = false;
+		/////////////////////////////////////////
+		main.window.dispose();
+		main.window = new JFrame(main.TITLE);
+		main.window.setPreferredSize(new Dimension(width, height));
+		main.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		main.window.setLayout(new BorderLayout());
+		//BoxLayout boxLayout = new BoxLayout(window.getContentPane(), BoxLayout.Y_AXIS); // top to bottom
+		//window.setLayout(boxLayout);
+		main.window.setResizable(false);
+		main.window.setVisible(true);
+		main.window.addKeyListener(main);
+		main.window.add(this);
+		//Ajusta el tamaño de la ventana según los componentes
+		main.window.pack();
+		main.window.setVisible(true);
+		main.window.requestFocus();
+		///////////////////////////////////
 		setPreferredSize(new Dimension(width, height));
 		setDoubleBuffered(true);
 		setFocusable(false);

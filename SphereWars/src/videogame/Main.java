@@ -33,9 +33,9 @@ import utils.Constants;
  * 
  */
 public class Main implements Runnable, KeyListener{
-	private static JFrame window;
+	public static JFrame window;
 	
-	private static final String TITLE = "Sphere Wars";
+	public static final String TITLE = "Sphere Wars";
 
 	//Dimensiones del juego
 	private static int width = 320;
@@ -134,7 +134,7 @@ public class Main implements Runnable, KeyListener{
 
 	private void draw() {
 		if(menu != null && Constants.enMenu){
-			menu.draw();
+				menu.draw();
 		}
 		if(game != null && !Constants.enMenu){
 			game.draw();
@@ -177,14 +177,18 @@ public class Main implements Runnable, KeyListener{
 
 							}else if(nuevoMenu.equalsIgnoreCase("start")){
 								Constants.numJugadores = 1;
-								menu = new GameModeMenu(width*Constants.scale, height*Constants.scale);
+								Menu newmenu = new GameModeMenu(width*Constants.scale, height*Constants.scale);
 								Constants.tipoMenu = Constants.modMenu;
-								menu.setDoubleBuffered(true);
-								Constants.gameState = Constants.MENU;
-								window.add(menu, BorderLayout.CENTER);
+								newmenu.setDoubleBuffered(true);
+								Constants.gameState = Constants.MENU;	
+								//window.remove(menu);
+								menu = newmenu;
+								//window.revalidate();
+								window.add(newmenu, BorderLayout.CENTER);
 								window.pack();
 							}else if(nuevoMenu.equalsIgnoreCase("versus")){
 								Constants.numJugadores = 2;
+								Constants.visualMode = Game.MODE_2D;
 								menu = new GameModeMenu(width*Constants.scale, height*Constants.scale);
 								Constants.tipoMenu = Constants.modMenu;
 								menu.setDoubleBuffered(true);
@@ -299,6 +303,7 @@ public class Main implements Runnable, KeyListener{
 							window.remove(menu);
 							window.revalidate();
 							window.add(game,BorderLayout.CENTER);
+							//System.out.println(window.getComponentCount());
 							window.pack();
 							Constants.gameState = Constants.GAME;
 						}else if(nuevoMenu.equalsIgnoreCase("treasure")){
@@ -351,6 +356,7 @@ public class Main implements Runnable, KeyListener{
 			}else{
 				int option = game.keyPressed(e);
 				if(option == EndMenu.QUIT){
+					game=null;
 					System.out.println("exit pulsado en menu end");
 					menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
 					Constants.enMenu = true;
@@ -373,6 +379,7 @@ public class Main implements Runnable, KeyListener{
 					Constants.gameState = Constants.GAME;
 					game.hiddenPause();	
 				}else if(option == PauseMenu.QUIT){
+					game=null;
 					System.out.println("exit pulsado en menu pause");
 					menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
 					Constants.enMenu = true;

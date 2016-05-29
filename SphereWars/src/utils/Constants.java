@@ -42,8 +42,8 @@ public class Constants {
 	public static final Position titlePos = new Position(60+ax,20+ay);	//posicion del titulo
 	public static Position jugarPos = new Position(xPos,110+ay);		//posicion de "jugar"
 	public static Position versusPos = new Position(xPos, 170+ay);
-	public static Position dosDjPos = new Position(xPos+300,140+ay);
-	public static Position tresDjPos = new Position(xPos+380,140+ay);
+	public static Position dosDjPos = new Position(xPos+300,110+ay);
+	public static Position tresDjPos = new Position(xPos+380,110+ay);
 	public static Position helpPos = new Position(xPos,230+ay);		
 	public static Position opcionesPos = new Position(xPos,290+ay);	
 	public static Position creditPos = new Position(xPos,350+ay);
