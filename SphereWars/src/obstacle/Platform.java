@@ -1,13 +1,19 @@
 package obstacle;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Material;
+import javax.media.j3d.TexCoordGeneration;
+import javax.media.j3d.Texture;
+import javax.media.j3d.TextureAttributes;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
 
 import com.sun.j3d.utils.geometry.Box;
+import com.sun.j3d.utils.image.TextureLoader;
 
 import graphic.Model3D;
 import graphic.Sprite;
@@ -39,6 +45,7 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	private int world;
 	//Contenedor del modelo3D
 	private Box box;
+	private BufferedImage base;
 	//Color del objeto, ambiental y difusa
 	private Color3f field_amb = new Color3f(0.34f,0.15f,0.0f);
 	private Color3f field_dif = new Color3f(0.67f, 0.34f, 0.047f);
@@ -60,19 +67,30 @@ public class Platform extends GameObject implements Sprite, Model3D{
 		if(Constants.visualMode == Game.MODE_2D){
 			selectImage();
 			resize();
-		}/*else{
-			Appearance app = new Appearance();
+		}else{
+			if(type != UNDERGROUND){
+				this.type = GROUND;
+			}
+			selectTexture();
+			/*Appearance app = new Appearance();
 			Material mat = new Material();
 			mat.setAmbientColor(earth_amb);
 			mat.setDiffuseColor(earth_dif);
 			app.setMaterial(mat);
 			box = new Box(block_width, block_height, block_width, app);
-		}*/
+			*/
+		}
 	}
 
 	private void selectImage() {
 		//image = image.getSubimage(x_imgs[type], y_imgs[type], width, height);
 		image = Constants.img_handler.getImageTile(x_img, y_img, width, height);
+	}
+	
+	private void selectTexture() {
+		texture = Constants.img_handler.getImageTile(x_imgs[world+type], y_imgs[world+type], width_imgs[world+type], height_imgs[world+type]);
+		base = Constants.img_handler.getImageTile(x_imgs[world+UNDERGROUND], y_imgs[world+UNDERGROUND], width_imgs[world+UNDERGROUND], height_imgs[world+UNDERGROUND]);
+
 	}
 
 	@Override
@@ -99,11 +117,19 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	public TransformGroup get3DModel() {
 		//Apariencia de la plataforma
 		Appearance app = new Appearance();
+		Appearance appBase = new Appearance();
 	    Material mat = new Material();
 	    switch (world) {
 		case WORLD_FIELD:
 			mat.setAmbientColor(field_amb);
 			mat.setDiffuseColor(field_dif);
+			//mat.setAmbientColor(new Color3f(Color.white));
+			//mat.setDiffuseColor(new Color3f(Color.white));
+			//mat.setSpecularColor(new Color3f(Color.white));
+			
+			/*TextureAttributes texAttr = new TextureAttributes();
+	        texAttr.setTextureMode(TextureAttributes.MODULATE);
+	        app.setTextureAttributes(texAttr);*/			    		
 			break;
 		case WORLD_DESSERT:
 			mat.setAmbientColor(dessert_amb);
@@ -123,8 +149,17 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	    mat.setSpecularColor(new Color3f(0, 0, 0));
 	    mat.setShininess(1.0f);	 
 	    app.setMaterial(mat);
+	    //Carga de textura
+	    TextureLoader  loader = new TextureLoader(this.texture);
+	    Texture texture = loader.getTexture();
+	    app.setTexture(texture);
+	    TextureLoader loaderBase = new TextureLoader(this.base);
+	    Texture textureBase = loaderBase.getTexture();
+	    appBase.setTexture(textureBase);
 	    //Creacion de la plataforma
-		Box box = new Box(block_width*0.001f, block_height*0.001f, block_width*0.001f, app);		
+		Box box = new Box(block_width*0.001f, block_height*0.001f, block_width*0.001f, Box.GENERATE_NORMALS + Box.GENERATE_TEXTURE_COORDS, app);		
+		box.setAppearance(Box.TOP, appBase);
+		box.setAppearance(Box.BOTTOM, appBase);
 		TransformGroup tg = new TransformGroup();
 		tg.addChild(box);
 		return tg;

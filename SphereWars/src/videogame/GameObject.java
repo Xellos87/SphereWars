@@ -42,6 +42,8 @@ public class GameObject {
 	
 	//Sprite
 	protected BufferedImage image;
+	protected BufferedImage texture;	
+	
 	
 	//Variables de colisiones
 	protected boolean kills;

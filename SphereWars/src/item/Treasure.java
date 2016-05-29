@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Material;
+import javax.media.j3d.Texture;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
@@ -11,10 +12,12 @@ import javax.vecmath.Color3f;
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.geometry.Cylinder;
 import com.sun.j3d.utils.geometry.Primitive;
+import com.sun.j3d.utils.image.TextureLoader;
 
 import graphic.Model3D;
 import graphic.Sprite;
 import utils.Constants;
+import videogame.Game;
 import videogame.GameObject;
 
 public class Treasure extends GameObject implements Sprite, Model3D{
@@ -42,8 +45,13 @@ public class Treasure extends GameObject implements Sprite, Model3D{
 		super(x, y, x_imgs[type], y_imgs[type], width_imgs[type], height_imgs[type], block_width, block_height);
 		this.type = type;
 		this.kills = false;
-		selectImage();
-		resize();
+		
+		if(Constants.visualMode == Game.MODE_2D){
+			selectImage();
+			resize();
+		}else{
+			selectTexture();
+		}
 		
 		real_x_block = real_x_block + real_block_width/4;
 		real_y_block = real_y_block + real_block_height/4;
@@ -54,6 +62,10 @@ public class Treasure extends GameObject implements Sprite, Model3D{
 	private void selectImage() {
 		//image = image.getSubimage(x_imgs[type], y_imgs[type], width, height);
 		image = Constants.img_handler.getImageItem(x_img, y_img, width, height);
+	}
+	
+	private void selectTexture() {
+		texture = Constants.img_handler.getImageItem(x_imgs[type], y_imgs[type], width_imgs[type], height_imgs[type]);
 	}
 
 	@Override
@@ -81,6 +93,13 @@ public class Treasure extends GameObject implements Sprite, Model3D{
 	    Primitive p = null;
 	    Transform3D t = new Transform3D();
 	    TransformGroup tg = new TransformGroup();
+		
+	    //Carga de textura
+	    TextureLoader  loader = new TextureLoader(texture);
+	    Texture texture = loader.getTexture();
+	    texture.setBoundaryModeS(Texture.WRAP);
+	    texture.setBoundaryModeT(Texture.WRAP);
+	    app.setTexture(texture);
 	    switch (type) {
 		case COIN:
 			//Materiales de la moneda
@@ -90,7 +109,7 @@ public class Treasure extends GameObject implements Sprite, Model3D{
 		    mat.setSpecularColor(new Color3f(0, 0, 0));
 		    app.setMaterial(mat);
 		    //Creacion de la moneda
-			p = new Cylinder(block_width*0.0005f, block_width*0.001f, app);
+			p = new Cylinder(block_width*0.0005f, block_width*0.001f, Cylinder.GENERATE_NORMALS + Cylinder.GENERATE_TEXTURE_COORDS, app);
 			t.rotX(Math.PI/2);
 			break;
 		case GEM:
@@ -101,7 +120,7 @@ public class Treasure extends GameObject implements Sprite, Model3D{
 		    mat.setSpecularColor(new Color3f(0, 0, 0));
 		    app.setMaterial(mat);
 		    //Creacion de la gema
-		    p = new Box(block_width*0.0005f,block_width*0.0005f,block_width*0.0005f, app);
+		    p = new Box(block_width*0.0005f,block_width*0.0005f,block_width*0.0005f, Box.GENERATE_NORMALS + Box.GENERATE_TEXTURE_COORDS, app);
 		    //Rotaciones
 		    t.rotX(Math.PI/4);	
 		    Transform3D t1 = new Transform3D();
@@ -110,7 +129,7 @@ public class Treasure extends GameObject implements Sprite, Model3D{
 			break;
 		default:
 			break;
-		}	 		
+		}	 		    
 		tg.addChild(p);
 		tg.setTransform(t);
 		return tg;				

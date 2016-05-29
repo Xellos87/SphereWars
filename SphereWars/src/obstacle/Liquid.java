@@ -4,16 +4,20 @@ import java.awt.Graphics2D;
 
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Material;
+import javax.media.j3d.Texture;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
 import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.geometry.Box;
+import com.sun.j3d.utils.image.TextureLoader;
+import com.sun.pisces.Surface;
 
 import graphic.Model3D;
 import graphic.Sprite;
 import utils.Constants;
+import videogame.Game;
 import videogame.GameObject;
 
 public class Liquid extends GameObject implements Sprite, Model3D{
@@ -43,13 +47,21 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 		this.type = type;
 		this.nature = nature;
 		this.kills = true;
-		selectImage();
-		resize();
+		if(Constants.visualMode == Game.MODE_2D){
+			selectImage();
+			resize();
+		}else{
+			selectTexture();
+		}
 	}
 
 	private void selectImage() {
 		//image = image.getSubimage(x_imgs[type], y_imgs[type], width, height);
 		image = Constants.img_handler.getImageTile(x_img, y_img, width, height);
+	}
+	
+	private void selectTexture() {
+		texture = Constants.img_handler.getImageTile(x_imgs[nature+1], y_imgs[nature+1], width_imgs[nature+1], height_imgs[nature+1]);
 	}
 
 	@Override
@@ -94,13 +106,19 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 	    app.setMaterial(mat);
 	    //Creacion del liquido
 	    Box box = null;
+	    
+	    //Carga de textura
+	    TextureLoader  loader = new TextureLoader(texture);
+	    Texture texture = loader.getTexture();
+	    app.setTexture(texture);
+	    
 	    switch (type) {
 		case SURFACE:
-			box = new Box(block_width*0.001f,block_width*0.0005f,block_width*0.001f, app);			
+			box = new Box(block_width*0.001f,block_width*0.0005f,block_width*0.001f, Box.GENERATE_NORMALS + Box.GENERATE_TEXTURE_COORDS, app);			
 			t.setTranslation(new Vector3f(0f,-block_width*0.0005f,0f));
 			break;
 		case DEEP:
-			box = new Box(block_width*0.001f,block_width*0.001f,block_width*0.001f, app);
+			box = new Box(block_width*0.001f,block_width*0.001f,block_width*0.001f, Box.GENERATE_NORMALS + Box.GENERATE_TEXTURE_COORDS, app);
 			break;
 		default:
 			break;
