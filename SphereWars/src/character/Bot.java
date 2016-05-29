@@ -13,7 +13,6 @@ import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
 import javax.vecmath.Vector3f;
 
-import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.geometry.Cylinder;
 import com.sun.j3d.utils.image.TextureLoader;
 
@@ -125,6 +124,28 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		return acumulate_mov;
 	}
 
+	public void moveBot(){
+		if(state != DEAD){
+			tick_counter++;
+			int movX = 0;
+			if(tick_counter >= max_counter){
+				tick_counter -= max_counter;
+				movX = width / 20;
+			}
+			if(direction == RIGHT){
+				movX = -movX;
+			}
+			//Transformación del objeto
+			Transform3D transform = new Transform3D();
+			Vector3f translate_vector = new Vector3f();
+			tg_model3D.getTransform(transform);
+			transform.get(translate_vector);
+			translate_vector.x += (movX*0.001f);
+			transform.set(translate_vector);
+			tg_model3D.setTransform(transform);
+		}
+	}
+	
 	public void resetMov() {
 		if(direction == RIGHT){
 			acumulate_mov += block_width;

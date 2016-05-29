@@ -1,6 +1,7 @@
 package map;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
@@ -28,6 +29,9 @@ public class MapObject {
 	private int block_width, block_height;
 	//Objetos que se encuentran en el mapa
 	private GameObject[][] objects;
+	//Posicion en X e Y de los bots
+	private ArrayList<Integer> posBotX;
+	private ArrayList<Integer> posBotY;
 	//Contenedor de elementos en 3D
 	private TransformGroup group_object;
 
@@ -37,6 +41,10 @@ public class MapObject {
 		this.block_width = block_width;
 		this.block_height = block_height;
 		objects = new GameObject[height][width];
+		//Crea la lista
+		posBotX = new ArrayList<Integer>();
+		posBotY = new ArrayList<Integer>();
+		//Contenedor de los objetos de mapa
 		group_object = new TransformGroup();
 		group_object.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 		group_object.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
@@ -47,6 +55,10 @@ public class MapObject {
 
 	public void addObject(GameObject obj, int x, int y){
 		objects[y][x] = obj;
+		if(obj instanceof Bot){
+			posBotX.add(x);
+			posBotY.add(y);
+		}
 		if(Constants.visualMode == Game.MODE_3D){
 			//System.out.printf("Add obj, x:%d, y:%d\n", x*block_width,y*block_height);
 			Transform3D translate = new Transform3D();
@@ -208,5 +220,12 @@ public class MapObject {
 	
 	public TransformGroup get3DModel(){
 		return group_object;
+	}
+	
+	public void moveBot(){
+		for(int i=0; i<posBotX.size(); i++){
+			Bot b = (Bot)objects[posBotY.get(i)][posBotX.get(i)];
+			b.moveBot();
+		}
 	}
 }

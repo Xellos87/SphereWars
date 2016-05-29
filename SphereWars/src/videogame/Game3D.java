@@ -216,6 +216,8 @@ public class Game3D extends Canvas3D implements KeyListener{
 				bg.addChild(nextMap);
 				map_cont.addChild(bg);
 			}
+			//Mueve los bot del mapa si los hubiera, solo del mapa actual y el siguiente
+			map.moveBot();
 		}
 		return end_game;
 	}

@@ -342,7 +342,6 @@ public class MapController {
 		current_map = 0;
 		pos_block = 0;
 		pixel_block = 0;
-		//
 		loadMap();
 		loadMap();
 	}
@@ -434,5 +433,10 @@ public class MapController {
 	
 	public boolean hasNewMap(){
 		return newMap;
+	}
+	
+	public void moveBot(){
+		first_map.moveBot();
+		second_map.moveBot();
 	}
 }
