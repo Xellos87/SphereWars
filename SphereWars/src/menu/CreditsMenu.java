@@ -34,6 +34,8 @@ public class CreditsMenu extends Menu{
 	private final String cazatesoros = "cazatesoros";
 	private final String scores = "top 3";
 	
+	private final String volver = "enter - volver";
+	
 	private Font mayus = Constants.font_bold.deriveFont(40.0f);
 	private Font minus = Constants.humanoid.deriveFont(42.0f);
 	private Font ranking = Constants.font_bold.deriveFont(30.0f);
@@ -132,6 +134,10 @@ public class CreditsMenu extends Menu{
 		offgc.drawString(richard, Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+240+Constants.ay);
 		offgc.drawString(sandra, Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+290+Constants.ay);
 		offgc.drawString(axte, Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+340+Constants.ay);
+		
+		offgc.setFont(ranking.deriveFont(22.0f));
+		offgc.setColor(Color.white);
+		offgc.drawString(volver, Constants.titlePos.getX()-50+Constants.ax, Constants.titlePos.getY()+420+Constants.ay);
 		
 		getGraphics().drawImage(offscreen,0,0,width,height,null);
 		getGraphics().dispose();
