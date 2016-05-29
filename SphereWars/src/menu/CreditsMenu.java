@@ -1,8 +1,10 @@
 package menu;
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -12,15 +14,36 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import graphic.Cursor;
+import scoreboard.RankingEntry;
 import utils.Constants;
+import videogame.Game;
 import videogame.Parallax;
 
 public class CreditsMenu extends Menu{
-	BufferedImage starBack;
-	BufferedImage mountainBack;
-	BufferedImage title;
+	private BufferedImage starBack;
+	private BufferedImage mountainBack;
+	private BufferedImage title;
 	
-	Parallax parallax;
+	private final String autores = "autores:";
+	private final String richard = "Richard Elvira";
+	private final String axte = "Adrian Milla";
+	private final String jl = "Juan Luis Burillo";
+	private final String sandra = "Sandra Malpica";
+	
+	private final String maraton = "maraton";
+	private final String cazatesoros = "cazatesoros";
+	private final String scores = "top 3";
+	
+	private Font mayus = Constants.font_bold.deriveFont(40.0f);
+	private Font minus = Constants.humanoid.deriveFont(42.0f);
+	private Font ranking = Constants.font_bold.deriveFont(30.0f);
+	
+	private Parallax parallax;
+	
+	private RankingEntry[] coins;
+	private RankingEntry[] runner;
+	
+	private Color titulo = new Color(37,33,92);
 	
 	public CreditsMenu(int width, int height) {
 		this.width = width;
@@ -32,7 +55,8 @@ public class CreditsMenu extends Menu{
 		g = (Graphics2D) image.getGraphics();
 		cargarImagenes();
 		// set background
-		
+		coins = Constants.ranking.getRanking(Game.COINS);
+		runner = Constants.ranking.getRanking(Game.RUNNER);
 		
 		initParallax();
 	}
@@ -81,6 +105,34 @@ public class CreditsMenu extends Menu{
 		if(title!=null){
 			offgc.drawImage(title, Constants.titlePos.getX()+Constants.ax, Constants.titlePos.getY()+Constants.ay, (int)(title.getWidth()/5), (int)(title.getHeight()/5), null);
 		}
+		offgc.setFont(mayus);
+		offgc.setColor(titulo);
+		offgc.drawString(autores, Constants.titlePos.getX()-20+Constants.ax, Constants.titlePos.getY()+150+Constants.ay);
+		offgc.setFont(ranking);
+		offgc.drawString(scores, Constants.titlePos.getX()+300+Constants.ax, Constants.titlePos.getY()+110+Constants.ay);
+		
+		for(int i=0; i<4; i++){
+			int yCoins = i*40;
+			int yRunner = i*40+(40*4);
+			if(i==0){
+				offgc.setColor(titulo);
+				offgc.setFont(ranking.deriveFont(25.0f));
+				offgc.drawString(cazatesoros, Constants.titlePos.getX()+300+Constants.ax, Constants.titlePos.getY()+yCoins+140+Constants.ay);
+				offgc.drawString(maraton, Constants.titlePos.getX()+300+Constants.ax, Constants.titlePos.getY()+yRunner+140+Constants.ay);
+			}else{
+				offgc.setColor(Color.CYAN);
+				offgc.setFont(ranking);
+				offgc.drawString(coins[i].getScoreString(Game.COINS)+" "+coins[i].getName(), Constants.titlePos.getX()+300+Constants.ax, Constants.titlePos.getY()+yCoins+140+Constants.ay);
+				offgc.drawString(runner[i].getScoreString(Game.RUNNER).substring(0, 5)+" "+runner[i].getName(), Constants.titlePos.getX()+300+Constants.ax, Constants.titlePos.getY()+yRunner+140+Constants.ay);
+			}
+		}
+		offgc.setFont(minus);
+		offgc.setColor(Color.CYAN);
+		offgc.drawString(jl, Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+190+Constants.ay);
+		offgc.drawString(richard, Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+240+Constants.ay);
+		offgc.drawString(sandra, Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+290+Constants.ay);
+		offgc.drawString(axte, Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+340+Constants.ay);
+		
 		getGraphics().drawImage(offscreen,0,0,width,height,null);
 		getGraphics().dispose();
 	}

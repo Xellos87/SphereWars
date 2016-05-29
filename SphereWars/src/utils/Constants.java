@@ -162,8 +162,10 @@ public class Constants {
 	//Fuente y ruta de las fuente
 	private static String path_font = "fonts/M04.TTF";
 	private static String path_font_bold = "fonts/M04B.TTF";
+	private static String path_font_humanoid = "fonts/HUMANOID.TTF";
 	public static Font font = crearFuente();
 	public static Font font_bold = crearFuenteBold();
+	public static Font humanoid = crearFuenteHumanoid();
 	
 	//Estado del juego
 	public static int gameState;
@@ -173,6 +175,19 @@ public class Constants {
 	private static Font crearFuente() {
 		try {
 			return Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(path_font));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private static Font crearFuenteHumanoid() {
+		try {
+			return Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(path_font_humanoid));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (FontFormatException e) {
