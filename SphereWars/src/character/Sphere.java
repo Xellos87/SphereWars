@@ -1,11 +1,13 @@
 package character;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 
 import audio.Audio;
 import audio.AudioClip;
 import java.awt.Rectangle;
 import java.awt.dnd.DragGestureEvent;
+import java.awt.image.BufferedImage;
 
 import javax.media.j3d.Appearance;
 import javax.media.j3d.BranchGroup;
@@ -147,6 +149,12 @@ public class Sphere extends GameObject implements Sprite{
 	private void selectImage() {
 		//image = image.getSubimage(x_imgs[type], y_imgs[type], width, height);
 		image = Constants.img_handler.getImagePlayer(x_img, y_img, width, height);
+		/*Image tmp = image.getScaledInstance((int)(block_width*0.7), (int)(block_height*0.7), Image.SCALE_DEFAULT);
+	    BufferedImage dimg = new BufferedImage(block_width, block_height, BufferedImage.TYPE_INT_ARGB);
+	    Graphics2D g2d = dimg.createGraphics();
+	    g2d.drawImage(tmp, block_width, block_height, null);
+	    g2d.dispose();
+		image = dimg;*/
 	}
 
 	public void jump(){
