@@ -108,7 +108,7 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 		tg_model3D = new TransformGroup();
 		branch_group = new BranchGroup();
 		branch_group.addChild(object_primitive);
-		tg_model3D.addChild(tg_model3D);
+		tg_model3D.addChild(branch_group);
 		tg_model3D.setTransform(t);
 	}
 
