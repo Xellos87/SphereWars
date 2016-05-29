@@ -124,7 +124,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 
 		addKeyListener(this);
 		
-		((Treasure)map.getCurrentMap().getObject(7, 8)).removeObject();
+		//((Treasure)map.getCurrentMap().getObject(7, 8)).removeObject();
 	}
 
 	private void init_score() {

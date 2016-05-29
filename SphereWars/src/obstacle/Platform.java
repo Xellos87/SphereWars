@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.media.j3d.Appearance;
+import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Material;
 import javax.media.j3d.TexCoordGeneration;
 import javax.media.j3d.Texture;
@@ -74,13 +75,7 @@ public class Platform extends GameObject implements Sprite, Model3D{
 				this.type = GROUND;
 			}
 			selectTexture();
-			/*Appearance app = new Appearance();
-			Material mat = new Material();
-			mat.setAmbientColor(earth_amb);
-			mat.setDiffuseColor(earth_dif);
-			app.setMaterial(mat);
-			box = new Box(block_width, block_height, block_width, app);
-			*/
+			loadModel3D();
 		}
 	}
 
@@ -93,6 +88,39 @@ public class Platform extends GameObject implements Sprite, Model3D{
 		texture = Constants.img_handler.getImageTile(x_imgs[world+type], y_imgs[world+type], width_imgs[world+type], height_imgs[world+type]);
 		base = Constants.img_handler.getImageTile(x_imgs[world+UNDERGROUND], y_imgs[world+UNDERGROUND], width_imgs[world+UNDERGROUND], height_imgs[world+UNDERGROUND]);
 
+	}
+	
+	private void loadModel3D(){
+		//Apariencia de la plataforma
+		Appearance app = new Appearance();
+		Appearance appBase = new Appearance();
+		//Material de la plataforma
+	    Material mat = new Material();
+	    mat.setAmbientColor(white);
+		mat.setDiffuseColor(white);
+		mat.setSpecularColor(black);
+		mat.setShininess(1.0f);	 
+	    app.setMaterial(mat);
+	    //Carga de textura
+	    TextureLoader  loader = new TextureLoader(this.texture);
+	    Texture texture = loader.getTexture();
+	    app.setTexture(texture);
+	    TextureLoader loaderBase = new TextureLoader(this.base);
+	    Texture textureBase = loaderBase.getTexture();
+	    appBase.setTexture(textureBase);
+	    //Atributos de textura
+	    TextureAttributes texAttr = new TextureAttributes();
+        texAttr.setTextureMode(TextureAttributes.MODULATE);
+        app.setTextureAttributes(texAttr);	
+        appBase.setTextureAttributes(texAttr);        
+	    //Creacion de la plataforma
+        object_primitive = new Box(block_width*0.001f, block_height*0.001f, block_width*0.001f, Box.GENERATE_NORMALS + Box.GENERATE_TEXTURE_COORDS, app);		
+		object_primitive.setAppearance(Box.TOP, appBase);
+		object_primitive.setAppearance(Box.BOTTOM, appBase);
+		tg_model3D = new TransformGroup();
+		branch_group = new BranchGroup();
+		branch_group.addChild(object_primitive);
+		tg_model3D.addChild(branch_group);
 	}
 
 	@Override
@@ -117,57 +145,7 @@ public class Platform extends GameObject implements Sprite, Model3D{
 
 	@Override
 	public TransformGroup get3DModel() {
-		//Apariencia de la plataforma
-		Appearance app = new Appearance();
-		Appearance appBase = new Appearance();
-		//Material de la plataforma
-	    Material mat = new Material();
-	    mat.setAmbientColor(white);
-		mat.setDiffuseColor(white);
-		mat.setSpecularColor(black);
-		mat.setShininess(1.0f);	 
-	    app.setMaterial(mat);
-	    /*
-	    switch (world) {
-		case WORLD_FIELD:
-			mat.setAmbientColor(field_amb);
-			mat.setDiffuseColor(field_dif);					    		
-			break;
-		case WORLD_DESSERT:
-			mat.setAmbientColor(dessert_amb);
-			mat.setDiffuseColor(dessert_dif);
-			break;
-		case WORLD_CASTLE:
-			mat.setAmbientColor(castle_amb);
-			mat.setDiffuseColor(castle_dif);
-			break;
-		case WORLD_SNOW:
-			mat.setAmbientColor(snow_amb);
-			mat.setDiffuseColor(snow_dif);
-			break;
-		default:
-			break;
-		}	
-	    */
-	    //Carga de textura
-	    TextureLoader  loader = new TextureLoader(this.texture);
-	    Texture texture = loader.getTexture();
-	    app.setTexture(texture);
-	    TextureLoader loaderBase = new TextureLoader(this.base);
-	    Texture textureBase = loaderBase.getTexture();
-	    appBase.setTexture(textureBase);
-	    //Atributos de textura
-	    TextureAttributes texAttr = new TextureAttributes();
-        texAttr.setTextureMode(TextureAttributes.MODULATE);
-        app.setTextureAttributes(texAttr);	
-        appBase.setTextureAttributes(texAttr);        
-	    //Creacion de la plataforma
-		Box box = new Box(block_width*0.001f, block_height*0.001f, block_width*0.001f, Box.GENERATE_NORMALS + Box.GENERATE_TEXTURE_COORDS, app);		
-		box.setAppearance(Box.TOP, appBase);
-		box.setAppearance(Box.BOTTOM, appBase);
-		TransformGroup tg = new TransformGroup();
-		tg.addChild(box);
-		return tg;
+		return tg_model3D;
 	}
 
 }
