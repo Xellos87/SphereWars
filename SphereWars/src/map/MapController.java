@@ -48,7 +48,7 @@ public class MapController {
 	private int speedHigh;
 	//Flag que indica si se ha generado un mapa nuevo
 	private boolean newMap;
-	//
+	//Ancho total de la pantalla
 	private int width_total;
 
 	public MapController(int width, int height){
@@ -389,28 +389,6 @@ public class MapController {
 	
 	public int getMaxHeight(){
 		return MAX_HEIGHT;
-	}
-	
-	public TransformGroup get3DModel(){
-		Transform3D translate = new Transform3D();
-		
-		translate.setTranslation(new Vector3f(width_total*0.002f,0,0));
-		TransformGroup tg = new TransformGroup(translate);
-		tg.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-		tg.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		tg.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
-		tg.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
-		tg.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
-		
-		TransformGroup group = new TransformGroup();
-		group.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-		group.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		group.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
-		group.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
-		group.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
-		group.addChild(first_map.get3DModel());
-		group.addChild(tg);
-		return group;
 	}
 	
 	public TransformGroup get3DFirstMap(){

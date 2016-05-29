@@ -138,7 +138,7 @@ public class Sphere extends GameObject implements Sprite{
 		transform.get(translate_vector);
 		//Mueve la esfera
 		translate_vector.x += x*0.001f;
-		translate_vector.y -= y*0.001f;
+		translate_vector.y += y*0.001f;
 		//Establece la nueva posición
 		transform.set(translate_vector);
 		tg_model3D.setTransform(transform);
@@ -182,7 +182,7 @@ public class Sphere extends GameObject implements Sprite{
 
 	public int checkCollision(MapController mc, int x_ori, int y_ori){
 		//TODO bug choque lateral en cambio de mapa, ej: columna en x:0 del segundo mapa
-		boolean print = false;	//False para no ver mensajes
+		boolean print = true;	//False para no ver mensajes
 		int result = -1;
 		//TODO colisiones con sprite que no ocupa todo el bloque
 		int collisionInf,collisionLat,collisionSup,collisionCen;
@@ -340,8 +340,8 @@ public class Sphere extends GameObject implements Sprite{
 			this.setVelocity(vx, jumpVelocity);
 		}
 		setPosition(x+vx, y+vy);
-		if(Constants.gameState == Game.MODE_3D){
-			setPosition3D(vx,vy);
+		if(Constants.visualMode == Game.MODE_3D){
+			setPosition3D(vx,-vy);
 		}
 	}
 

@@ -94,18 +94,18 @@ public class Game3D extends Canvas3D implements KeyListener{
 	}
 
 	private void initPlayer() {
-		player = new Sphere(2*map.getWidthBlock(), 5*map.getHeightBlock(), map.getWidthBlock(), map.getHeightBlock());
+		player = new Sphere(2*map.getWidthBlock(), 7*map.getHeightBlock(), map.getWidthBlock(), map.getHeightBlock());
 		TransformGroup tg = player.get3DModel();
 
 		//Mueve el mapa en el eje de las Y hacia abajo para llenar la pantalla
-		/*Transform3D transform_map = new Transform3D();
+		Transform3D transform_map = new Transform3D();
 		tg.getTransform(transform_map);
 		Vector3f translate = new Vector3f();
 		transform_map.get(translate);
-		translate.y -= 0.3f;
+		translate.y -= 0.1f;
 		transform_map.set(translate);
 		tg.setTransform(transform_map);
-		*/
+		
 		rootBranchGroup.addChild(tg);
 	}
 
@@ -270,11 +270,12 @@ public class Game3D extends Canvas3D implements KeyListener{
 				player.gravity();
 				break;
 			default:
+				System.out.println("Gravedad");
 				player.setVelocity(2, player.vy);
 				player.gravity();
 				break;
 			}	
-			//player.move();
+			player.move();
 			if(end_game){
 				//animacion de muerte
 				player.setVelocity(0, -15);
