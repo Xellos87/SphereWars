@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import character.Boss;
 import character.Sphere;
 import map.MapController;
+import utils.Constants;
 
 @SuppressWarnings("serial")
 public class Game2D extends JPanel {
@@ -177,9 +178,10 @@ public class Game2D extends JPanel {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
+		if(e.getKeyCode() == Constants.teclaSaltop1 || e.getKeyCode() == Constants.teclaSaltop2){
 			player.jump();
-			//System.out.println("Up key pressed");
+		}else if(e.getKeyCode() == Constants.teclaSprintp1 || e.getKeyCode() == Constants.teclaSprintp2){
+			//TODO: sprint
 		}
 	}
 

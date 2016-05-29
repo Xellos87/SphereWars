@@ -297,7 +297,7 @@ public class Game extends JLayeredPane{
 				}
 			}
 		}else{
-			if(e.getKeyCode() == Constants.teclaSaltop1 || e.getKeyCode() == Constants.teclaSprintp1){
+			if(num_players == 1 && (e.getKeyCode() == Constants.teclaSaltop1 || e.getKeyCode() == Constants.teclaSprintp1)){
 				if(mode == MODE_2D){
 					System.out.println("Tecla pulsada");
 					game2d_1p.keyPressed(e);
@@ -309,8 +309,6 @@ public class Game extends JLayeredPane{
 				if(mode == MODE_2D){
 					System.out.println("Tecla pulsada");
 					game2d_2p.keyPressed(e);
-				}else if(mode == MODE_3D){
-
 				}
 			}
 		}
