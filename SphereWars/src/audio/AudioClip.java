@@ -6,6 +6,7 @@ import utils.Constants;
 
 public class AudioClip {
 	private Clip sound;
+	private boolean repeat = false;
 	public AudioClip(Clip clip){
 		sound = clip;
 	
@@ -13,7 +14,7 @@ public class AudioClip {
 	
 	public void start(){
 		if(!Constants.sound) return;
-		if(!sound.isActive()){
+		if(!sound.isActive() || repeat){
 			sound.stop();
 			sound.setFramePosition(0);
 		}
@@ -34,5 +35,8 @@ public class AudioClip {
 	
 	public void drain(){
 		sound.drain();
+	}
+	public void setRepeat(boolean f){
+		repeat = f;
 	}
 }
