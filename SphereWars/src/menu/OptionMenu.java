@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 
 import graphic.Cursor;
 import utils.Constants;
+import utils.Position;
 import videogame.Parallax;
 
 @SuppressWarnings("serial")
@@ -40,6 +41,13 @@ public class OptionMenu extends Menu {
 	BufferedImage volver;
 	BufferedImage controles1;
 	BufferedImage controles2;
+	BufferedImage diestro;
+	BufferedImage zurdo;
+	
+	private final String diestroName = "fonts/opciones_diestro.png";
+	private final String zurdoName = "fonts/opciones_zurdo.png";
+	private final Position diestroPos = new Position(Constants.optX+Constants.desplazamiento,Constants.kinnectPos.getY()+Constants.titleGap);
+	private final Position zurdoPos = new Position(Constants.optX+280+Constants.desplazamiento,Constants.kinnectPos.getY()+Constants.titleGap);
 	
 	public OptionMenu(int width, int height) {
 		this.width = width;
@@ -221,7 +229,13 @@ public class OptionMenu extends Menu {
 					offgc.drawString(runChar, Constants.runPos.getX()+270+Constants.ax, Constants.runPos.getY()+40+Constants.ay);
 				}
 			}else if(!Constants.conTeclado && Constants.jugador==1){
-				
+				if(Constants.zurdo){
+					offgc.drawImage(zurdo, zurdoPos.getX()+Constants.ax-40, zurdoPos.getY()+Constants.ay,(int)(zurdo.getWidth()/2), (int)(zurdo.getHeight()/2), null);
+					offgc.drawImage(diestro, diestroPos.getX()+Constants.ax, diestroPos.getY()+Constants.ay,(int)(diestro.getWidth()/2.5), (int)(diestro.getHeight()/2.5), null);
+				}else{
+					offgc.drawImage(zurdo, zurdoPos.getX()+Constants.ax, zurdoPos.getY()+Constants.ay,(int)(zurdo.getWidth()/2.5), (int)(zurdo.getHeight()/2.5), null);
+					offgc.drawImage(diestro, diestroPos.getX()+Constants.ax, diestroPos.getY()+Constants.ay,(int)(diestro.getWidth()/2), (int)(diestro.getHeight()/2), null);
+				}				
 			}
 		}		
 	}
@@ -239,6 +253,16 @@ public class OptionMenu extends Menu {
 			title = ImageIO.read(new File(Constants.titleName));
 		}catch(IOException e){
 			System.err.println("Problem with font "+Constants.titleName);
+		}
+		try{
+			diestro = ImageIO.read(new File(diestroName));
+		}catch(IOException e){
+			System.err.println("Problem with font "+diestroName);
+		}
+		try{
+			zurdo = ImageIO.read(new File(zurdoName));
+		}catch(IOException e){
+			System.err.println("Problem with font "+zurdoName);
 		}
 		try {
 			volver = ImageIO.read(new File(Constants.backName));

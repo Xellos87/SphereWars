@@ -209,7 +209,6 @@ public class Main implements Runnable, KeyListener{
 					System.out.println("Enter pressed. Option: "+nuevoMenu);
 					//desde el menu principal
 					if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
-						//TODO: acciones cuando se selecciona una opcion del menu principal
 						if(!Constants.cursorDesplazado){
 							if(nuevoMenu.equalsIgnoreCase("credits")){
 								menu = new CreditsMenu(width*Constants.scale, height*Constants.scale);
@@ -264,7 +263,6 @@ public class Main implements Runnable, KeyListener{
 						}
 						//desde el menu de opciones
 					}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.optMenu)){
-						//TODO: poner y quitar el sonido
 						if(nuevoMenu.equalsIgnoreCase("sound")){
 							System.out.println(Constants.sound);
 							Constants.sound = !Constants.sound;
@@ -273,8 +271,11 @@ public class Main implements Runnable, KeyListener{
 								else
 									music.stop();
 							
-						}
-						else if(nuevoMenu.equalsIgnoreCase("resolution")){
+						}else if(nuevoMenu.equalsIgnoreCase("cambioMano")){
+							if(!Constants.conTeclado && Constants.jugador==1 && Constants.elegidoJugador){
+								Constants.zurdo = !Constants.zurdo;
+							}
+						}else if(nuevoMenu.equalsIgnoreCase("resolution")){
 							System.out.println(Constants.scale);
 							if(Constants.scale == 2){
 								Constants.scale = 4;
@@ -309,7 +310,6 @@ public class Main implements Runnable, KeyListener{
 								}
 							}
 						}
-						//TODO: cambio entre controlador Kinect y teclado (en juego)
 						else if(nuevoMenu.equalsIgnoreCase("device")){
 							Constants.conTeclado = !Constants.conTeclado;
 						}
@@ -398,7 +398,6 @@ public class Main implements Runnable, KeyListener{
 						window.add(menu, BorderLayout.CENTER);
 						window.pack();
 					}
-					//TODO: resto de casos
 					
 				}
 			}else{

@@ -72,7 +72,7 @@ public class Constants {
 	public static final String okName = "fonts/opciones_ok.png";
 	public static final String pauseName = "fonts/opciones_pausa.png";
 	//posiciones (iniciales) de los elementos del menu de opciones
-	static int optX = 40;
+	public static int optX = 40;
 	public static final Position soundPos = new Position(optX,110);
 	public static final Position yesPos = new Position(optX+270,110);
 	public static final Position noPos = new Position(optX+330,110);

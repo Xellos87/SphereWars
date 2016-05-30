@@ -78,8 +78,13 @@ public class Cursor {
 	}
 
 	public void nextPosition() {
-		System.out.println(numPos+"/"+maxPos);
-		numPos = (numPos + 1) % maxPos;
+		int auxMaxPos = maxPos;
+		if(!Constants.conTeclado && Constants.jugador==1 && menuType.equalsIgnoreCase(Constants.conMenu)
+				&& Constants.elegidoJugador){
+			auxMaxPos = 3;
+		}
+		System.out.println(numPos+"/"+auxMaxPos);
+		numPos = (numPos + 1) % auxMaxPos;
 		if(menuType.equalsIgnoreCase(Constants.conMenu) && Constants.jugador==2 && numPos == 1){
 			numPos ++;
 		}
@@ -107,11 +112,16 @@ public class Cursor {
 	}
 
 	public void previousPosition() {
-		System.out.println(numPos+"/"+maxPos);
+		int auxMaxPos = maxPos;
+		if(!Constants.conTeclado && Constants.jugador==1 && menuType.equalsIgnoreCase(Constants.conMenu)
+				&& Constants.elegidoJugador){
+			auxMaxPos = 3;
+		}
+		System.out.println(numPos+"/"+auxMaxPos);
 		if(numPos > 0)
-			numPos = Math.abs((numPos - 1)) % maxPos;
+			numPos = Math.abs((numPos - 1)) % auxMaxPos;
 		else
-			numPos = maxPos-1;
+			numPos = auxMaxPos-1;
 		if(menuType.equalsIgnoreCase(Constants.conMenu) && Constants.jugador==2 && numPos == 1){
 			numPos --;
 		}
@@ -138,6 +148,10 @@ public class Cursor {
 	}
 
 	public String enter(){
+		if(!Constants.conTeclado && Constants.jugador==1 && menuType.equalsIgnoreCase(Constants.conMenu)
+				&& Constants.elegidoJugador && numPos==2){
+			return "cambioMano";
+		}
 		return opcion;
 	}
 	
