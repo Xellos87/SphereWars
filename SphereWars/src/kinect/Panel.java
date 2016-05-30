@@ -56,6 +56,10 @@ public class Panel {
 					// Avanzamos el contador de jugador
 					player++;
 					int hand = 0;
+					if(Constants.zurdo)
+						p1Hand = 7;
+					else 
+						p1Hand = 11;
 					// Se cambia la mano dependiendo del jugador
 					if (player == 2) {
 						hand = p2Hand;
