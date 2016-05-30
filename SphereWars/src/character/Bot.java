@@ -49,6 +49,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 	//Propiedades del bot
 	private int type;
 	private int state;
+	private int last_state;
 	private int direction;
 	//Variables relacionadas con la animación del movimiento en pantalla
 	private int tick_counter;
@@ -69,6 +70,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		super(x, y, x_imgs[type], y_imgs[type], width_imgs[type], height_imgs[type], block_width, block_height);
 		this.tick_counter = 0;
 		this.tick_change = 0;
+		this.acumulate_mov = 0;
 		this.type = type;
 		this.state = WALK1;
 		this.direction = RIGHT;
@@ -130,6 +132,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 				y_img = y_imgs[type+state];
 				width = width_imgs[type+state];
 				height = height_imgs[type+state];
+				updatePosition();
 				selectImage();
 				resize();
 				rotateImage();
@@ -153,7 +156,8 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		return acumulate_mov;
 	}
 
-	public void moveBot(){
+	public boolean moveBot(){
+		boolean remove = false;
 		if(state != DEAD){
 			tick_counter++;
 			int movX = 0;
@@ -169,6 +173,8 @@ public class Bot extends GameObject implements Sprite, Model3D{
 			if(direction == RIGHT){
 				movX = -movX;
 			}
+			acumulate_mov = acumulate_mov + movX;
+			updatePosition();
 			//Transformación del objeto
 			Transform3D transform = new Transform3D();
 			Vector3f translate_vector = new Vector3f();
@@ -186,9 +192,69 @@ public class Bot extends GameObject implements Sprite, Model3D{
 			}
 			transform.set(matrix);
 			tg_model3D.setTransform(transform);
+		}else if(tick_counter == 0 && num_blink == 0 && state == DEAD){
+			tick_counter++;
+			//Transformación en la que el bot se encoge
+			Transform3D transform = new Transform3D();
+			tg_model3D.getTransform(transform);
+			Matrix4f matrix = new Matrix4f();
+			transform.get(matrix);
+			matrix.m13 = -0.03f;
+			if(last_state == WALK1){
+				matrix.m11 = 0.3f;
+			}else{
+				matrix.m11 = 0.2f;
+			}
+			transform.set(matrix);
+			tg_model3D.setTransform(transform);
+		}else if(num_blink < max_blink && state == DEAD){
+			//Animación de muerte
+			tick_counter++;
+			if(tick_counter >= max_counter){
+				tick_counter -= max_counter;
+				if(visible){
+					visible = false;
+					num_blink++;
+					//Hacemos que desaparezca ocultandola bajo el bloque
+					Transform3D transform = new Transform3D();
+					Vector3f translate_vector = new Vector3f();
+					tg_model3D.getTransform(transform);
+					transform.get(translate_vector);
+					translate_vector.y -= 0.04f;
+					transform.set(translate_vector);
+					tg_model3D.setTransform(transform);
+				}else{
+					visible = true;
+					//Hacemos que se vea de nuevo
+					Transform3D transform = new Transform3D();
+					Vector3f translate_vector = new Vector3f();
+					tg_model3D.getTransform(transform);
+					transform.get(translate_vector);
+					translate_vector.y += 0.04f;
+					transform.set(translate_vector);
+					tg_model3D.setTransform(transform);
+				}
+			}
+		}else if(state == DEAD && num_blink >= max_blink){
+			remove = true;
 		}
+		return remove;
 	}
 	
+	private int updatePosition() {
+		int posX = 0;
+		if(acumulate_mov > 0 && acumulate_mov > width){
+			//Pasa a la casilla de la derecha
+			x = x + 1;
+			acumulate_mov -=width;
+		}else if(acumulate_mov < 0 && acumulate_mov < -width){
+			//Pasa a la casilla de la izquierda
+			x = x - 1;
+			acumulate_mov +=width;
+		}
+		return posX;
+	}
+
 	public void resetMov() {
 		if(direction == RIGHT){
 			acumulate_mov += block_width;
@@ -215,6 +281,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 	
 	public void death(){
 		this.kills = false;
+		this.last_state = state;
 		this.state = DEAD;
 		this.tick_counter = 0;
 		this.max_counter = 5;
@@ -230,7 +297,6 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		if(deathSound != null){
 			deathSound.start();
 		}
-		
 	}
 	
 	private void loadModel3D(){
@@ -278,5 +344,9 @@ public class Bot extends GameObject implements Sprite, Model3D{
 	public void draw3D() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void remove() {
+		tg_model3D.removeChild(branch_group);
 	}
 }

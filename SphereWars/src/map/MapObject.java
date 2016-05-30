@@ -226,7 +226,11 @@ public class MapObject {
 	public void moveBot(){
 		for(int i=0; i<posBotX.size(); i++){
 			Bot b = (Bot)objects[posBotY.get(i)][posBotX.get(i)];
-			b.moveBot();
+			if(b.moveBot()){
+				//Borra el bot
+				b.remove();
+				removeObject(posBotY.get(i),posBotX.get(i));
+			}
 		}
 	}
 }

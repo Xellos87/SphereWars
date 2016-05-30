@@ -14,6 +14,7 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.sun.j3d.utils.universe.ViewingPlatform;
 
 import character.Boss;
+import character.Bot;
 import character.Sphere;
 
 import javax.media.j3d.BranchGroup;
@@ -312,6 +313,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		//((Bot)map.getCurrentMap().getObject(3, 5)).death();
 		//Propaga el evento de pulsar al main para tratarlo
 		main.keyPressed(e);
 	}
