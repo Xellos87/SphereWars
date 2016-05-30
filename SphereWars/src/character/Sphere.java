@@ -64,6 +64,7 @@ public class Sphere extends GameObject implements Sprite{
 	boolean nextMap = false;
 	private AudioClip soundJump;
 	private AudioClip deathLiquid;
+	private AudioClip takeSound;
 	private int x_ori;
 	private int y_ori;
 
@@ -73,6 +74,8 @@ public class Sphere extends GameObject implements Sprite{
 		this.kills = false;
 		soundJump = Audio.Load("audioEffects/boing_x.wav");
 		deathLiquid = Audio.Load("audioEffects/splash.wav");
+		takeSound = Audio.Load("audioEffects/coin.wav");
+		takeSound.setRepeat(true);
 		if(Constants.visualMode == Game.MODE_2D){
 			selectImage();
 			resize();
@@ -285,6 +288,7 @@ public class Sphere extends GameObject implements Sprite{
 			result = COLLKILL;
 		}//TODO, colision con monedas
 		else if(collisionInf == MapObject.GET || collisionLat == MapObject.GET || collisionSup == MapObject.GET || collisionCen == MapObject.GET){
+			takeSound.start();
 			result = COLLGET;
 		}
 		else if(collisionInf >= MapObject.COLLISION && collisionLat >= MapObject.COLLISION){
