@@ -437,10 +437,10 @@ public class EndMenu extends Menu{
 				}else{
 					//Se comprueba si el caracter es alfanumerico
 					if(Character.isLetterOrDigit(e.getKeyChar()) && Character.toUpperCase(e.getKeyChar()) != 'Ñ' ){
-						if(write_p1 && name_p1.length()<=3){
+						if(write_p1 && name_p1.length()<3){
 							name_p1 += Character.toUpperCase(e.getKeyChar());
 						}
-						if(write_p2 && name_p2.length()<=3){
+						if(write_p2 && name_p2.length()<3){
 							name_p2 += Character.toUpperCase(e.getKeyChar());
 						}
 					}
