@@ -29,7 +29,7 @@ public class MapController {
 	//Numero de bloques maximos para la altura
 	private final int MAX_HEIGHT = 9;
 	//Lista de mapas para cargar
-	private final String MAPS[] = {"maps/map02.xml"};
+	private final String MAPS[] = {"maps/map03.xml"};
 	//Indice del mapa actual
 	private int current_map;
 	//Posición en bloque dentro del mapa, y pixel dentro del bloque
@@ -71,7 +71,7 @@ public class MapController {
 		System.out.printf("bloques de ancho: %d, alto:%d\n", block_width_screen,block_height_screen);
 		//Calcula la velocidad en funcion del bloque
 		speedLow = block_width / (8 * Constants.speedActions);
-		speedHigh = block_width / (6 * Constants.speedActions);
+		speedHigh = block_width / (5 * Constants.speedActions);
 		//Carga aleatoriamente los 2 primeros mapas
 		loadMap();
 		loadMap();
@@ -286,7 +286,10 @@ public class MapController {
 		//TODO: 9 niveles de alto, 2 bloque de alto en salto, y 3 o 5 de largo segun velocidad
 		//5 velocidad normal y 7 velocidad rapida
 		//TODO: usar speedLow y speedHigh, los valores fijos no funcionan bien si cambia la resolución de pantalla del juego
-		int speed = speedLow;
+		int speed=speedLow;
+		if(Constants.sprint){
+			speed=speedHigh;
+		}
 		pixel_block += speed;
 		if(pixel_block / block_width >= 1){
 			pos_block++;
@@ -386,7 +389,11 @@ public class MapController {
 
 	//TODO devolver la velocidad correspondiente
 	public int getVelocity() {
-		return speedLow;
+		if(!Constants.sprint){
+			return speedLow;
+		}else{
+			return speedHigh;
+		}
 	}
 	
 	public int getBlockMov(){

@@ -91,6 +91,7 @@ public class Boss extends GameObject implements Sprite {
 	private BufferedImage fly1redleft;
 	private BufferedImage fly2redleft;
 	private boolean reseteo = false;
+	public boolean collides = false;
 	
 	// Audio
 	private AudioClip deathSound;
@@ -292,8 +293,13 @@ public class Boss extends GameObject implements Sprite {
 			}
 		}
 		int haceDaño = -1;
+		if(tick_damage >= damageCounter){
+			collides = true;
+		}else{
+			collides=false;
+		}
 		//comprobacion de colisiones
-		if(visible && state!=DEAD){
+		if(collides && visible && state!=DEAD){
 			Rectangle bossBox = this.getBox(x_ori, y_ori);
 			if(state != DEAD && bossBox.intersects(playerBox)){
 				if(playerBox.y<=bossBox.y){

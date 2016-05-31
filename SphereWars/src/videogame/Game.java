@@ -326,8 +326,6 @@ public class Game extends JLayeredPane implements Runnable{
 				if(mode == MODE_2D){
 					System.out.println("Tecla pulsada");
 					game2d_2p.keyPressed(e);
-				}else if(mode == MODE_3D){
-
 				}
 			}
 		}

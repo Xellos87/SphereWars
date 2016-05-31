@@ -103,13 +103,6 @@ public class Game2D extends JPanel {
 		if(boss.isVisible()){
 			boss.draw2D(g2d, x_ori, y_ori);
 		}
-		if(boss.action(not_pause, player.x, player.y, player.getBox(x_ori, y_ori))==-1){
-			if(boss.isVisible() && player.bossCollision(boss.getBox(x_ori, y_ori))){
-				end_game=true;
-			} 
-		}else{
-			player.miniJump();
-		}
 	}
 
 
@@ -164,6 +157,14 @@ public class Game2D extends JPanel {
 				//animacion de muerte
 				player.setVelocity(0, -15);
 			}
+			//TODO: separar movimiento de accion y permitir que el boss se siga moviendo en el draw?
+			if(boss.action(true, player.x, player.y, player.getBox(x_ori, y_ori))==-1){
+				if(boss.isVisible() && boss.collides && player.bossCollision(boss.getBox(x_ori, y_ori))){
+					end_game=true;
+				} 
+			}else{
+				player.miniJump();
+			}
 		}
 		if(end_game && player.y<height){
 			//animacion de muerte
@@ -186,6 +187,8 @@ public class Game2D extends JPanel {
 		if(e.getKeyCode() == Constants.teclaSaltop1 || e.getKeyCode() == Constants.teclaSaltop2){
 			player.jump();
 			//System.out.println("Up key pressed");
+		}else if(e.getKeyCode() == Constants.teclaSprintp1 || e.getKeyCode() == Constants.teclaSprintp2){
+			Constants.sprint = true;
 		}
 	}
 
