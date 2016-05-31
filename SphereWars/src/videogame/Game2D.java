@@ -73,9 +73,9 @@ public class Game2D extends JPanel {
 		int posY[] = {0};
 		back_parallax = new Parallax(num, back_images, velocity, posX, posY, width, height);
 		/* Carga el personaje en pantalla con su posición */
-		player = new Sphere(0,0,30,30);
+		double size = blockWidth*0.8;
+		player = new Sphere(0,0,(int)size,(int)size);
 		panel.setSphere(player);
-		player.setVelocity(0, 3);
 		//carga el boss
 		boss = new Boss(width-90,20,blockWidth,blockHeight,false, width, height);
 	}
