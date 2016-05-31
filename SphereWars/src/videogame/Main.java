@@ -479,7 +479,10 @@ public class Main implements Runnable, KeyListener{
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {		
+	public void keyReleased(KeyEvent e) {
+		if(Constants.gameState == Constants.GAME && e.getKeyCode()==Constants.teclaSprintp1 || e.getKeyCode()==Constants.teclaSprintp2){
+			game.keyReleased(e);
+		}
 	}
 
 	public Panel getPanel() {

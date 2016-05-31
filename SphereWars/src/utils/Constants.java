@@ -111,7 +111,8 @@ public class Constants {
 	public static final Position tesorosPos = new Position(xPos,170+ay);
 	public static final Position backModePos = new Position(xPos,230+ay);
 	
-	public static boolean sprint = false;
+	public static boolean sprintp1 = true;
+	public static boolean sprintp2 = true;
 	
 	public static final int guion = '-';
 	public static  float alphaComp = 1f;	

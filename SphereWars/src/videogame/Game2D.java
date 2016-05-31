@@ -183,12 +183,16 @@ public class Game2D extends JPanel {
 		wait_other_player = num_player > 1;
 	}
 
-	public void keyPressed(KeyEvent e) {
+	public void keyPressed(KeyEvent e, MapController map_cont) {
 		if(e.getKeyCode() == Constants.teclaSaltop1 || e.getKeyCode() == Constants.teclaSaltop2){
 			player.jump();
 			//System.out.println("Up key pressed");
-		}else if(e.getKeyCode() == Constants.teclaSprintp1 || e.getKeyCode() == Constants.teclaSprintp2){
-			Constants.sprint = true;
+		}else if(e.getKeyCode() == Constants.teclaSprintp1){
+			Constants.sprintp1 = true;
+			map_cont.setSpeedHigh();
+		}else if(e.getKeyCode() == Constants.teclaSprintp2){
+			Constants.sprintp2 = true;
+			map_cont.setSpeedHigh();
 		}
 	}
 
@@ -206,6 +210,16 @@ public class Game2D extends JPanel {
 
 	public void deathOtherPlayer() {
 		wait_other_player = false;
+	}
+
+	public void keyReleased(KeyEvent e, MapController map_cont) {
+		if(e.getKeyCode() == Constants.teclaSprintp1){
+			Constants.sprintp1 = false;
+			map_cont.setSpeedLow();
+		}else if(e.getKeyCode() == Constants.teclaSprintp2){
+			Constants.sprintp2 = false;
+			map_cont.setSpeedLow();
+		}
 	}
 
 }
