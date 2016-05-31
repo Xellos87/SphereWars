@@ -31,7 +31,7 @@
 	<plataform x_start="85" x_end="93" y_start="0" y_end="1"/>
 	<plataform x_start="85" x_end="85" y_start="2" y_end="5"/>
 	<plataform x_start="89" x_end="89" y_start="2" y_end="3"/>
-	<plataform x_start="95" x_end="99" y_start="0" y_end="1"/>
+	<plataform x_start="96" x_end="99" y_start="0" y_end="1"/>
 	
 	<spike direction="up" x_start="10" x_end="11" y_start="6" y_end="6"/>
 	<spike direction="up" x_start="15" x_end="21" y_start="0" y_end="0"/>
