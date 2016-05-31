@@ -8,6 +8,7 @@ import character.Sphere;
 //import com.jogamp.opengl.util.awt.TextRenderer;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
+import map.MapController;
 import utils.Constants;
 //import input.Input;
 
@@ -16,21 +17,22 @@ public class Panel {
 	
 	public Skeleton skeletons[];
 	//private Input input;
-	private double initPoint[];
-	private double newPos[];
+	private double initPointJ[], initPointF[];
+	private double newPosJ[], newPosF[];
 	private boolean memorized = false;
-	private int contMov = 0;
+	private int contMovJ = 0, contMovF = 0;
 	private final int movLim = 10; // 1 segundo 60 fps
-	private int p1Hand = 11;
+	private int p1HandJump = 11, p1HandFast = 7;
 	private int p2Hand = 11;
 	private int players;
-	private double xdelta, ydelta;
+	private double xdeltaJ, ydeltaJ, xdeltaF, ydeltaF;
 	public String mano = "";
 	private boolean playerDetected = false;
-	private boolean handUp = false;
-	private boolean firstTime = true;
+	private boolean handUp = false, handForward = false;;
+	private boolean firstTimeJ = true, firstTimeF = true;
 	
 	private Sphere sphere;
+	private MapController mapController;
 	
 	public Panel( int players, boolean debug) {
 		skeletons = new Skeleton[6];
@@ -52,73 +54,68 @@ public class Panel {
 			if (skeletons[i] != null) {
 				// Si se esta siguiento el esqueleto
 				if (skeletons[i].isTracked()) {
+					System.out.println("Tranqueado");
 					setPlayerDetected(true);
 					// Avanzamos el contador de jugador
 					player++;
-					int hand = 0;
-					if(Constants.zurdo)
-						p1Hand = 7;
-					else 
-						p1Hand = 11;
-					// Se cambia la mano dependiendo del jugador
-					if (player == 2) {
-						hand = p2Hand;
-					} else {
-						hand = p1Hand;
+					if(Constants.zurdo){
+						p1HandJump = 7;
+						p1HandFast = 11;
+					}
+					else {
+						p1HandJump = 11;
+						p1HandFast = 7;
 					}
 
 					// Si se ha detectado esqueleto y no hay mano inicializada
 					// se inicializa el punto de la mano
-					if (initPoint == null) {
-						inicializaMano(skeletons[i], hand);
+					if (initPointJ == null) {
+						inicializaMano(skeletons[i], p1HandJump, initPointJ);
 					}
-					/*
-					 * // Si se pulsa espacio se aprende la posicion
-					 * if(input.isSpace()){ input.setSpace(false); memorized =
-					 * true; initPoint[0] = skeletons[i].get3DJointX(11);
-					 * initPoint[1] = skeletons[i].get3DJointY(11); initPoint[2]
-					 * = skeletons[i].get3DJointZ(11); }
-					 */
-					// if(memorized){
-					if (initPoint != null) {
+					if (initPointF == null) {
+						inicializaMano(skeletons[i], p1HandFast, initPointF);
+					}
+					// Calculamos la logica de la mano del salto
+					if (initPointJ != null) {
 						double actpos[] = new double[3];
-						actpos = skeletons[i].get3DJoint(hand);
-						if (newPos != null) {
-							xdelta += actpos[0] - newPos[0];
-							ydelta += actpos[1] - newPos[1];
-							System.out.println(ydelta);
-							if (ydelta > 0.06 && firstTime) {
+						actpos = skeletons[i].get3DJoint(p1HandJump);
+						if (newPosJ != null) {
+							xdeltaJ += actpos[0] - newPosJ[0];
+							ydeltaJ += actpos[1] - newPosJ[1];
+							if (ydeltaJ > 0.06 && firstTimeJ) {
 								System.out.println("Arriba: ");
 								//Constants.gameState = Constants.PAUSE;
 								//mano = "Arriba: " + ydelta;
-								firstTime = false;
+								firstTimeJ = false;
 								if(sphere != null)
 									sphere.jump();
 								else	System.err.println("Error (Panel): No hay jugador");
-								
+								handUp = true;
+							}else if(ydeltaJ < 0.06){
+								handUp = false;
 							}
-							if (xdelta > 0.3) {
+							/*if (xdelta > 0.3) {
 								System.out.println("Delante");
-							}
+							}*/
 						}
-						if (distancia(initPoint, actpos) > 0.1) {
+						if (distancia(initPointJ, actpos) > 0.1) {
 							//System.out.println("Mano movida");
 							// Si es la primera vez o la distancia aumenta
 							// considerablemente
 							// la actualizamos porque se sigue moviendo
-							if (newPos == null || distancia(newPos, actpos) > 0.04) {
-								newPos = new double[3];
-								newPos[0] = actpos[0];
-								newPos[1] = actpos[1];
-								newPos[2] = actpos[2];
-								contMov = 0;
-								xdelta = 0;
-								ydelta = 0;
+							if (newPosJ == null || distancia(newPosJ, actpos) > 0.04) {
+								newPosJ = new double[3];
+								newPosJ[0] = actpos[0];
+								newPosJ[1] = actpos[1];
+								newPosJ[2] = actpos[2];
+								contMovJ = 0;
+								xdeltaJ = 0;
+								ydeltaJ = 0;
 							} else {
 								// Actualizamos el contador porque la mano
 								// parece estable
-								contMov++;
-								firstTime = true;
+								contMovJ++;
+								firstTimeJ = true;
 							}
 							// Si la mano lleva estable mas de movLim
 							// Se asume que el jugador no ha devuelto bien la
@@ -126,25 +123,85 @@ public class Panel {
 							// al punto de inicio y se resetea la posicion
 							// inicial si no se ha detectado un movimiento de juego
 							// (Para que no se memorice si la mano esta muy alta)
-							if (contMov >= movLim && !handUp) {
+							if (contMovJ >= movLim && !handForward) {
 								System.out.println("Memorizada");
-								contMov = 0;
-								firstTime = true;
-								initPoint = newPos;
-								newPos = null;
+								contMovJ = 0;
+								firstTimeJ = true;
+								initPointJ = newPosJ;
+								newPosJ = null;
 							}
 							
 						} else {
-							firstTime = true;
-							newPos = null;
+							firstTimeJ = true;
+							newPosJ = null;
 						}
 
 					}
-					// skeletons[i].getRightForearmTransform(transf,
-					// inv_transf);
-					// viewer.skeletons[i].get
-					// skeletons[i].draw(gl);
-					// skeletons[i].increaseTimesDrawn();
+					// Calculamos la logica de la mano de la aceleracion
+					if (initPointF != null) {
+						double actpos[] = new double[3];
+						actpos = skeletons[i].get3DJoint(p1HandFast);
+						if (newPosF != null) {
+							xdeltaF += actpos[0] - newPosF[0];
+							ydeltaF += actpos[1] - newPosF[1];
+							if (xdeltaF > 0.06 && firstTimeF) {
+								System.out.println("Delante: ");
+								//Constants.gameState = Constants.PAUSE;
+								//mano = "Arriba: " + ydelta;
+								firstTimeF = false;
+								if(sphere != null)
+									mapController.setSpeedHigh();
+									//sphere.;
+								else	System.err.println("Error (Panel): No hay jugador");
+								handForward = true;
+								
+							}else if(xdeltaF < 0.06){
+								handForward = false;
+							}
+							
+							/*if (xdelta > 0.3) {
+								System.out.println("Delante");
+							}*/
+						}
+						if (distancia(initPointF, actpos) > 0.1) {
+							//System.out.println("Mano movida");
+							// Si es la primera vez o la distancia aumenta
+							// considerablemente
+							// la actualizamos porque se sigue moviendo
+							if (newPosF == null || distancia(newPosF, actpos) > 0.04) {
+								newPosF = new double[3];
+								newPosF[0] = actpos[0];
+								newPosF[1] = actpos[1];
+								newPosF[2] = actpos[2];
+								contMovF = 0;
+								xdeltaF = 0;
+								ydeltaF = 0;
+							} else {
+								// Actualizamos el contador porque la mano
+								// parece estable
+								contMovF++;
+								firstTimeF = true;
+							}
+							// Si la mano lleva estable mas de movLim
+							// Se asume que el jugador no ha devuelto bien la
+							// mano
+							// al punto de inicio y se resetea la posicion
+							// inicial si no se ha detectado un movimiento de juego
+							// (Para que no se memorice si la mano esta muy alta)
+							if (contMovF >= movLim && !handForward) {
+								System.out.println("Memorizada");
+								contMovF = 0;
+								firstTimeF = true;
+								initPointF = newPosF;
+								newPosF = null;
+							}
+							
+						} else {
+							firstTimeF = true;
+							newPosF = null;
+						}
+
+					}
 				}
 			}
 		}
@@ -157,7 +214,7 @@ public class Panel {
 		return 0;
 	}
 
-	private void inicializaMano(Skeleton skel, int hand) {
+	private void inicializaMano(Skeleton skel, int hand, double initPoint[]) {
 		initPoint = new double[3];
 		initPoint[0] = skel.get3DJointX(hand);
 		initPoint[1] = skel.get3DJointY(hand);
@@ -259,13 +316,14 @@ public class Panel {
 		gl.glEnd();
 	}*/
 
+/*
 	public int getP1Hand() {
 		return p1Hand;
 	}
 
 	public void setP1Hand(int p1Hand) {
 		this.p1Hand = p1Hand;
-	}
+	}*/
 
 	public int getP2Hand() {
 		return p2Hand;
@@ -297,5 +355,13 @@ public class Panel {
 
 	public void setSphere(Sphere sphere) {
 		this.sphere = sphere;
+	}
+
+	public MapController getMapController() {
+		return mapController;
+	}
+
+	public void setMapController(MapController mapController) {
+		this.mapController = mapController;
 	}
 }
