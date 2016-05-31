@@ -62,7 +62,7 @@ public class Sphere extends GameObject implements Sprite{
 	private int canJump = 0;	
 	//TODO salto proporcional a tamaño
 	//private final int jumpVelocity = -18;
-	private final int jumpVelocity = -block_width/2;
+	private final int jumpVelocity = -block_width/3;
 	private final int miniJumpVelocity = -12;
 	private int jumpSpeed = jumpVelocity;
 	private int maxGravity = 10;
@@ -74,11 +74,13 @@ public class Sphere extends GameObject implements Sprite{
 	private AudioClip takeSound;
 	private int x_ori;
 	private int y_ori;
+	private int tick_action;
 
 	public Sphere(int x, int y, int block_width,int block_height) {
 		super(x,y,x_imgs[0],y_imgs[0], width_imgs[0], height_imgs[0], block_width, block_height);
 		this.type = NORMAL;
 		this.kills = false;
+		tick_action = 0;
 		soundJump = Audio.Load("audioEffects/boing_x.wav");
 		deathLiquid = Audio.Load("audioEffects/splash.wav");
 		takeSound = Audio.Load("audioEffects/coin.wav");
@@ -198,13 +200,11 @@ public class Sphere extends GameObject implements Sprite{
 			this.setVelocity(vx, maxGravity);
 		}
 		else{
-			//if(counter == Constants.speedActions){
-			this.setVelocity(vx, vy+1);
-			//	counter = 1;
-			//}	
-			//else{
-			//	counter++;
-			//}
+			tick_action++;
+			if(tick_action >= Constants.speedActions){
+				this.setVelocity(vx, vy+1);
+				tick_action = 0;
+			}
 		}		
 	}
 
@@ -220,12 +220,6 @@ public class Sphere extends GameObject implements Sprite{
 		}
 		//Control de mapa
 		MapObject map;
-		/*if(totalX < 0){
-			nextMap = false;
-			map = mc.getCurrentMap();
-			totalX = -block_width + map.getWidthBlocks()*mc.getWidthBlock();
-		}*/
-		//else{
 		//Mapa actual			
 		if(nextMap && mc.getPos()>0){
 			map = mc.getNextMap();
