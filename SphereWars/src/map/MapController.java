@@ -51,6 +51,7 @@ public class MapController {
 	private boolean newMap;
 	//Ancho total de la pantalla
 	private int width_total;
+	private int speed;
 
 	public MapController(int width, int height){
 		newMap = false;
@@ -72,6 +73,7 @@ public class MapController {
 		//Calcula la velocidad en funcion del bloque
 		speedLow = block_width / (8 * Constants.speedActions);
 		speedHigh = block_width / (5 * Constants.speedActions);
+		this.speed=speedLow;
 		//Carga aleatoriamente los 2 primeros mapas
 		loadMap();
 		loadMap();
@@ -286,10 +288,6 @@ public class MapController {
 		//TODO: 9 niveles de alto, 2 bloque de alto en salto, y 3 o 5 de largo segun velocidad
 		//5 velocidad normal y 7 velocidad rapida
 		//TODO: usar speedLow y speedHigh, los valores fijos no funcionan bien si cambia la resolución de pantalla del juego
-		int speed=speedLow;
-		if(Constants.sprint){
-			speed=speedHigh;
-		}
 		pixel_block += speed;
 		if(pixel_block / block_width >= 1){
 			pos_block++;
@@ -389,11 +387,7 @@ public class MapController {
 
 	//TODO devolver la velocidad correspondiente
 	public int getVelocity() {
-		if(!Constants.sprint){
-			return speedLow;
-		}else{
-			return speedHigh;
-		}
+		return speed;
 	}
 	
 	public int getBlockMov(){
@@ -429,5 +423,13 @@ public class MapController {
 	public void moveBot(){
 		first_map.moveBot();
 		second_map.moveBot();
+	}
+
+	public void setSpeedHigh() {
+		this.speed = speedHigh;
+	}
+
+	public void setSpeedLow() {
+		this.speed = speedLow;
 	}
 }
