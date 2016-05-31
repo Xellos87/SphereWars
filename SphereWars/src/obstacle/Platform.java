@@ -69,10 +69,9 @@ public class Platform extends GameObject implements Sprite, Model3D{
 		this.world = world;
 		this.kills = false;
 		
-		if(Constants.visualMode == Game.MODE_2D){
-			selectImage();
-			resize();
-		}else{
+		selectImage();
+		resize();
+		if(Constants.visualMode == Game.MODE_3D){
 			if(type != UNDERGROUND){
 				this.type = GROUND;
 			}

@@ -79,7 +79,7 @@ public class MapController {
 		//Calcula la velocidad en funcion del bloque
 		speedLow = block_width / (8 * Constants.speedActions);
 		speedHigh = block_width / (5 * Constants.speedActions);
-		this.speed=speedLow;
+		this.speed = speedLow;
 		//Establece el tipo de mapa a cargar
 		world = Platform.getWorld();
 		nature = Platform.getLiquid(world);

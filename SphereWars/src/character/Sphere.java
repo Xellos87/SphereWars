@@ -83,10 +83,9 @@ public class Sphere extends GameObject implements Sprite{
 		deathLiquid = Audio.Load("audioEffects/splash.wav");
 		takeSound = Audio.Load("audioEffects/coin.wav");
 		takeSound.setRepeat(true);
-		if(Constants.visualMode == Game.MODE_2D){
-			selectImage();
-			resize();
-		}else{
+		selectImage();
+		resize();
+		if(Constants.visualMode == Game.MODE_3D){
 			selectTexture();
 			loadModel3D();
 		}
@@ -139,8 +138,8 @@ public class Sphere extends GameObject implements Sprite{
 		tg_model3D.getTransform(transform);
 		transform.get(translate_vector);
 		//Mueve la esfera
-		translate_vector.x = x*0.001f;
-		translate_vector.y = y*0.001f;
+		translate_vector.x = x*0.002f;
+		translate_vector.y = y*0.002f;
 		//Establece la nueva posición
 		transform.set(translate_vector);
 		tg_model3D.setTransform(transform);
@@ -153,8 +152,8 @@ public class Sphere extends GameObject implements Sprite{
 		tg_model3D.getTransform(transform);
 		transform.get(translate_vector);
 		//Mueve la esfera
-		translate_vector.x += x*0.001f;
-		translate_vector.y += y*0.001f;
+		translate_vector.x += x*0.002f;
+		translate_vector.y += y*0.002f;
 		//Establece la nueva posición
 		transform.set(translate_vector);
 		tg_model3D.setTransform(transform);
@@ -211,7 +210,7 @@ public class Sphere extends GameObject implements Sprite{
 
 	public int checkCollision(MapController mc, int x_ori, int y_ori){
 		//TODO bug choque lateral en cambio de mapa, ej: columna en x:0 del segundo mapa
-		boolean print = false;	//False para no ver mensajes
+		boolean print = true;	//False para no ver mensajes
 		int result = -1;
 		//TODO colisiones con sprite que no ocupa todo el bloque
 		int collisionInf,collisionLat,collisionSup,collisionCen;
@@ -241,6 +240,7 @@ public class Sphere extends GameObject implements Sprite{
 		//int xMap = (this.x + (this.block_width/2)) / mc.getWidthBlock() + mc.getPos();
 		int xMap = (totalX + (block_width/2)) / mc.getWidthBlock();
 		int yMap = Math.abs((y + (block_height/2)) / mc.getHeightBlock() - mc.getMaxHeight());
+		System.out.printf("bw:%d, bh:%d, mbw:%d, mbh:%d\n", block_width,block_height,mc.getWidthBlock(),mc.getHeightBlock());
 		//Comprueba si esta en el siguiente mapa
 		if(xMap >= map.getWidthBlocks()){
 			//xMap = xMap - map.getWidthBlocks();

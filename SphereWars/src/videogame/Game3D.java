@@ -97,7 +97,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 	}
 
 	private void initPlayer() {
-		player = new Sphere(2*map.getWidthBlock(), 7*map.getHeightBlock(), map.getWidthBlock(), map.getHeightBlock());
+		player = new Sphere(0, 0, (int)(map.getWidthBlock()*0.8f), (int)(map.getHeightBlock()*0.8f));
 		TransformGroup tg = player.get3DModel();
 
 		//Mueve el mapa en el eje de las Y hacia abajo para llenar la pantalla
@@ -250,6 +250,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 			/* Acciones a realizar */
 			//TODO velocidad con la velocidad de plataformas
 			int block = player.checkCollision(map,x_ori,y_ori);
+			System.out.println(block);
 			switch (block) {
 			case Sphere.COLLINF:	//Colision inferior
 				player.setVelocity(2, 0);
@@ -271,6 +272,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 				break;
 			case Sphere.COLLDEATH:
 				end_game = true;
+				System.out.println("Muerte del jugador");
 				//restart(map_cont);
 				break;
 			case Sphere.COLLKILL:
