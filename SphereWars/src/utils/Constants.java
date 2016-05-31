@@ -111,8 +111,7 @@ public class Constants {
 	public static final Position tesorosPos = new Position(xPos,170+ay);
 	public static final Position backModePos = new Position(xPos,230+ay);
 	
-	//rutas a las imagenes del menu de creditos
-	
+	public static boolean sprint = false;
 	
 	public static final int guion = '-';
 	public static  float alphaComp = 1f;	
