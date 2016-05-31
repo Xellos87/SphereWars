@@ -3,6 +3,7 @@ package obstacle;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import javax.media.j3d.Appearance;
 import javax.media.j3d.BranchGroup;
@@ -165,5 +166,28 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	@Override
 	public void draw3D() {
 		
+	}
+
+	public static int getWorld() {
+		int[] world = {WORLD_FIELD,WORLD_DESSERT,WORLD_CASTLE,WORLD_SNOW,WORLD_GHOST};
+		Random rnd = new Random(System.currentTimeMillis());
+		int index = rnd.nextInt(world.length);
+		return world[index];
+	}
+
+	public static int getLiquid(int world) {
+		int liquid = 0;
+		switch(world){
+		case WORLD_FIELD:
+		case WORLD_DESSERT:
+		case WORLD_SNOW:
+			liquid = Liquid.WATER;
+			break;
+		case WORLD_CASTLE:
+		case WORLD_GHOST:
+			liquid = Liquid.MAGMA;
+			break;
+		}
+		return liquid;
 	}
 }
