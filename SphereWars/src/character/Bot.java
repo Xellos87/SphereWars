@@ -174,7 +174,6 @@ public class Bot extends GameObject implements Sprite, Model3D{
 				movX = -movX;
 			}
 			acumulate_mov = acumulate_mov + movX;
-			updatePosition();
 			//Transformación del objeto
 			Transform3D transform = new Transform3D();
 			Vector3f translate_vector = new Vector3f();
@@ -241,15 +240,15 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		return remove;
 	}
 	
-	private int updatePosition() {
+	public int updatePosition() {
 		int posX = 0;
 		if(acumulate_mov > 0 && acumulate_mov > width){
 			//Pasa a la casilla de la derecha
-			x = x + 1;
+			posX = 1;
 			acumulate_mov -=width;
 		}else if(acumulate_mov < 0 && acumulate_mov < -width){
 			//Pasa a la casilla de la izquierda
-			x = x - 1;
+			posX = -1;
 			acumulate_mov +=width;
 		}
 		return posX;

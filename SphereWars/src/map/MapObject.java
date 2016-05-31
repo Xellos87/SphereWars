@@ -230,6 +230,13 @@ public class MapObject {
 				//Borra el bot
 				b.remove();
 				removeObject(posBotY.get(i),posBotX.get(i));
+			}else{
+				int posX = b.updatePosition();
+				if(posX != 0){
+					objects[posBotY.get(i)][posBotX.get(i)+posX] = objects[posBotY.get(i)][posBotX.get(i)];
+					objects[posBotY.get(i)][posBotX.get(i)] = null;
+					posBotX.set(i, posBotX.get(i)+posX);
+				}
 			}
 		}
 	}
