@@ -29,7 +29,7 @@ public class MapController {
 	//Numero de bloques maximos para la altura
 	private final int MAX_HEIGHT = 9;
 	//Lista de mapas para cargar
-	private final String MAPS[] = {"maps/map04.xml"};
+	private final String MAPS[] = {"maps/genMap01.xml"};
 	//Indice del mapa actual
 	private int current_map;
 	//Posición en bloque dentro del mapa, y pixel dentro del bloque
@@ -69,7 +69,7 @@ public class MapController {
 			block_height = 42;
 			block_width = 42;
 		}else{
-			block_height = height / MAX_HEIGHT;
+			block_height = height / (MAX_HEIGHT+1);
 			block_width = block_height;
 		}
 		//Se suma 1 ya que la división entre enteros si no es exacta desprecia los decimales, asi ocupa todo el ancho
@@ -150,7 +150,7 @@ public class MapController {
 							type = Platform.UNDERGROUND;
 						}
 
-						Platform p = new Platform( x*block_width, (height-y)*block_height,block_width,block_height,type,world);
+						Platform p = new Platform( x*block_width, (height-1-y)*block_height,block_width,block_height,type,world);
 						second_map.addObject(p,x,y);
 						//System.out.printf("Agregado en x:%d, y:%d\n", x*block_width,(height-y)*block_height);
 						//System.out.printf("Tam en pantalla, ancho: %d, alto: %d\n",block_width,block_height);
@@ -182,7 +182,7 @@ public class MapController {
 				for(int y=y_start; y<=y_end; y++){
 					for(int x=x_start; x<=x_end; x++){
 						//Valor bueno de y = 240
-						Spike sp = new Spike(x*block_width, (height-y)*block_height,block_width,block_height,direction);
+						Spike sp = new Spike(x*block_width, (height-1-y)*block_height,block_width,block_height,direction);
 						second_map.addObject(sp,x,y);
 						//System.out.printf("Agregado en x:%d, y:%d\n", x*pixel_width,(height-y)*pixel_height);
 					}
@@ -210,7 +210,7 @@ public class MapController {
 						}else{
 							type = Liquid.DEEP;
 						}
-						Liquid l = new Liquid( x*block_width, (height-y)*block_height,block_width,block_height,type,nature);
+						Liquid l = new Liquid( x*block_width, (height-1-y)*block_height,block_width,block_height,type,nature);
 						second_map.addObject(l,x,y);
 						//System.out.printf("Agregado en x:%d, y:%d\n", x*block_width,(height-y)*block_height);
 						//System.out.printf("Tam en pantalla, ancho: %d, alto: %d\n",block_width,block_height);
@@ -228,7 +228,7 @@ public class MapController {
 
 				int type = Bot.SLIME;
 
-				Bot b = new Bot(x*block_width, (height-y)*block_height,block_width,block_height,type);
+				Bot b = new Bot(x*block_width, (height-1-y)*block_height,block_width,block_height,type);
 				second_map.addObject(b,x,y);
 			}
 			//Recorre todos los elementos treasure para agregarlo al mapa(Solo en Cazatesoros)
@@ -248,7 +248,7 @@ public class MapController {
 						type = Treasure.GEM;
 					}
 
-					Treasure t = new Treasure(x*block_width, (height-y)*block_height,block_width,block_height,type);
+					Treasure t = new Treasure(x*block_width, (height-1-y)*block_height,block_width,block_height,type);
 					second_map.addObject(t,x,y);
 				}
 			}

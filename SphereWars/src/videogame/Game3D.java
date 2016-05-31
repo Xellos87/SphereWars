@@ -91,10 +91,10 @@ public class Game3D extends Canvas3D implements KeyListener{
 		orbit.goHome();
 		//Agrega el listener del teclado
 		addKeyListener(this);
-
 		//Ejemplo de borrar un elemento del tipo tesoro del mapa
 		//((Treasure)map.getCurrentMap().getObject(7, 8)).removeObject();
 	}
+
 
 	private void initPlayer() {
 		player = new Sphere(0, 0, (int)(map.getWidthBlock()*0.8f), (int)(map.getHeightBlock()*0.8f));
