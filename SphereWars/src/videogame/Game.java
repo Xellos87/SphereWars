@@ -18,7 +18,7 @@ import scoreboard.GameScore;
 import utils.Constants;
 
 @SuppressWarnings("serial")
-public class Game extends JLayeredPane{
+public class Game extends JLayeredPane implements Runnable{
 	//Modos de juego
 	public final static int MODE_2D = 0;
 	public final static int MODE_3D = 1;
@@ -57,6 +57,16 @@ public class Game extends JLayeredPane{
 	//Metodo main
 	private Main main;
 	private boolean isPause;
+	//Variables de ejecución del hilo
+	private boolean running = true;
+	private int ActionsForSecond = 30 * Constants.speedActions;
+	private long targetTime = 1000000000/ActionsForSecond; //ns
+	private Thread thread;
+
+	//Tiempos de control de bucle
+	long start;
+	long elapsed;
+	long wait;
 
 
 	public Game(int width, int height, int type, int num_players, Main main){
@@ -135,6 +145,13 @@ public class Game extends JLayeredPane{
 			game3d.setBounds(0, height_score, width, height_game);
 			add(game3d, new Integer(0), 3);
 		}
+		//Activamos el hilo de acciones del juego
+		if(thread == null){
+			thread = new Thread(this);
+			thread.setPriority(Thread.MAX_PRIORITY);
+			thread.start();
+		}
+		
 	}
 
 	public void draw(){
@@ -148,7 +165,7 @@ public class Game extends JLayeredPane{
 		}else if(mode == MODE_3D){
 			if(Constants.gameState == Constants.GAME && isPause){
 				System.out.println("Repintado");
-				
+
 			}
 		}
 		score.draw(g2d);
@@ -321,7 +338,7 @@ public class Game extends JLayeredPane{
 		Constants.map_index = new ArrayList<Integer>();
 		reinitGame();
 	}
-	
+
 	public boolean isEndMenu(){
 		return end.isVisible();
 	}
@@ -337,4 +354,29 @@ public class Game extends JLayeredPane{
 		death_p1 = false;
 		death_p2 = num_players==1;
 		end.setVisible(false);
+	}
+
+	@Override
+	public void run() {
+
+		while(running){
+			start = System.nanoTime();
+			if(Constants.gameState == Constants.GAME){
+				actionGame();
+			}
+			elapsed = System.nanoTime() - start;
+			wait = targetTime - elapsed;
+			//Duerme el hilo hasta la siguiente actualizaciÃ³n
+			try {
+				if(wait>0) Thread.sleep(wait/1000000);
+			}
+			catch(Exception e) {
+				System.out.printf("start: %d\n", start);
+				System.out.printf("elapsed: %d\n", elapsed);
+				System.out.printf("wait: %d\n", wait);
+				System.out.printf("target: %d\n", targetTime);
+				e.printStackTrace();
+			};
+		}
+
 	}}

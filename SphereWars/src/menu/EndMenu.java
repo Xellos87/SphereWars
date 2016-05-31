@@ -436,7 +436,8 @@ public class EndMenu extends Menu{
 					}
 				}else{
 					//Se comprueba si el caracter es alfanumerico
-					if(Character.isLetterOrDigit(e.getKeyChar()) && Character.toUpperCase(e.getKeyChar()) != 'Ñ' ){
+					if(Character.isLetterOrDigit(e.getKeyChar()) && Character.toUpperCase(e.getKeyChar()) != 'Ñ' && Character.toUpperCase(e.getKeyChar()) != 'Ç'
+							&& Character.toUpperCase(e.getKeyChar()) != 'º' && Character.toUpperCase(e.getKeyChar()) != 'ª'){
 						if(write_p1 && name_p1.length()<3){
 							name_p1 += Character.toUpperCase(e.getKeyChar());
 						}

@@ -124,11 +124,11 @@ public class Main implements Runnable, KeyListener{
 		//Constants.conTeclado = false;
 		while(running){
 			start = System.nanoTime();
-			if(Constants.gameState == Constants.GAME){
+			/*if(Constants.gameState == Constants.GAME){
 				if(game != null){
 					game.actionGame();
 				}
-			}
+			}*/
 			if(game != null){
 				track = panel.trackHand();
 				if(track == 1 && Constants.gameState == Constants.GAME && !game.isEndMenu()){

@@ -70,8 +70,8 @@ public class MapController {
 		block_height_screen = height / block_height;
 		System.out.printf("bloques de ancho: %d, alto:%d\n", block_width_screen,block_height_screen);
 		//Calcula la velocidad en funcion del bloque
-		speedLow = block_width / 8;
-		speedHigh = block_width / 6;
+		speedLow = block_width / (8 * Constants.speedActions);
+		speedHigh = block_width / (6 * Constants.speedActions);
 		//Carga aleatoriamente los 2 primeros mapas
 		loadMap();
 		loadMap();

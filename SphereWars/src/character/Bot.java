@@ -53,7 +53,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 	private int direction;
 	//Variables relacionadas con la animación del movimiento en pantalla
 	private int tick_counter;
-	private int max_counter = 10;
+	private int max_counter = 10 * Constants.speedActions;
 	private int acumulate_mov = 0;
 	//Parpadeo al morir
 	private int num_blink;
@@ -61,7 +61,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 	private boolean visible;
 	//Variables relacionadas con el cambio de dirección ante un camino imposible
 	private int tick_change;
-	private int max_wait_change = 10;
+	private int max_wait_change = 10 * Constants.speedActions;
 	//
 	private AudioClip deathSound;
 	
@@ -122,7 +122,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 			int mov = 0;
 			if(tick_counter >= max_counter){
 				tick_counter -= max_counter;
-				mov = width / 20;
+				mov = width / 15;
 				if(state == WALK2){
 					state = WALK1;
 				}else{
