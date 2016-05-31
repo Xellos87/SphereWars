@@ -158,22 +158,22 @@ public class MapObject {
 	public int collision(int x, int y,int x_ori,int y_ori, GameObject object){
 		int result = NOCOLLISION;
 		if(x>=0 && x<width && y>=0 && y<height){
-			GameObject mapObject = objects[y][x];
-			if(mapObject != null){
+			GameObject gameObject = objects[y][x];
+			if(gameObject != null){
 				//System.out.println("Existe");
 				//System.out.printf("objeto x: %d, y: %d, w: %d, h: %d tx:%d\n", mapObject.getBox(0, 0).x, mapObject.getBox(0, 0).y,x,y,0);
 				//comprueba si intersecta
 				//result = COLLISION;
-				if(mapObject.intersects(object,x_ori,y_ori)){
+				if(gameObject.intersects(object,x_ori,y_ori)){
 					//System.out.println("Intersecta");
 					result = COLLISION;
 					//Comprueba si mata
-					if(mapObject.kills()){
+					if(gameObject.kills()){
 						System.out.println("Mata");
 						result = KILLS;
 					}
-					if(mapObject instanceof Bot){
-						Bot b = (Bot) mapObject;
+					if(gameObject instanceof Bot){
+						Bot b = (Bot) gameObject;
 						//Comprueba si mata al bot(colision por encima)
 						/*&&
 								mapObject.getPositionX() < object.getPositionX() &&
@@ -183,7 +183,7 @@ public class MapObject {
 							result = DEATH;
 						}
 					}
-					if(mapObject instanceof Treasure){
+					if(gameObject instanceof Treasure){
 						result = GET;
 					}
 				}
