@@ -29,7 +29,7 @@ public class MapController {
 	//Numero de bloques maximos para la altura
 	private final int MAX_HEIGHT = 9;
 	//Lista de mapas para cargar
-	private final String MAPS[] = {"maps/genMap01.xml"};
+	private final String MAPS[] = {"maps/map04.xml"};
 	//Indice del mapa actual
 	private int current_map;
 	//Posición en bloque dentro del mapa, y pixel dentro del bloque
@@ -257,7 +257,7 @@ public class MapController {
 		}
 	}
 
-	public void draw2D(Graphics2D g, int x_ori, int y_ori, boolean not_pause) {
+	public void updateMap(int x_ori, int y_ori, boolean not_pause) {
 		int width_map1;
 		int width_map2 = 0;
 		//Se suma 1 bloque al último mapa para evitar que aparezca de repente durante el desplazamiento
@@ -280,7 +280,7 @@ public class MapController {
 		for(int x=init_x; x<width_map1; x++){
 			int pos_x = ((x-pos_block)*block_width) - pixel_block;
 			for(int y=0; y<first_map.getHeightBlocks(); y++){
-				first_map.draw2D(g,x,y,x_ori,y_ori,pos_x,not_pause);
+				first_map.updateObjects(x,y,x_ori,y_ori,pos_x,not_pause);
 			}
 		}
 		//System.out.printf("----------\n");
@@ -288,7 +288,41 @@ public class MapController {
 		for(int x=0; x<width_map2; x++){
 			int pos_x = ((width_map1-pos_block+x)*block_width) - pixel_block;
 			for(int y=0; y<second_map.getHeightBlocks(); y++){
-				second_map.draw2D(g,x,y,x_ori,y_ori,pos_x,not_pause);
+				second_map.updateObjects(x,y,x_ori,y_ori,pos_x,not_pause);
+			}
+		}
+	}
+	
+	public void draw2D(Graphics2D g, int x_ori, int y_ori, boolean not_pause){
+		int width_map1;
+		int width_map2 = 0;
+		//Se suma 1 bloque al último mapa para evitar que aparezca de repente durante el desplazamiento
+		if((first_map.getWidthBlocks() - pos_block - 1) > block_width_screen){
+			//Solo hace falta el primer mapa
+			width_map1 = pos_block + block_width_screen + 1;
+		}else{
+			//Hay que representar parte del primer mapa y del segundo
+			width_map1 = first_map.getWidthBlocks();
+			width_map2 = block_width_screen - (width_map1 - pos_block) + 1;
+			//System.out.printf("Ancho del segundo mapa: %d \n", width_map2);
+		}
+		//System.out.printf("Ancho a primer mapa: %d \n", width_map1);
+		//Dibuja desde el primer mapa
+		int init_x = pos_block;
+		if(pos_block>0){
+			//Control para que se dibujen elementos que se mueven al salir de pantalla
+			init_x = pos_block-1;
+		}
+		for(int x=init_x; x<width_map1; x++){
+			for(int y=0; y<first_map.getHeightBlocks(); y++){
+				first_map.draw2D(g, x, y, x_ori, y_ori);
+			}
+		}
+		//System.out.printf("----------\n");
+		//Dibuja desde el segundo mapa si lo necesita
+		for(int x=0; x<width_map2; x++){
+			for(int y=0; y<second_map.getHeightBlocks(); y++){
+				second_map.draw2D(g, x, y, x_ori, y_ori);
 			}
 		}
 	}

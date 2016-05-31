@@ -152,6 +152,7 @@ public class Game2D extends JPanel {
 				player.gravity();
 				break;
 			}	
+			map_cont.updateMap(x_ori, y_ori,  Constants.gameState != Constants.PAUSE);
 			player.move();
 			if(end_game){
 				//animacion de muerte

@@ -35,6 +35,7 @@ import javax.media.j3d.Background;
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 
 import map.MapController;
+import utils.Constants;
 
 @SuppressWarnings("serial")
 public class Game3D extends Canvas3D implements KeyListener{
@@ -97,17 +98,17 @@ public class Game3D extends Canvas3D implements KeyListener{
 
 
 	private void initPlayer() {
-		player = new Sphere(0, 0, (int)(map.getWidthBlock()*0.8f), (int)(map.getHeightBlock()*0.8f));
+		player = new Sphere(0, 0, (int)(map.getWidthBlock()*0.8), (int)(map.getHeightBlock()*0.8));
 		TransformGroup tg = player.get3DModel();
 
 		//Mueve el mapa en el eje de las Y hacia abajo para llenar la pantalla
-//		Transform3D transform_map = new Transform3D();
-//		tg.getTransform(transform_map);
-//		Vector3f translate = new Vector3f();
-//		transform_map.get(translate);
-//		translate.y -= 0.1f;
-//		transform_map.set(translate);
-//		tg.setTransform(transform_map);
+		Transform3D transform_map = new Transform3D();
+		tg.getTransform(transform_map);
+		Vector3f translate = new Vector3f();
+		transform_map.get(translate);
+		translate.y += 0.34f;
+		transform_map.set(translate);
+		tg.setTransform(transform_map);
 		
 		rootBranchGroup.addChild(tg);
 	}
@@ -246,7 +247,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 				map_cont.addChild(bg);
 			}
 			//Mueve los bot del mapa si los hubiera, solo del mapa actual y el siguiente
-			map.moveBot();
+			//map.moveBot();
 			/* Acciones a realizar */
 			//TODO velocidad con la velocidad de plataformas
 			int block = player.checkCollision(map,x_ori,y_ori);
@@ -288,6 +289,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 				player.gravity();
 				break;
 			}	
+			map.updateMap(x_ori, y_ori, Constants.gameState != Constants.PAUSE);
 			player.move();
 			if(end_game){
 				//animacion de muerte

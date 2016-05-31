@@ -93,7 +93,7 @@ public class MapObject {
 		return height;
 	}
 
-	public void draw2D(Graphics2D g, int x, int y, int x_ori, int y_ori, int disp_x, boolean not_pause) {
+	public void updateObjects(int x, int y, int x_ori, int y_ori, int disp_x, boolean not_pause) {
 		if(objects[y][x] != null){
 			int mov = 0;
 			if(objects[y][x] instanceof Bot){
@@ -127,7 +127,6 @@ public class MapObject {
 						//Sin obstaculos y hay algo debajo
 						if(objects[y-1][x+1] instanceof Platform){
 							//Lo que hay debajo es una plataforma
-							//Lo que hay debajo es una plataforma
 							if(mov >= objects[y][x].getWidthScreen()){
 								//Ha pasado de casilla
 								((Bot)objects[y][x]).resetMov();
@@ -149,10 +148,17 @@ public class MapObject {
 				objects[y][x].getWidthScreen();
 			}
 			//System.out.printf("Plataforma %d: %d\n", x, disp_x);
-			objects[y][x].updatePositionX(mov+disp_x);
+			objects[y][x].updatePositionX(mov+disp_x);			
+		}
+	}
+	
+	public void draw2D(Graphics2D g, int x, int y, int x_ori, int y_ori) {
+		if(objects[y][x] != null){
 			((Sprite)objects[y][x]).draw2D(g, x_ori, y_ori);
 		}
 	}
+	
+	
 
 	//Devuelve si hay colision con algun objeto del mapa
 	public int collision(int x, int y,int x_ori,int y_ori, GameObject object){
