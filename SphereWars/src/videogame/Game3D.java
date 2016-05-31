@@ -102,14 +102,13 @@ public class Game3D extends Canvas3D implements KeyListener{
 		TransformGroup tg = player.get3DModel();
 
 		//Mueve el mapa en el eje de las Y hacia abajo para llenar la pantalla
-		Transform3D transform_map = new Transform3D();
+		/*Transform3D transform_map = new Transform3D();
 		tg.getTransform(transform_map);
 		Vector3f translate = new Vector3f();
 		transform_map.get(translate);
-		translate.y += 0.34f;
+		translate.y -= 0.5f;
 		transform_map.set(translate);
-		tg.setTransform(transform_map);
-		
+		tg.setTransform(transform_map);*/
 		rootBranchGroup.addChild(tg);
 	}
 
@@ -247,7 +246,6 @@ public class Game3D extends Canvas3D implements KeyListener{
 				map_cont.addChild(bg);
 			}
 			//Mueve los bot del mapa si los hubiera, solo del mapa actual y el siguiente
-			//map.moveBot();
 			/* Acciones a realizar */
 			//TODO velocidad con la velocidad de plataformas
 			int block = player.checkCollision(map,x_ori,y_ori);
@@ -290,6 +288,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 				break;
 			}	
 			map.updateMap(x_ori, y_ori, Constants.gameState != Constants.PAUSE);
+			map.moveBot();
 			player.move();
 			if(end_game){
 				//animacion de muerte
@@ -330,7 +329,11 @@ public class Game3D extends Canvas3D implements KeyListener{
 		//((Bot)map.getCurrentMap().getObject(3, 5)).death();
 		if(e.getKeyChar() == '.'){
 			orbit.goHome();
-		}else{
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
+			player.jump();
+		}
+		else{
 			//Propaga el evento de pulsar al main para tratarlo
 			main.keyPressed(e);
 		}		
