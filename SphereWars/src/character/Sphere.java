@@ -19,6 +19,7 @@ import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
 import javax.vecmath.Vector3f;
 
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 import com.sun.j3d.utils.geometry.Cylinder;
 import com.sun.j3d.utils.image.TextureLoader;
 
@@ -56,10 +57,16 @@ public class Sphere extends GameObject implements Sprite{
 	//Estado del jugador
 	private int type;
 	//Logica
+	private int counter = Constants.speedActions;
 	private boolean jump = false;
-	private int jumpVelocity = -15;
+	private int canJump = 0;	
+	//TODO salto proporcional a tamaño
+	//private final int jumpVelocity = -18;
+	private final int jumpVelocity = -block_width/2;
+	private final int miniJumpVelocity = -12;
+	private int jumpSpeed = jumpVelocity;
 	private int maxGravity = 10;
-	private int maxX = 200;  
+	private int maxX = block_width*6;  
 	private int totalX = 0;
 	boolean nextMap = false;
 	private AudioClip soundJump;
@@ -84,29 +91,29 @@ public class Sphere extends GameObject implements Sprite{
 			loadModel3D();
 		}
 	}
-	
+
 	private void selectTexture(){
 		//TODO rellenar con textura
 	}
-	
+
 	private void loadModel3D(){
 		//Apariencia de la esfera
 		Appearance app = new Appearance();
 		//Material de la esfera
-	    Material mat = new Material();
-	    mat.setAmbientColor(new Color3f(0.015f,0.03f,0.2f));
+		Material mat = new Material();
+		mat.setAmbientColor(new Color3f(0.015f,0.03f,0.2f));
 		mat.setDiffuseColor(new Color3f(0.0784f,0.1254f,0.8078f));
 		app.setMaterial(mat);	    
-	    //TODO Carga de textura
-	    /*TextureLoader  loader = new TextureLoader(texture);
+		//TODO Carga de textura
+		/*TextureLoader  loader = new TextureLoader(texture);
 	    Texture texture = loader.getTexture();
 	    app.setTexture(texture);
 	    //Atributos de textura
 	    TextureAttributes texAttr = new TextureAttributes();
         texAttr.setTextureMode(TextureAttributes.MODULATE);
         app.setTextureAttributes(texAttr);*/
-	    //Creacion de la esfera
-	    object_primitive = new com.sun.j3d.utils.geometry.Sphere(block_width*0.0007f,app);
+		//Creacion de la esfera
+		object_primitive = new com.sun.j3d.utils.geometry.Sphere(block_width*0.0007f,app);
 		tg_model3D = new TransformGroup();
 		tg_model3D.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 		tg_model3D.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
@@ -138,7 +145,7 @@ public class Sphere extends GameObject implements Sprite{
 		transform.set(translate_vector);
 		tg_model3D.setTransform(transform);
 	}
-	
+
 	private void setPosition3D(int x, int y) {
 		Transform3D transform = new Transform3D();
 		Vector3f translate_vector = new Vector3f();
@@ -169,9 +176,12 @@ public class Sphere extends GameObject implements Sprite{
 			System.err.println("soundnull");
 			System.exit(1);
 		}
-		soundJump.start();
-		jumpVelocity = -15;
-		jump = true;
+		if(canJump <= 0){
+			soundJump.start();
+			jumpSpeed = jumpVelocity;
+			jump = true;
+			canJump = 2;
+		}		
 	}
 
 	public void miniJump(){
@@ -180,7 +190,7 @@ public class Sphere extends GameObject implements Sprite{
 			System.exit(1);
 		}
 		soundJump.start();
-		jumpVelocity = -7;
+		jumpSpeed = miniJumpVelocity;
 		jump = true;
 	}
 
@@ -189,7 +199,13 @@ public class Sphere extends GameObject implements Sprite{
 			this.setVelocity(vx, maxGravity);
 		}
 		else{
+			//if(counter == Constants.speedActions){
 			this.setVelocity(vx, vy+1);
+			//	counter = 1;
+			//}	
+			//else{
+			//	counter++;
+			//}
 		}		
 	}
 
@@ -211,16 +227,16 @@ public class Sphere extends GameObject implements Sprite{
 			totalX = -block_width + map.getWidthBlocks()*mc.getWidthBlock();
 		}*/
 		//else{
-			//Mapa actual			
-			if(nextMap && mc.getPos()>0){
-				map = mc.getNextMap();
-			}
-			else{
-				nextMap = false;
-				map = mc.getCurrentMap();
-			}	
+		//Mapa actual			
+		if(nextMap && mc.getPos()>0){
+			map = mc.getNextMap();
+		}
+		else{
+			nextMap = false;
+			map = mc.getCurrentMap();
+		}	
 		//}
-			
+
 		//Calculo coordenadas respecto mapa
 		//int xMap = (this.x + (this.block_width/2)) / mc.getWidthBlock() + mc.getPos();
 		int xMap = (totalX + (block_width/2)) / mc.getWidthBlock();
@@ -262,10 +278,10 @@ public class Sphere extends GameObject implements Sprite{
 			System.out.printf("colision central x: %d, y: %d\n", xMap, yMap);
 			map.infoOject(xMap, yMap);
 		}
-		
+
 		//Actualiza la xtotal
 		totalX += mc.getVelocity() + vx;
-		
+
 		//Prioridad de colisiones	
 		if(collisionInf == MapObject.KILLS || collisionLat == MapObject.KILLS || collisionSup == MapObject.KILLS || collisionCen == MapObject.KILLS){
 			GameObject obj = null;
@@ -280,8 +296,7 @@ public class Sphere extends GameObject implements Sprite{
 				if(obj instanceof Liquid){
 					deathLiquid.start();
 				}
-			}
-			
+			}			
 			result = COLLDEATH;
 		}
 		else if(collisionInf == MapObject.DEATH || collisionCen == MapObject.DEATH){
@@ -355,6 +370,9 @@ public class Sphere extends GameObject implements Sprite{
 		else{
 			result = NOCOLLISION;
 		}
+		if(collisionInf == MapObject.COLLISION && canJump > 0){
+			canJump--;
+		}
 		return result;
 	}
 
@@ -365,11 +383,11 @@ public class Sphere extends GameObject implements Sprite{
 		}
 		if(jump){
 			jump = false;
-			this.setVelocity(vx, jumpVelocity);
+			this.setVelocity(vx, jumpSpeed);
 		}
-		setPosition(x+vx, y+vy);
+		setPosition((x+vx), (y+vy));
 		if(Constants.visualMode == Game.MODE_3D){
-			setPosition3D(vx,-vy);
+			setPosition3D(x+vx,-vy);
 		}
 	}
 
@@ -394,11 +412,12 @@ public class Sphere extends GameObject implements Sprite{
 
 	public boolean bossCollision(Rectangle bossBox) {
 		Rectangle playerBox = this.getBox(x_ori, y_ori);
-		if(bossBox.intersects(playerBox) && playerBox.y<bossBox.y){
+		if(bossBox.intersects(playerBox) && playerBox.y>bossBox.y &&
+				x+width > bossBox.x && x < bossBox.x+bossBox.width && vy > 0){
+			return false;
+		}else{
 			System.out.println("----------boss has killed you!!!");
 			return true;
-		}else{
-			return false;
 		}
 	}
 
