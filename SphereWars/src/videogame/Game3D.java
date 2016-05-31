@@ -59,7 +59,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 	private MapController map;
 	//Contenedor del mapa al que se le pueden aplicar diferentes transformaciones
 	private TransformGroup map_cont;
-
+	private OrbitBehavior orbit;
 
 	public Game3D(int width, int height, MapController map, Main main) {
 		super(SimpleUniverse.getPreferredConfiguration());
@@ -87,6 +87,8 @@ public class Game3D extends Canvas3D implements KeyListener{
 		initPlayer();
 		//Finaliza la creacion del mundo
 		finalise();
+		//coloca la camara en su lugar
+		orbit.goHome();
 		//Agrega el listener del teclado
 		addKeyListener(this);
 
@@ -99,13 +101,13 @@ public class Game3D extends Canvas3D implements KeyListener{
 		TransformGroup tg = player.get3DModel();
 
 		//Mueve el mapa en el eje de las Y hacia abajo para llenar la pantalla
-		Transform3D transform_map = new Transform3D();
-		tg.getTransform(transform_map);
-		Vector3f translate = new Vector3f();
-		transform_map.get(translate);
-		translate.y -= 0.1f;
-		transform_map.set(translate);
-		tg.setTransform(transform_map);
+//		Transform3D transform_map = new Transform3D();
+//		tg.getTransform(transform_map);
+//		Vector3f translate = new Vector3f();
+//		transform_map.get(translate);
+//		translate.y -= 0.1f;
+//		transform_map.set(translate);
+//		tg.setTransform(transform_map);
 		
 		rootBranchGroup.addChild(tg);
 	}
@@ -136,13 +138,13 @@ public class Game3D extends Canvas3D implements KeyListener{
 		map_cont.addChild(map.get3DFirstMap());
 		map_cont.addChild(map.get3DSecondMap());
 		//Mueve el mapa en el eje de las Y hacia abajo para llenar la pantalla
-		Transform3D transform_map = new Transform3D();
-		map_cont.getTransform(transform_map);
-		Vector3f translate = new Vector3f();
-		transform_map.get(translate);
-		translate.y -= 0.3f;
-		transform_map.set(translate);
-		map_cont.setTransform(transform_map);
+//		Transform3D transform_map = new Transform3D();
+//		map_cont.getTransform(transform_map);
+//		Vector3f translate = new Vector3f();
+//		transform_map.get(translate);
+//		translate.y -= 0.3f;
+//		transform_map.set(translate);
+//		map_cont.setTransform(transform_map);
 		//Agrega el contenedor de mapa a la raiz
 		rootBranchGroup.addChild(map_cont);
 	}
@@ -155,8 +157,14 @@ public class Game3D extends Canvas3D implements KeyListener{
 	private void camera_setup() {
 		//Establece el movimiento de la camara de forma que orbita alrededor del origen
 		//permite movmiento de rotacion, traslacion y zoom
-		OrbitBehavior orbit = new OrbitBehavior(this, OrbitBehavior.REVERSE_ALL);
+		orbit = new OrbitBehavior(this, OrbitBehavior.REVERSE_ALL);
 		orbit.setSchedulingBounds(new BoundingSphere());
+		Transform3D home=new Transform3D();
+		simpleU.getViewingPlatform().getViewPlatformTransform().getTransform(home);
+		//System.out.println(home.toString());
+		double[] homeM = {1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.4, 0.0, 0.0, 1.0, 2.41421356, 0.0, 0.0, 0.0, 1.0};
+		Transform3D homeT = new Transform3D(homeM);
+		orbit.setHomeTransform(homeT);		
 		ViewingPlatform vp = simpleU.getViewingPlatform();
 		vp.setViewPlatformBehavior(orbit);
 	}
@@ -217,6 +225,8 @@ public class Game3D extends Canvas3D implements KeyListener{
 		if(!end_game){
 			//Mueve el mapa
 			double dist = map.move();
+			//mueve la camara para que siga la esfera
+			//orbit.setRotationCenter(new Point3d(player.x,player.y,0));
 			//Realiza las transformaciones para mover el mapa
 			Transform3D translate = new Transform3D();
 			Vector3f translate_vector = new Vector3f();
@@ -314,8 +324,12 @@ public class Game3D extends Canvas3D implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		//((Bot)map.getCurrentMap().getObject(3, 5)).death();
-		//Propaga el evento de pulsar al main para tratarlo
-		main.keyPressed(e);
+		if(e.getKeyChar() == '.'){
+			orbit.goHome();
+		}else{
+			//Propaga el evento de pulsar al main para tratarlo
+			main.keyPressed(e);
+		}		
 	}
 
 	@Override
