@@ -52,8 +52,14 @@ public class MapController {
 	//Ancho total de la pantalla
 	private int width_total;
 	private int speed;
+	//Tipo de juego
+	private int type;
+	//Naturaleza del juego
+	private int world;
+	private int nature;
 
-	public MapController(int width, int height){
+	public MapController(int width, int height, int type){
+		this.type = type;
 		newMap = false;
 		current_map = 0;
 		pos_block = 0;
@@ -74,6 +80,9 @@ public class MapController {
 		speedLow = block_width / (8 * Constants.speedActions);
 		speedHigh = block_width / (5 * Constants.speedActions);
 		this.speed=speedLow;
+		//Establece el tipo de mapa a cargar
+		world = Platform.getWorld();
+		nature = Platform.getLiquid(world);
 		//Carga aleatoriamente los 2 primeros mapas
 		loadMap();
 		loadMap();
@@ -94,8 +103,6 @@ public class MapController {
 	}
 
 	private void parseMapXML(int index) {
-		int world = Platform.WORLD_FIELD;
-		int nature = Liquid.WATER;
 		try{
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -224,24 +231,26 @@ public class MapController {
 				Bot b = new Bot(x*block_width, (height-y)*block_height,block_width,block_height,type);
 				second_map.addObject(b,x,y);
 			}
-			//Recorre todos los elementos treasure para agregarlo al mapa
-			NodeList lst_treasure = element_header.getElementsByTagName("treasure");
-			for(int i=0; i<lst_treasure.getLength(); i++){
-				Element element_treasure = (Element) lst_treasure.item(i);
-				//X(anchura)
-				int x = Integer.parseInt(element_treasure.getAttribute("x"));
-				//Y(altura)
-				int y = Integer.parseInt(element_treasure.getAttribute("y"));
+			//Recorre todos los elementos treasure para agregarlo al mapa(Solo en Cazatesoros)
+			if(type == Game.COINS){
+				NodeList lst_treasure = element_header.getElementsByTagName("treasure");
+				for(int i=0; i<lst_treasure.getLength(); i++){
+					Element element_treasure = (Element) lst_treasure.item(i);
+					//X(anchura)
+					int x = Integer.parseInt(element_treasure.getAttribute("x"));
+					//Y(altura)
+					int y = Integer.parseInt(element_treasure.getAttribute("y"));
 
-				String type_s = element_treasure.getAttribute("type");
+					String type_s = element_treasure.getAttribute("type");
 
-				int type = Treasure.COIN;
-				if(type_s.equals("gem")){
-					type = Treasure.GEM;
+					int type = Treasure.COIN;
+					if(type_s.equals("gem")){
+						type = Treasure.GEM;
+					}
+
+					Treasure t = new Treasure(x*block_width, (height-y)*block_height,block_width,block_height,type);
+					second_map.addObject(t,x,y);
 				}
-
-				Treasure t = new Treasure(x*block_width, (height-y)*block_height,block_width,block_height,type);
-				second_map.addObject(t,x,y);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -309,6 +318,31 @@ public class MapController {
 		return ((double)speed) / block_width;
 	}
 
+	public double moveJump() {
+		//TODO: 9 niveles de alto, 2 bloque de alto en salto, y 3 o 5 de largo segun velocidad
+		//5 velocidad normal y 7 velocidad rapida
+		//TODO: usar speedLow y speedHigh, los valores fijos no funcionan bien si cambia la resolución de pantalla del juego
+		pixel_block += speed/2;
+		if(pixel_block / block_width >= 1){
+			pos_block++;
+			pixel_block = pixel_block % block_width;
+		}
+		if(pos_block >= first_map.getWidthBlocks()){
+			first_map = second_map;
+			pos_block = 0;
+			//Carga el siguiente mapa desde un hilo
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					loadMap();
+					newMap = true;
+				}
+			}).start();
+		}
+		return ((double)speed) / block_width;
+	}
+	
 	public int getNumMaps(){
 		return current_map;
 	}
@@ -389,19 +423,19 @@ public class MapController {
 	public int getVelocity() {
 		return speed;
 	}
-	
+
 	public int getBlockMov(){
 		return pixel_block;
 	}
-	
+
 	public int getMaxHeight(){
 		return MAX_HEIGHT;
 	}
-	
+
 	public TransformGroup get3DFirstMap(){
 		return first_map.get3DModel();
 	}
-	
+
 	public TransformGroup get3DSecondMap(){
 		newMap = false;
 		Transform3D translate = new Transform3D();
@@ -415,11 +449,11 @@ public class MapController {
 		tg.addChild(second_map.get3DModel());
 		return tg;
 	}
-	
+
 	public boolean hasNewMap(){
 		return newMap;
 	}
-	
+
 	public void moveBot(){
 		first_map.moveBot();
 		second_map.moveBot();
