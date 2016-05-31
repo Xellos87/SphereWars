@@ -123,9 +123,9 @@ public class Game extends JLayeredPane implements Runnable {
 		System.out.printf("w:%d, hs:%d, hg:%d\n", width, height_score, height_game);
 		// Inicializa los controladores de mapas necesarios
 		Constants.map_index = new ArrayList<Integer>();
-		map_p1 = new MapController(width, height_game);
+		map_p1 = new MapController(width, height_game,type);
 		if (mode == MODE_2D && num_players > 1) {
-			map_p2 = new MapController(width, height_game);
+			map_p2 = new MapController(width, height_game,type);
 		}
 		// Inicializa el juego
 		if (mode == MODE_2D) {
