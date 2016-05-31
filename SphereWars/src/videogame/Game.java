@@ -127,18 +127,19 @@ public class Game extends JLayeredPane implements Runnable {
 		if (mode == MODE_2D && num_players > 1) {
 			map_p2 = new MapController(width, height_game,type);
 		}
+		main.getPanel().setMapController(map_p1);
 		// Inicializa el juego
 		if (mode == MODE_2D) {
 			// Inicio de juego 2D, primer jugador
 			game2d_1p = new Game2D(width, height_game, num_players, map_p1.getWidthBlock(), map_p1.getHeightBlock(),
 					main.getPanel());
-			game2d_1p.setBounds(0, 0, width, height_game);
+			game2d_1p.setBounds(0, height_score, width, height_game);
 			add(game2d_1p, new Integer(0), 3);
 			if (num_players > 1) {
 				// Segundo jugador si lo hay
-				game2d_2p = new Game2D(width, height_game, num_players, map_p2.getWidthBlock(), map_p2.getHeightBlock(),
+				game2d_2p = new Game2D(width, height_game, num_players, map_p1.getWidthBlock(), map_p1.getHeightBlock(),
 						main.getPanel());
-				game2d_2p.setBounds(0, 0, width, height_game);
+				game2d_2p.setBounds(0, height_score + height_game, width, height_game);
 				add(game2d_2p, new Integer(0), 4);
 			}
 		} else if (mode == MODE_3D) {
