@@ -10,7 +10,7 @@ public class Kinect extends J4KSDK {
 	//ViewerPanel3D viewer = null;
 	JLabel label = null;
 	boolean mask_players = false;
-	public boolean skel = false;
+	//public boolean skel = false;
 	private Skeleton skeletons[];
 	private Panel myPanel;
 
@@ -57,6 +57,8 @@ public class Kinect extends J4KSDK {
 	public void onSkeletonFrameEvent(boolean[] flags, float[] positions, float[] orientations, byte[] state) {
 		// viewer.skeletons = new Skeleton[getSkeletonCountLimit()];
 		//System.out.println(" Esqueleto recibido");
+
+		myPanel.skel = true;
 		for (int i = 0; i < getSkeletonCountLimit(); i++) {
 			skeletons[i] = Skeleton.getSkeleton(i, flags, positions, orientations, state, this);
 			myPanel.skeletons[i] = skeletons[i];
