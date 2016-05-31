@@ -180,7 +180,7 @@ public class Boss extends GameObject implements Sprite {
 			}
 		}		
 		//Dibujo cada de colisiones
-		//g2d.draw(this.getBox(x_ori,y_ori));
+		g2d.draw(this.getBox(x_ori,y_ori));
 		this.x_ori=x_ori;
 		this.y_ori=y_ori;
 	}
@@ -292,15 +292,18 @@ public class Boss extends GameObject implements Sprite {
 				posicion = new Position(siguientePosicion.getX(),siguientePosicion.getY());
 			}
 		}
-		int haceDaño = -1;
+		int hitPlayer = -1;
 		if(tick_damage >= damageCounter){
 			collides = true;
 		}else{
-			collides=false;
+			collides = false;
 		}
 		//comprobacion de colisiones
 		if(collides && visible && state!=DEAD){
 			Rectangle bossBox = this.getBox(x_ori, y_ori);
+			Rectangle intesect = playerBox.intersection(bossBox);
+			System.out.println(intesect);
+			System.out.printf("p_y:%d, b_y:%d \n",playerBox.y,bossBox.y);
 			if(state != DEAD && bossBox.intersects(playerBox)){
 				if(playerBox.y<=bossBox.y){
 					
@@ -308,7 +311,7 @@ public class Boss extends GameObject implements Sprite {
 						this.health--;
 						System.out.println("---Han herido al jefe!!");
 						tick_damage = 0;
-						haceDaño=1;
+						hitPlayer=1;
 					}
 					if(health==0){
 						death();
@@ -319,13 +322,17 @@ public class Boss extends GameObject implements Sprite {
 						this.fly1right=fly1redright;
 						this.fly2right=fly2redright;
 					}
+				}else{
+					hitPlayer = 0;
+					System.out.println("---Han herido al jugador!!");
+					tick_damage = 0;
 				}
 			}
 		}
 		if(state == DEAD){
 			y+=vy;
 		}
-		return haceDaño;
+		return hitPlayer;
 	}
 
 	private void cambioDireccionX() {

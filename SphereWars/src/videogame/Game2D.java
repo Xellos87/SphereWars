@@ -158,11 +158,13 @@ public class Game2D extends JPanel {
 				player.setVelocity(0, -15);
 			}
 			//TODO: separar movimiento de accion y permitir que el boss se siga moviendo en el draw?
-			if(boss.action(true, player.x, player.y, player.getBox(x_ori, y_ori))==-1){
+			int col = boss.action(true, player.x, player.y, player.getBox(x_ori, y_ori));
+			if(col==0){
+				//Colision con el jefe, comprobar si es colision de muerte
 				if(boss.isVisible() && boss.collides && player.bossCollision(boss.getBox(x_ori, y_ori))){
 					end_game=true;
 				} 
-			}else{
+			}else if(col == 1){
 				player.miniJump();
 			}
 		}
