@@ -11,8 +11,10 @@ import javax.media.j3d.Material;
 import javax.media.j3d.TexCoordGeneration;
 import javax.media.j3d.Texture;
 import javax.media.j3d.TextureAttributes;
+import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
+import javax.vecmath.Matrix4f;
 
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.image.TextureLoader;
@@ -142,6 +144,11 @@ public class Platform extends GameObject implements Sprite, Model3D{
 		object_primitive.setAppearance(Box.TOP, appTop);
 		object_primitive.setAppearance(Box.BOTTOM, appBottom);
 		tg_model3D = new TransformGroup();
+		Transform3D transform = new Transform3D();
+		Matrix4f matrix = new Matrix4f();
+		tg_model3D.getTransform(transform);
+		transform.rotX(Math.PI);
+		tg_model3D.setTransform(transform);
 		branch_group = new BranchGroup();
 		branch_group.addChild(object_primitive);
 		tg_model3D.addChild(branch_group);

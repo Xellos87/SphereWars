@@ -141,7 +141,7 @@ public class Sphere extends GameObject implements Sprite{
 		transform.get(translate_vector);
 		//Mueve la esfera
 		translate_vector.x = x*0.002f;
-		translate_vector.y = y*0.002f;
+		translate_vector.y = -y*0.002f;
 		//Establece la nueva posición
 		transform.set(translate_vector);
 		tg_model3D.setTransform(transform);

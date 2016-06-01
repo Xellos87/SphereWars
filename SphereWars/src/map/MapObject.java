@@ -62,7 +62,7 @@ public class MapObject {
 		if(Constants.visualMode == Game.MODE_3D){
 			//System.out.printf("Add obj, x:%d, y:%d\n", x*block_width,y*block_height);
 			Transform3D translate = new Transform3D();
-			translate.setTranslation(new Vector3f(x*block_width*0.002f,y*block_height*0.002f,0));
+			translate.setTranslation(new Vector3f(x*block_width*0.002f,-y*block_height*0.002f,0));
 			TransformGroup tg = new TransformGroup(translate);
 			tg.addChild(((Model3D)obj).get3DModel());
 			group_object.addChild(tg);
