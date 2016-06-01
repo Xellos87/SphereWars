@@ -149,7 +149,7 @@ public class PauseMenu extends Menu {
 		//Cursor
 		g2d.drawImage(cursor_img,cursorX,cursorY,cursor_width,cursor_height, null);
 		
-		if(panel.isPlayerDetected()){
+		if(!panel.isPlayerDetected()){
 			g2d.setColor(new Color(255, 0, 0, 180));
 			g2d.drawString(TXT_KINECT,  kinectX, kinectY);
 		}

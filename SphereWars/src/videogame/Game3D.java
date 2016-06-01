@@ -261,7 +261,12 @@ public class Game3D extends Canvas3D implements KeyListener{
 			Vector3f translate_vector = new Vector3f();
 			map_cont.getTransform(translate);
 			translate.get(translate_vector);
-			translate_vector.x -= dist*0.076f;
+			if(Constants.scale==2){
+				translate_vector.x -= dist*0.076f;
+			}else if(Constants.scale==4){
+				translate_vector.x -= dist*0.076f*2;
+			}
+			
 			translate.set(translate_vector);
 			map_cont.setTransform(translate);
 			//Establece la puntuacion de distancia
