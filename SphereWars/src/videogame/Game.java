@@ -27,7 +27,7 @@ public class Game extends JLayeredPane implements Runnable {
 	public final static int COINS = 1;
 	public final static int TIME = 2;
 	// Alto del marcador
-	private int height_score = 100;
+	private int height_score = 50 * Constants.scale;
 	// Alto de la pantalla de juego
 	private int height_game;
 	// Altura y anchura de la pantalla

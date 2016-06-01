@@ -77,7 +77,7 @@ public class GameScore extends JPanel {
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) image.getGraphics();
 		// Calculo de la posicion de los nombres
-		Font f = font_bold.deriveFont(28.0f);
+		Font f = font_bold.deriveFont(14.0f*Constants.scale);
 		g.setFont(f);
 		int heigth_text = g.getFontMetrics().getHeight();
 		int width_text = g.getFontMetrics().stringWidth("Player 1");
@@ -88,7 +88,7 @@ public class GameScore extends JPanel {
 		player2X = width / 2 + player1X;
 		player2Y = player1Y;
 		// Calculo de dimensiones del texto
-		f = font_bold.deriveFont(22.0f);
+		f = font_bold.deriveFont(11.0f*Constants.scale);
 		g.setFont(f);
 		heigth_text = g.getFontMetrics().getHeight();
 		// Posicion del marcador del jugador 1
@@ -106,8 +106,8 @@ public class GameScore extends JPanel {
 		// Posicion de la puntuacion del jugador 2
 		score_p2X = player2X;
 		score_p2Y = score_p1Y;
-		sprintIconp1Pos = new Position(player1X + width_text, player1Y-30);
-		sprintIconp2Pos = new Position(player2X + width_text, player2Y-30);
+		sprintIconp1Pos = new Position(player1X + width_text, player1Y-(15*Constants.scale));
+		sprintIconp2Pos = new Position(player2X + width_text, player2Y-(15*Constants.scale));
 	}
 
 	private void initScoreBoard() {
@@ -154,7 +154,7 @@ public class GameScore extends JPanel {
 			}
 		}
 		// Nombre del jugador 1
-		Font f = font_bold.deriveFont(28.0f);
+		Font f = font_bold.deriveFont(14.0f*Constants.scale);
 		g2d.setFont(f);
 		g2d.setColor(new Color(255, 255, 255, 255));
 		g2d.drawString("Player 1", player1X, player1Y);
@@ -163,7 +163,7 @@ public class GameScore extends JPanel {
 			g2d.drawString("Player 2", player2X, player2Y);
 		}
 		// Puntuaciones
-		f = font_bold.deriveFont(22.0f);
+		f = font_bold.deriveFont(11.0f*Constants.scale);
 		g2d.setFont(f);
 		int inc_p1X = 0;
 		;
