@@ -1,4 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<map height="9" width="5">
-	<plataform x_start="0" x_end="4" y_start="0" y_end="1"/>
+<map height="9" width="100">
+	<plataform x_start="0" x_end="1" y_start="0" y_end="1"/>
+	<plataform x_start="0" x_end="2" y_start="4" y_end="4"/>	
+	<plataform x_start="4" x_end="7" y_start="0" y_end="1"/>
+	<plataform x_start="7" x_end="7" y_start="2" y_end="2"/>
+	<plataform x_start="10" x_end="10" y_start="3" y_end="3"/>
+	<plataform x_start="11" x_end="29" y_start="0" y_end="0"/>
+	<plataform x_start="11" x_end="15" y_start="1" y_end="1"/>
+	<plataform x_start="12" x_end="15" y_start="4" y_end="4"/>
+	<plataform x_start="16" x_end="16" y_start="5" y_end="5"/>
+	<plataform x_start="12" x_end="15" y_start="1" y_end="1"/>
+	<plataform x_start="19" x_end="29" y_start="1" y_end="2"/>
+	<plataform x_start="23" x_end="29" y_start="3" y_end="3"/>
+	<plataform x_start="26" x_end="27" y_start="4" y_end="4"/>
+	<plataform x_start="32" x_end="33" y_start="0" y_end="1"/>
+	<plataform x_start="36" x_end="38" y_start="0" y_end="0"/>
+	<plataform x_start="36" x_end="36" y_start="1" y_end="1"/>
+	<plataform x_start="38" x_end="38" y_start="0" y_end="1"/>
+	<plataform x_start="40" x_end="40" y_start="2" y_end="3"/>
+	<plataform x_start="41" x_end="51" y_start="0" y_end="0"/>
+	<plataform x_start="41" x_end="41" y_start="1" y_end="1"/>
+	<plataform x_start="46" x_end="51" y_start="1" y_end="1"/>
+	<plataform x_start="49" x_end="51" y_start="2" y_end="2"/>
+	<plataform x_start="51" x_end="51" y_start="3" y_end="3"/>
+	<plataform x_start="54" x_end="56" y_start="5" y_end="5"/>
+	<plataform x_start="58" x_end="69" y_start="0" y_end="1"/>
+	<plataform x_start="58" x_end="58" y_start="2" y_end="2"/>
+	<plataform x_start="60" x_end="61" y_start="5" y_end="5"/>
+	<plataform x_start="71" x_end="71" y_start="2" y_end="2"/>
+	<plataform x_start="74" x_end="76" y_start="0" y_end="1"/>
+	<plataform x_start="74" x_end="74" y_start="4" y_end="4"/>
+	<plataform x_start="77" x_end="79" y_start="4" y_end="4"/>
+	<plataform x_start="82" x_end="88" y_start="0" y_end="1"/>
+	<plataform x_start="85" x_end="88" y_start="2" y_end="2"/>
+	<plataform x_start="86" x_end="86" y_start="3" y_end="4"/>
+	<plataform x_start="89" x_end="89" y_start="5" y_end="5"/>
+	<plataform x_start="89" x_end="91" y_start="0" y_end="0"/>
+	<plataform x_start="92" x_end="96" y_start="0" y_end="1"/>
+	<plataform x_start="92" x_end="92" y_start="2" y_end="2"/>	
+	<plataform x_start="96" x_end="96" y_start="2" y_end="2"/>
+	<plataform x_start="92" x_end="93" y_start="5" y_end="5"/>
+	<plataform x_start="96" x_end="97" y_start="4" y_end="4"/>
+	<plataform x_start="99" x_end="99" y_start="0" y_end="1"/>	
+	<liquid x_start="2" x_end="3" y_start="0" y_end="1"/>
+	<liquid x_start="8" x_end="10" y_start="0" y_end="1"/>
+	<liquid x_start="16" x_end="18" y_start="1" y_end="1"/>
+	<liquid x_start="30" x_end="31" y_start="0" y_end="1"/>
+	<liquid x_start="34" x_end="35" y_start="0" y_end="1"/>
+	<liquid x_start="39" x_end="40" y_start="0" y_end="1"/>
+	<liquid x_start="52" x_end="57" y_start="0" y_end="1"/>
+	<liquid x_start="89" x_end="91" y_start="1" y_end="2"/>
+	<liquid x_start="97" x_end="98" y_start="0" y_end="1"/>
+	<spike direction="up" x_start="13" x_end="13" y_start="2" y_end="2"/>
+	<spike direction="up" x_start="15" x_end="15" y_start="5" y_end="5"/>
+	<spike direction="up" x_start="25" x_end="25" y_start="4" y_end="4"/>
+	<spike direction="up" x_start="61" x_end="61" y_start="2" y_end="2"/>
+	<spike direction="up" x_start="66" x_end="66" y_start="2" y_end="2"/>
+	<spike direction="up" x_start="73" x_end="74" y_start="2" y_end="2"/>
+	<spike direction="up" x_start="84" x_end="84" y_start="2" y_end="2"/>
+	<spike direction="up" x_start="87" x_end="87" y_start="3" y_end="3"/>
+	<treasure type="coin" x="2" y="5"/>
+	<treasure type="coin" x="7" y="3"/>
+	<treasure type="coin" x="6" y="6"/>
+	<treasure type="coin" x="21" y="3"/>
+	<treasure type="coin" x="24" y="4"/>
+	<treasure type="coin" x="30" y="5"/>
+	<treasure type="coin" x="36" y="2"/>
+	<treasure type="coin" x="40" y="4"/>
+	<treasure type="coin" x="51" y="4"/>
+	<treasure type="coin" x="54" y="6"/>
+	<treasure type="coin" x="78" y="5"/>
+	<treasure type="coin" x="92" y="6"/>
+	<treasure type="gem" x="44" y="6"/>
+	<treasure type="gem" x="59" y="2"/>
+	<treasure type="gem" x="74" y="4"/>
+	<treasure type="gem" x="77" y="5"/>
+	<bot x="5" y="2"/>
+	<bot x="15" y="2"/>
+	<bot x="29" y="4"/>
+	<bot x="37" y="1"/>
+	<bot x="44" y="1"/>
+	<bot x="63" y="2"/>
+	<bot x="79" y="5"/>
+	<bot x="83" y="2"/>
+	<bot x="88" y="3"/>
+	<bot x="95" y="2"/>
 </map>
