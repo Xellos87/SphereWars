@@ -402,4 +402,12 @@ public class Game extends JLayeredPane implements Runnable {
 		}
 
 	}
+
+	public void quit() {
+		setVisible(false);
+		if(Constants.visualMode == Game.MODE_3D){
+			game3d.removeKeyListener(game3d);
+			game3d.setFocusable(false);
+		}
+	}
 }

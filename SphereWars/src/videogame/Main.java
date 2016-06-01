@@ -431,9 +431,12 @@ public class Main implements Runnable, KeyListener{
 			}else{
 				int option = game.keyPressed(e);
 				if(option == EndMenu.QUIT){
+					game.quit();
 					game=null;
 					System.out.println("exit pulsado en menu end");
 					menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
+					window.requestFocus();
+					//TODO 
 					Constants.enMenu = true;
 					Constants.tipoMenu = Constants.titMenu;
 					menu.setDoubleBuffered(true);
