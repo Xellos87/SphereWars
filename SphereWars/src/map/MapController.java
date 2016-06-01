@@ -29,8 +29,7 @@ public class MapController {
 	//Numero de bloques maximos para la altura
 	private final int MAX_HEIGHT = 9;
 	//Lista de mapas para cargar
-	private final String MAPS[] = {"maps/genMap01.xml","maps/genMap02.xml","maps/funMap01.xml","maps/map03.xml","maps/map04.xml","maps/map05.xml","maps/map06.xml",
-			"maps/slimeTown.xml"};
+	private final String MAPS[] = {"maps/genMap01.xml","maps/genMap02.xml","maps/funMap01.xml","maps/map04.xml"};
 	//Indice del mapa actual
 	private int current_map;
 	//Posición en bloque dentro del mapa, y pixel dentro del bloque
