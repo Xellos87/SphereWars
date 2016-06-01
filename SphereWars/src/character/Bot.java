@@ -77,11 +77,10 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		this.kills = true;
 		this.visible = true;
 		deathSound = Audio.Load("audioEffects/mutantdie.wav");
-		if(Constants.visualMode == Game.MODE_2D){
-			selectImage();
-			resize();
-			rotateImage();
-		}else{
+		selectImage();
+		resize();
+		rotateImage();
+		if(Constants.visualMode == Game.MODE_3D){
 			selectTexture();
 			loadModel3D();
 		}		
