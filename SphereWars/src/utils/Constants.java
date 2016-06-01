@@ -52,6 +52,8 @@ public class Constants {
 	public static int numJugadores = 1;	//numero jugadores
 	public static int visualMode = Game.MODE_2D;
 	public static boolean cursorDesplazado = false;
+	public static int xOri = 0;
+	public static int yOri = 50 * Constants.scale;
 	
 	//rutas a las imagenes del menu de opciones
 	public static final String soundName = "fonts/opciones_sonido.png";
