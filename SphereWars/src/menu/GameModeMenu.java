@@ -119,7 +119,9 @@ public class GameModeMenu extends Menu {
 					cursor.getPosition().getY() + Constants.ay, cursor.getWidth() / 4, cursor.getHeight() / 4, null);
 		}
 		getGraphics().drawImage(offscreen, 0, 0, width, height, null);
-		getGraphics().dispose();
+		if(Constants.gameState == Constants.GAME){
+			getGraphics().dispose();
+		}
 	}
 
 	@Override
