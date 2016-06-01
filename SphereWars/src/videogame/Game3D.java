@@ -73,8 +73,8 @@ public class Game3D extends Canvas3D implements KeyListener{
 		this.end_game = false;
 		//Establece las opciones del canvas
 		setPreferredSize(new Dimension(width, height));
+		setFocusable(true);
 		setDoubleBufferEnable(true);
-		requestFocus();
 		//Inicializa la puntuacion
 		init_score();
 		//Inicia la configuracion del mundo
@@ -92,7 +92,8 @@ public class Game3D extends Canvas3D implements KeyListener{
 		//coloca la camara en su lugar
 		orbit.goHome();
 		//Agrega el listener del teclado
-		addKeyListener(this);
+		this.addKeyListener(this);
+		
 		//Ejemplo de borrar un elemento del tipo tesoro del mapa
 		//((Treasure)map.getCurrentMap().getObject(7, 8)).removeObject();
 	}
@@ -223,6 +224,12 @@ public class Game3D extends Canvas3D implements KeyListener{
 		//Establece la vista de la camara
 		simpleU.getViewingPlatform().setNominalViewingTransform();
 	}
+	
+	@Override
+	public void paint(Graphics arg0) {
+		super.paint(arg0);
+		requestFocus();
+	}
 
 	public boolean actionGame(int x_ori,int y_ori) {
 		if(!end_game){
@@ -350,7 +357,8 @@ public class Game3D extends Canvas3D implements KeyListener{
 
 	}
 
-	public void restart() {
+	public void restart(MapController map) {
+		this.map = map;
 		if(rootBranchGroup != null) {
 			rootBranchGroup.detach();
 		}

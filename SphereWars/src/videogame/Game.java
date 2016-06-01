@@ -358,13 +358,16 @@ public class Game extends JLayeredPane implements Runnable {
 	}
 
 	private void reinitGame() {
-		if (mode == MODE_2D) {
+		if (Constants.visualMode == MODE_2D) {
+			map_p1 = new MapController(width, height_game, type);
 			game2d_1p.restart(map_p1);
 			if (num_players > 1) {
+				map_p2 = new MapController(width, height_game, type);
 				game2d_2p.restart(map_p2);
 			}
-		} else if (mode == MODE_3D) {
-			game3d.restart();
+		} else if (Constants.visualMode == MODE_3D) {
+			map_p1 = new MapController(width, height_game, type);
+			game3d.restart(map_p1);
 		}
 		death_p1 = false;
 		death_p2 = num_players == 1;
