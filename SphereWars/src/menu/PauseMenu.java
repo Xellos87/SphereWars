@@ -9,6 +9,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
+import kinect.Panel;
 import utils.Constants;
 
 @SuppressWarnings("serial")
@@ -23,6 +24,7 @@ public class PauseMenu extends Menu {
 	private final String TXT_CONTINUE = "Continuar";
 	private final String TXT_RESTART = "Reiniciar";
 	private final String TXT_QUIT = "Salir";
+	private final String TXT_KINECT = "Jugador no detectado";
 	//Opción seleccionada
 	private int option;
 	//Imagen del cursor
@@ -38,15 +40,19 @@ public class PauseMenu extends Menu {
 	private int restartX, restartY;
 	private int quitX, quitY;
 	private int cursorX, cursorY;
+
+	private int kinectX, kinectY;
+	private Panel panel;
 	//Alto y ancho de la imagen
 	private int cursor_width, cursor_height;
 	//Movimiento de la opcion seleccionada
 	private int movX;
 	
 	
-	public PauseMenu(int width, int height) {
+	public PauseMenu(int width, int height, Panel panel) {
 		this.width = width;
 		this.height = height;
+		this.panel = panel;
 		setPreferredSize(new Dimension(width, height));
 		setFocusable(false);
 		setOpaque(false);
@@ -88,6 +94,9 @@ public class PauseMenu extends Menu {
 		//Calculo de salir
 		quitX = width/2 - width_text/2 - movX;
 		quitY = restartY + 2*height_text;
+		// Mensaje de kinect
+		kinectX = width/2 - width_text/2 - movX;
+		kinectY = quitY + 2*height_text;
 		//Calculo del cursor
 		cursor_width = movX-10;
 		cursor_height = (int) (cursor_img.getHeight() / (cursor_img.getWidth() / ((float) cursor_width)));
@@ -134,8 +143,16 @@ public class PauseMenu extends Menu {
 		g2d.drawString(TXT_RESTART, restartX + mov_restart, restartY);
 		//Opcion de salir
 		g2d.drawString(TXT_QUIT, quitX + mov_quit, quitY);
+		// Mensaje de kinect
+
+	
 		//Cursor
 		g2d.drawImage(cursor_img,cursorX,cursorY,cursor_width,cursor_height, null);
+		
+		if(panel.isPlayerDetected()){
+			g2d.setColor(new Color(255, 0, 0, 180));
+			g2d.drawString(TXT_KINECT,  kinectX, kinectY);
+		}
 	}
 
 	@Override
