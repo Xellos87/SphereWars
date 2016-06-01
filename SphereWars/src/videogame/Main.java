@@ -264,8 +264,9 @@ public class Main implements Runnable, KeyListener{
 						}
 						//desde el menu de opciones
 					}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.optMenu)){
+						//System.out.println(e.getKeyCode());
 						if(nuevoMenu.equalsIgnoreCase("sound")){
-							System.out.println(Constants.sound);
+							//System.out.println(Constants.sound);
 							Constants.sound = !Constants.sound;
 							if(Constants.sound)
 								music.playMenu();
@@ -277,11 +278,11 @@ public class Main implements Runnable, KeyListener{
 								Constants.zurdo = !Constants.zurdo;
 							}
 						}else if(nuevoMenu.equalsIgnoreCase("resolution")){
-							System.out.println(Constants.scale);
+							//System.out.println(Constants.scale);
 							if(Constants.scale == 2){
 								Constants.scale = 4;
-								Constants.ax=400;
-								Constants.ay=300;
+								Constants.ax=350;
+								Constants.ay=250;
 							}else if(Constants.scale == 4){
 								Constants.scale = 2;
 								Constants.ax=0;
@@ -402,7 +403,7 @@ public class Main implements Runnable, KeyListener{
 					
 				}
 			}else{				
-				//System.out.println((char)Constants.teclaSaltop1);
+				System.out.println(e.getKeyCode());
 				if(estaLibre(e.getKeyCode())){
 					Constants.esperandoTecla = false;
 					if(Constants.teclaPausap1==Constants.guion){

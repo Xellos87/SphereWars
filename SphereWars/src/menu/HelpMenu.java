@@ -142,6 +142,14 @@ public class HelpMenu extends Menu{
 				aux = "enter";
 			}else if(car == 38){
 				aux = "up";
+			}else if(car == 27){
+				aux = "ESC";
+			}else if(car == 37){
+				aux = "left";
+			}else if(car == 40){
+				aux = "down";
+			}else if(car == 39){
+				aux = "right";
 			}
 			offgc.drawString(teclados24, Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+180+Constants.ay);
 			offgc.drawString(aux+" para J1", Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+220+Constants.ay);
@@ -153,6 +161,14 @@ public class HelpMenu extends Menu{
 				aux = "enter";
 			}else if(car == 38){
 				aux = "up";
+			}else if(car == 27){
+				aux = "ESC";
+			}else if(car == 37){
+				aux = "left";
+			}else if(car == 40){
+				aux = "down";
+			}else if(car == 39){
+				aux = "right";
 			}
 			offgc.drawString("o "+aux+teclados242, Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+260+Constants.ay);
 			offgc.drawString(kinects2, Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+360+Constants.ay);
@@ -167,6 +183,14 @@ public class HelpMenu extends Menu{
 				aux = "enter";
 			}else if(car == 38){
 				aux = "up";
+			}else if(car == 27){
+				aux = "ESC";
+			}else if(car == 37){
+				aux = "left";
+			}else if(car == 40){
+				aux = "down";
+			}else if(car == 39){
+				aux = "right";
 			}
 			offgc.drawString(teclados24, Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+180+Constants.ay);
 			offgc.drawString(aux+" para J1", Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+220+Constants.ay);
@@ -178,6 +202,14 @@ public class HelpMenu extends Menu{
 				aux = "enter";
 			}else if(car == 38){
 				aux = "up";
+			}else if(car == 27){
+				aux = "ESC";
+			}else if(car == 37){
+				aux = "left";
+			}else if(car == 40){
+				aux = "down";
+			}else if(car == 39){
+				aux = "right";
 			}
 			offgc.drawString("o "+aux+teclados242, Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+260+Constants.ay);
 			offgc.drawString(kinects4, Constants.titlePos.getX()-30+Constants.ax, Constants.titlePos.getY()+360+Constants.ay);
