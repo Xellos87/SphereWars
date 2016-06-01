@@ -62,7 +62,7 @@ public class Sphere extends GameObject implements Sprite{
 	private int canJump = 0;	
 	//TODO salto proporcional a tamaño
 	//private final int jumpVelocity = -18;
-	private final int jumpVelocity = -block_width/3;
+	private int jumpVelocity = -block_width/3;
 	private final int miniJumpVelocity = -12;
 	private int jumpSpeed = jumpVelocity;
 	private int maxGravity = 10;
@@ -90,6 +90,11 @@ public class Sphere extends GameObject implements Sprite{
 		if(Constants.visualMode == Game.MODE_3D){
 			selectTexture();
 			loadModel3D();
+		}
+		if(Constants.scale==2){
+			jumpVelocity = -13;
+		}else if(Constants.scale==4){
+			jumpVelocity = -16;			
 		}
 	}
 
@@ -196,7 +201,13 @@ public class Sphere extends GameObject implements Sprite{
 	}
 
 	public void gravity(){		
-		if(vy+1 >= maxGravity){
+		int aum = 1;
+		if(Constants.scale == 2){
+			//aum = 7;
+		}else if(Constants.scale == 4){
+			aum=8;
+		}
+		if(vy+aum >= maxGravity){
 			this.setVelocity(vx, maxGravity);
 		}
 		else{
