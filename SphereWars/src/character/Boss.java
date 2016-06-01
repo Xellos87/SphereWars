@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import audio.Audio;
 import audio.AudioClip;
+import audio.Music;
 import graphic.Sprite;
 import utils.Constants;
 import utils.Position;
@@ -95,8 +96,10 @@ public class Boss extends GameObject implements Sprite {
 	
 	// Audio
 	private AudioClip deathSound;
+
+	Music music;
 	
-	public Boss(int x, int y, int block_width, int block_height,boolean esVisible, int anchoPantalla, int altoPantalla) {
+	public Boss(int x, int y, int block_width, int block_height,boolean esVisible, int anchoPantalla, int altoPantalla, Music music) {
 		super(x, y, x_imgs[0], y_imgs[0], width_imgs[0], height_imgs[0], block_width, block_height);
 		this.tick_counter = 0;
 		this.stopTickX=0;
@@ -114,6 +117,7 @@ public class Boss extends GameObject implements Sprite {
 		this.siguientePosicion = new Position(DCHA,ARRIBA);
 		this.yAnterior = this.x;
 		this.xAnterior = this.y;
+		this.music = music;
 		rellenarImagenes();
 		if(facingleft){
 			image = fly1right;
@@ -202,6 +206,7 @@ public class Boss extends GameObject implements Sprite {
 		rellenarImagenes();
 		deathSound.start();
 		reseteo = true;
+		if(music != null)music.playGame();
 	}
 	
 	public int action(boolean not_pause, int xPlayer, int yPlayer, Rectangle playerBox) {
@@ -214,6 +219,7 @@ public class Boss extends GameObject implements Sprite {
 		if(!visible && (System.currentTimeMillis() >= hazteVisible)){
 			this.visible=true;
 			System.out.println("-----empieza el boss!!");
+			if(music != null) music.playBoss();
 		}		
 		else if(state == DEAD && System.currentTimeMillis() > tiempoInicio){
 			state = FLY1;
