@@ -331,7 +331,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 		if(e.getKeyChar() == '.'){
 			orbit.goHome();
 		}
-		else if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
+		else if((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && Constants.gameState != Constants.PAUSE){
 			player.jump();
 		}
 		else{
