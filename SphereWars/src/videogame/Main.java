@@ -44,7 +44,7 @@ public class Main implements Runnable, KeyListener{
 
 	//Dimensiones del juego
 	private static int width = 320;
-	private static int height = 240;	
+	private static int height = 270;	
 
 
 	//Thread del juego

@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JPanel;
 
+import audio.Music;
 import character.Boss;
 import character.Sphere;
 import kinect.Panel;
@@ -40,7 +41,9 @@ public class Game2D extends JPanel {
 	private int blockHeight;
 	private Panel panel;
 
-	public Game2D(int width, int height, int num_player, int widthBlock, int heightBlock, Panel panel){
+	Music music;
+
+	public Game2D(int width, int height, int num_player, int widthBlock, int heightBlock, Panel panel, Music music){
 		this.width = width;
 		this.height = height;
 		this.end_game = false;
@@ -50,6 +53,7 @@ public class Game2D extends JPanel {
 		this.blockWidth=widthBlock;
 		this.blockHeight=heightBlock;
 		this.panel = panel;
+		this.music = music;
 		setPreferredSize(new Dimension(width, height));
 		setDoubleBuffered(true);
 		setFocusable(false);
@@ -77,7 +81,7 @@ public class Game2D extends JPanel {
 		player = new Sphere(0,0,(int)size,(int)size);
 		panel.setSphere(player);
 		//carga el boss
-		boss = new Boss(width-90,20,blockWidth,blockHeight,false, width, height);
+		boss = new Boss(width-90,20,blockWidth,blockHeight,false, width, height, music);
 	}
 
 	public void draw(Graphics2D g2d,int x_ori, int y_ori, MapController map_cont, boolean not_pause) {
@@ -138,6 +142,7 @@ public class Game2D extends JPanel {
 				break;
 			case Sphere.COLLDEATH:
 				end_game = true;
+				//restart(map_cont);
 				break;
 			case Sphere.COLLKILL:
 				player.miniJump();
