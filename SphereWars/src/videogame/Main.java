@@ -403,19 +403,24 @@ public class Main implements Runnable, KeyListener{
 			}else{
 				Constants.esperandoTecla = false;
 				//System.out.println((char)Constants.teclaSaltop1);
-				if(Constants.teclaPausap1==Constants.guion){
-					Constants.teclaPausap1 = e.getKeyCode();
-				}else if(Constants.teclaPausap2==Constants.guion){
-					Constants.teclaPausap2 = e.getKeyCode();
-				}else if(Constants.teclaSaltop1==Constants.guion){
-					Constants.teclaSaltop1 = e.getKeyCode();
-					//System.out.println((char)Constants.teclaSaltop1);
-				}else if(Constants.teclaSaltop2==Constants.guion){
-					Constants.teclaSaltop2 = e.getKeyCode();
-				}else if(Constants.teclaSprintp1==Constants.guion){
-					Constants.teclaSprintp1 = e.getKeyCode();
-				}else if(Constants.teclaSprintp2==Constants.guion){
-					Constants.teclaSprintp2 = e.getKeyCode();
+				if(estaLibre(e.getKeyCode())){
+					if(Constants.teclaPausap1==Constants.guion){
+						Constants.teclaPausap1 = e.getKeyCode();
+					}else if(Constants.teclaPausap2==Constants.guion){
+						Constants.teclaPausap2 = e.getKeyCode();
+					}else if(Constants.teclaSaltop1==Constants.guion){
+						Constants.teclaSaltop1 = e.getKeyCode();
+						//System.out.println((char)Constants.teclaSaltop1);
+					}else if(Constants.teclaSaltop2==Constants.guion){
+						Constants.teclaSaltop2 = e.getKeyCode();
+					}else if(Constants.teclaSprintp1==Constants.guion){
+						Constants.teclaSprintp1 = e.getKeyCode();
+					}else if(Constants.teclaSprintp2==Constants.guion){
+						Constants.teclaSprintp2 = e.getKeyCode();
+					}
+				}
+				else{
+					
 				}
 			}			
 			break;
@@ -478,9 +483,14 @@ public class Main implements Runnable, KeyListener{
 		//		};
 	}
 
+	private boolean estaLibre(int keyCode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(Constants.gameState == Constants.GAME && e.getKeyCode()==Constants.teclaSprintp1 || e.getKeyCode()==Constants.teclaSprintp2){
+		if(Constants.gameState == Constants.GAME && e.getKeyCode()==Constants.teclaSprintp1 || (Constants.numJugadores>1 && e.getKeyCode()==Constants.teclaSprintp2)){
 			game.keyReleased(e);
 		}
 	}

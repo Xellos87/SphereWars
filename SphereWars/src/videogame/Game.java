@@ -340,8 +340,8 @@ public class Game extends JLayeredPane implements Runnable {
 		if(mode == MODE_2D){
 			if(e.getKeyCode() == Constants.teclaSprintp1){
 				game2d_1p.keyReleased(e,map_p1);
-			}else if (e.getKeyCode() == Constants.teclaSprintp2){
-				game2d_2p.keyReleased(e, map_p1);
+			}else if (e.getKeyCode() == Constants.teclaSprintp2 && Constants.numJugadores>1){
+				game2d_2p.keyReleased(e, map_p2);
 			}
 		}else if(mode == MODE_3D){
 			
