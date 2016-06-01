@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 
 import audio.Music;
 import edu.ufl.digitalworlds.j4k.J4KSDK;
@@ -400,10 +401,10 @@ public class Main implements Runnable, KeyListener{
 					}
 					
 				}
-			}else{
-				Constants.esperandoTecla = false;
+			}else{				
 				//System.out.println((char)Constants.teclaSaltop1);
 				if(estaLibre(e.getKeyCode())){
+					Constants.esperandoTecla = false;
 					if(Constants.teclaPausap1==Constants.guion){
 						Constants.teclaPausap1 = e.getKeyCode();
 					}else if(Constants.teclaPausap2==Constants.guion){
@@ -418,9 +419,6 @@ public class Main implements Runnable, KeyListener{
 					}else if(Constants.teclaSprintp2==Constants.guion){
 						Constants.teclaSprintp2 = e.getKeyCode();
 					}
-				}
-				else{
-					
 				}
 			}			
 			break;
@@ -484,8 +482,13 @@ public class Main implements Runnable, KeyListener{
 	}
 
 	private boolean estaLibre(int keyCode) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean resul = true;
+		if(keyCode == Constants.teclaPausap1 || keyCode == Constants.teclaPausap2 || keyCode == Constants.teclaSaltop1 || 
+				keyCode == Constants.teclaSaltop2 || keyCode == Constants.teclaSprintp1 || keyCode == Constants.teclaSprintp2){
+			resul = false;
+			JOptionPane.showMessageDialog(window, "La tecla "+(char)keyCode+" ya se encuentra en uso");
+		}
+		return resul;
 	}
 
 	@Override
