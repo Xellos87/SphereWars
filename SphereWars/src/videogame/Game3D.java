@@ -305,6 +305,11 @@ public class Game3D extends Canvas3D implements KeyListener{
 		}
 		return end_game;
 	}
+	
+	public void quitGame(){
+		setFocusable(false);
+		removeKeyListener(this);
+	}
 
 	public int getCoins(){
 		return score_coins;
@@ -335,13 +340,17 @@ public class Game3D extends Canvas3D implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		//((Bot)map.getCurrentMap().getObject(3, 5)).death();
-		if(e.getKeyChar() == '.'){
-			orbit.goHome();
-		}
-		else if((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && Constants.gameState != Constants.PAUSE){
-			player.jump();
-		}
-		else{
+		if(Constants.gameState == Constants.GAME){
+			if(e.getKeyChar() == '.'){
+				orbit.goHome();
+			}
+			else if((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && Constants.gameState != Constants.PAUSE){
+				player.jump();
+			}else{
+				//Propaga el evento de pulsar al main para tratarlo
+				main.keyPressed(e);
+			}
+		}else{
 			//Propaga el evento de pulsar al main para tratarlo
 			main.keyPressed(e);
 		}		
