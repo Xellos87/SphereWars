@@ -34,6 +34,7 @@ public class PauseMenu extends Menu {
 	//Tamaño de los textos
 	private float title_size = 21.0f;
 	private float option_size = 13.0f;
+	private float kinect_size = 150.0f;
 	//Posiciones de los textos
 	private int pauseX, pauseY;
 	private int continueX, continueY;
@@ -95,7 +96,9 @@ public class PauseMenu extends Menu {
 		quitX = width/2 - width_text/2 - movX;
 		quitY = restartY + 2*height_text;
 		// Mensaje de kinect
-		kinectX = width/2 - width_text/2 - movX;
+
+		width_text = g.getFontMetrics().stringWidth(TXT_KINECT);
+		kinectX = width/2 - width_text/2;
 		kinectY = quitY + 2*height_text;
 		//Calculo del cursor
 		cursor_width = movX-10;
@@ -149,7 +152,7 @@ public class PauseMenu extends Menu {
 		//Cursor
 		g2d.drawImage(cursor_img,cursorX,cursorY,cursor_width,cursor_height, null);
 		
-		if(!panel.isPlayerDetected()){
+		if(!panel.isPlayerDetected() && !Constants.conTeclado){
 			g2d.setColor(new Color(255, 0, 0, 180));
 			g2d.drawString(TXT_KINECT,  kinectX, kinectY);
 		}
