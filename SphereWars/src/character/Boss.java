@@ -9,6 +9,15 @@ import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.media.j3d.Appearance;
+import javax.media.j3d.BranchGroup;
+import javax.media.j3d.Material;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
+import javax.vecmath.Color3f;
+import javax.vecmath.Vector3f;
+
+import com.sun.j3d.utils.geometry.Cylinder;
 
 import audio.Audio;
 import audio.AudioClip;
@@ -16,6 +25,7 @@ import audio.Music;
 import graphic.Sprite;
 import utils.Constants;
 import utils.Position;
+import videogame.Game;
 import videogame.GameObject;
 
 public class Boss extends GameObject implements Sprite {
@@ -127,6 +137,68 @@ public class Boss extends GameObject implements Sprite {
 		this.tiempoInicio = System.currentTimeMillis();
 		this.hazteVisible = tiempoInicio + 30000;
 		deathSound = Audio.Load("audioEffects/flie.wav");
+		if(Constants.visualMode == Game.MODE_3D){
+			selectTexture();
+			loadModel3D();
+		}
+	}
+	
+	private void selectTexture(){
+		//TODO rellenar con textura
+	}
+	
+	private void setPosition3D() {
+		Transform3D transform = new Transform3D();
+		Vector3f translate_vector = new Vector3f();
+		//Otiene la transformacion actual
+		tg_model3D.getTransform(transform);
+		transform.get(translate_vector);
+		//Mueve el boss
+		translate_vector.x = x*0.002f;
+		translate_vector.y = -y*0.002f;
+		//Establece la nueva posición
+		transform.set(translate_vector);
+		tg_model3D.setTransform(transform);
+	}
+	
+	private void loadModel3D(){
+		//Apariencia de la esfera
+		Appearance app = new Appearance();
+		//Material de la esfera
+		Material mat = new Material();
+		mat.setAmbientColor(Constants.black);
+		mat.setDiffuseColor(Constants.black);
+		app.setMaterial(mat);	    
+		//TODO Carga de textura
+		/*TextureLoader  loader = new TextureLoader(texture);
+	    Texture texture = loader.getTexture();
+	    app.setTexture(texture);
+	    //Atributos de textura
+	    TextureAttributes texAttr = new TextureAttributes();
+        texAttr.setTextureMode(TextureAttributes.MODULATE);
+        app.setTextureAttributes(texAttr);*/
+		//Creacion de la mosca
+		Transform3D t = new Transform3D();
+		//t.rotZ(Math.PI/4);
+		object_primitive = new Cylinder(block_width*0.002f, block_width*0.002f, Cylinder.GENERATE_NORMALS + Cylinder.GENERATE_TEXTURE_COORDS, app);
+		tg_model3D = new TransformGroup();
+		
+		tg_model3D.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		tg_model3D.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		tg_model3D.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		tg_model3D.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		tg_model3D.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+		branch_group = new BranchGroup();
+		branch_group.addChild(object_primitive);
+		branch_group.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		branch_group.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		branch_group.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		branch_group.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		branch_group.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+		tg_model3D.addChild(branch_group);
+		//tg_model3D.setTransform(t);
+		//Establece la posicion en 3D
+		setPosition3D();
 	}
 
 	private void rellenarImagenes() {
@@ -336,6 +408,9 @@ public class Boss extends GameObject implements Sprite {
 		}
 		if(state == DEAD){
 			y+=vy  / Constants.speedActions;
+		}
+		if(Constants.visualMode == Game.MODE_3D){
+			setPosition3D();
 		}
 		return hitPlayer;
 	}

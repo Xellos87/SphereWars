@@ -87,6 +87,8 @@ public class Game3D extends Canvas3D implements KeyListener{
 		addLights();
 		//Carga el jugador
 		initPlayer();
+		//Carga el boss 
+		initBoss();
 		//Finaliza la creacion del mundo
 		finalise();
 		//coloca la camara en su lugar
@@ -102,15 +104,12 @@ public class Game3D extends Canvas3D implements KeyListener{
 	private void initPlayer() {
 		player = new Sphere(0, 0, (int)(map.getWidthBlock()*0.8), (int)(map.getHeightBlock()*0.8));
 		TransformGroup tg = player.get3DModel();
-
-		//Mueve el mapa en el eje de las Y hacia abajo para llenar la pantalla
-		/*Transform3D transform_map = new Transform3D();
-		tg.getTransform(transform_map);
-		Vector3f translate = new Vector3f();
-		transform_map.get(translate);
-		translate.y += 0.69f;
-		transform_map.set(translate);
-		tg.setTransform(transform_map);*/
+		rootBranchGroup.addChild(tg);
+	}
+	
+	private void initBoss(){
+		boss = new Boss(width-90,20,map.getWidthBlock(),map.getHeightBlock(),true, width, height, main.music);
+		TransformGroup tg = boss.get3DModel();
 		rootBranchGroup.addChild(tg);
 	}
 
@@ -301,6 +300,16 @@ public class Game3D extends Canvas3D implements KeyListener{
 			if(end_game){
 				//animacion de muerte
 				player.setVelocity(0, -15);
+			}
+			//TODO: separar movimiento de accion y permitir que el boss se siga moviendo en el draw?
+			int col = boss.action(true, player.x, player.y, player.getBox(x_ori, y_ori));
+			if(col==0){
+				//Colision con el jefe, comprobar si es colision de muerte
+				if(boss.isVisible() && boss.collides && player.bossCollision(boss.getBox(x_ori, y_ori))){
+					end_game=true;
+				} 
+			}else if(col == 1){
+				player.miniJump();
 			}
 		}
 		return end_game;
