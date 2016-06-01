@@ -138,7 +138,6 @@ public class Game2D extends JPanel {
 				break;
 			case Sphere.COLLDEATH:
 				end_game = true;
-				//restart(map_cont);
 				break;
 			case Sphere.COLLKILL:
 				player.miniJump();

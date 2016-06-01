@@ -102,6 +102,8 @@ public class Game extends JLayeredPane implements Runnable {
 		setPreferredSize(new Dimension(width, height));
 		setDoubleBuffered(true);
 		setFocusable(false);
+		// Inicializa los controladores de mapas necesarios
+		Constants.map_index = new ArrayList<Integer>();
 		initGame();
 	}
 
@@ -115,14 +117,12 @@ public class Game extends JLayeredPane implements Runnable {
 		end = new EndMenu(width, height);
 		end.setBounds(0, 0, width, height);
 		end.setVisible(false);
-		// add(end,new Integer(0),1);
+		add(end,new Integer(0),1);
 		// Inicializa el marcador
 		score = new GameScore(width, height_score, num_players, type);
 		score.setBounds(0, 0, width, height_score);
 		// add(score, new Integer(0),2);
 		System.out.printf("w:%d, hs:%d, hg:%d\n", width, height_score, height_game);
-		// Inicializa los controladores de mapas necesarios
-		Constants.map_index = new ArrayList<Integer>();
 		map_p1 = new MapController(width, height_game,type);
 		if (mode == MODE_2D && num_players > 1) {
 			map_p2 = new MapController(width, height_game,type);
@@ -165,15 +165,10 @@ public class Game extends JLayeredPane implements Runnable {
 			if (num_players > 1) {
 				game2d_2p.draw(g2d, 0, height_score + height_game, map_p2, Constants.gameState != Constants.PAUSE);
 			}
-		} else if (mode == MODE_3D) {
-			if (Constants.gameState == Constants.GAME && isPause) {
-				System.out.println("Repintado");
-
-			}
 		}
 		score.draw(g2d);
 
-		if (Constants.gameState == Constants.PAUSE) {
+		if (Constants.gameState == Constants.PAUSE && !end.isVisible()) {
 			if (mode == MODE_3D) {
 				BufferedImage img3D = game3d.createBufferedImageFromCanvas3D();
 				g2d.drawImage(img3D, 0, height_score, null);
@@ -240,7 +235,9 @@ public class Game extends JLayeredPane implements Runnable {
 			}
 		} else if (mode == MODE_3D) {
 			// Realiza el movimiento del mapa y acciones del jugador
-			game3d.actionGame(0, height_score);
+			if(!death_p1){
+				death_p1 = game3d.actionGame(0, height_score);
+			}
 			// Obtiene las puntuaciones
 			if (type == RUNNER) {
 				double dist = game3d.getDistance();
@@ -344,10 +341,10 @@ public class Game extends JLayeredPane implements Runnable {
 				game2d_2p.keyReleased(e, map_p1);
 			}
 		}else if(mode == MODE_3D){
-			
+
 		}
 	}
-	
+
 	private void restartGame() {
 		Constants.map_index = new ArrayList<Integer>();
 		reinitGame();
@@ -364,7 +361,13 @@ public class Game extends JLayeredPane implements Runnable {
 				game2d_2p.restart(map_p2);
 			}
 		} else if (mode == MODE_3D) {
-			game3d.restart();
+			remove(game3d);
+			//Carga el mapa de nuevo
+			map_p1 = new MapController(width, height_game, type);
+			// Inicio de juego en 3D
+			game3d = new Game3D(width, height_game, map_p1, main);
+			game3d.setBounds(0, height_score, width, height_game);
+			add(game3d, new Integer(0), 3);
 		}
 		death_p1 = false;
 		death_p2 = num_players == 1;

@@ -54,6 +54,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 	private SimpleUniverse simpleU;
 	//Grupo que contiene todos los objetos de la escena
 	private BranchGroup rootBranchGroup;
+
 	//Metodo principal
 	private Main main;
 	//Mapa del juego
@@ -134,17 +135,18 @@ public class Game3D extends Canvas3D implements KeyListener{
 		map_cont.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
 		map_cont.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
 		map_cont.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+		map_cont.setCapability(TransformGroup.ALLOW_PARENT_READ);
 		//Carga los primeros mapas en el contenedor
 		map_cont.addChild(map.get3DFirstMap());
 		map_cont.addChild(map.get3DSecondMap());
 		//Mueve el mapa en el eje de las Y hacia abajo para llenar la pantalla
-//		Transform3D transform_map = new Transform3D();
-//		map_cont.getTransform(transform_map);
-//		Vector3f translate = new Vector3f();
-//		transform_map.get(translate);
-//		translate.y -= 0.3f;
-//		transform_map.set(translate);
-//		map_cont.setTransform(transform_map);
+		//		Transform3D transform_map = new Transform3D();
+		//		map_cont.getTransform(transform_map);
+		//		Vector3f translate = new Vector3f();
+		//		transform_map.get(translate);
+		//		translate.y -= 0.3f;
+		//		transform_map.set(translate);
+		//		map_cont.setTransform(transform_map);
 		//Agrega el contenedor de mapa a la raiz
 		rootBranchGroup.addChild(map_cont);
 	}
@@ -183,6 +185,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 		rootBranchGroup.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
 		rootBranchGroup.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
 		rootBranchGroup.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+		rootBranchGroup.setCapability(BranchGroup.ALLOW_DETACH);
 		//Establece el fondo del universo
 		Background background = new Background(new Color3f(0.3476f,0.6484f,0.9257f));
 		BoundingSphere sphere = new BoundingSphere(new Point3d(0,0,0), 100000);
@@ -271,8 +274,6 @@ public class Game3D extends Canvas3D implements KeyListener{
 				break;
 			case Sphere.COLLDEATH:
 				end_game = true;
-				System.out.println("Muerte del jugador");
-				//restart(map_cont);
 				break;
 			case Sphere.COLLKILL:
 				player.miniJump();
@@ -350,15 +351,23 @@ public class Game3D extends Canvas3D implements KeyListener{
 	}
 
 	public void restart() {
-		//Deshace la transofrmacion de movmiento del mapa en el eje de las x
-		Transform3D translate = new Transform3D();
-		Vector3f translate_vector = new Vector3f();
-		map_cont.getTransform(translate);
-		translate.get(translate_vector);
-		translate_vector.x = 0;
-		translate.set(translate_vector);
-		map_cont.setTransform(translate);
-		//Reinicia los marcadores
-		init_score();
+		if(rootBranchGroup != null) {
+			rootBranchGroup.detach();
+		}
+		getView().removeAllCanvas3Ds();
+		//Inicia la configuracion del mundo
+		initial_setup();
+		//Establece la posicion y movimientos de la camara
+		camera_setup();
+		//Carga el contenedor del mapa y los mapas iniciales
+		loadMap();
+		//Carga la iluminacion
+		addLights();
+		//Carga el jugador
+		initPlayer();
+		//Finaliza la creacion del mundo
+		finalise();
+		//coloca la camara en su lugar
+		orbit.goHome();
 	}
 }
