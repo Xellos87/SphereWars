@@ -29,7 +29,7 @@ public class MapController {
 	//Numero de bloques maximos para la altura
 	private final int MAX_HEIGHT = 9;
 	//Lista de mapas para cargar
-	private final String MAPS[] = {"maps/map06.xml"};
+	private final String MAPS[] = {"maps/genMap01.xml","maps/genMap02.xml","maps/funMap01.xml","maps/map04.xml"};
 	//Indice del mapa actual
 	private int current_map;
 	//Posición en bloque dentro del mapa, y pixel dentro del bloque
@@ -57,6 +57,8 @@ public class MapController {
 	//Naturaleza del juego
 	private int world;
 	private int nature;
+	//
+	private static Random rnd = new Random(System.currentTimeMillis());
 
 	public MapController(int width, int height, int type){
 		this.type = type;
@@ -87,8 +89,7 @@ public class MapController {
 
 	public void loadMap() {
 		int index = MapController.getNumberMap(current_map, MAPS.length);
-
-		System.out.printf("Mapa: %d\n", index);
+		System.out.printf("Mapa: %d - %s\n", index, MAPS[index]);
 		//Pone el segundo mapa como primero, el nuevo se carga en el segundo
 		first_map = second_map;
 		//Parsear el fichero de mapas
@@ -401,12 +402,13 @@ public class MapController {
 	public static synchronized int getNumberMap(int current, int num_maps){
 		int index;
 		if(Constants.map_index.size() <= current){
-			Random rnd = new Random(System.currentTimeMillis());
 			index = rnd.nextInt(num_maps);
+			System.out.println("en if");
+			Constants.map_index.add(index);
 		}else{
 			index = Constants.map_index.get(current);
+			System.out.println("en else");
 		}
-		Constants.map_index.add(index);
 		return index;
 	}
 
