@@ -95,7 +95,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 		orbit.goHome();
 		//Agrega el listener del teclado
 		this.addKeyListener(this);
-		
+
 		//Ejemplo de borrar un elemento del tipo tesoro del mapa
 		//((Treasure)map.getCurrentMap().getObject(7, 8)).removeObject();
 	}
@@ -106,9 +106,9 @@ public class Game3D extends Canvas3D implements KeyListener{
 		TransformGroup tg = player.get3DModel();
 		rootBranchGroup.addChild(tg);
 	}
-	
+
 	private void initBoss(){
-		boss = new Boss(width-90,20,map.getWidthBlock(),map.getHeightBlock(),true, width, height, main.music);
+		boss = new Boss(width-90,20,map.getWidthBlock(),map.getHeightBlock(),false, width, height, main.music);
 		TransformGroup tg = boss.get3DModel();
 		rootBranchGroup.addChild(tg);
 	}
@@ -223,7 +223,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 		//Establece la vista de la camara
 		simpleU.getViewingPlatform().setNominalViewingTransform();
 	}
-	
+
 	@Override
 	public void paint(Graphics arg0) {
 		super.paint(arg0);
@@ -258,7 +258,6 @@ public class Game3D extends Canvas3D implements KeyListener{
 			/* Acciones a realizar */
 			//TODO velocidad con la velocidad de plataformas
 			int block = player.checkCollision(map,x_ori,y_ori);
-			System.out.println(block);
 			switch (block) {
 			case Sphere.COLLINF:	//Colision inferior
 				player.setVelocity(2, 0);
@@ -314,7 +313,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 		}
 		return end_game;
 	}
-	
+
 	public void quitGame(){
 		setFocusable(false);
 		removeKeyListener(this);
@@ -349,11 +348,11 @@ public class Game3D extends Canvas3D implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		//((Bot)map.getCurrentMap().getObject(3, 5)).death();
-		if(Constants.gameState == Constants.GAME){
+		if(!end_game && Constants.gameState == Constants.GAME){
 			if(e.getKeyChar() == '.'){
 				orbit.goHome();
 			}
-			else if((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && Constants.gameState != Constants.PAUSE){
+			else if(e.getKeyCode() == Constants.teclaSaltop1 && Constants.gameState != Constants.PAUSE){
 				player.jump();
 			}else{
 				//Propaga el evento de pulsar al main para tratarlo
@@ -376,11 +375,14 @@ public class Game3D extends Canvas3D implements KeyListener{
 	}
 
 	public void restart(MapController map) {
+		this.end_game = false;
 		this.map = map;
 		if(rootBranchGroup != null) {
 			rootBranchGroup.detach();
 		}
 		getView().removeAllCanvas3Ds();
+		//Inicializa la puntuacion
+		init_score();
 		//Inicia la configuracion del mundo
 		initial_setup();
 		//Establece la posicion y movimientos de la camara
@@ -389,6 +391,8 @@ public class Game3D extends Canvas3D implements KeyListener{
 		loadMap();
 		//Carga la iluminacion
 		addLights();
+		//Carga el boss 
+		initBoss();
 		//Carga el jugador
 		initPlayer();
 		//Finaliza la creacion del mundo

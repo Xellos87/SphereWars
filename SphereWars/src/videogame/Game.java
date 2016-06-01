@@ -187,7 +187,6 @@ public class Game extends JLayeredPane implements Runnable {
 				BufferedImage img3D = game3d.createBufferedImageFromCanvas3D();
 				g2d.drawImage(img3D, 0, height_score, null);
 			}
-			end.setVisible(true);
 			end.draw(g2d);
 		}
 		getGraphics().drawImage(offscreen, 0, 0, width, height, null);
@@ -208,7 +207,7 @@ public class Game extends JLayeredPane implements Runnable {
 	}
 
 	public void actionGame() {
-		if (mode == MODE_2D) {
+		if (Constants.visualMode == MODE_2D) {
 			death_p1 = game2d_1p.actionGame(0, height_score, map_p1);
 			if (num_players > 1) {
 				death_p2 = game2d_2p.actionGame(0, height_score + height_game, map_p2);
@@ -236,7 +235,7 @@ public class Game extends JLayeredPane implements Runnable {
 					score.setScoreCoinsP2(coins);
 				}
 			}
-		} else if (mode == MODE_3D) {
+		} else if (Constants.visualMode == MODE_3D) {
 			// Realiza el movimiento del mapa y acciones del jugador
 			death_p1 = game3d.actionGame(0, height_score);
 			// Obtiene las puntuaciones
@@ -308,18 +307,14 @@ public class Game extends JLayeredPane implements Runnable {
 				int opt = end.keyPressed(e);
 				switch (opt) {
 				case EndMenu.RESTART:
-					Constants.gameState = Constants.GAME;
 					restartGame();
 					break;
 				case EndMenu.REPEAT:
-					Constants.gameState = Constants.GAME;
 					reinitGame();
 					break;
 				case EndMenu.QUIT:
 					response = EndMenu.QUIT;
-					if(Constants.visualMode == MODE_3D){
-						game3d.quitGame();
-					}
+					end.setVisible(false); 
 					break;
 				}
 			}
@@ -372,6 +367,9 @@ public class Game extends JLayeredPane implements Runnable {
 			}
 		} else if (Constants.visualMode == MODE_3D) {
 			map_p1 = new MapController(width, height_game, type);
+			//game3d = new Game3D(width, height_game, map_p1, main);
+			//game3d.setBounds(0, height_score, width, height_game);
+			//add(game3d, new Integer(0), 3);
 			game3d.restart(map_p1);
 		}
 		death_p1 = false;
@@ -384,7 +382,7 @@ public class Game extends JLayeredPane implements Runnable {
 
 		while (running) {
 			start = System.nanoTime();
-			if (Constants.gameState == Constants.GAME) {
+			if (Constants.gameState == Constants.GAME && (!death_p1 || !death_p2)) {
 				actionGame();
 			}
 			elapsed = System.nanoTime() - start;

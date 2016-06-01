@@ -97,69 +97,71 @@ public class MapObject {
 	public void updateObjects(int x, int y, int x_ori, int y_ori, int disp_x, boolean not_pause) {
 		if(objects[y][x] != null){
 			int mov = 0;
-			if(objects[y][x] instanceof Bot){
-				mov = ((Bot)objects[y][x]).action(not_pause);
-				if(mov<0){
-					//Se mueve hacia la derecha
-					if(objects[y][x-1] == null && objects[y-1][x-1] != null){
-						//Sin obstaculos y hay algo debajo
-						if(objects[y-1][x-1] instanceof Platform){
-							//Lo que hay debajo es una plataforma
-							if(-mov >= objects[y][x].getWidthScreen()){
-								//Ha pasado de casilla
-								((Bot)objects[y][x]).resetMov();
-								objects[y][x-1] = objects[y][x];
-								objects[y][x] = null;
-								x = x-1;
+			if(Constants.visualMode == Game.MODE_2D){
+				if(objects[y][x] instanceof Bot){
+					mov = ((Bot)objects[y][x]).action(not_pause);
+					if(mov<0){
+						//Se mueve hacia la derecha
+						if(objects[y][x-1] == null && objects[y-1][x-1] != null){
+							//Sin obstaculos y hay algo debajo
+							if(objects[y-1][x-1] instanceof Platform){
+								//Lo que hay debajo es una plataforma
+								if(-mov >= objects[y][x].getWidthScreen()){
+									//Ha pasado de casilla
+									((Bot)objects[y][x]).resetMov();
+									objects[y][x-1] = objects[y][x];
+									objects[y][x] = null;
+									x = x-1;
+								}
+							}else{
+								//No hay plataforma
+								mov = 0;
+								((Bot)objects[y][x]).changeMov();
 							}
 						}else{
-							//No hay plataforma
+							//Hay un obstaculo o no hay elemento en el suelo
 							mov = 0;
 							((Bot)objects[y][x]).changeMov();
 						}
 					}else{
-						//Hay un obstaculo o no hay elemento en el suelo
-						mov = 0;
-						((Bot)objects[y][x]).changeMov();
-					}
-				}else{
-					//Se mueve hacia la izquierda
-					if(objects[y][x+1] == null && objects[y-1][x+1] != null){
-						//Sin obstaculos y hay algo debajo
-						if(objects[y-1][x+1] instanceof Platform){
-							//Lo que hay debajo es una plataforma
-							if(mov >= objects[y][x].getWidthScreen()){
-								//Ha pasado de casilla
-								((Bot)objects[y][x]).resetMov();
-								objects[y][x+1] = objects[y][x];
-								objects[y][x] = null;
-								x = x+1;
+						//Se mueve hacia la izquierda
+						if(objects[y][x+1] == null && objects[y-1][x+1] != null){
+							//Sin obstaculos y hay algo debajo
+							if(objects[y-1][x+1] instanceof Platform){
+								//Lo que hay debajo es una plataforma
+								if(mov >= objects[y][x].getWidthScreen()){
+									//Ha pasado de casilla
+									((Bot)objects[y][x]).resetMov();
+									objects[y][x+1] = objects[y][x];
+									objects[y][x] = null;
+									x = x+1;
+								}
+							}else{
+								//No hay plataforma
+								mov = 0;
+								((Bot)objects[y][x]).changeMov();
 							}
 						}else{
-							//No hay plataforma
+							//Hay un obstaculo o no hay elemento en el suelo
 							mov = 0;
 							((Bot)objects[y][x]).changeMov();
 						}
-					}else{
-						//Hay un obstaculo o no hay elemento en el suelo
-						mov = 0;
-						((Bot)objects[y][x]).changeMov();
 					}
+					objects[y][x].getWidthScreen();
 				}
-				objects[y][x].getWidthScreen();
 			}
 			//System.out.printf("Plataforma %d: %d\n", x, disp_x);
 			objects[y][x].updatePositionX(mov+disp_x);			
 		}
 	}
-	
+
 	public void draw2D(Graphics2D g, int x, int y, int x_ori, int y_ori) {
 		if(objects[y][x] != null){
 			((Sprite)objects[y][x]).draw2D(g, x_ori, y_ori);
 		}
 	}
-	
-	
+
+
 
 	//Devuelve si hay colision con algun objeto del mapa
 	public int collision(int x, int y,int x_ori,int y_ori, GameObject object){
@@ -216,7 +218,7 @@ public class MapObject {
 	public void removeObject(int x, int y) {
 		objects[y][x] = null;
 	}
-	
+
 	public void moveGroup(int desp){
 		Transform3D translate = new Transform3D();
 		group_object.getTransform(translate);
@@ -225,13 +227,14 @@ public class MapObject {
 		trans.x = trans.x+desp;
 		group_object.setTransform(translate);
 	}
-	
+
 	public TransformGroup get3DModel(){
 		return group_object;
 	}
-	
+
 	public void moveBot(){
 		for(int i=0; i<posBotX.size(); i++){
+			System.out.printf("Posición x:%d, y:%d \n",posBotX.get(i), posBotY.get(i));
 			Bot b = (Bot)objects[posBotY.get(i)][posBotX.get(i)];
 			if(b.moveBot()){
 				//Borra el bot
