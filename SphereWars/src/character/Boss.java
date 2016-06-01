@@ -198,17 +198,17 @@ public class Boss extends GameObject implements Sprite {
 		}
 		directionX=STOP;
 		directionY=STOP;
-		vy=20;
+		vy=12;
 		rellenarImagenes();
 		deathSound.start();
+		reseteo = true;
 	}
 	
 	public int action(boolean not_pause, int xPlayer, int yPlayer, Rectangle playerBox) {
-		if(reseteo && state == FLY1){
-			this.tiempoInicio = System.currentTimeMillis() + 2000;
+		if(reseteo){
+			this.tiempoInicio = System.currentTimeMillis() + 3000;
 			this.hazteVisible = System.currentTimeMillis() + 30000;
 			reseteo = false;
-			visible=false;
 			System.out.println("reseteo tiempos");
 		}
 		if(!visible && (System.currentTimeMillis() >= hazteVisible)){
@@ -219,9 +219,8 @@ public class Boss extends GameObject implements Sprite {
 			state = FLY1;
 			random=1;
 			health = 3;
-			this.visible=false;
 			System.out.println("-----reinicio boss");
-			reseteo = true;
+			visible = false;
 		}
 		if(not_pause && state != DEAD){
 			tick_counter++;
@@ -267,12 +266,12 @@ public class Boss extends GameObject implements Sprite {
 			}
 			xAnterior = x;
 			//movimiento del boss
-			if(directionX != STOP){				
-				x+=vx;
+			if(directionX != STOP){	
+				x+=vx / Constants.speedActions;
 			}
 			
 			yAnterior = y;
-			y+=vy;
+			y+=vy / Constants.speedActions;
 			//control 
 			if(y >= altoPantalla -120){
 				y = altoPantalla - 120;
@@ -330,7 +329,7 @@ public class Boss extends GameObject implements Sprite {
 			}
 		}
 		if(state == DEAD){
-			y+=vy;
+			y+=vy  / Constants.speedActions;
 		}
 		return hitPlayer;
 	}
@@ -340,14 +339,14 @@ public class Boss extends GameObject implements Sprite {
 			//movimiento en X - siempre igual, barrido completo de un lado a otro
 			if(x>=20 && directionX == STOP){
 				directionX = LEFT;
-				vx = -10;
+				vx = -12;
 			}else if(x<20 && directionX == LEFT){
 				stopTickX=0;
 				vx=0;
 				facingleft = true;
 			}else if(x<20 && directionX == STOP){
 				directionX = RIGHT;
-				vx=10;
+				vx=12;
 			}else if((x >= anchoPantalla - 100) && directionX == RIGHT){
 				stopTickX=0;
 				vx=0;
@@ -393,11 +392,11 @@ public class Boss extends GameObject implements Sprite {
 			System.out.println(directionY);
 			if(direccion < down){
 				siguientePosicion = new Position(MEDIO,ABAJO);					
-				vy=10;
+				vy=12;
 				System.out.println("move middle down");
 			}else if(direccion < down+mid){
 				siguientePosicion = new Position(MEDIO,MEDIO);
-				vy=4;
+				vy=6;
 				System.out.println("move middle middle");
 			}else{
 				siguientePosicion = new Position(MEDIO,ARRIBA);

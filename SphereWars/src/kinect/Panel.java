@@ -3,11 +3,14 @@ package kinect;
 import java.io.IOException;
 
 import character.Sphere;
+import edu.ufl.digitalworlds.j4k.Avatar;
+import edu.ufl.digitalworlds.j4k.ImageAvatar;
 
 //import com.jogamp.opengl.GL2;
 //import com.jogamp.opengl.util.awt.TextRenderer;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
+import edu.ufl.digitalworlds.math.Geom;
 import map.MapController;
 import utils.Constants;
 //import input.Input;
@@ -33,6 +36,9 @@ public class Panel {
 	
 	private Sphere sphere;
 	private MapController mapController;
+	private int notCounted = 0;
+	
+	public boolean skel = false;
 	
 	public Panel( int players, boolean debug) {
 		skeletons = new Skeleton[6];
@@ -50,11 +56,27 @@ public class Panel {
 		// Se recorre el vector entero de esqueletos
 		// ya que no se sabe en que posicion guarda kinect el esqueleto
 		// detectado
+		if(!skel){
+			notCounted++;
+			if(notCounted >= 10){
+			
+			setPlayerDetected(false);
+			return 1;
+			}
+		}else{
+			notCounted = 0;
+		}
+		skel = false;
 		for (int i = 0; i < 6; i++) {
 			if (skeletons[i] != null) {
 				// Si se esta siguiento el esqueleto
 				if (skeletons[i].isTracked()) {
-					System.out.println("Tranqueado");
+					double d = distancia(skeletons[i].get3DJoint(p1HandJump), skeletons[i].get3DJoint(10));
+					//System.out.println(skeletons[i].isJointTracked(11));
+					//ImageAvatar a = new ImageAvatar();
+					
+					//System.out.println("s: " +  a.fitSkeleton(skeletons[i]));
+					System.out.println("D: " + d);
 					setPlayerDetected(true);
 					// Avanzamos el contador de jugador
 					player++;
@@ -70,19 +92,23 @@ public class Panel {
 					// Si se ha detectado esqueleto y no hay mano inicializada
 					// se inicializa el punto de la mano
 					if (initPointJ == null) {
-						inicializaMano(skeletons[i], p1HandJump, initPointJ);
+						initPointJ = inicializaMano(skeletons[i], p1HandJump);
 					}
 					if (initPointF == null) {
-						inicializaMano(skeletons[i], p1HandFast, initPointF);
+						initPointF = inicializaMano(skeletons[i], p1HandFast);
 					}
 					// Calculamos la logica de la mano del salto
+
 					if (initPointJ != null) {
 						double actpos[] = new double[3];
 						actpos = skeletons[i].get3DJoint(p1HandJump);
 						if (newPosJ != null) {
 							xdeltaJ += actpos[0] - newPosJ[0];
 							ydeltaJ += actpos[1] - newPosJ[1];
-							if (ydeltaJ > 0.06 && firstTimeJ) {
+							//System.out.println("YD:" + ydeltaJ );
+							d = distancia(skeletons[i].get3DJoint(p1HandJump), skeletons[i].get3DJoint(p1HandJump - 1));
+							
+							if (ydeltaJ > 2*d && firstTimeJ) {
 								System.out.println("Arriba: ");
 								//Constants.gameState = Constants.PAUSE;
 								//mano = "Arriba: " + ydelta;
@@ -91,7 +117,7 @@ public class Panel {
 									sphere.jump();
 								else	System.err.println("Error (Panel): No hay jugador");
 								handUp = true;
-							}else if(ydeltaJ < 0.06){
+							}else if(ydeltaJ < 2*d){
 								handUp = false;
 							}
 							/*if (xdelta > 0.3) {
@@ -124,7 +150,7 @@ public class Panel {
 							// inicial si no se ha detectado un movimiento de juego
 							// (Para que no se memorice si la mano esta muy alta)
 							if (contMovJ >= movLim && !handForward) {
-								System.out.println("Memorizada");
+								//System.out.println("Memorizada");
 								contMovJ = 0;
 								firstTimeJ = true;
 								initPointJ = newPosJ;
@@ -144,7 +170,10 @@ public class Panel {
 						if (newPosF != null) {
 							xdeltaF += actpos[0] - newPosF[0];
 							ydeltaF += actpos[1] - newPosF[1];
-							if (xdeltaF > 0.06 && firstTimeF) {
+							System.out.println("XD: " + xdeltaF);
+							d = distancia(skeletons[i].get3DJoint(p1HandFast), skeletons[i].get3DJoint(p1HandFast - 1));
+							
+							if (xdeltaF > d/100 && firstTimeF) {
 								System.out.println("Delante: ");
 								//Constants.gameState = Constants.PAUSE;
 								//mano = "Arriba: " + ydelta;
@@ -155,13 +184,17 @@ public class Panel {
 								else	System.err.println("Error (Panel): No hay jugador");
 								handForward = true;
 								
-							}else if(xdeltaF < 0.06){
+							}else if(xdeltaF < d/100){
+
 								handForward = false;
 							}
 							
 							/*if (xdelta > 0.3) {
 								System.out.println("Delante");
 							}*/
+						}else{
+							//System.out.println("Bajando");
+							mapController.setSpeedLow();
 						}
 						if (distancia(initPointF, actpos) > 0.1) {
 							//System.out.println("Mano movida");
@@ -179,6 +212,8 @@ public class Panel {
 							} else {
 								// Actualizamos el contador porque la mano
 								// parece estable
+//System.out.println("Bajando speed");
+	//							mapController.setSpeedLow();
 								contMovF++;
 								firstTimeF = true;
 							}
@@ -190,6 +225,7 @@ public class Panel {
 							// (Para que no se memorice si la mano esta muy alta)
 							if (contMovF >= movLim && !handForward) {
 								System.out.println("Memorizada");
+								mapController.setSpeedLow();
 								contMovF = 0;
 								firstTimeF = true;
 								initPointF = newPosF;
@@ -199,6 +235,8 @@ public class Panel {
 						} else {
 							firstTimeF = true;
 							newPosF = null;
+
+							//mapController.setSpeedLow();
 						}
 
 					}
@@ -214,11 +252,12 @@ public class Panel {
 		return 0;
 	}
 
-	private void inicializaMano(Skeleton skel, int hand, double initPoint[]) {
-		initPoint = new double[3];
+	private double[] inicializaMano(Skeleton skel, int hand) {
+		double[] initPoint = new double[3];
 		initPoint[0] = skel.get3DJointX(hand);
 		initPoint[1] = skel.get3DJointY(hand);
 		initPoint[2] = skel.get3DJointZ(hand);
+		return initPoint;
 	}
 
 	double distancia(double[] p1, double[] p2) {
