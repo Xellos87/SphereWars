@@ -185,6 +185,7 @@ public class Game2D extends JPanel {
 		map_cont.restart();
 		loadImages();
 		init_score();
+		if(music.isBossMusicPlaying()) music.playGame();
 		end_game = false;
 		alpha_death = 0;
 		wait_other_player = num_player > 1;
