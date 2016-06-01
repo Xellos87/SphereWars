@@ -102,13 +102,13 @@ public class Game3D extends Canvas3D implements KeyListener{
 		TransformGroup tg = player.get3DModel();
 
 		//Mueve el mapa en el eje de las Y hacia abajo para llenar la pantalla
-		/*Transform3D transform_map = new Transform3D();
+		Transform3D transform_map = new Transform3D();
 		tg.getTransform(transform_map);
 		Vector3f translate = new Vector3f();
 		transform_map.get(translate);
-		translate.y -= 0.5f;
+		translate.y += 0.69f;
 		transform_map.set(translate);
-		tg.setTransform(transform_map);*/
+		tg.setTransform(transform_map);
 		rootBranchGroup.addChild(tg);
 	}
 
