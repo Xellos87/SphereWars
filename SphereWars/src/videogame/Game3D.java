@@ -28,6 +28,7 @@ import javax.media.j3d.ImageComponent2D;
 import javax.media.j3d.Raster;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
+import javax.media.j3d.VirtualUniverse;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Background;
@@ -61,6 +62,9 @@ public class Game3D extends Canvas3D implements KeyListener{
 	private MapController map;
 	//Contenedor del mapa al que se le pueden aplicar diferentes transformaciones
 	private TransformGroup map_cont;
+	private BranchGroup map_group;
+	private BranchGroup sphere_group;
+	private BranchGroup boos_group;
 	private OrbitBehavior orbit;
 
 	public Game3D(int width, int height, MapController map, Main main) {
@@ -104,13 +108,29 @@ public class Game3D extends Canvas3D implements KeyListener{
 	private void initPlayer() {
 		player = new Sphere(0, 0, (int)(map.getWidthBlock()*0.8), (int)(map.getHeightBlock()*0.8));
 		TransformGroup tg = player.get3DModel();
-		rootBranchGroup.addChild(tg);
+		sphere_group = new BranchGroup();
+		sphere_group.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		sphere_group.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		sphere_group.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		sphere_group.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		sphere_group.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+		sphere_group.setCapability(TransformGroup.ALLOW_PARENT_READ);
+		sphere_group.addChild(tg);
+		rootBranchGroup.addChild(sphere_group);
 	}
 
 	private void initBoss(){
 		boss = new Boss(width-90,20,map.getWidthBlock(),map.getHeightBlock(),false, width, height, main.music);
 		TransformGroup tg = boss.get3DModel();
-		rootBranchGroup.addChild(tg);
+		boos_group = new BranchGroup();
+		boos_group.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		boos_group.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		boos_group.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		boos_group.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		boos_group.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+		boos_group.setCapability(TransformGroup.ALLOW_PARENT_READ);
+		boos_group.addChild(tg);
+		rootBranchGroup.addChild(boos_group);
 	}
 
 	private void addLights() {
@@ -139,16 +159,16 @@ public class Game3D extends Canvas3D implements KeyListener{
 		//Carga los primeros mapas en el contenedor
 		map_cont.addChild(map.get3DFirstMap());
 		map_cont.addChild(map.get3DSecondMap());
-		//Mueve el mapa en el eje de las Y hacia abajo para llenar la pantalla
-		//		Transform3D transform_map = new Transform3D();
-		//		map_cont.getTransform(transform_map);
-		//		Vector3f translate = new Vector3f();
-		//		transform_map.get(translate);
-		//		translate.y -= 0.3f;
-		//		transform_map.set(translate);
-		//		map_cont.setTransform(transform_map);
+		map_group = new BranchGroup();
+		map_group.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		map_group.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		map_group.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		map_group.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		map_group.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+		map_group.setCapability(TransformGroup.ALLOW_PARENT_READ);
+		map_group.addChild(map_cont);
 		//Agrega el contenedor de mapa a la raiz
-		rootBranchGroup.addChild(map_cont);
+		rootBranchGroup.addChild(map_group);
 	}
 
 	private void init_score() {
@@ -164,7 +184,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 		Transform3D home=new Transform3D();
 		simpleU.getViewingPlatform().getViewPlatformTransform().getTransform(home);
 		//System.out.println(home.toString());
-		double[] homeM = {1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, -0.4, 0.0, 0.0, 1.0, 2.41421356/2*Constants.scale, 0.0, 0.0, 0.0, 1.0};
+		double[] homeM = {1.0, 0.0, 0.0, 0.8, 0.0, 1.0, 0.0, -0.4, 0.0, 0.0, 1.0, 2.41421356/2*Constants.scale, 0.0, 0.0, 0.0, 1.0};
 		Transform3D homeT = new Transform3D(homeM);
 		orbit.setHomeTransform(homeT);		
 		ViewingPlatform vp = simpleU.getViewingPlatform();
@@ -378,25 +398,20 @@ public class Game3D extends Canvas3D implements KeyListener{
 		this.end_game = false;
 		this.map = map;
 		if(rootBranchGroup != null) {
-			rootBranchGroup.detach();
+			rootBranchGroup.removeChild(map_group);
+			rootBranchGroup.removeChild(sphere_group);
+			if(boos_group != null){
+				rootBranchGroup.removeChild(boos_group);
+			}
 		}
-		getView().removeAllCanvas3Ds();
 		//Inicializa la puntuacion
 		init_score();
-		//Inicia la configuracion del mundo
-		initial_setup();
-		//Establece la posicion y movimientos de la camara
-		camera_setup();
 		//Carga el contenedor del mapa y los mapas iniciales
 		loadMap();
-		//Carga la iluminacion
-		addLights();
 		//Carga el boss 
 		initBoss();
 		//Carga el jugador
 		initPlayer();
-		//Finaliza la creacion del mundo
-		finalise();
 		//coloca la camara en su lugar
 		orbit.goHome();
 	}
