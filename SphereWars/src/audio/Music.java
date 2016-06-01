@@ -65,7 +65,10 @@ public class Music {
 		// menuFiles = getAllFiles(new File(dirMenu));
 		gameFiles = getAllFiles(new File(dirGame));
 		menuFiles = getAllFiles(new File(dirMenu));
+		
 		bossFiles = getAllFiles(new File(dirBoss));
+		System.out.println(bossFiles.get(0).getName() + bossFiles.get(1).getName() );
+		//System.exit(1);
 		// menuBf = load(menuFiles);
 
 		actual = 0;
@@ -370,5 +373,9 @@ public class Music {
 		next = -1;
 		actualLength = -1;
 		nextLength = -1;
+	}
+	public boolean isBossMusicPlaying(){
+		if(actualList == bossFiles) return true;
+		return false;
 	}
 }
