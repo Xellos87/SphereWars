@@ -313,6 +313,9 @@ public class Game extends JLayeredPane implements Runnable {
 					break;
 				case EndMenu.QUIT:
 					response = EndMenu.QUIT;
+					if(Constants.visualMode == MODE_3D){
+						game3d.quitGame();
+					}
 					break;
 				}
 			}
