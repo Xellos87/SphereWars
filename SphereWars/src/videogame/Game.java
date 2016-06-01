@@ -115,7 +115,7 @@ public class Game extends JLayeredPane implements Runnable {
 		end = new EndMenu(width, height);
 		end.setBounds(0, 0, width, height);
 		end.setVisible(false);
-		// add(end,new Integer(0),1);
+		add(end,new Integer(0),1);
 		// Inicializa el marcador
 		score = new GameScore(width, height_score, num_players, type);
 		score.setBounds(0, 0, width, height_score);
@@ -160,21 +160,18 @@ public class Game extends JLayeredPane implements Runnable {
 	public void draw() {
 		Image offscreen = createImage(width, height);
 		Graphics2D g2d = (Graphics2D) offscreen.getGraphics();
-		if (mode == MODE_2D) {
+		if(mode == MODE_2D) {
 			game2d_1p.draw(g2d, 0, height_score, map_p1, Constants.gameState != Constants.PAUSE);
 			if (num_players > 1) {
 				game2d_2p.draw(g2d, 0, height_score + height_game, map_p2, Constants.gameState != Constants.PAUSE);
 			}
-		} else if (mode == MODE_3D) {
-			if (Constants.gameState == Constants.GAME && isPause) {
-				System.out.println("Repintado");
-
-			}
+		}else if(mode == MODE_3D && Constants.gameState == Constants.GAME) {
+			
 		}
 		score.draw(g2d);
 
 		if (Constants.gameState == Constants.PAUSE) {
-			if (mode == MODE_3D) {
+			if (Constants.visualMode == MODE_3D) {
 				BufferedImage img3D = game3d.createBufferedImageFromCanvas3D();
 				g2d.drawImage(img3D, 0, height_score, null);
 			}
@@ -186,10 +183,11 @@ public class Game extends JLayeredPane implements Runnable {
 			isPause = false;
 		}
 		if (end.isVisible()) {
-			if (mode == MODE_3D) {
+			if (Constants.visualMode == MODE_3D) {
 				BufferedImage img3D = game3d.createBufferedImageFromCanvas3D();
 				g2d.drawImage(img3D, 0, height_score, null);
 			}
+			end.setVisible(true);
 			end.draw(g2d);
 		}
 		getGraphics().drawImage(offscreen, 0, 0, width, height, null);
@@ -240,7 +238,7 @@ public class Game extends JLayeredPane implements Runnable {
 			}
 		} else if (mode == MODE_3D) {
 			// Realiza el movimiento del mapa y acciones del jugador
-			game3d.actionGame(0, height_score);
+			death_p1 = game3d.actionGame(0, height_score);
 			// Obtiene las puntuaciones
 			if (type == RUNNER) {
 				double dist = game3d.getDistance();
@@ -269,7 +267,11 @@ public class Game extends JLayeredPane implements Runnable {
 					}
 				}
 			} else if (mode == MODE_3D) {
-				// game3d_1p.actionGame();
+				if (type == Game.RUNNER) {
+					score_p1 = game3d.getDistance();
+				} else if (type == Game.COINS) {
+					score_p1 = game3d.getCoins();
+				}
 			}
 			// Inicializamos la pantalla de fin de juego
 			end.init(num_players, type, score_p1, score_p2);
@@ -306,9 +308,11 @@ public class Game extends JLayeredPane implements Runnable {
 				int opt = end.keyPressed(e);
 				switch (opt) {
 				case EndMenu.RESTART:
+					Constants.gameState = Constants.GAME;
 					restartGame();
 					break;
 				case EndMenu.REPEAT:
+					Constants.gameState = Constants.GAME;
 					reinitGame();
 					break;
 				case EndMenu.QUIT:
@@ -346,8 +350,6 @@ public class Game extends JLayeredPane implements Runnable {
 			}else if (e.getKeyCode() == Constants.teclaSprintp2 && Constants.numJugadores>1){
 				game2d_2p.keyReleased(e, map_p2);
 			}
-		}else if(mode == MODE_3D){
-			
 		}
 	}
 	
