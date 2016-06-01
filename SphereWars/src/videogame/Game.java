@@ -107,7 +107,7 @@ public class Game extends JLayeredPane implements Runnable {
 
 	private void initGame() {
 		// Menu de pausa
-		pause = new PauseMenu(width, height);
+		pause = new PauseMenu(width, height,main.getPanel());
 		pause.setBounds(0, 0, width, height);
 		pause.setVisible(false);
 		add(pause, new Integer(0), 0);
