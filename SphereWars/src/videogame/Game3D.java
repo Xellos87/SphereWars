@@ -64,7 +64,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 	private TransformGroup map_cont;
 	private BranchGroup map_group;
 	private BranchGroup sphere_group;
-	private BranchGroup boos_group;
+	private BranchGroup boss_group;
 	private OrbitBehavior orbit;
 
 	public Game3D(int width, int height, MapController map, Main main) {
@@ -120,17 +120,17 @@ public class Game3D extends Canvas3D implements KeyListener{
 	}
 
 	private void initBoss(){
-		boss = new Boss(width-90,20,map.getWidthBlock(),map.getHeightBlock(),false, width, height, main.music);
+		boss = new Boss(width-90,20,map.getWidthBlock(),map.getHeightBlock(),true, width, height, main.music);
 		TransformGroup tg = boss.get3DModel();
-		boos_group = new BranchGroup();
-		boos_group.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-		boos_group.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		boos_group.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
-		boos_group.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
-		boos_group.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
-		boos_group.setCapability(TransformGroup.ALLOW_PARENT_READ);
-		boos_group.addChild(tg);
-		rootBranchGroup.addChild(boos_group);
+		boss_group = new BranchGroup();
+		boss_group.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		boss_group.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		boss_group.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+		boss_group.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+		boss_group.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+		boss_group.setCapability(TransformGroup.ALLOW_PARENT_READ);
+		boss_group.addChild(tg);
+		rootBranchGroup.addChild(boss_group);
 	}
 
 	private void addLights() {
@@ -326,6 +326,25 @@ public class Game3D extends Canvas3D implements KeyListener{
 				player.setVelocity(0, -15);
 			}
 			//TODO: separar movimiento de accion y permitir que el boss se siga moviendo en el draw?
+			if(boss.isVisible() && boss.reseteo){
+				//Borra el boss del mundo
+				rootBranchGroup.removeChild(boss_group);
+				boss_group = null;
+			}
+			if(!boss.isVisible() && (System.currentTimeMillis() >= boss.hazteVisible)){
+				//Mete el boss en el mundo
+				TransformGroup tg = boss.get3DModel();
+				boss_group = new BranchGroup();
+				boss_group.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+				boss_group.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+				boss_group.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+				boss_group.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+				boss_group.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+				boss_group.setCapability(TransformGroup.ALLOW_PARENT_READ);
+				boss_group.addChild(tg);
+				rootBranchGroup.addChild(boss_group);
+			}
+			//TODO: separar movimiento de accion y permitir que el boss se siga moviendo en el draw?
 			int col = boss.action(true, player.x, player.y, player.getBox(x_ori, y_ori));
 			if(col==0){
 				//Colision con el jefe, comprobar si es colision de muerte
@@ -379,7 +398,12 @@ public class Game3D extends Canvas3D implements KeyListener{
 			}
 			else if(e.getKeyCode() == Constants.teclaSaltop1 && Constants.gameState != Constants.PAUSE){
 				player.jump();
-			}else{
+			}
+			else if(e.getKeyCode() == Constants.teclaSprintp1 && Constants.gameState != Constants.PAUSE){
+				Constants.sprintp1 = true;
+				map.setSpeedHigh();
+			}
+			else{
 				//Propaga el evento de pulsar al main para tratarlo
 				main.keyPressed(e);
 			}
@@ -391,7 +415,10 @@ public class Game3D extends Canvas3D implements KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
+		if(e.getKeyCode() == Constants.teclaSprintp1 && Constants.gameState != Constants.PAUSE){
+			Constants.sprintp1 = false;
+			map.setSpeedLow();
+		}
 	}
 
 	@Override
@@ -405,8 +432,8 @@ public class Game3D extends Canvas3D implements KeyListener{
 		if(rootBranchGroup != null) {
 			rootBranchGroup.removeChild(map_group);
 			rootBranchGroup.removeChild(sphere_group);
-			if(boos_group != null){
-				rootBranchGroup.removeChild(boos_group);
+			if(boss_group != null){
+				rootBranchGroup.removeChild(boss_group);
 			}
 		}
 		//Inicializa la puntuacion

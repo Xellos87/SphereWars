@@ -94,14 +94,14 @@ public class Boss extends GameObject implements Sprite {
 	private int xAnterior;
 	//el boss se hace visible después de 60 segundos
 	private long tiempoInicio;
-	private long hazteVisible;
+	public long hazteVisible;
 
 	private int x_ori,y_ori;
 	private BufferedImage fly1redright;
 	private BufferedImage fly2redright;
 	private BufferedImage fly1redleft;
 	private BufferedImage fly2redleft;
-	private boolean reseteo = false;
+	public boolean reseteo = false;
 	public boolean collides = false;
 	
 	// Audio
@@ -141,6 +141,9 @@ public class Boss extends GameObject implements Sprite {
 			selectTexture();
 			loadModel3D();
 		}
+		//Todo prueba
+		this.x_ori=Constants.xOri;
+		this.y_ori=Constants.yOri;
 	}
 	
 	private void selectTexture(){
@@ -379,8 +382,8 @@ public class Boss extends GameObject implements Sprite {
 		if(collides && visible && state!=DEAD){
 			Rectangle bossBox = this.getBox(x_ori, y_ori);
 			Rectangle intesect = playerBox.intersection(bossBox);
-			System.out.println(intesect);
-			System.out.printf("p_y:%d, b_y:%d \n",playerBox.y,bossBox.y);
+			//System.out.println(intesect);
+			//System.out.printf("p_y:%d, b_y:%d \n",playerBox.y,bossBox.y);
 			if(state != DEAD && bossBox.intersects(playerBox)){
 				if(playerBox.y<=bossBox.y){
 					

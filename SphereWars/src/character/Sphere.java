@@ -96,6 +96,8 @@ public class Sphere extends GameObject implements Sprite{
 		}else if(Constants.scale==4){
 			jumpVelocity = -16;			
 		}
+		this.x_ori=Constants.xOri;
+		this.y_ori=Constants.yOri;
 	}
 
 	private void selectTexture(){
