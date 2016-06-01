@@ -147,7 +147,7 @@ public class Platform extends GameObject implements Sprite, Model3D{
 		Transform3D transform = new Transform3D();
 		Matrix4f matrix = new Matrix4f();
 		tg_model3D.getTransform(transform);
-		transform.rotX(Math.PI);
+		//transform.rotX(Math.PI);
 		tg_model3D.setTransform(transform);
 		branch_group = new BranchGroup();
 		branch_group.addChild(object_primitive);

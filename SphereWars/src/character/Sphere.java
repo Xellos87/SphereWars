@@ -380,7 +380,7 @@ public class Sphere extends GameObject implements Sprite{
 		}
 		setPosition((x+vx), (y+vy));
 		if(Constants.visualMode == Game.MODE_3D){
-			setPosition3D(vx,-vy);
+			setPosition3D();
 		}
 	}
 

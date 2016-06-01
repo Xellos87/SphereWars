@@ -164,7 +164,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 		Transform3D home=new Transform3D();
 		simpleU.getViewingPlatform().getViewPlatformTransform().getTransform(home);
 		//System.out.println(home.toString());
-		double[] homeM = {1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.4, 0.0, 0.0, 1.0, 2.41421356/2*Constants.scale, 0.0, 0.0, 0.0, 1.0};
+		double[] homeM = {1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, -0.4, 0.0, 0.0, 1.0, 2.41421356/2*Constants.scale, 0.0, 0.0, 0.0, 1.0};
 		Transform3D homeT = new Transform3D(homeM);
 		orbit.setHomeTransform(homeT);		
 		ViewingPlatform vp = simpleU.getViewingPlatform();
@@ -235,7 +235,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 			Vector3f translate_vector = new Vector3f();
 			map_cont.getTransform(translate);
 			translate.get(translate_vector);
-			translate_vector.x -= dist*0.085f;
+			translate_vector.x -= dist*0.076f;
 			translate.set(translate_vector);
 			map_cont.setTransform(translate);
 			//Establece la puntuacion de distancia

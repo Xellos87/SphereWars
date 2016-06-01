@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<map height="9" width="100">
+	<plataform x_start="0" x_end="99" y_start="0" y_end="1"/>
+	<plataform x_start="99" x_end="99" y_start="0" y_end="3"/>
+</map>
