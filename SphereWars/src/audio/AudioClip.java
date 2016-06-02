@@ -23,6 +23,9 @@ public class AudioClip {
 	
 	}
 	
+	/**
+	 * Reproduce el sonido
+	 */
 	public void start(){
 		if(!Constants.sound) return;
 		if(!sound.isActive() || repeat){
@@ -33,10 +36,17 @@ public class AudioClip {
 		sound.start();
 	}
 	
+	/**
+	 * Para el sonido
+	 */
 	public void stop(){
 		sound.stop();
 	}
 	
+	/**
+	 * Devuelve si el sonido esta siendo reproducido
+	 * @return
+	 */
 	public boolean isRunning(){
 		return sound.isRunning();
 	}
