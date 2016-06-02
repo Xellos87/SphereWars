@@ -184,19 +184,19 @@ public class Main implements Runnable, KeyListener{
 			if(!Constants.esperandoTecla){
 				if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S){
 					menu.cursorDown();
-					System.out.println("Down key pressed");
+					//system.out.println("Down key pressed");
 				}else if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
 					menu.cursorUp();
-					System.out.println("Up key pressed");
+					//system.out.println("Up key pressed");
 				}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-					System.out.println("right key pressed");
+					//system.out.println("right key pressed");
 					if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
 						menu.cursorRight();
 					}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.helMenu)){
 						menu.cursorRight();
 					}
 				}else if(e.getKeyCode() == KeyEvent.VK_LEFT){
-					System.out.println("left key pressed");
+					//system.out.println("left key pressed");
 					if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
 						menu.cursorLeft();
 					}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.helMenu)){
@@ -204,7 +204,7 @@ public class Main implements Runnable, KeyListener{
 					}
 				}else if(e.getKeyCode() == KeyEvent.VK_ENTER){	//pulsacion de enter
 					String nuevoMenu = menu.cursorEnter();
-					System.out.println("Enter pressed. Option: "+nuevoMenu);
+					//system.out.println("Enter pressed. Option: "+nuevoMenu);
 					//desde el menu principal
 					if(Constants.tipoMenu.equalsIgnoreCase(Constants.titMenu)){
 						if(!Constants.cursorDesplazado){
@@ -313,7 +313,7 @@ public class Main implements Runnable, KeyListener{
 							Constants.conTeclado = !Constants.conTeclado;
 						}
 						else if(nuevoMenu.equalsIgnoreCase("back")){
-							System.out.println("back to main menu");
+							//system.out.println("back to main menu");
 							menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
 							Constants.tipoMenu = Constants.titMenu;
 							menu.setDoubleBuffered(true);
@@ -372,7 +372,7 @@ public class Main implements Runnable, KeyListener{
 							window.pack();
 							Constants.gameState = Constants.GAME;
 						}else if(nuevoMenu.equalsIgnoreCase("back")){
-							System.out.println("back to main menu");
+							//system.out.println("back to main menu");
 							menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
 							Constants.tipoMenu = Constants.titMenu;
 							menu.setDoubleBuffered(true);
@@ -381,7 +381,7 @@ public class Main implements Runnable, KeyListener{
 							window.pack();
 						}
 					}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.creMenu)){
-						System.out.println("back to main menu");
+						//system.out.println("back to main menu");
 						menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
 						Constants.tipoMenu = Constants.titMenu;
 						menu.setDoubleBuffered(true);
@@ -389,7 +389,7 @@ public class Main implements Runnable, KeyListener{
 						window.add(menu, BorderLayout.CENTER);
 						window.pack();
 					}else if(Constants.tipoMenu.equalsIgnoreCase(Constants.helMenu)){
-						System.out.println("back to main menu");
+						//system.out.println("back to main menu");
 						menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
 						Constants.tipoMenu = Constants.titMenu;
 						menu.setDoubleBuffered(true);
@@ -400,7 +400,7 @@ public class Main implements Runnable, KeyListener{
 					
 				}
 			}else{				
-				System.out.println(e.getKeyCode());
+				//system.out.println(e.getKeyCode());
 				if(estaLibre(e.getKeyCode())){
 					Constants.esperandoTecla = false;
 					if(Constants.teclaPausap1==Constants.guion){
@@ -424,13 +424,13 @@ public class Main implements Runnable, KeyListener{
 			if(e.getKeyCode() == Constants.teclaPausap1 || e.getKeyCode() == Constants.teclaPausap2){
 				Constants.gameState = Constants.PAUSE;
 				game.showPause();
-				System.out.println("PAUSA!");				
+				//system.out.println("PAUSA!");				
 			}else{
 				int option = game.keyPressed(e);
 				if(option == EndMenu.QUIT){
 					game.quit();
 					game=null;
-					System.out.println("exit pulsado en menu end");
+					//system.out.println("exit pulsado en menu end");
 					menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
 					window.requestFocus();
 					//TODO 
@@ -455,7 +455,7 @@ public class Main implements Runnable, KeyListener{
 					game.hiddenPause();	
 				}else if(option == PauseMenu.QUIT){
 					game=null;
-					System.out.println("exit pulsado en menu pause");
+					//system.out.println("exit pulsado en menu pause");
 					menu = new TitleMenu(width*Constants.scale, height*Constants.scale);
 					Constants.enMenu = true;
 					Constants.tipoMenu = Constants.titMenu;
