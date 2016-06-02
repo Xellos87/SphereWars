@@ -180,7 +180,7 @@ public class Boss extends GameObject implements Sprite {
 		//Creacion de la mosca
 		Transform3D t = new Transform3D();
 		//t.rotZ(Math.PI/4);
-		object_primitive = new Cylinder(block_width*0.002f, block_width*0.002f, Cylinder.GENERATE_NORMALS + Cylinder.GENERATE_TEXTURE_COORDS, app);
+		object_primitive = new Cylinder(block_width*0.0025f, block_width*0.002f, Cylinder.GENERATE_NORMALS + Cylinder.GENERATE_TEXTURE_COORDS, app);
 		tg_model3D = new TransformGroup();
 		
 		tg_model3D.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
