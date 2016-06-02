@@ -55,7 +55,7 @@
 	<treasure type="gem" x="36" y="6"/>
 	<treasure type="gem" x="84" y="6"/>
 	
-	<boot x="29" y="2"/>
-	<boot x="33" y="2"/>
-	<boot x="77" y="2"/>
+	<bot x="29" y="2"/>
+	<bot x="33" y="2"/>
+	<bot x="77" y="2"/>
 </map>
