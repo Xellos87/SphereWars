@@ -60,7 +60,13 @@ public class PauseMenu extends Menu {
 	//Movimiento de la opcion seleccionada
 	private int movX;
 	
-	
+	/**
+	 * Constructor
+	 * 
+	 * @param width, ancho de la pantalla
+	 * @param height, alto de la pantalla
+	 * @param panel, objeto para la interacción con el kinect
+	 */
 	public PauseMenu(int width, int height, Panel panel) {
 		this.width = width;
 		this.height = height;
@@ -75,11 +81,12 @@ public class PauseMenu extends Menu {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
-		
 		calculatePositions();
 	}
 	
+	/**
+	 * Calcula la posición de los textos
+	 */
 	private void calculatePositions() {
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
@@ -118,7 +125,10 @@ public class PauseMenu extends Menu {
 		cursorY = continueY - cursor_height/4*3;
 	}
 
-	
+	/**
+	 * Dibuja el menu en el doble buffer
+	 * @param g2d, doble buffer
+	 */
 	public void draw(Graphics2D g2d) {
 		/* Dibuja todo en pantalla */
 		g2d.setColor(new Color(0, 0, 0, 180));
@@ -189,28 +199,24 @@ public class PauseMenu extends Menu {
 
 	@Override
 	public String cursorEnter() {
-		//TODO porque texto en vez de numero????
 		return String.valueOf(option);
 	}
 
 
 	@Override
 	public void draw() {
-		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
 	public void cursorRight() {
-		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
 	public void cursorLeft() {
-		// TODO Auto-generated method stub
 		
 	}
 
