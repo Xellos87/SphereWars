@@ -96,7 +96,12 @@ public class EndMenu extends Menu{
 	private int cursorX,cursorY;
 	private int cursor_width,cursor_height;
 
-
+	/**
+	 * Constructor
+	 * 
+	 * @param width, ancho del marco
+	 * @param height, alto del marco
+	 */
 	public EndMenu(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -116,6 +121,9 @@ public class EndMenu extends Menu{
 		calculatePositions();
 	}
 
+	/**
+	 * Calcula las posiciones de los textos
+	 */
 	private void calculatePositions() {
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
@@ -169,6 +177,11 @@ public class EndMenu extends Menu{
 		
 	}
 
+	/**
+	 * Dibuja el menu en el doble buffer
+	 * 
+	 * @param g2d, doble buffer en el que se dibuja
+	 */
 	public void draw(Graphics2D g2d) {
 		if(isVisible()){
 			/* Dibuja todo en pantalla */
@@ -355,6 +368,14 @@ public class EndMenu extends Menu{
 		return null;
 	}
 
+	/**
+	 * Inicializa los datos a mostrar
+	 * 
+	 * @param num_players, número de jugadores
+	 * @param type, tipo de juego
+	 * @param score_p1, puntuación del jugador 1
+	 * @param score_p2, puntuación del jugador 2
+	 */
 	public void init(int num_players, int type, double score_p1, double score_p2) {
 		this.num_players = num_players;
 		this.type = type;
@@ -386,6 +407,12 @@ public class EndMenu extends Menu{
 		alpha_text = 0;
 	}
 
+	/**
+	 * Captura la tecla pulsada para ejecutar la acción
+	 * 
+	 * @param e, datos de la tecla pulsada
+	 * @return opcion elegida
+	 */
 	public int keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ENTER){
 			//Tecla de enter, se pasa de letra para escribir o se selecciona lo opcion
