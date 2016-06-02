@@ -79,6 +79,15 @@ public class Game extends JLayeredPane implements Runnable {
 	long elapsed;
 	long wait;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param width, ancho de la pantalla
+	 * @param height, alto de la pantalla
+	 * @param type, tipo de juego
+	 * @param num_players, número de jugadores
+	 * @param main, metodo main
+	 */
 	public Game(int width, int height, int type, int num_players, Main main) {
 		// Constants.sound = false;
 		// this.setl
@@ -116,6 +125,9 @@ public class Game extends JLayeredPane implements Runnable {
 		initGame();
 	}
 
+	/**
+	 * Inicializa el juego
+	 */
 	private void initGame() {
 		// Menu de pausa
 		pause = new PauseMenu(width, height,main.getPanel());
@@ -168,6 +180,9 @@ public class Game extends JLayeredPane implements Runnable {
 
 	}
 
+	/**
+	 * Dibuja el juego, crea un doble buffer para evitar parpadeos
+	 */
 	public void draw() {
 		Image offscreen = createImage(width, height);
 		Graphics2D g2d = (Graphics2D) offscreen.getGraphics();
@@ -180,7 +195,7 @@ public class Game extends JLayeredPane implements Runnable {
 			
 		}
 		score.draw(g2d);
-
+		//Comprueba si el juego esta en pausa
 		if (Constants.gameState == Constants.PAUSE) {
 			if (Constants.visualMode == MODE_3D) {
 				BufferedImage img3D = game3d.createBufferedImageFromCanvas3D();
@@ -204,6 +219,10 @@ public class Game extends JLayeredPane implements Runnable {
 		getGraphics().dispose();
 	}
 
+	/**
+	 * 
+	 * @return true si y solo si se puede poner en pausa
+	 */
 	public boolean showPause() {
 		if (!death_p1 || !death_p2) {
 			Constants.optionSelect = -1;
@@ -213,10 +232,16 @@ public class Game extends JLayeredPane implements Runnable {
 		return false;
 	}
 
+	/**
+	 * Oculta el menu de pausa
+	 */
 	public void hiddenPause() {
 		pause.setVisible(false);
 	}
 
+	/**
+	 * Acción del juego
+	 */
 	public void actionGame() {
 		if (Constants.visualMode == MODE_2D) {
 			death_p1 = game2d_1p.actionGame(0, height_score, map_p1);
@@ -229,7 +254,6 @@ public class Game extends JLayeredPane implements Runnable {
 					game2d_1p.deathOtherPlayer();
 				}
 			}
-
 			// Obtiene las puntuaciones
 			if (type == RUNNER) {
 				double dist = game2d_1p.getDistance();
@@ -289,6 +313,12 @@ public class Game extends JLayeredPane implements Runnable {
 		}
 	}
 
+	/**
+	 * Ejecuta los eventos de teclado
+	 * 
+	 * @param e, evento de teclado
+	 * @return opción seleccionada
+	 */
 	public int keyPressed(KeyEvent e) {
 		int response = 0;
 		if (pause.isVisible()) {
@@ -349,6 +379,11 @@ public class Game extends JLayeredPane implements Runnable {
 		return response;
 	}
 
+	/**
+	 * Eventos de teclado al soltar la tecla
+	 * 
+	 * @param e, evento de teclado
+	 */
 	public void keyReleased(KeyEvent e) {
 		if(mode == MODE_2D){
 			if(e.getKeyCode() == Constants.teclaSprintp1){
@@ -359,15 +394,25 @@ public class Game extends JLayeredPane implements Runnable {
 		}
 	}
 	
+	/**
+	 * Reinicializa el juego
+	 */
 	private void restartGame() {
 		Constants.map_index = new ArrayList<Integer>();
 		reinitGame();
 	}
 
+	/**
+	 * 
+	 * @return true si y solo si el end esta visible
+	 */
 	public boolean isEndMenu() {
 		return end.isVisible();
 	}
 
+	/**
+	 * Reinicializa el juego
+	 */
 	private void reinitGame() {
 		if (Constants.visualMode == MODE_2D) {
 			map_p1 = new MapController(width, height_game, type);
@@ -403,10 +448,6 @@ public class Game extends JLayeredPane implements Runnable {
 				if (wait > 0)
 					Thread.sleep(wait / 1000000);
 			} catch (Exception e) {
-				//system.out.printf("start: %d\n", start);
-				//system.out.printf("elapsed: %d\n", elapsed);
-				//system.out.printf("wait: %d\n", wait);
-				//system.out.printf("target: %d\n", targetTime);
 				e.printStackTrace();
 			}
 			;
@@ -414,6 +455,9 @@ public class Game extends JLayeredPane implements Runnable {
 
 	}
 
+	/**
+	 * Quita el listener antes de cerrar el juego
+	 */
 	public void quit() {
 		setVisible(false);
 		if(Constants.visualMode == Game.MODE_3D){
