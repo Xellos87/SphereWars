@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<map height="9" width="100">
+	<plataform x_start="0" x_end="4" y_start="0" y_end="1"/>
+	<plataform x_start="5" x_end="6" y_start="0" y_end="2"/>
+	<plataform x_start="7" x_end="8" y_start="0" y_end="4"/>
+	<plataform x_start="11" x_end="12" y_start="0" y_end="2"/>
+	<plataform x_start="13" x_end="14" y_start="0" y_end="1"/>
+	<plataform x_start="15" x_end="16" y_start="0" y_end="0"/>
+	<plataform x_start="17" x_end="18" y_start="0" y_end="1"/>
+	<plataform x_start="20" x_end="23" y_start="2" y_end="2"/>
+	<plataform x_start="23" x_end="24" y_start="3" y_end="3"/>
+	<plataform x_start="25" x_end="27" y_start="5" y_end="5"/>
+	<plataform x_start="27" x_end="34" y_start="0" y_end="1"/>
+	<plataform x_start="30" x_end="32" y_start="4" y_end="4"/>
+	<plataform x_start="35" x_end="37" y_start="5" y_end="5"/>
+	<plataform x_start="37" x_end="38" y_start="0" y_end="2"/>
+	<plataform x_start="39" x_end="44" y_start="0" y_end="1"/>
+	<plataform x_start="41" x_end="43" y_start="5" y_end="5"/>
+	<plataform x_start="46" x_end="48" y_start="3" y_end="3"/>
+	<plataform x_start="49" x_end="51" y_start="5" y_end="5"/>
+	<plataform x_start="52" x_end="54" y_start="3" y_end="3"/>
+	<plataform x_start="56" x_end="58" y_start="1" y_end="1"/>
+	<plataform x_start="61" x_end="62" y_start="0" y_end="2"/>
+	<plataform x_start="63" x_end="64" y_start="0" y_end="1"/>
+	<plataform x_start="65" x_end="66" y_start="0" y_end="2"/>
+	<plataform x_start="68" x_end="72" y_start="4" y_end="4"/>
+	<plataform x_start="70" x_end="70" y_start="5" y_end="5"/>
+	<plataform x_start="74" x_end="75" y_start="0" y_end="2"/>
+	<plataform x_start="76" x_end="80" y_start="0" y_end="1"/>
+	<plataform x_start="81" x_end="86" y_start="0" y_end="2"/>
+	<plataform x_start="83" x_end="85" y_start="5" y_end="5"/>
+	<plataform x_start="87" x_end="88" y_start="0" y_end="1"/>
+	<plataform x_start="89" x_end="90" y_start="0" y_end="2"/>
+	<plataform x_start="91" x_end="99" y_start="0" y_end="1"/>
+	
+	<spike direction="up" x_start="15" x_end="16" y_start="1" y_end="1"/>
+	<spike direction="up" x_start="15" x_end="21" y_start="0" y_end="0"/>
+	<spike direction="left" x_start="22" x_end="22" y_start="3" y_end="3"/>
+	<spike direction="up" x_start="41" x_end="42" y_start="2" y_end="2"/>
+	<spike direction="up" x_start="63" x_end="64" y_start="2" y_end="2"/>
+	<spike direction="left" x_start="80" x_end="80" y_start="2" y_end="2"/>
+	<spike direction="low" x_start="83" x_end="85" y_start="4" y_end="4"/>
+	<spike direction="up" x_start="87" x_end="88" y_start="2" y_end="2"/>
+	<spike direction="up" x_start="93" x_end="94" y_start="2" y_end="2"/>
+	
+	<liquid x_start="9" x_end="10" y_start="0" y_end="1"/>
+	<liquid x_start="19" x_end="26" y_start="0" y_end="1"/>
+	<liquid x_start="35" x_end="36" y_start="0" y_end="1"/>
+	<liquid x_start="45" x_end="60" y_start="0" y_end="0"/>
+	<liquid x_start="67" x_end="73" y_start="0" y_end="2"/>
+	
+	<treasure type="coin" x="10" y="3"/>
+	<treasure type="gem" x="10" y="2"/>
+	<treasure type="coin" x="26" y="6"/>
+	<treasure type="gem" x="36" y="6"/>
+	<treasure type="gem" x="84" y="6"/>
+	
+	<boot x="29" y="2"/>
+	<boot x="33" y="2"/>
+	<boot x="77" y="2"/>
+</map>
