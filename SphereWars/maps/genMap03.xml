@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<map height="9" width="100">
+	<plataform x_start="0" x_end="46" y_start="0" y_end="1"/>
+	<plataform x_start="3" x_end="6" y_start="4" y_end="4"/>
+	<plataform x_start="8" x_end="8" y_start="5" y_end="6"/>
+	<plataform x_start="9" x_end="9" y_start="4" y_end="5"/>
+	<plataform x_start="10" x_end="19" y_start="4" y_end="4"/>
+	<plataform x_start="20" x_end="20" y_start="4" y_end="5"/>
+	<plataform x_start="12" x_end="15" y_start="6" y_end="6"/>
+	<liquid x_start="10" x_end="19" y_start="5" y_end="5"/>
+	<treasure type="gem" x="13" y="7"/>
+	<bot x="6" y="2"/>
+	<bot x="12" y="2"/>
+	<bot x="18" y="2"/>
+	<treasure type="coin" x="7" y="2"/>
+	<treasure type="coin" x="13" y="2"/>
+	<treasure type="coin" x="19" y="2"/>
+	<plataform x_start="23" x_end="25" y_start="6" y_end="6"/>
+	<spike direction="low" x_start="23" x_end="25" y_start="5" y_end="5"/>
+	<spike direction="down" x_start="27" x_end="27" y_start="2" y_end="2"/>
+	<plataform x_start="29" x_end="29" y_start="2" y_end="4"/>
+	<treasure type="gem" x="29" y="6"/>
+	<plataform x_start="32" x_end="32" y_start="2" y_end="5"/>
+	<plataform x_start="33" x_end="33" y_start="2" y_end="4"/>
+	<spike direction="down" x_start="34" x_end="36" y_start="2" y_end="2"/>
+	<plataform x_start="37" x_end="37" y_start="2" y_end="3"/>
+	<bot x="41" y="2"/>
+	<treasure type="coin" x="43" y="2"/>
+	<liquid x_start="47" x_end="49" y_start="0" y_end="1"/>
+	<plataform x_start="50" x_end="50" y_start="0" y_end="2"/>
+	<plataform x_start="51" x_end="51" y_start="0" y_end="1"/>
+	<plataform x_start="52" x_end="54" y_start="0" y_end="0"/>
+	<spike direction="up" x_start="55" x_end="65" y_start="0" y_end="0"/>
+	<plataform x_start="56" x_end="58" y_start="2" y_end="2"/>
+	<plataform x_start="59" x_end="62" y_start="4" y_end="4"/>
+	<plataform x_start="63" x_end="63" y_start="2" y_end="3"/>
+	<plataform x_start="64" x_end="64" y_start="2" y_end="2"/>
+	<treasure type="gem" x="64" y="3"/>
+	<plataform x_start="66" x_end="93" y_start="0" y_end="1"/>
+	<liquid x_start="94" x_end="96" y_start="0" y_end="1"/>
+	<plataform x_start="97" x_end="99" y_start="0" y_end="1"/>
+	<plataform x_start="67" x_end="69" y_start="4" y_end="4"/>
+	<plataform x_start="71" x_end="90" y_start="5" y_end="5"/>
+	<plataform x_start="76" x_end="77" y_start="2" y_end="2"/>
+	<spike direction="left" x_start="70" x_end="70" y_start="5" y_end="5"/>
+	<spike direction="low" x_start="72" x_end="74" y_start="4" y_end="4"/>
+	<spike direction="low" x_start="80" x_end="82" y_start="4" y_end="4"/>
+	<spike direction="low" x_start="88" x_end="90" y_start="4" y_end="4"/>
+	<bot x="86" y="2"/>
+	<bot x="73" y="6"/>
+	<bot x="78" y="6"/>
+	<bot x="87" y="6"/>
+	<treasure type="coin" x="74" y="6"/>
+	<treasure type="coin" x="86" y="6"/>
+	<treasure type="gem" x="85" y="2"/>
+	<spike direction="up" x_start="30" x_end="30" y_start="2" y_end="2"/>
+	<treasure type="gem" x="31" y="2"/>
+</map>
