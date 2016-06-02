@@ -14,9 +14,20 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import utils.Constants;
-import videogame.Game;
 import videogame.Parallax;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: HelpMenu.java
+ * 
+ * Comentarios: Menú de la pantalla de ayuda
+ * 
+ */
+@SuppressWarnings("serial")
 public class HelpMenu extends Menu{
 	private BufferedImage starBack;
 	private BufferedImage mountainBack;

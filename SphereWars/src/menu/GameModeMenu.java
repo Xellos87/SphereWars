@@ -15,6 +15,18 @@ import graphic.Cursor;
 import utils.Constants;
 import videogame.Parallax;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: GameModeMenu.java
+ * 
+ * Comentarios: Menú de opción del modo de juego
+ * 
+ */
+@SuppressWarnings("serial")
 public class GameModeMenu extends Menu {
 	private BufferedImage starBack;
 	private BufferedImage mountainBack;

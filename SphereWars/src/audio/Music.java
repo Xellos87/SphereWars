@@ -16,6 +16,17 @@ import paulscode.sound.codecs.CodecJOgg;
 import paulscode.sound.libraries.LibraryJavaSound;
 import utils.Constants;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Music.java
+ * 
+ * Comentarios: Carga los audios y los maneja
+ * 
+ */
 public class Music {
 	final int TIME = 5000; // En ms
 
@@ -164,7 +175,6 @@ public class Music {
 			 * 1.0f); }
 			 */
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			// e.printStackTrace();
 			System.err.println("Error al reproducir la cancion " + f.getName());
 
@@ -201,7 +211,6 @@ public class Music {
 				bf = new BufferedInputStream(fs);
 				filesBf.add(bf);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				// e.printStackTrace();
 				System.err.println("Error: Cargando archivo de audio " + f.getName());
 			}
@@ -276,7 +285,6 @@ public class Music {
 					// nextSong, TIME, TIME);
 					onChange = true;
 				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 

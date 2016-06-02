@@ -14,7 +14,6 @@ import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.image.TextureLoader;
-import com.sun.pisces.Surface;
 
 import graphic.Model3D;
 import graphic.Sprite;
@@ -22,6 +21,17 @@ import utils.Constants;
 import videogame.Game;
 import videogame.GameObject;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Liquid.java
+ * 
+ * Comentarios: Objeto del videojuego que representa un liquido
+ * 
+ */
 public class Liquid extends GameObject implements Sprite, Model3D{
 	//Estilo del liquido
 	public static final int WATER = 0;
@@ -116,11 +126,5 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 
 	public int getHeightImage(){
 		return height_imgs[nature+type];
-	}
-
-	@Override
-	public void draw3D() {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -6,6 +6,17 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: ImageHandler.java
+ * 
+ * Comentarios: Manejador de las imagenes para la representación del juego en 2D
+ * 
+ */
 public class ImageHandler {
 	//Contenedores de imagenes de los elementos que estan en pantalla
 	private BufferedImage tiles_image;

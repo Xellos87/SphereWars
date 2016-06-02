@@ -28,6 +28,17 @@ import utils.Position;
 import videogame.Game;
 import videogame.GameObject;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Boss.java
+ * 
+ * Comentarios: Objeto que representa el boss d
+ * 
+ */
 public class Boss extends GameObject implements Sprite {
 	// Estados del enemigo (sprites)
 	private final int FLY1 = 0;
@@ -103,7 +114,6 @@ public class Boss extends GameObject implements Sprite {
 	private BufferedImage fly2redleft;
 	public boolean reseteo = false;
 	public boolean collides = false;
-	
 	// Audio
 	private AudioClip deathSound;
 
@@ -138,16 +148,11 @@ public class Boss extends GameObject implements Sprite {
 		this.hazteVisible = tiempoInicio + 30000;
 		deathSound = Audio.Load("audioEffects/flie.wav");
 		if(Constants.visualMode == Game.MODE_3D){
-			selectTexture();
 			loadModel3D();
 		}
 		//Todo prueba
 		this.x_ori=Constants.xOri;
 		this.y_ori=Constants.yOri;
-	}
-	
-	private void selectTexture(){
-		//TODO rellenar con textura
 	}
 	
 	private void setPosition3D() {
@@ -172,14 +177,6 @@ public class Boss extends GameObject implements Sprite {
 		mat.setAmbientColor(Constants.black);
 		mat.setDiffuseColor(Constants.black);
 		app.setMaterial(mat);	    
-		//TODO Carga de textura
-		/*TextureLoader  loader = new TextureLoader(texture);
-	    Texture texture = loader.getTexture();
-	    app.setTexture(texture);
-	    //Atributos de textura
-	    TextureAttributes texAttr = new TextureAttributes();
-        texAttr.setTextureMode(TextureAttributes.MODULATE);
-        app.setTextureAttributes(texAttr);*/
 		//Creacion de la mosca
 		Transform3D t = new Transform3D();
 		//t.rotZ(Math.PI/4);
@@ -381,9 +378,6 @@ public class Boss extends GameObject implements Sprite {
 		//comprobacion de colisiones
 		if(collides && visible && state!=DEAD){
 			Rectangle bossBox = this.getBox(x_ori, y_ori);
-			Rectangle intesect = playerBox.intersection(bossBox);
-			//System.out.println(intesect);
-			//System.out.printf("p_y:%d, b_y:%d \n",playerBox.y,bossBox.y);
 			if(state != DEAD && bossBox.intersects(playerBox)){
 				if(playerBox.y<=bossBox.y){
 					

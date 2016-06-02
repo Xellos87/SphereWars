@@ -4,6 +4,17 @@ import javax.sound.sampled.Clip;
 
 import utils.Constants;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: AudioClip.java
+ * 
+ * Comentarios: Maneja sonidos de eventos
+ * 
+ */
 public class AudioClip {
 	private Clip sound;
 	private boolean repeat = false;

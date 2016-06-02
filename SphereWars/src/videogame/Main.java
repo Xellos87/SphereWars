@@ -5,9 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 
 import audio.Music;
@@ -23,15 +21,14 @@ import menu.Menu;
 import menu.OptionMenu;
 import menu.PauseMenu;
 import menu.TitleMenu;
-import scoreboard.GameScore;
 import scoreboard.Ranking;
 import utils.Constants;
 
 /**
- * Autores: Victor Adrian Milla EspaÃ±ol - 557022,
- * 			Juan Luis Burillo OrtÃ­n - 542083,
+ * Autores: Victor Adrian Milla Españl - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
  * 			Sandra Malpica Mallo - 670607,
- * 			Richard Elvira LÃ³pez-Echazarreta - 666800
+ * 			Richard Elvira López-Echazarreta - 666800
  * 	
  * Clase: Main.java
  * 

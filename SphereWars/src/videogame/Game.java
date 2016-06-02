@@ -17,6 +17,17 @@ import menu.PauseMenu;
 import scoreboard.GameScore;
 import utils.Constants;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Game.java
+ * 
+ * Comentarios: Clase que ejecuta en juego en las diferentes formas 2D y 3D
+ * 
+ */
 @SuppressWarnings("serial")
 public class Game extends JLayeredPane implements Runnable {
 	// Modos de juego

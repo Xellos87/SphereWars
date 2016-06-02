@@ -18,6 +18,17 @@ import utils.Constants;
 import utils.Position;
 import videogame.Game;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: GameScore.java
+ * 
+ * Comentarios: Marcador que dibuja la puntuación de cada jugador
+ * 
+ */
 @SuppressWarnings("serial")
 public class GameScore extends JPanel {
 	// Elemento que se pueden pintar en el marcador

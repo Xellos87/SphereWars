@@ -5,6 +5,17 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Menu.java
+ * 
+ * Comentarios: Clase abstracta que representa las acciones comunes de los menús
+ * 
+ */
 @SuppressWarnings("serial")
 public abstract class Menu extends JPanel{
 	protected int width,height;

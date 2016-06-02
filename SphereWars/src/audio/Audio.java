@@ -9,11 +9,19 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Audio.java
+ * 
+ * Comentarios: Carga los fichero de audio wav
+ * 
+ */
 public class Audio {
 	static private ArrayList<AudioClip> sounds = new ArrayList<AudioClip>();
-	/*public Audio(){
-		sounds = new ArrayList<Clip>();
-	}*/
 	
 	public static AudioClip Load(String name){
 		Clip s = null;
@@ -22,7 +30,6 @@ public class Audio {
 		try {
 			s = AudioSystem.getClip();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			//e.printStackTrace();
 			System.err.println("Error: No se pudo obtener un clip " + name);
 			return null;
@@ -31,14 +38,11 @@ public class Audio {
 			s.open(AudioSystem.getAudioInputStream(f));
 			clip = new AudioClip(s);
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			//e.printStackTrace();
 			System.err.println("Error: No se pudo abrir el archivo de audio " + name);
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			//e.printStackTrace();
 			System.err.println("Error: Tipo de archivo de audio incorrecto " + name);
 		}

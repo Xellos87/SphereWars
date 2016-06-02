@@ -18,6 +18,17 @@ import utils.Constants;
 import utils.Position;
 import videogame.Parallax;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: OptionMenu.java
+ * 
+ * Comentarios: Menú de la pantalla de opciones
+ * 
+ */
 @SuppressWarnings("serial")
 public class OptionMenu extends Menu {
 	BufferedImage starBack;

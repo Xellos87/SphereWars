@@ -13,12 +13,23 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import graphic.Cursor;
 import scoreboard.RankingEntry;
 import utils.Constants;
 import videogame.Game;
 import videogame.Parallax;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: CreditsMenu.java
+ * 
+ * Comentarios: Menú de la pantalla de creditos
+ * 
+ */
+@SuppressWarnings("serial")
 public class CreditsMenu extends Menu{
 	private BufferedImage starBack;
 	private BufferedImage mountainBack;

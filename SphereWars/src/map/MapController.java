@@ -25,6 +25,17 @@ import obstacle.Spike;
 import utils.Constants;
 import videogame.Game;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: MapController.java
+ * 
+ * Comentarios: Controlador de los mapas que implementa funciones para interactuar con ellos
+ * 
+ */
 public class MapController {
 	//Numero de bloques maximos para la altura
 	private final int MAX_HEIGHT = 9;

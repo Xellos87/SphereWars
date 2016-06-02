@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
@@ -15,7 +14,17 @@ import scoreboard.RankingEntry;
 import utils.Constants;
 import videogame.Game;
 
-//TODO: continuar, reiniciar, escribir ranking.
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: EndMenu.java
+ * 
+ * Comentarios: Menú de la pantalla de fin
+ * 
+ */
 @SuppressWarnings("serial")
 public class EndMenu extends Menu{
 	//Respuesta a acciones de pulsacion
@@ -61,10 +70,7 @@ public class EndMenu extends Menu{
 	private final int MAX_TICK = 10;
 	private boolean show;
 	//Fuente y ruta de las fuente
-	private Font font;
 	private Font font_bold;
-	private String path_font = "fonts/M04.TTF";
-	private String path_font_bold = "fonts/M04B.TTF";
 	//Movimiento de la opcion señalada
 	private int movX;
 	private BufferedImage cursor_img;
@@ -99,7 +105,6 @@ public class EndMenu extends Menu{
 		setOpaque(false);
 		alpha_back = 0;
 		alpha_text = 0;
-		font = Constants.font;
 		font_bold = Constants.font_bold;
 		option = RESTART;
 		try{
@@ -317,7 +322,6 @@ public class EndMenu extends Menu{
 					g2d.drawString(msg, ranking_msgX - width_text/2, aux_y);
 				}
 			}
-			//TODO Imprimir puntuaciones y opciones
 		}else{
 			g2d.setColor(new Color(0, 0, 0, 0));
 			g2d.fillRect(0, 0, width, height);
@@ -348,7 +352,6 @@ public class EndMenu extends Menu{
 
 	@Override
 	public String cursorEnter() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -383,7 +386,6 @@ public class EndMenu extends Menu{
 		alpha_text = 0;
 	}
 
-	//TODO parpado al escribir por encima de la posición 9
 	public int keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ENTER){
 			//Tecla de enter, se pasa de letra para escribir o se selecciona lo opcion
@@ -453,14 +455,12 @@ public class EndMenu extends Menu{
 
 	@Override
 	public void cursorRight() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void cursorLeft() {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 }

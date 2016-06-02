@@ -15,8 +15,6 @@ import javax.media.j3d.TransformGroup;
  * */
 public interface Model3D {
 	
-	public void draw3D();
-	
 	public TransformGroup get3DModel();
 	
 }

@@ -24,6 +24,17 @@ import utils.Constants;
 import videogame.Game;
 import videogame.GameObject;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Spike.java
+ * 
+ * Comentarios: Objeto del juego que reprenta unos pinchos
+ * 
+ */
 public class Spike extends GameObject implements Sprite, Model3D{
 	//Tipo de plataforma, depende del tipo usa un sprite u otro
 	public static final int UPPER = 0;
@@ -170,7 +181,7 @@ public class Spike extends GameObject implements Sprite, Model3D{
 	public void draw2D(Graphics2D g2d,int x_ori, int y_ori) {
 		g2d.drawImage(image, x_ori+x, y_ori+y, null);
 		//Dibujo cada de colisiones
-		g2d.draw(this.getBox(x_ori,y_ori));
+		//g2d.draw(this.getBox(x_ori,y_ori));
 	}
 
 
@@ -180,11 +191,5 @@ public class Spike extends GameObject implements Sprite, Model3D{
 
 	public int getHeightImage(){
 		return height;
-	}
-
-	@Override
-	public void draw3D() {
-		// TODO Auto-generated method stub
-		
 	}
 }

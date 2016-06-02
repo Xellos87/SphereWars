@@ -16,6 +16,17 @@ import utils.Constants;
 import videogame.Game;
 import videogame.Parallax;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: TitleMenu.java
+ * 
+ * Comentarios: Menú de la pantalla principal
+ * 
+ */
 @SuppressWarnings("serial")
 public class TitleMenu extends Menu {
 	BufferedImage starBack;
@@ -111,7 +122,6 @@ public class TitleMenu extends Menu {
 	}
 
 	public void draw() {
-		//TODO: corregir bug de desplazamiento al volver de 2D/3D
 		Image offscreen = createImage(width,height);
 		Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
 		int rule = AlphaComposite.SRC_OVER;

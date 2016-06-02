@@ -18,14 +18,25 @@ import org.w3c.dom.NodeList;
 
 import videogame.Game;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Ranking.java
+ * 
+ * Comentarios: Clase para trabajar con los rankings
+ * 
+ */
 public class Ranking {
 	private final int MAX_RANK = 10;
 	//Entradas de los ranking
 	private RankingEntry[] runner_ranking;
 	private RankingEntry[] coins_ranking;
 	//Ruta del xml y etiquetas que usa
-	private String path_ranking = "ranking/ranking_aux.xml";
-	private String path_ranking_aux = "ranking/ranking_aux.xml";
+	private String path_ranking = "ranking/ranking.xml";
+	private String path_ranking_aux = "ranking/ranking.xml";
 	private String header_xml = "ranking";
 	private String group_xml = "rank";
 	private String type_group_xml = "type";

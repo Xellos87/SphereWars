@@ -1,20 +1,22 @@
 package kinect;
 
-import java.io.IOException;
-
 import character.Sphere;
-import edu.ufl.digitalworlds.j4k.Avatar;
-import edu.ufl.digitalworlds.j4k.ImageAvatar;
-
-//import com.jogamp.opengl.GL2;
-//import com.jogamp.opengl.util.awt.TextRenderer;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
-import edu.ufl.digitalworlds.math.Geom;
 import map.MapController;
 import utils.Constants;
-//import input.Input;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Panel.java
+ * 
+ * Comentarios: Intermediario entre el kinect y el juego
+ * 
+ */
 public class Panel {
 	private boolean debug;
 	
@@ -264,105 +266,6 @@ public class Panel {
 		return Math.sqrt((p1[0] - p2[0]) * (p1[0] - p2[0]) + (p1[1] - p2[1]) * (p1[1] - p2[1])
 				+ (p1[2] - p2[2]) * (p1[2] - p2[2]));
 	}
-/*
-	public void dibuja2(GL2 gl) {
-		// GL2 gl2 = getGL2();
-		gl.glDisable(GL2.GL_LIGHTING);
-		gl.glLineWidth(2);
-		gl.glColor3f(1f, 0f, 0f);
-		for (int i = 0; i < skeletons.length; i++)
-			if (skeletons[i] != null) {
-				if (skeletons[i].getTimesDrawn() <= 10 && skeletons[i].isTracked()) {
-					// skeletons[i].draw(gl);
-					// skeletons[i].draw(gl);
-					skeletons[i].increaseTimesDrawn();
-				}
-			}
-	}*/
-
-	// Joint 11 mano derecha
-	// Joint 10 mu�eca derecha
-	// Joint 9 codo derecho
-	// Joint 8 hombro derecho
-	// Joint 7 mano izquierda
-	// Joint 6 mu�eca izquierda
-	// Joint 5 codo izquierdo
-	// Joint 4 hombro izquierdo
-	/*
-	public void dibuja(GL2 gl) {
-		// System.out.println("En dibuja");
-		for (int i = 0; i < 6; i++) {
-			if (skeletons[i] != null) {
-				// System.out.println("Distintonull");
-				// System.out.println("Kin: Esqueleto: " + i + " recibido");
-				if (skeletons[i].getTimesDrawn() <= 10 && skeletons[i].isTracked()) {
-					// System.out.println("Dibuja avatar");
-					for (int j = 0; j < 20; j++) {
-						if (j > 18)
-							gl.glColor3f(1, 0, 0);
-						else if (j > 16)
-							gl.glColor3f(0, 1, 0);
-						else if (j > 14)
-							gl.glColor3f(0, 0, 1);
-						else if (j > 12)
-							gl.glColor3f(1, 1, 0);
-						else if (j > 10)
-							gl.glColor3f(0, 1, 1);
-						else if (j > 8)
-							gl.glColor3f(1, 0, 1);
-						else
-							gl.glColor3f(1, 1, 1);
-						/*
-						 * if(j >= 8) gl.glColor3f(1, 1, 1); else if(j >= 6)
-						 * gl.glColor3f(0, 1, 0); else if(j >= 4)
-						 * gl.glColor3f(0, 0, 1); else if(j >= 2)
-						 * gl.glColor3f(1, 1, 0); else if(j >= 0)
-						 * gl.glColor3f(1, 0, 0);
-						 */
-		/*				double[] joint = skeletons[i].get3DJoint(j);
-						// if(j == 7)
-						// gl.glColor3f(1, 0, 1);
-						if (j >= 4 && j <= 11)
-							drawPoint(gl, joint[0], joint[1], 0.025f);
-					}
-					try {
-						Runtime.getRuntime().exec("cls");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						// e.printStackTrace();
-					}
-					// System.out.println("Derecha: x:" +
-					// skeletons[i].get3DJointX(11) + " y: " +
-					// skeletons[i].get3DJointY(11) + " z: " +
-					// skeletons[i].get3DJointZ(11));
-					// skeletons[i].getRightForearmTransform(transf,
-					// inv_transf);
-					// viewer.skeletons[i].get
-					// skeletons[i].draw(gl);
-					// skeletons[i].increaseTimesDrawn();
-				}
-			}
-		}
-	}
-/*
-	private void drawPoint(GL2 gl, double x, double y, float size) {
-		// gl.glColor3f(1, 0, 0);
-		gl.glBegin(GL2.GL_POLYGON);
-		gl.glVertex3d(x - size / 2, y - size / 2, 0.0f);
-		gl.glVertex3d(x + size / 2, y - size / 2, 0.0f);
-		gl.glVertex3d(x + size / 2, y + size / 2, 0.0f);
-		gl.glVertex3d(x - size / 2, y + size / 2, 0.0f);
-		gl.glEnd();
-	}*/
-
-/*
-	public int getP1Hand() {
-		return p1Hand;
-	}
-
-	public void setP1Hand(int p1Hand) {
-		this.p1Hand = p1Hand;
-	}*/
 
 	public int getP2Hand() {
 		return p2Hand;

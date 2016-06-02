@@ -13,7 +13,6 @@ import javax.vecmath.Color3f;
 
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.geometry.Cylinder;
-import com.sun.j3d.utils.geometry.Primitive;
 import com.sun.j3d.utils.image.TextureLoader;
 
 import graphic.Model3D;
@@ -22,6 +21,17 @@ import utils.Constants;
 import videogame.Game;
 import videogame.GameObject;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Treasure.java
+ * 
+ * Comentarios: Objeto del juego que otorga puntos
+ * 
+ */
 public class Treasure extends GameObject implements Sprite, Model3D{
 	//Tipos de tesoro
 	public static final int COIN = 0;
@@ -155,16 +165,10 @@ public class Treasure extends GameObject implements Sprite, Model3D{
 	public void draw2D(Graphics2D g2d, int x_ori, int y_ori) {
 		g2d.drawImage(image, x_ori+x, y_ori+y, null);
 		//Dibujo cada de colisiones
-		g2d.draw(this.getBox(x_ori,y_ori));
+		//g2d.draw(this.getBox(x_ori,y_ori));
 	}
 
 	public int getValue() {
 		return values[type];
-	}
-
-	@Override
-	public void draw3D() {
-		// TODO Auto-generated method stub
-
 	}
 }

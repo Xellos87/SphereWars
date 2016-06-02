@@ -15,6 +15,17 @@ import media.ImageHandler;
 import scoreboard.Ranking;
 import videogame.Game;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Constants.java
+ * 
+ * Comentarios: Clase con todos las variables globales
+ * 
+ */
 public class Constants {
 	public static final String[] list_menu = { "Start", "versus","Help", "options", "credits", "Exit" };
 	public static final String[] list_options = { "sound", "resolution", "controller", "back" };

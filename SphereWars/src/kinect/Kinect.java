@@ -1,11 +1,21 @@
 package kinect;
 
-
 import javax.swing.JLabel;
 
 import edu.ufl.digitalworlds.j4k.J4KSDK;
 import edu.ufl.digitalworlds.j4k.Skeleton;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Kinect.java
+ * 
+ * Comentarios: Interactua con el dispositivo Kinect
+ * 
+ */
 public class Kinect extends J4KSDK {
 	//ViewerPanel3D viewer = null;
 	JLabel label = null;

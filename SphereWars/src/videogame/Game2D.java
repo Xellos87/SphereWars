@@ -15,6 +15,17 @@ import kinect.Panel;
 import map.MapController;
 import utils.Constants;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Game2D.java
+ * 
+ * Comentarios: Clase principal del videojuego en 2D
+ * 
+ */
 @SuppressWarnings("serial")
 public class Game2D extends JPanel {
 	private int width,height;

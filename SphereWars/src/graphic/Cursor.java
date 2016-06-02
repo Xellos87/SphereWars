@@ -9,6 +9,17 @@ import javax.imageio.ImageIO;
 import utils.Constants;
 import utils.Position;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Cursor.java
+ * 
+ * Comentarios: Cursor de los menús
+ * 
+ */
 public class Cursor {
 	private Image cursor;
 	//private Position iniPos;

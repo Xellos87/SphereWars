@@ -31,6 +31,17 @@ import utils.Constants;
 import videogame.Game;
 import videogame.GameObject;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Sphere.java
+ * 
+ * Comentarios: Objeto que representa al jugador en la pantalla
+ * 
+ */
 public class Sphere extends GameObject implements Sprite{
 	//Tipo de plataforma, depende del tipo usa un sprite u otro
 	public static final int NORMAL = 0;
@@ -60,7 +71,6 @@ public class Sphere extends GameObject implements Sprite{
 	private int counter = Constants.speedActions;
 	private boolean jump = false;
 	private int canJump = 0;	
-	//TODO salto proporcional a tamaño
 	//private final int jumpVelocity = -18;
 	private int jumpVelocity = -block_width/3;
 	private final int miniJumpVelocity = -12;
@@ -88,7 +98,6 @@ public class Sphere extends GameObject implements Sprite{
 		selectImage();
 		resize();
 		if(Constants.visualMode == Game.MODE_3D){
-			selectTexture();
 			loadModel3D();
 		}
 		if(Constants.scale==2){
@@ -100,10 +109,6 @@ public class Sphere extends GameObject implements Sprite{
 		this.y_ori=Constants.yOri;
 	}
 
-	private void selectTexture(){
-		//TODO rellenar con textura
-	}
-
 	private void loadModel3D(){
 		//Apariencia de la esfera
 		Appearance app = new Appearance();
@@ -112,14 +117,6 @@ public class Sphere extends GameObject implements Sprite{
 		mat.setAmbientColor(new Color3f(0.015f,0.03f,0.2f));
 		mat.setDiffuseColor(new Color3f(0.0784f,0.1254f,0.8078f));
 		app.setMaterial(mat);	    
-		//TODO Carga de textura
-		/*TextureLoader  loader = new TextureLoader(texture);
-	    Texture texture = loader.getTexture();
-	    app.setTexture(texture);
-	    //Atributos de textura
-	    TextureAttributes texAttr = new TextureAttributes();
-        texAttr.setTextureMode(TextureAttributes.MODULATE);
-        app.setTextureAttributes(texAttr);*/
 		//Creacion de la esfera
 		object_primitive = new com.sun.j3d.utils.geometry.Sphere(block_width*0.0007f,app);
 		tg_model3D = new TransformGroup();
@@ -222,10 +219,8 @@ public class Sphere extends GameObject implements Sprite{
 	}
 
 	public int checkCollision(MapController mc, int x_ori, int y_ori){
-		//TODO bug choque lateral en cambio de mapa, ej: columna en x:0 del segundo mapa
 		boolean print = false;	//False para no ver mensajes
 		int result = -1;
-		//TODO colisiones con sprite que no ocupa todo el bloque
 		int collisionInf,collisionLat,collisionSup,collisionCen;
 		//Comprueba si toca fin de mapa
 		if(x + width < 0){
@@ -307,7 +302,7 @@ public class Sphere extends GameObject implements Sprite{
 		}
 		else if(collisionInf == MapObject.DEATH || collisionCen == MapObject.DEATH){
 			result = COLLKILL;
-		}//TODO, colision con monedas
+		}
 		else if(collisionInf == MapObject.GET || collisionLat == MapObject.GET || collisionSup == MapObject.GET || collisionCen == MapObject.GET){
 			takeSound.start();
 			result = COLLGET;
@@ -322,7 +317,6 @@ public class Sphere extends GameObject implements Sprite{
 			y = map.getObject(xMap, yMap-1).getPositionY() - this.getHeightScreen() + 1;
 			System.out.printf("prueba x:%d, y:%d\n", x,y);
 		}
-		//TODO cambial el totalX, para que este bien situado en las colisiones centrales
 		else if(collisionInf >= MapObject.COLLISION && collisionCen >= MapObject.COLLISION){
 			result = COLLINFLAT;
 			//totalX = totalX - mc.getVelocity() - vx;
@@ -399,11 +393,9 @@ public class Sphere extends GameObject implements Sprite{
 
 	@Override
 	public void draw2D(Graphics2D g2d,int x_ori, int y_ori) {
-		//TODO acciones en la pelota, cambiar sprite al saltar, acelerar y frenar
-		//TODO establecer posiciones por celdas en vez de pixeles
 		g2d.drawImage(image, x_ori+x, y_ori+y, null);
 		//Dibujo cada de colisiones
-		g2d.draw(this.getBox(x_ori,y_ori));
+		//g2d.draw(this.getBox(x_ori,y_ori));
 		this.x_ori=x_ori;
 		this.y_ori=y_ori;
 	}

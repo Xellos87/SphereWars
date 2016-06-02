@@ -29,6 +29,17 @@ import utils.Constants;
 import videogame.Game;
 import videogame.GameObject;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Bot.java
+ * 
+ * Comentarios: Objeto que representa un bot en pantalla
+ * 
+ */
 public class Bot extends GameObject implements Sprite, Model3D{
 	//Tipo de enemigo
 	public static final int SLIME = 0;
@@ -62,7 +73,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 	//Variables relacionadas con el cambio de dirección ante un camino imposible
 	private int tick_change;
 	private int max_wait_change = 10 * Constants.speedActions;
-	//
+	//Sonido de muerte del bot
 	private AudioClip deathSound;
 	
 
@@ -111,7 +122,7 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		if(visible){
 			g2d.drawImage(image, x_ori+x, y_ori+y, null);
 			//Dibujo cada de colisiones
-			g2d.draw(this.getBox(x_ori,y_ori));
+			//g2d.draw(this.getBox(x_ori,y_ori));
 		}
 	}
 
@@ -336,12 +347,6 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		
 		tg_model3D.addChild(branch_group);
 		tg_model3D.setTransform(t);
-	}
-
-	@Override
-	public void draw3D() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void remove() {

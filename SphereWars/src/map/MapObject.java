@@ -16,6 +16,17 @@ import utils.Constants;
 import videogame.Game;
 import videogame.GameObject;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: MapObject.java
+ * 
+ * Comentarios: Representa una sección del mapa de la pantalla
+ * 
+ */
 public class MapObject {
 	//Constantes colisiones
 	public static final int NOCOLLISION = -1;

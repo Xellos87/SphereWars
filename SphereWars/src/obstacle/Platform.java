@@ -1,6 +1,5 @@
 package obstacle;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -8,7 +7,6 @@ import java.util.Random;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Material;
-import javax.media.j3d.TexCoordGeneration;
 import javax.media.j3d.Texture;
 import javax.media.j3d.TextureAttributes;
 import javax.media.j3d.Transform3D;
@@ -18,7 +16,6 @@ import javax.vecmath.Matrix4f;
 
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.image.TextureLoader;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import graphic.Model3D;
 import graphic.Sprite;
@@ -26,6 +23,17 @@ import utils.Constants;
 import videogame.Game;
 import videogame.GameObject;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: Platform.java
+ * 
+ * Comentarios: Objeto del videojuego que representa una plataforma
+ * 
+ */
 public class Platform extends GameObject implements Sprite, Model3D{
 	//Tipo de plataforma, depende del tipo usa un sprite u otro
 	public static final int GROUND = 0;
@@ -158,7 +166,7 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	public void draw2D(Graphics2D g2d,int x_ori, int y_ori) {
 		g2d.drawImage(image, x_ori+x, y_ori+y, null);
 		//Dibujo cada de colisiones
-		g2d.draw(this.getBox(x_ori,y_ori));
+		//g2d.draw(this.getBox(x_ori,y_ori));
 	}
 
 	public int getWidthImage(){
@@ -167,11 +175,6 @@ public class Platform extends GameObject implements Sprite, Model3D{
 
 	public int getHeightImage(){
 		return height_imgs[world+type];
-	}
-
-	@Override
-	public void draw3D() {
-		
 	}
 
 	public static int getWorld() {

@@ -12,6 +12,17 @@ import javax.imageio.ImageIO;
 import kinect.Panel;
 import utils.Constants;
 
+/**
+ * Autores: Victor Adrian Milla Español - 557022,
+ * 			Juan Luis Burillo Ortín - 542083,
+ * 			Sandra Malpica Mallo - 670607,
+ * 			Richard Elvira López-Echazarreta - 666800
+ * 	
+ * Clase: PauseMenu.java
+ * 
+ * Comentarios: Menú de pausa para el juego
+ * 
+ */
 @SuppressWarnings("serial")
 public class PauseMenu extends Menu {
 	//Opciones a elegir
