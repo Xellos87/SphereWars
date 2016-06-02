@@ -131,7 +131,7 @@ public class Game extends JLayeredPane implements Runnable {
 		score = new GameScore(width, height_score, num_players, type);
 		score.setBounds(0, 0, width, height_score);
 		// add(score, new Integer(0),2);
-		System.out.printf("w:%d, hs:%d, hg:%d\n", width, height_score, height_game);
+		//system.out.printf("w:%d, hs:%d, hg:%d\n", width, height_score, height_game);
 		// Inicializa los controladores de mapas necesarios
 		Constants.map_index = new ArrayList<Integer>();
 		map_p1 = new MapController(width, height_game,type);
@@ -332,7 +332,7 @@ public class Game extends JLayeredPane implements Runnable {
 		} else {
 			if (e.getKeyCode() == Constants.teclaSaltop1 || e.getKeyCode() == Constants.teclaSprintp1) {
 				if (mode == MODE_2D) {
-					System.out.println("Tecla pulsada");
+					//system.out.println("Tecla pulsada");
 					game2d_1p.keyPressed(e, map_p1);
 				} else if (mode == MODE_3D) {
 
@@ -341,7 +341,7 @@ public class Game extends JLayeredPane implements Runnable {
 			if (num_players > 1
 					&& (e.getKeyCode() == Constants.teclaSaltop2 || e.getKeyCode() == Constants.teclaSprintp2)) {
 				if (mode == MODE_2D) {
-					System.out.println("Tecla pulsada");
+					//system.out.println("Tecla pulsada");
 					game2d_2p.keyPressed(e, map_p2);
 				}
 			}
@@ -403,10 +403,10 @@ public class Game extends JLayeredPane implements Runnable {
 				if (wait > 0)
 					Thread.sleep(wait / 1000000);
 			} catch (Exception e) {
-				System.out.printf("start: %d\n", start);
-				System.out.printf("elapsed: %d\n", elapsed);
-				System.out.printf("wait: %d\n", wait);
-				System.out.printf("target: %d\n", targetTime);
+				//system.out.printf("start: %d\n", start);
+				//system.out.printf("elapsed: %d\n", elapsed);
+				//system.out.printf("wait: %d\n", wait);
+				//system.out.printf("target: %d\n", targetTime);
 				e.printStackTrace();
 			}
 			;
