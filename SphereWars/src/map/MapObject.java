@@ -71,7 +71,7 @@ public class MapObject {
 			posBotY.add(y);
 		}
 		if(Constants.visualMode == Game.MODE_3D){
-			//System.out.printf("Add obj, x:%d, y:%d\n", x*block_width,y*block_height);
+			////system.out.printf("Add obj, x:%d, y:%d\n", x*block_width,y*block_height);
 			Transform3D translate = new Transform3D();
 			int yAux = Math.abs(y - 9);
 			translate.setTranslation(new Vector3f(x*block_width*0.002f,-yAux*block_height*0.002f,0));
@@ -89,10 +89,10 @@ public class MapObject {
 		if(x>=0 && x<width && y>=0 && y<height){
 			GameObject o = objects[y][x];
 			if(objects[y][x] != null){
-				System.out.printf("\tcaja x: %d, y: %d\n",o.getPositionX(), o.getPositionY());
-				System.out.printf("\tposicion x: %d, y: %d\n", x, y);
-				//System.out.printf("\tdimensiones w: %d, h: %d\n", o.getWidth(), o.getHeight());
-				System.out.printf("\tdimensiones block w: %d, h: %d\n", o.getWidthScreen(), o.getHeightScreen());
+				//system.out.printf("\tcaja x: %d, y: %d\n",o.getPositionX(), o.getPositionY());
+				//system.out.printf("\tposicion x: %d, y: %d\n", x, y);
+				////system.out.printf("\tdimensiones w: %d, h: %d\n", o.getWidth(), o.getHeight());
+				//system.out.printf("\tdimensiones block w: %d, h: %d\n", o.getWidthScreen(), o.getHeightScreen());
 			}
 		}
 	}
@@ -161,7 +161,7 @@ public class MapObject {
 					objects[y][x].getWidthScreen();
 				}
 			}
-			//System.out.printf("Plataforma %d: %d\n", x, disp_x);
+			////system.out.printf("Plataforma %d: %d\n", x, disp_x);
 			objects[y][x].updatePositionX(mov+disp_x);			
 		}
 	}
@@ -180,16 +180,16 @@ public class MapObject {
 		if(x>=0 && x<width && y>=0 && y<height){
 			GameObject gameObject = objects[y][x];
 			if(gameObject != null){
-				//System.out.println("Existe");
-				//System.out.printf("objeto x: %d, y: %d, w: %d, h: %d tx:%d\n", mapObject.getBox(0, 0).x, mapObject.getBox(0, 0).y,x,y,0);
+				////system.out.println("Existe");
+				////system.out.printf("objeto x: %d, y: %d, w: %d, h: %d tx:%d\n", mapObject.getBox(0, 0).x, mapObject.getBox(0, 0).y,x,y,0);
 				//comprueba si intersecta
 				//result = COLLISION;
 				if(gameObject.intersects(object,x_ori,y_ori)){
-					//System.out.println("Intersecta");
+					////system.out.println("Intersecta");
 					result = COLLISION;
 					//Comprueba si mata
 					if(gameObject.kills()){
-						System.out.println("Mata");
+						//system.out.println("Mata");
 						result = KILLS;
 					}
 					if(gameObject instanceof Bot){
@@ -216,13 +216,13 @@ public class MapObject {
 		for(int i=0; i<height; i++){
 			for(int j=0; j<width; j++){
 				if(objects[i][j] != null){
-					System.out.printf("1 ");
+					//system.out.printf("1 ");
 				}
 				else{
-					System.out.printf("0 ");
+					//system.out.printf("0 ");
 				}
 			}
-			System.out.println();
+			//system.out.println();
 		}
 	}
 
@@ -245,7 +245,7 @@ public class MapObject {
 
 	public void moveBot(){
 		for(int i=0; i<posBotX.size(); i++){
-			System.out.printf("Posición x:%d, y:%d \n",posBotX.get(i), posBotY.get(i));
+			//system.out.printf("Posición x:%d, y:%d \n",posBotX.get(i), posBotY.get(i));
 			Bot b = (Bot)objects[posBotY.get(i)][posBotX.get(i)];
 			if(b.moveBot()){
 				//Borra el bot
