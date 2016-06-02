@@ -51,9 +51,20 @@ public class Game2D extends JPanel {
 	private int blockWidth;
 	private int blockHeight;
 	private Panel panel;
-
+	//Musica del juego
 	Music music;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param width, ancho de la pantalla
+	 * @param height, alto de la pantalla
+	 * @param num_player, numero de jugadores
+	 * @param widthBlock, ancho de bloque
+	 * @param heightBlock, alto de bloque
+	 * @param panel, objeto para interactuar con el kinect
+	 * @param music, musica del juego
+	 */
 	public Game2D(int width, int height, int num_player, int widthBlock, int heightBlock, Panel panel, Music music){
 		this.width = width;
 		this.height = height;
@@ -68,17 +79,21 @@ public class Game2D extends JPanel {
 		setPreferredSize(new Dimension(width, height));
 		setDoubleBuffered(true);
 		setFocusable(false);
-
 		loadImages();
-
 		init_score();
 	}
 
+	/**
+	 * Inicializa los marcadores
+	 */
 	private void init_score() {
 		this.score_distance = 0;
 		this.score_coins = 0;
 	}
 
+	/**
+	 * Carga las imagenes del parallax, jugador y boss
+	 */
 	private void loadImages() {
 		/* Carga el efecto de fondo Parallax */
 		int num = 1;
@@ -95,6 +110,15 @@ public class Game2D extends JPanel {
 		boss = new Boss(width-90,20,blockWidth,blockHeight,false, width, height, music);
 	}
 
+	/**
+	 * Dibuja la escena en el doble buffer
+	 * 
+	 * @param g2d, doble buffer en el que se dibuja
+	 * @param x_ori, x de origen desde donde se pinta
+	 * @param y_ori, y de origen desde donde se pinta
+	 * @param map_cont, controlador del mapa
+	 * @param not_pause, flag que indica si esta en pausa o no
+	 */
 	public void draw(Graphics2D g2d,int x_ori, int y_ori, MapController map_cont, boolean not_pause) {
 		//Efecto Parallax(fondo movil)
 		back_parallax.draw(g2d,x_ori,y_ori);
@@ -121,6 +145,14 @@ public class Game2D extends JPanel {
 	}
 
 
+	/**
+	 * Acción de juego
+	 * 
+	 * @param x_ori, x de origen desde donde se pinta
+	 * @param y_ori, y de origen desde donde se pinta
+	 * @param map_cont, controlador del mapa
+	 * @return true si y solo si el jugador ha muerto
+	 */
 	public boolean actionGame(int x_ori,int y_ori,MapController map_cont) {
 		//TODO si el juego acaba se puede hacer una acción de mover el jugador por las Y
 		//hasta que se salga de la pantalla
@@ -192,6 +224,11 @@ public class Game2D extends JPanel {
 		return end_game;
 	}
 
+	/**
+	 * Reinicializa el juego
+	 * 
+	 * @param map_cont, controlador del mapa
+	 */
 	public void restart(MapController map_cont){
 		map_cont.restart();
 		loadImages();
@@ -202,6 +239,12 @@ public class Game2D extends JPanel {
 		wait_other_player = num_player > 1;
 	}
 
+	/**
+	 * Trata las entradas por teclado
+	 * 
+	 * @param e, eventos de teclado
+	 * @param map_cont, controlador del mapa
+	 */
 	public void keyPressed(KeyEvent e, MapController map_cont) {
 		if(e.getKeyCode() == Constants.teclaSaltop1 || e.getKeyCode() == Constants.teclaSaltop2){
 			player.jump();
@@ -215,22 +258,35 @@ public class Game2D extends JPanel {
 		}
 	}
 
+	/**
+	 * 
+	 * @return número de monedas
+	 */
 	public int getCoins(){
 		return score_coins;
 	}
 
+	/**
+	 * 
+	 * @return la distancia
+	 */
 	public double getDistance(){
 		return score_distance;
 	}
 
-	public double getTime(){
-		return score_time;
-	}
-
+	/**
+	 * Indica que el otro jugador ha muerto
+	 */
 	public void deathOtherPlayer() {
 		wait_other_player = false;
 	}
 
+	/**
+	 * Trata los eventos al soltar el teclado
+	 * 
+	 * @param e, evento de teclado
+	 * @param map_cont, controlador del mapa
+	 */
 	public void keyReleased(KeyEvent e, MapController map_cont) {
 		if(e.getKeyCode() == Constants.teclaSprintp1){
 			Constants.sprintp1 = false;
