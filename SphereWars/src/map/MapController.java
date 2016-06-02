@@ -41,7 +41,7 @@ public class MapController {
 	private final int MAX_HEIGHT = 9;
 	//Lista de mapas para cargar
 	private final String MAPS[] = {"maps/genMap01.xml","maps/genMap02.xml","maps/funMap01.xml","maps/easyMap01.xml"
-			,"maps/watermap01.xml","maps/jumpMap01.xml"};
+			,"maps/watermap01.xml","maps/jumpMap01.xml","maps/mountainMap.xml"};
 	//Indice del mapa actual
 	private int current_map;
 	//Posición en bloque dentro del mapa, y pixel dentro del bloque
