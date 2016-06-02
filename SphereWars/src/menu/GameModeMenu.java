@@ -23,22 +23,34 @@ import videogame.Parallax;
  * 	
  * Clase: GameModeMenu.java
  * 
- * Comentarios: Menú de opción del modo de juego
+ * Comentarios: Menú de opción del modo de juego,
+ * menu intermedio entre la pantalla de titulo principal
+ * y el juego. Tiene tres opciones: modo cazatesoros,
+ * modo maraton y volver al menu principal.
  * 
  */
 @SuppressWarnings("serial")
 public class GameModeMenu extends Menu {
+	//imagenes del menu
 	private BufferedImage starBack;
 	private BufferedImage mountainBack;
 	private BufferedImage title;
 	private BufferedImage tesoros;
 	private BufferedImage maraton;
 	private BufferedImage back;
+	
 	private int width;
 	private int height;
+	
 	private Cursor cursor;
+	
 	private Parallax parallax;
 
+	/**
+	 * constructor de la clase, crea el menu
+	 * @param width
+	 * @param height
+	 */
 	public GameModeMenu(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -53,6 +65,9 @@ public class GameModeMenu extends Menu {
 		initParallax();
 	}
 
+	/**
+	 * carga las imagenes del menu
+	 */
 	private void cargarImagenes() {
 		try {
 			starBack = ImageIO.read(new File(Constants.starBackName));
@@ -86,6 +101,9 @@ public class GameModeMenu extends Menu {
 		}
 	}
 
+	/**
+	 * inicia el parallax
+	 */
 	private void initParallax() {
 		String[] names = { Constants.starBackName, Constants.mountainBackName };
 		int[] velocity = { 2, 1 };
@@ -94,6 +112,9 @@ public class GameModeMenu extends Menu {
 		parallax = new Parallax(2, names, velocity, posx, posy, width, height);
 	}
 
+	/**
+	 * dibuja todos los elementos es sus posiciones
+	 */
 	@Override
 	public void draw() {
 		Image offscreen = createImage(width, height);
