@@ -72,6 +72,15 @@ public class Platform extends GameObject implements Sprite, Model3D{
 	private Color3f snow_dif = new Color3f(1, 1, 1);
 	
 
+	/**
+	 * Constructor de la clase
+	 * @param x 
+	 * @param y
+	 * @param block_width
+	 * @param block_height
+	 * @param type
+	 * @param world
+	 */
 	public Platform(int x, int y, int block_width,int block_height, int type, int world) {
 		super(x, y, x_imgs[world+type], y_imgs[world+type], width_imgs[world+type], height_imgs[world+type], block_width, block_height);
 		//System.out.printf("Agregado en x:%d, y:%d\n", x,y);
@@ -90,11 +99,16 @@ public class Platform extends GameObject implements Sprite, Model3D{
 		}
 	}
 
+	/**
+	 * Selecciona la imagen que ha de ser escogida en el spritesheet
+	 */
 	private void selectImage() {
-		//image = image.getSubimage(x_imgs[type], y_imgs[type], width, height);
 		image = Constants.img_handler.getImageTile(x_img, y_img, width, height);
 	}
 	
+	/**
+	 * Selecciona la textura para el modo 3D
+	 */
 	private void selectTexture() {
 		texture = Constants.img_handler.getImageTile(x_imgs[world+type], y_imgs[world+type], width_imgs[world+type], height_imgs[world+type]);
 		base = Constants.img_handler.getImageTile(x_imgs[world+UNDERGROUND], y_imgs[world+UNDERGROUND], width_imgs[world+UNDERGROUND], height_imgs[world+UNDERGROUND]);
@@ -119,6 +133,9 @@ public class Platform extends GameObject implements Sprite, Model3D{
 		}
 	}
 	
+	/**
+	 * Carga el modelo 3D de la plataforma
+	 */
 	private void loadModel3D(){
 		//Apariencia de la plataforma
 		Appearance app = new Appearance();
@@ -155,28 +172,40 @@ public class Platform extends GameObject implements Sprite, Model3D{
 		Transform3D transform = new Transform3D();
 		Matrix4f matrix = new Matrix4f();
 		tg_model3D.getTransform(transform);
-		//transform.rotX(Math.PI);
 		tg_model3D.setTransform(transform);
 		branch_group = new BranchGroup();
 		branch_group.addChild(object_primitive);
 		tg_model3D.addChild(branch_group);
 	}
 
+	/**
+	 * Dibuja la imagen en 2D
+	 */
 	@Override
 	public void draw2D(Graphics2D g2d,int x_ori, int y_ori) {
 		g2d.drawImage(image, x_ori+x, y_ori+y, null);
-		//Dibujo cada de colisiones
-		//g2d.draw(this.getBox(x_ori,y_ori));
 	}
 
+	/**
+	 * Devuelve el ancho de la imagen
+	 * @return
+	 */
 	public int getWidthImage(){
 		return width_imgs[world+type];
 	}
 
+	/**
+	 * Devuelve la altura de la imagen
+	 * @return
+	 */
 	public int getHeightImage(){
 		return height_imgs[world+type];
 	}
 
+	/**
+	 * Devuelve el un tipo de mundo para seleccionar los sprites
+	 * @return
+	 */
 	public static int getWorld() {
 		int[] world = {WORLD_FIELD,WORLD_DESSERT,WORLD_CASTLE,WORLD_SNOW,WORLD_GHOST};
 		Random rnd = new Random(System.currentTimeMillis());
@@ -184,6 +213,11 @@ public class Platform extends GameObject implements Sprite, Model3D{
 		return world[index];
 	}
 
+	/**
+	 * Devuelve el tipo de liquito para un mundo pasado por parametro
+	 * @param world
+	 * @return
+	 */
 	public static int getLiquid(int world) {
 		int liquid = 0;
 		switch(world){

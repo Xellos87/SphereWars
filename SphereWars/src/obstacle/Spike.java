@@ -53,6 +53,14 @@ public class Spike extends GameObject implements Sprite, Model3D{
 	private Color3f spike_amb = new Color3f(0.25f,0.25f,0.25f);
 	private Color3f spike_dif = new Color3f(0.5f,0.5f,0.5f);
 
+	/**
+	 * Constructor de la clase
+	 * @param x
+	 * @param y
+	 * @param block_width
+	 * @param block_height
+	 * @param direction
+	 */
 	public Spike(int x, int y,int block_width,int block_height, int direction) {
 		super(x, y, x_img, y_img, width, height, block_width, block_height);
 		this.direction = direction;
@@ -66,12 +74,17 @@ public class Spike extends GameObject implements Sprite, Model3D{
 		}
 	}
 
+	/**
+	 * Selecciona la imagen que ha de ser escogida en el spritesheet
+	 */
 	private void selectImage() {
 		//Carga solo el fragmento que necesita la imagen
-		//image = image.getSubimage(xImg, yImg, width, height);
 		image = Constants.img_handler.getImageItem(x_img, y_img, width, height);
 	}
 
+	/**
+	 * Selecciona la textura para el modo 3D
+	 */
 	private void selectTexture() {
 		//TODO mejorar textura
 		texture =  Constants.img_handler.getImageSpike(0, 0, 80, 100);
@@ -138,12 +151,18 @@ public class Spike extends GameObject implements Sprite, Model3D{
 			break;
 		default:
 			break;
-		}		
+		}	
+		// Aplica la transformacion necesaria para que los esten ligeramente
+		// ladeados dependiendo de la direccion en la que esten
+		// (unos pinchos que estan abajo, estan ligeramente movidos hacia abajo)
 		tg_model3D.setTransform(t);
 		t.setTranslation(vector);
 		tg_model3D.setTransform(t);
 	}
 	
+	/**
+	 * Rota los pinchos dependiendo de la direccion para que apunten en la direccion deseada
+	 */
 	private void rotateImage(){
 		if(direction != UPPER){
 			int w = image.getWidth();  
@@ -177,6 +196,9 @@ public class Spike extends GameObject implements Sprite, Model3D{
 		}
 	}
 
+	/**
+	 * Dibuja los pinchos en 2D
+	 */
 	@Override
 	public void draw2D(Graphics2D g2d,int x_ori, int y_ori) {
 		g2d.drawImage(image, x_ori+x, y_ori+y, null);
@@ -185,10 +207,18 @@ public class Spike extends GameObject implements Sprite, Model3D{
 	}
 
 
+	/**
+	 * Devuelve el ancho de la imagen
+	 * @return
+	 */
 	public int getWidthImage(){
 		return width;
 	}
 
+	/**
+	 * Devuelve el alto de la imagen
+	 * @return
+	 */
 	public int getHeightImage(){
 		return height;
 	}
