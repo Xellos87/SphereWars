@@ -102,6 +102,9 @@ public class Parallax {
 		}
 	}
 	
+	/**
+	 * Mueve los elementos de la pantalla
+	 */
 	public void move(){
 		for(int i=0; i<numImages; i++){
 			if(tick_counter[i] >= velocity[i]){
@@ -112,6 +115,11 @@ public class Parallax {
 		}
 	}
 
+	/**
+	 * Calcula la posición del elemento indicado
+	 * 
+	 * @param i, indice del elemento a actualizar
+	 */
 	private void calculatePosition(int i) {
 		fromX[i]++;
 		if(width_image[i] > back_images[i].getWidth() - fromX[i]){
