@@ -54,6 +54,15 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 	private Color3f magma_amb = new Color3f(0.5f,0,0);
 	private Color3f magma_dif = new Color3f(1,0,0);
 
+	/**
+	 * Constructor de la clase
+	 * @param x
+	 * @param y
+	 * @param block_width
+	 * @param block_height
+	 * @param type
+	 * @param nature
+	 */
 	public Liquid(int x, int y, int block_width, int block_height, int type, int nature) {
 		super(x, y, x_imgs[nature+type], y_imgs[nature+type], width_imgs[nature+type], height_imgs[nature+type], block_width, block_height);
 		this.type = type;
@@ -67,15 +76,23 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 		}
 	}
 
+	/**
+	 * Selecciona la imagen que ha de ser escogida en el spritesheet
+	 */
 	private void selectImage() {
-		//image = image.getSubimage(x_imgs[type], y_imgs[type], width, height);
 		image = Constants.img_handler.getImageTile(x_img, y_img, width, height);
 	}
 	
+	/**
+	 * Selecciona la textura para el modo 3D
+	 */
 	private void selectTexture() {
 		texture = Constants.img_handler.getImageTile(x_imgs[nature+1], y_imgs[nature+1], width_imgs[nature+1], height_imgs[nature+1]);
 	}
 	
+	/**
+	 * Carga el modelo 3D de la imagen
+	 */
 	private void loadModel3D(){
 		Transform3D t = new Transform3D();
 		//Apariencia del liquido
@@ -115,15 +132,26 @@ public class Liquid extends GameObject implements Sprite, Model3D{
 		tg_model3D.setTransform(t);
 	}
 
+	/**
+	 * Lo dibuja en 2D
+	 */
 	@Override
 	public void draw2D(Graphics2D g2d,int x_ori, int y_ori) {
 		g2d.drawImage(image, x_ori+x, y_ori+y, null);
 	}
 
+	/**
+	 * Devuelve la anchura de la imagen
+	 * @return
+	 */
 	public int getWidthImage(){
 		return width_imgs[nature+type];
 	}
 
+	/**
+	 * Devuelve la altura de la imagen
+	 * @return
+	 */
 	public int getHeightImage(){
 		return height_imgs[nature+type];
 	}
