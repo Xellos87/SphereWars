@@ -86,7 +86,7 @@ public class MapController {
 		//Se suma 1 ya que la división entre enteros si no es exacta desprecia los decimales, asi ocupa todo el ancho
 		block_width_screen = width / block_width + 1;
 		block_height_screen = height / block_height;
-		System.out.printf("bloques de ancho: %d, alto:%d\n", block_width_screen,block_height_screen);
+		//system.out.printf("bloques de ancho: %d, alto:%d\n", block_width_screen,block_height_screen);
 		//Calcula la velocidad en funcion del bloque
 		speedLow = block_width / (5 * Constants.speedActions);
 		speedHigh = block_width / (3 * Constants.speedActions);
@@ -101,7 +101,7 @@ public class MapController {
 
 	public void loadMap() {
 		int index = MapController.getNumberMap(current_map, MAPS.length);
-		System.out.printf("Mapa: %d - %s\n", index, MAPS[index]);
+		//system.out.printf("Mapa: %d - %s\n", index, MAPS[index]);
 		//Pone el segundo mapa como primero, el nuevo se carga en el segundo
 		first_map = second_map;
 		//Parsear el fichero de mapas
@@ -162,8 +162,8 @@ public class MapController {
 
 						Platform p = new Platform( x*block_width, (height-1-y)*block_height,block_width,block_height,type,world);
 						second_map.addObject(p,x,y);
-						//System.out.printf("Agregado en x:%d, y:%d\n", x*block_width,(height-y)*block_height);
-						//System.out.printf("Tam en pantalla, ancho: %d, alto: %d\n",block_width,block_height);
+						////system.out.printf("Agregado en x:%d, y:%d\n", x*block_width,(height-y)*block_height);
+						////system.out.printf("Tam en pantalla, ancho: %d, alto: %d\n",block_width,block_height);
 					}
 				}
 			}
@@ -194,7 +194,7 @@ public class MapController {
 						//Valor bueno de y = 240
 						Spike sp = new Spike(x*block_width, (height-1-y)*block_height,block_width,block_height,direction);
 						second_map.addObject(sp,x,y);
-						//System.out.printf("Agregado en x:%d, y:%d\n", x*pixel_width,(height-y)*pixel_height);
+						////system.out.printf("Agregado en x:%d, y:%d\n", x*pixel_width,(height-y)*pixel_height);
 					}
 				}
 			}
@@ -222,8 +222,8 @@ public class MapController {
 						}
 						Liquid l = new Liquid( x*block_width, (height-1-y)*block_height,block_width,block_height,type,nature);
 						second_map.addObject(l,x,y);
-						//System.out.printf("Agregado en x:%d, y:%d\n", x*block_width,(height-y)*block_height);
-						//System.out.printf("Tam en pantalla, ancho: %d, alto: %d\n",block_width,block_height);
+						////system.out.printf("Agregado en x:%d, y:%d\n", x*block_width,(height-y)*block_height);
+						////system.out.printf("Tam en pantalla, ancho: %d, alto: %d\n",block_width,block_height);
 					}
 				}
 			}
@@ -278,9 +278,9 @@ public class MapController {
 			//Hay que representar parte del primer mapa y del segundo
 			width_map1 = first_map.getWidthBlocks();
 			width_map2 = block_width_screen - (width_map1 - pos_block) + 1;
-			//System.out.printf("Ancho del segundo mapa: %d \n", width_map2);
+			////system.out.printf("Ancho del segundo mapa: %d \n", width_map2);
 		}
-		//System.out.printf("Ancho a primer mapa: %d \n", width_map1);
+		////system.out.printf("Ancho a primer mapa: %d \n", width_map1);
 		//Dibuja desde el primer mapa
 		int init_x = pos_block;
 		if(pos_block>0){
@@ -293,7 +293,7 @@ public class MapController {
 				first_map.updateObjects(x,y,x_ori,y_ori,pos_x,not_pause);
 			}
 		}
-		//System.out.printf("----------\n");
+		////system.out.printf("----------\n");
 		//Dibuja desde el segundo mapa si lo necesita
 		for(int x=0; x<width_map2; x++){
 			int pos_x = ((width_map1-pos_block+x)*block_width) - pixel_block;
@@ -314,9 +314,9 @@ public class MapController {
 			//Hay que representar parte del primer mapa y del segundo
 			width_map1 = first_map.getWidthBlocks();
 			width_map2 = block_width_screen - (width_map1 - pos_block) + 1;
-			//System.out.printf("Ancho del segundo mapa: %d \n", width_map2);
+			////system.out.printf("Ancho del segundo mapa: %d \n", width_map2);
 		}
-		//System.out.printf("Ancho a primer mapa: %d \n", width_map1);
+		////system.out.printf("Ancho a primer mapa: %d \n", width_map1);
 		//Dibuja desde el primer mapa
 		int init_x = pos_block;
 		if(pos_block>0){
@@ -328,7 +328,7 @@ public class MapController {
 				first_map.draw2D(g, x, y, x_ori, y_ori);
 			}
 		}
-		//System.out.printf("----------\n");
+		////system.out.printf("----------\n");
 		//Dibuja desde el segundo mapa si lo necesita
 		for(int x=0; x<width_map2; x++){
 			for(int y=0; y<second_map.getHeightBlocks(); y++){
@@ -415,11 +415,11 @@ public class MapController {
 		int index;
 		if(Constants.map_index.size() <= current){
 			index = rnd.nextInt(num_maps);
-			System.out.println("en if");
+			//system.out.println("en if");
 			Constants.map_index.add(index);
 		}else{
 			index = Constants.map_index.get(current);
-			System.out.println("en else");
+			//system.out.println("en else");
 		}
 		return index;
 	}

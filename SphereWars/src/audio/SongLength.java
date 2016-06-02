@@ -8,7 +8,7 @@ package audio;
  * 	
  * Clase: SongLength.java
  * 
- * Comentarios: Lee un fichero con la duración de las canciones para evitar errores
+ * Comentarios: Clase que contiene la duracion para una cancion
  * 
  */
 public class SongLength {

@@ -26,11 +26,16 @@ import videogame.Parallax;
  * 	
  * Clase: OptionMenu.java
  * 
- * Comentarios: Menú de la pantalla de opciones
+ * Comentarios: Menú de la pantalla de opciones, consta de
+ * activacion y desactivacion del sonido, cambio de resolucion,
+ * y gestion de controles para los jugadores 1 y 2, lo cual incluye
+ * diferenciacion entre kinect o teclado para el jugador 1 y
+ * teclas de pausa, salto y sprint para ambos jugadores
  * 
  */
 @SuppressWarnings("serial")
 public class OptionMenu extends Menu {
+	//imagenes del menu
 	BufferedImage starBack;
 	BufferedImage mountainBack;
 	BufferedImage title;
@@ -55,11 +60,17 @@ public class OptionMenu extends Menu {
 	BufferedImage diestro;
 	BufferedImage zurdo;
 	
+	//strings y posiciones de las opciones del kinect
 	private final String diestroName = "fonts/opciones_diestro.png";
 	private final String zurdoName = "fonts/opciones_zurdo.png";
 	private final Position diestroPos = new Position(Constants.optX+Constants.desplazamiento,Constants.kinnectPos.getY()+Constants.titleGap);
 	private final Position zurdoPos = new Position(Constants.optX+280+Constants.desplazamiento,Constants.kinnectPos.getY()+Constants.titleGap);
 	
+	/**
+	 * Crea el menu
+	 * @param width
+	 * @param height
+	 */
 	public OptionMenu(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -71,15 +82,22 @@ public class OptionMenu extends Menu {
 		cargarImagenes();
 		// set background
 		cursor = new Cursor(Constants.optMenu);
-		System.out.println("pos cursor "+cursor.getPosition().getX()+" "+cursor.getPosition().getY());
+		//System.out.println("pos cursor "+cursor.getPosition().getX()+" "+cursor.getPosition().getY());
 		initParallax();
 	}
 
+	/**
+	 * dibuja las opciones o las letras del menu, en distinta posicion
+	 * dependiendo del cursor. Algunas de ellas aparecen y desaparecen
+	 * dependiendo de que opciones se esten cambiando
+	 * @param offgc
+	 */
 	private void dibujarLetras(Graphics2D offgc) {
 		//dibujar opciones de menu
 		if(title!=null){
 			offgc.drawImage(title, Constants.titlePos.getX()+Constants.ax, Constants.titlePos.getY()+Constants.ay, (int)(title.getWidth()/5), (int)(title.getHeight()/5), null);
 		}
+		//no se estan eligiendo los controles
 		if(!Constants.elegidoJugador){
 			if(sonido!=null && !cursor.getOpcion().equalsIgnoreCase("sound")){
 				offgc.drawImage(sonido, Constants.soundPos.getX()+Constants.ax, Constants.soundPos.getY()+Constants.ay, (int)(sonido.getWidth()/2), (int)(sonido.getHeight()/2), null);
@@ -118,6 +136,7 @@ public class OptionMenu extends Menu {
 				offgc.drawImage(volver, Constants.backPos.getX()+Constants.desplazamiento+Constants.ax, Constants.backPos.getY()+Constants.ay, volver.getWidth()/2,volver.getHeight()/2, null);
 			}
 		}else{
+			//controles del jugador uno
 			if(Constants.jugador==1){
 				if(controles1!=null && !cursor.getOpcion().equalsIgnoreCase("controller")){
 					offgc.drawImage(controles1, Constants.controller1Pos.getX()+Constants.ax, Constants.controller1Pos.getY()+Constants.ay, (int)(controles1.getWidth()/2), (int)(controles1.getHeight()/2), null);
@@ -135,13 +154,15 @@ public class OptionMenu extends Menu {
 					offgc.drawImage(kinect, Constants.kinnectPos.getX()+Constants.desplazamiento+Constants.ax, Constants.kinnectPos.getY()+Constants.ay, (int)(kinect.getWidth()/2), (int)(kinect.getHeight()/2), null);
 				}
 			}
+			//controles del jugador 2
 			if(Constants.jugador==2){
 				if(controles2!=null && !cursor.getOpcion().equalsIgnoreCase("controller")){
 					offgc.drawImage(controles2, Constants.controller2Pos.getX()+Constants.ax, Constants.controller2Pos.getY()+Constants.ay, (int)(controles2.getWidth()/2), (int)(controles2.getHeight()/2), null);
 				}else{
 					offgc.drawImage(controles2, Constants.controller2Pos.getX()+Constants.desplazamiento+Constants.ax, Constants.controller2Pos.getY()+Constants.ay, controles2.getWidth()/2,controles2.getHeight()/2, null);
 				}
-			}			
+			}		
+			//controles de las tres teclas para ambos jugadores
 			if(Constants.conTeclado || Constants.jugador == 2){
 				if(teclas!=null && !cursor.getOpcion().equalsIgnoreCase("pause")){
 					offgc.drawImage(teclas, Constants.keyPos.getX()+Constants.ax, Constants.keyPos.getY()+Constants.ay, (int)(teclas.getWidth()/2), (int)(teclas.getHeight()/2), null);
@@ -287,6 +308,7 @@ public class OptionMenu extends Menu {
 				}else if(!runChar.equalsIgnoreCase("-")){
 					offgc.drawString(runChar, Constants.runPos.getX()+270+Constants.ax, Constants.runPos.getY()+40+Constants.ay);
 				}
+				//controles del kinect para el jugador 1
 			}else if(!Constants.conTeclado && Constants.jugador==1){
 				if(Constants.zurdo){
 					offgc.drawImage(zurdo, zurdoPos.getX()+Constants.ax-40, zurdoPos.getY()+Constants.ay,(int)(zurdo.getWidth()/2), (int)(zurdo.getHeight()/2), null);
@@ -299,6 +321,9 @@ public class OptionMenu extends Menu {
 		}		
 	}
 	
+	/**
+	 * inicio parallax
+	 */
 	private void initParallax() {
 		String[] names = { Constants.starBackName, Constants.mountainBackName };
 		int[] velocity = { 2, 1 };
@@ -307,6 +332,9 @@ public class OptionMenu extends Menu {
 		parallax = new Parallax(2, names, velocity, posx, posy, width, height);
 	}
 
+	/**
+	 * carga imagenes del menu en los buffers
+	 */
 	private void cargarImagenes() {
 		try{
 			title = ImageIO.read(new File(Constants.titleName));
@@ -410,6 +438,9 @@ public class OptionMenu extends Menu {
 		}
 	}
 
+	/**
+	 * dibuja los elementos del menu
+	 */
 	@Override
 	public void draw() {
 		Image offscreen = createImage(width, height);

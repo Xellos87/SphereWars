@@ -24,11 +24,14 @@ import videogame.Parallax;
  * 	
  * Clase: TitleMenu.java
  * 
- * Comentarios: Menú de la pantalla principal
+ * Comentarios: Menú de la pantalla principal, cuyas opciones 
+ * son play,modo versus, modo 2D o 3D, ayuda, menu de opciones, creditos 
+ * o salir.
  * 
  */
 @SuppressWarnings("serial")
 public class TitleMenu extends Menu {
+	//imagenes del menu
 	BufferedImage starBack;
 	BufferedImage mountainBack;
 	BufferedImage title;
@@ -46,6 +49,11 @@ public class TitleMenu extends Menu {
 	Parallax parallax;
 	private Cursor cursor;
 
+	/**
+	 * crea el menu
+	 * @param width
+	 * @param height
+	 */
 	public TitleMenu(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -62,6 +70,9 @@ public class TitleMenu extends Menu {
 		initParallax();
 	}
 
+	/**
+	 * carga las imagenes en los buffers
+	 */
 	private void cargarImagenes() {
 		try {
 			starBack = ImageIO.read(new File(Constants.starBackName));
@@ -121,6 +132,9 @@ public class TitleMenu extends Menu {
 		}
 	}
 
+	/**
+	 * dibuja los elementos del menu
+	 */
 	public void draw() {
 		Image offscreen = createImage(width,height);
 		Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
@@ -128,9 +142,6 @@ public class TitleMenu extends Menu {
 		Composite comp = AlphaComposite.getInstance(rule, Constants.alphaComp);		
 		offgc.setComposite(comp);
 		//dibujar fondo
-		//if (starBack != null) {
-		//	offgc.drawImage(starBack, 0, 0, width,height, null);
-		//}		
 		if (mountainBack != null && starBack != null) {
 			parallax.move();
 			parallax.draw(offgc,0,0);
@@ -190,6 +201,9 @@ public class TitleMenu extends Menu {
 		 getGraphics().dispose();		
 	}
 
+	/**
+	 * inicia el parallax
+	 */
 	private void initParallax() {
 		String[] names = {Constants.starBackName,Constants.mountainBackName};
 		int[] velocity = {2,1};

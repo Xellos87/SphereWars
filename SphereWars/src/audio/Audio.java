@@ -23,6 +23,11 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Audio {
 	static private ArrayList<AudioClip> sounds = new ArrayList<AudioClip>();
 	
+	/**
+	 * Carga un sonido que se le pasa por parametro y lo devuelve como un AudioClip
+	 * @param name
+	 * @return
+	 */
 	public static AudioClip Load(String name){
 		Clip s = null;
 		File f = new File(name);
