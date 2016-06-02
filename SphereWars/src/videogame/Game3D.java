@@ -107,6 +107,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 
 	private void initPlayer() {
 		player = new Sphere(0, 0, (int)(map.getWidthBlock()*0.8), (int)(map.getHeightBlock()*0.8));
+		main.getPanel().setSphere(player);
 		TransformGroup tg = player.get3DModel();
 		sphere_group = new BranchGroup();
 		sphere_group.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
@@ -120,8 +121,8 @@ public class Game3D extends Canvas3D implements KeyListener{
 	}
 
 	private void initBoss(){
-		boss = new Boss(width-90,20,map.getWidthBlock(),map.getHeightBlock(),true, width, height, main.music);
-		TransformGroup tg = boss.get3DModel();
+		boss = new Boss(width-90,20,map.getWidthBlock(),map.getHeightBlock(),false, width, height, main.music);
+		/*TransformGroup tg = boss.get3DModel();
 		boss_group = new BranchGroup();
 		boss_group.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 		boss_group.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
@@ -130,7 +131,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 		boss_group.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
 		boss_group.setCapability(TransformGroup.ALLOW_PARENT_READ);
 		boss_group.addChild(tg);
-		rootBranchGroup.addChild(boss_group);
+		rootBranchGroup.addChild(boss_group);*/
 	}
 
 	private void addLights() {
@@ -251,6 +252,8 @@ public class Game3D extends Canvas3D implements KeyListener{
 	}
 
 	public boolean actionGame(int x_ori,int y_ori) {
+		x_ori = Constants.xOri;
+		y_ori = Constants.yOri;
 		if(!end_game){
 			//Mueve el mapa
 			double dist = map.move();
@@ -329,6 +332,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 			if(boss.isVisible() && boss.reseteo){
 				//Borra el boss del mundo
 				rootBranchGroup.removeChild(boss_group);
+				boss_group.removeChild(boss.get3DModel());
 				boss_group = null;
 			}
 			if(!boss.isVisible() && (System.currentTimeMillis() >= boss.hazteVisible)){
