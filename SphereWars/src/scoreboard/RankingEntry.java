@@ -16,22 +16,42 @@ import videogame.Game;
  * 
  */
 public class RankingEntry {
-	private String name;
-	private double score;
+	private String name; //Nombre
+	private double score; //Puntuación
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param name, nombre
+	 * @param score, puntuacion
+	 */
 	public RankingEntry(String name, double score){
 		this.name = name;
 		this.score = score;
 	}
 	
+	/**
+	 * 
+	 * @return el nombre de la entrada
+	 */
 	public String getName(){
 		return name;
 	}
 	
+	/**
+	 * 
+	 * @return la puntuación
+	 */
 	public double getScore(){
 		return score;
 	}
 	
+	/**
+	 * Saca la puntuación con formato
+	 * 
+	 * @param type, tipo de juego
+	 * @return la puntuación como cadena
+	 */
 	public String getScoreString(int type){
 		String tmp = "";
 		if(type == Game.RUNNER){

@@ -47,7 +47,9 @@ public class Ranking {
 	private String type_runner_xml = "runner";
 	private String type_coins_xml = "coins";
 	
-	
+	/**
+	 * Constructor
+	 */
 	public Ranking(){
 		if(!readRanking()){
 			runner_ranking = new RankingEntry[MAX_RANK];
@@ -65,6 +67,11 @@ public class Ranking {
 		}
 	}
 
+	/**
+	 * Lee el mapa del fichero xml
+	 * 
+	 * @return true si y solo si la lectura ha sido correcta
+	 */
 	private boolean readRanking() {
 		//Leer del xml de ranking
 		try{
@@ -105,6 +112,9 @@ public class Ranking {
 		return true;
 	}
 	
+	/**
+	 * Escribe el ranking
+	 */
 	private void writeRanking(){
 		try{
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -133,6 +143,15 @@ public class Ranking {
 		}
 	}
 	
+	/**
+	 * Añade un elemento
+	 * 
+	 * @param doc, documento en el que se agrega
+	 * @param header, cabecera
+	 * @param type_xml, tipo de juego
+	 * @param ranking, array de entradas
+	 * @param type, tipo de juego
+	 */
 	private void addElement(Document doc, Element header, String type_xml, RankingEntry[] ranking, int type) {
 		//Cabecera del grupo
 		Element group = doc.createElement(group_xml);
@@ -162,6 +181,11 @@ public class Ranking {
 		}
 	}
 
+	/**
+	 * 
+	 * @param type, tipo de juego
+	 * @return array de ranking
+	 */
 	public RankingEntry[] getRanking(int type){
 		if(type == Game.RUNNER){
 			return runner_ranking;
@@ -171,6 +195,13 @@ public class Ranking {
 		return null;
 	}
 	
+	/**
+	 * Obtiene la posición del ranking si graba
+	 * 
+	 * @param type, tipo de juego
+	 * @param score, puntuación
+	 * @return posición en el ranking, si no graba devuelve -1
+	 */
 	public int getPosRanking(int type, double score){
 		int pos = -1;
 		if(type == Game.RUNNER){
@@ -181,6 +212,13 @@ public class Ranking {
 		return pos;
 	}
 	
+	/**
+	 * Obtiene la puntuación
+	 * 
+	 * @param rank, array de ranking
+	 * @param score, puntuación
+	 * @return pos del score en el ranking, si no entra devuelve -1
+	 */
 	private int getPosition(RankingEntry[] rank, double score){
 		int pos = -1;
 		int index = 0;
@@ -193,6 +231,13 @@ public class Ranking {
 		return pos;
 	}
 	
+	/**
+	 * Actualiza la entrada
+	 * 
+	 * @param type, tipo de juego
+	 * @param pos, posición en el que guarda la entrada
+	 * @param entry, entrada a guardar
+	 */
 	public void updateEntry(int type, int pos, RankingEntry entry){
 		if(type == Game.RUNNER){
 			updateRanking(runner_ranking,pos,entry);
@@ -203,6 +248,13 @@ public class Ranking {
 		}
 	}
 	
+	/**
+	 * Actualiza el ranking
+	 * 
+	 * @param rank, array de ranking
+	 * @param pos, posición en el que guarda
+	 * @param entry, entrada a guardar
+	 */
 	private void updateRanking(RankingEntry[] rank, int pos, RankingEntry entry){
 		RankingEntry aux = entry;
 		for(int i=pos-1; i<rank.length; i++){
