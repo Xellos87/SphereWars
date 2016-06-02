@@ -1,20 +1,16 @@
 package videogame;
 
-//BorderLayout stuff//
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
-//Canvas3D
 import javax.media.j3d.Canvas3D;
 
-//The Universe
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.sun.j3d.utils.universe.ViewingPlatform;
 
 import character.Boss;
-import character.Bot;
 import character.Sphere;
 
 import javax.media.j3d.BranchGroup;
@@ -28,7 +24,6 @@ import javax.media.j3d.ImageComponent2D;
 import javax.media.j3d.Raster;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
-import javax.media.j3d.VirtualUniverse;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Background;
@@ -55,7 +50,6 @@ public class Game3D extends Canvas3D implements KeyListener{
 	private SimpleUniverse simpleU;
 	//Grupo que contiene todos los objetos de la escena
 	private BranchGroup rootBranchGroup;
-
 	//Metodo principal
 	private Main main;
 	//Mapa del juego
@@ -67,6 +61,14 @@ public class Game3D extends Canvas3D implements KeyListener{
 	private BranchGroup boss_group;
 	private OrbitBehavior orbit;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param width, ancho de la pantalla
+	 * @param height, alto de la pantalla
+	 * @param map, controlador del mapa
+	 * @param main, metodo principal
+	 */
 	public Game3D(int width, int height, MapController map, Main main) {
 		super(SimpleUniverse.getPreferredConfiguration());
 		//Inicializacion de variables
@@ -99,12 +101,12 @@ public class Game3D extends Canvas3D implements KeyListener{
 		orbit.goHome();
 		//Agrega el listener del teclado
 		this.addKeyListener(this);
-
-		//Ejemplo de borrar un elemento del tipo tesoro del mapa
-		//((Treasure)map.getCurrentMap().getObject(7, 8)).removeObject();
 	}
 
 
+	/**
+	 * Inicializa al jugador y lo pone en pantalla
+	 */
 	private void initPlayer() {
 		player = new Sphere(0, 0, (int)(map.getWidthBlock()*0.8), (int)(map.getHeightBlock()*0.8),1);
 		main.getPanel().setSphere(player);
@@ -120,20 +122,16 @@ public class Game3D extends Canvas3D implements KeyListener{
 		rootBranchGroup.addChild(sphere_group);
 	}
 
+	/**
+	 * Inicializa el boss
+	 */
 	private void initBoss(){
 		boss = new Boss(width-90,20,map.getWidthBlock(),map.getHeightBlock(),false, width, height, main.music);
-		/*TransformGroup tg = boss.get3DModel();
-		boss_group = new BranchGroup();
-		boss_group.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-		boss_group.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		boss_group.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
-		boss_group.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
-		boss_group.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
-		boss_group.setCapability(TransformGroup.ALLOW_PARENT_READ);
-		boss_group.addChild(tg);
-		rootBranchGroup.addChild(boss_group);*/
 	}
 
+	/**
+	 * Agrega la iluminación
+	 */
 	private void addLights() {
 		//Agrega iluminacion blanca
 		addDirectionalLight(new Vector3f(0f, 0f, -1f),
@@ -148,6 +146,9 @@ public class Game3D extends Canvas3D implements KeyListener{
 		addAmbientalLight();
 	}
 
+	/**
+	 * Carga el mapa en la vista 3D para visualizarlo
+	 */
 	private void loadMap() {
 		//Crea el contenedor del mapa y le establece los permisos
 		map_cont = new TransformGroup();
@@ -172,11 +173,17 @@ public class Game3D extends Canvas3D implements KeyListener{
 		rootBranchGroup.addChild(map_group);
 	}
 
+	/**
+	 * Inicializa la puntuación
+	 */
 	private void init_score() {
 		this.score_distance = 0;
 		this.score_coins = 0;
 	}
 
+	/**
+	 * Configura la cámara y le establece comportamiento
+	 */
 	private void camera_setup() {
 		//Establece el movimiento de la camara de forma que orbita alrededor del origen
 		//permite movmiento de rotacion, traslacion y zoom
@@ -193,7 +200,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 	}
 
 	/**
-	 * Perform the essential setups for the Java3D
+	 * Inicializa los componentes necesarios del 3D
 	 */
 	private void initial_setup() {
 		//Establece el tamaño del canvas
@@ -214,6 +221,12 @@ public class Game3D extends Canvas3D implements KeyListener{
 		rootBranchGroup.addChild(background);
 	}
 
+	/**
+	 * Añade la luz direccionla
+	 * 
+	 * @param direction, dirección de la luz
+	 * @param color, color de la luz
+	 */
 	private void addDirectionalLight(Vector3f direction, Color3f color) {
 		//Establece la esfera en la que afecta la luz
 		BoundingSphere bounds = new BoundingSphere();
@@ -226,6 +239,9 @@ public class Game3D extends Canvas3D implements KeyListener{
 
 	}
 
+	/**
+	 * Añade luz ambiental
+	 */
 	private void addAmbientalLight() {
 		//Establece la esfera en la que afecta la luz
 		BoundingSphere bounds = new BoundingSphere();
@@ -238,6 +254,9 @@ public class Game3D extends Canvas3D implements KeyListener{
 		rootBranchGroup.addChild(ambientLight);
 	}
 
+	/**
+	 * Agrega los objetos al mundo e inicializa la vista
+	 */
 	public void finalise() {
 		//Se agrega la raiz de todos los elementos a visualizar al universo
 		simpleU.addBranchGraph(rootBranchGroup);
@@ -248,9 +267,17 @@ public class Game3D extends Canvas3D implements KeyListener{
 	@Override
 	public void paint(Graphics arg0) {
 		super.paint(arg0);
+		//Reclama el foco, para no tener que pulsar
 		requestFocus();
 	}
 
+	/**
+	 * Método que ejecuta las acciones del juego
+	 * 
+	 * @param x_ori, x de origen desde donde se pinta
+	 * @param y_ori, y de origen desde donde se pinta
+	 * @return true si y solo si el jugador ha muerto
+	 */
 	public boolean actionGame(int x_ori,int y_ori) {
 		x_ori = Constants.xOri;
 		y_ori = Constants.yOri;
@@ -284,7 +311,6 @@ public class Game3D extends Canvas3D implements KeyListener{
 			}
 			//Mueve los bot del mapa si los hubiera, solo del mapa actual y el siguiente
 			/* Acciones a realizar */
-			//TODO velocidad con la velocidad de plataformas
 			int block = player.checkCollision(map,x_ori,y_ori);
 			switch (block) {
 			case Sphere.COLLINF:	//Colision inferior
@@ -328,7 +354,6 @@ public class Game3D extends Canvas3D implements KeyListener{
 				//animacion de muerte
 				player.setVelocity(0, -15);
 			}
-			//TODO: separar movimiento de accion y permitir que el boss se siga moviendo en el draw?
 			if(boss.isVisible() && boss.reseteo){
 				//Borra el boss del mundo
 				rootBranchGroup.removeChild(boss_group);
@@ -348,7 +373,6 @@ public class Game3D extends Canvas3D implements KeyListener{
 				boss_group.addChild(tg);
 				rootBranchGroup.addChild(boss_group);
 			}
-			//TODO: separar movimiento de accion y permitir que el boss se siga moviendo en el draw?
 			int col = boss.action(true, player.x, player.y, player.getBox(x_ori, y_ori));
 			if(col==0){
 				//Colision con el jefe, comprobar si es colision de muerte
@@ -362,19 +386,35 @@ public class Game3D extends Canvas3D implements KeyListener{
 		return end_game;
 	}
 
+	/**
+	 * Quita el foco del canvas al cerrar el juego
+	 */
 	public void quitGame(){
 		setFocusable(false);
 		removeKeyListener(this);
 	}
 
+	/**
+	 * 
+	 * @return el número de monedas
+	 */
 	public int getCoins(){
 		return score_coins;
 	}
 
+	/**
+	 * 
+	 * @return la distancia recorrida
+	 */
 	public double getDistance(){
 		return score_distance;
 	}
 
+	/**
+	 * Rasteriza la imagen mostrada para devolverla en una imagen estatica
+	 * 
+	 * @return imagen estatica de lo que se encuentra en el canvas
+	 */
 	public BufferedImage createBufferedImageFromCanvas3D(){
 		//Crea el contexto para cargar los graficos del canvas
 		GraphicsContext3D  ctx = getGraphicsContext3D();
@@ -430,6 +470,11 @@ public class Game3D extends Canvas3D implements KeyListener{
 
 	}
 
+	/**
+	 * Reinicia el juego
+	 * 
+	 * @param map, controlador del nuevo mapa
+	 */
 	public void restart(MapController map) {
 		this.end_game = false;
 		this.map = map;
