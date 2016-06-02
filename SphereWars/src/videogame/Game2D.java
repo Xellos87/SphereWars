@@ -89,7 +89,7 @@ public class Game2D extends JPanel {
 		back_parallax = new Parallax(num, back_images, velocity, posX, posY, width, height);
 		/* Carga el personaje en pantalla con su posición */
 		double size = blockWidth*0.8;
-		player = new Sphere(0,0,(int)size,(int)size);
+		player = new Sphere(0,0,(int)size,(int)size, num_player);
 		panel.setSphere(player);
 		//carga el boss
 		boss = new Boss(width-90,20,blockWidth,blockHeight,false, width, height, music);
@@ -196,7 +196,7 @@ public class Game2D extends JPanel {
 		map_cont.restart();
 		loadImages();
 		init_score();
-		if(music.isBossMusicPlaying()) music.playGame();
+		if(music != null && music.isBossMusicPlaying()) music.playGame();
 		end_game = false;
 		alpha_death = 0;
 		wait_other_player = num_player > 1;

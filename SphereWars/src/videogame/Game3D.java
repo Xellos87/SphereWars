@@ -106,7 +106,7 @@ public class Game3D extends Canvas3D implements KeyListener{
 
 
 	private void initPlayer() {
-		player = new Sphere(0, 0, (int)(map.getWidthBlock()*0.8), (int)(map.getHeightBlock()*0.8));
+		player = new Sphere(0, 0, (int)(map.getWidthBlock()*0.8), (int)(map.getHeightBlock()*0.8),1);
 		main.getPanel().setSphere(player);
 		TransformGroup tg = player.get3DModel();
 		sphere_group = new BranchGroup();

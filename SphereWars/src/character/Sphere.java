@@ -86,7 +86,7 @@ public class Sphere extends GameObject implements Sprite{
 	private int y_ori;
 	private int tick_action;
 
-	public Sphere(int x, int y, int block_width,int block_height) {
+	public Sphere(int x, int y, int block_width,int block_height, int num_players) {
 		super(x,y,x_imgs[0],y_imgs[0], width_imgs[0], height_imgs[0], block_width, block_height);
 		this.type = NORMAL;
 		this.kills = false;
@@ -101,9 +101,9 @@ public class Sphere extends GameObject implements Sprite{
 			loadModel3D();
 		}
 		if(Constants.scale==2){
-			jumpVelocity = -13;
+			jumpVelocity = -13/num_players;
 		}else if(Constants.scale==4){
-			jumpVelocity = -16;			
+			jumpVelocity = -16/num_players;			
 		}
 		this.x_ori=Constants.xOri;
 		this.y_ori=Constants.yOri;
