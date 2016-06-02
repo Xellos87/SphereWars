@@ -251,32 +251,32 @@ public class Sphere extends GameObject implements Sprite{
 			map = mc.getNextMap();	
 		}		
 		if(print){
-			System.out.println("-----------------------");
+			//system.out.println("-----------------------");
 			mc.getCurrentMap().print();
-			System.out.printf("esfera x: %d, y: %d, w: %d, h: %d tx:%d\n", x, y, xMap, yMap,totalX);
+			//system.out.printf("esfera x: %d, y: %d, w: %d, h: %d tx:%d\n", x, y, xMap, yMap,totalX);
 		}
 		//Colision inferior	
 		collisionInf = map.collision(xMap, yMap-1,x_ori,y_ori, this);
 		if(collisionInf != MapObject.NOCOLLISION && print){
-			System.out.printf("colision inferior x: %d, y: %d\n", xMap, yMap-1);
+			//system.out.printf("colision inferior x: %d, y: %d\n", xMap, yMap-1);
 			map.infoOject(xMap, yMap-1);	
 		}
 		//Colision lateral
 		collisionLat = map.collision(xMap+1, yMap,x_ori,y_ori, this);
 		if(collisionLat != MapObject.NOCOLLISION && print){
-			System.out.printf("colision lateral x: %d, y: %d\n", xMap+1, yMap);
+			//system.out.printf("colision lateral x: %d, y: %d\n", xMap+1, yMap);
 			map.infoOject(xMap+1, yMap);
 		}		
 		//Colision superior
 		collisionSup = map.collision(xMap, yMap+1,x_ori,y_ori, this);
 		if(collisionSup != MapObject.NOCOLLISION && print){
-			System.out.printf("colision superior x: %d, y: %d\n", xMap, yMap+1);
+			//system.out.printf("colision superior x: %d, y: %d\n", xMap, yMap+1);
 			map.infoOject(xMap, yMap+1);	
 		}
 		//Colision central
 		collisionCen = map.collision(xMap, yMap,x_ori,y_ori, this);
 		if(collisionCen != MapObject.NOCOLLISION && print){
-			System.out.printf("colision central x: %d, y: %d\n", xMap, yMap);
+			//system.out.printf("colision central x: %d, y: %d\n", xMap, yMap);
 			map.infoOject(xMap, yMap);
 		}
 
@@ -315,7 +315,7 @@ public class Sphere extends GameObject implements Sprite{
 			totalX = (xMap+1)*mc.getWidthBlock() - this.getWidthScreen() - mc.getVelocity()+1;
 			x = map.getObject(xMap+1, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;			
 			y = map.getObject(xMap, yMap-1).getPositionY() - this.getHeightScreen() + 1;
-			System.out.printf("prueba x:%d, y:%d\n", x,y);
+			//system.out.printf("prueba x:%d, y:%d\n", x,y);
 		}
 		else if(collisionInf >= MapObject.COLLISION && collisionCen >= MapObject.COLLISION){
 			result = COLLINFLAT;
@@ -414,7 +414,7 @@ public class Sphere extends GameObject implements Sprite{
 				x+width > bossBox.x && x < bossBox.x+bossBox.width && vy > 0){
 			return false;
 		}else{
-			System.out.println("----------boss has killed you!!!");
+			//system.out.println("----------boss has killed you!!!");
 			return true;
 		}
 	}
