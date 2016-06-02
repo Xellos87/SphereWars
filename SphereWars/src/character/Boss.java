@@ -335,12 +335,12 @@ public class Boss extends GameObject implements Sprite {
 			this.tiempoInicio = System.currentTimeMillis() + 3000;
 			this.hazteVisible = System.currentTimeMillis() + 30000;
 			reseteo = false;
-			System.out.println("reseteo tiempos");
+			////system.out.println("reseteo tiempos");
 		}
 		//inicia el boss 
 		if(!visible && (System.currentTimeMillis() >= hazteVisible)){
 			this.visible=true;
-			System.out.println("-----empieza el boss!!");
+			////system.out.println("-----empieza el boss!!");
 			if(music != null) music.playBoss();
 		}	
 		//reinicia el boss
@@ -348,7 +348,7 @@ public class Boss extends GameObject implements Sprite {
 			state = FLY1;
 			random=1;
 			health = 3;
-			System.out.println("-----reinicio boss");
+			////system.out.println("-----reinicio boss");
 			visible = false;
 		}
 		//computacion de los contadores del boss cuando no esta muerto
@@ -437,13 +437,13 @@ public class Boss extends GameObject implements Sprite {
 					
 					if(tick_damage >= damageCounter){
 						this.health--;
-						System.out.println("---Han herido al jefe!!");
+						////system.out.println("---Han herido al jefe!!");
 						tick_damage = 0;
 						hitPlayer=1;
 					}
 					if(health==0){
 						death();
-						System.out.println("---Han matado al jefe!!");
+						////system.out.println("---Han matado al jefe!!");
 					}else if(health == 1){
 						this.fly1left=fly1redleft;
 						this.fly2left=fly2redleft;
@@ -452,7 +452,7 @@ public class Boss extends GameObject implements Sprite {
 					}
 				}else{
 					hitPlayer = 0;
-					System.out.println("---Han herido al jugador!!");
+					////system.out.println("---Han herido al jugador!!");
 					tick_damage = 0;
 				}
 			}
@@ -538,19 +538,19 @@ public class Boss extends GameObject implements Sprite {
 				&& (posicion.getX()==siguientePosicion.getX() || posicion.getY()==siguientePosicion.getY())){
 			double direccion = r.nextDouble();
 			directionY = DOWN;
-			System.out.println(directionY);
+			////system.out.println(directionY);
 			if(direccion < down){
 				siguientePosicion = new Position(MEDIO,ABAJO);					
 				vy=12;
-				System.out.println("move middle down");
+				////system.out.println("move middle down");
 			}else if(direccion < down+mid){
 				siguientePosicion = new Position(MEDIO,MEDIO);
 				vy=6;
-				System.out.println("move middle middle");
+				////system.out.println("move middle middle");
 			}else{
 				siguientePosicion = new Position(MEDIO,ARRIBA);
 				vy=0;
-				System.out.println("move middle up");
+				////system.out.println("move middle up");
 			}
 		}
 		//segunda mitad de la trayectoria
@@ -559,12 +559,12 @@ public class Boss extends GameObject implements Sprite {
 			vy = (-vy);
 			if(!facingleft){
 				siguientePosicion = new Position(IZQ,ARRIBA);
-				System.out.println("desde medio hacia la izquierda");
+				//system.out.println("desde medio hacia la izquierda");
 			}else{
 				siguientePosicion = new Position(DCHA,ARRIBA);
-				System.out.println("desde medio hacia la derecha");	
+				//system.out.println("desde medio hacia la derecha");	
 			}
-			System.out.println("move back up");
+			//system.out.println("move back up");
 		}
 		stopTickY=0;
 	}
