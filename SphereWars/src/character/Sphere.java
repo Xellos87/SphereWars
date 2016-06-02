@@ -86,6 +86,14 @@ public class Sphere extends GameObject implements Sprite{
 	private int y_ori;
 	private int tick_action;
 
+	/**
+	 * Constructor del jugador
+	 * @param x
+	 * @param y
+	 * @param block_width
+	 * @param block_height
+	 * @param num_players
+	 */
 	public Sphere(int x, int y, int block_width,int block_height, int num_players) {
 		super(x,y,x_imgs[0],y_imgs[0], width_imgs[0], height_imgs[0], block_width, block_height);
 		this.type = NORMAL;
@@ -109,6 +117,9 @@ public class Sphere extends GameObject implements Sprite{
 		this.y_ori=Constants.yOri;
 	}
 
+	/**
+	 * Carga el modelo 3D del jugador
+	 */
 	private void loadModel3D(){
 		//Apariencia de la esfera
 		Appearance app = new Appearance();
@@ -137,6 +148,9 @@ public class Sphere extends GameObject implements Sprite{
 		setPosition3D();
 	}
 
+	/**
+	 * Actualiza la posicion 3D objeto
+	 */
 	private void setPosition3D() {
 		Transform3D transform = new Transform3D();
 		Vector3f translate_vector = new Vector3f();
@@ -151,31 +165,16 @@ public class Sphere extends GameObject implements Sprite{
 		tg_model3D.setTransform(transform);
 	}
 
-	private void setPosition3D(int x, int y) {
-		Transform3D transform = new Transform3D();
-		Vector3f translate_vector = new Vector3f();
-		//Otiene la transformacion actual
-		tg_model3D.getTransform(transform);
-		transform.get(translate_vector);
-		//Mueve la esfera
-		translate_vector.x += x*0.002f;
-		translate_vector.y += y*0.002f;
-		//Establece la nueva posición
-		transform.set(translate_vector);
-		tg_model3D.setTransform(transform);
-	}
-
+	/**
+	 * Selecciona la imagen que ha de ser escogida en el spritesheet
+	 */
 	private void selectImage() {
-		//image = image.getSubimage(x_imgs[type], y_imgs[type], width, height);
 		image = Constants.img_handler.getImagePlayer(x_img, y_img, width, height);
-		/*Image tmp = image.getScaledInstance((int)(block_width*0.7), (int)(block_height*0.7), Image.SCALE_DEFAULT);
-	    BufferedImage dimg = new BufferedImage(block_width, block_height, BufferedImage.TYPE_INT_ARGB);
-	    Graphics2D g2d = dimg.createGraphics();
-	    g2d.drawImage(tmp, block_width, block_height, null);
-	    g2d.dispose();
-		image = dimg;*/
 	}
 
+	/**
+	 * Añade la velocidad del salto cuando el jugador pulsa la tecla
+	 */
 	public void jump(){
 		if(soundJump == null){
 			System.err.println("soundnull");
@@ -189,6 +188,9 @@ public class Sphere extends GameObject implements Sprite{
 		}		
 	}
 
+	/**
+	 * Añade una fuerza de salto inferior a la de la funcion jump
+	 */
 	public void miniJump(){
 		if(soundJump == null){
 			System.err.println("soundnull");
@@ -199,6 +201,9 @@ public class Sphere extends GameObject implements Sprite{
 		jump = true;
 	}
 
+	/**
+	 * Aplica la gravedad
+	 */
 	public void gravity(){		
 		int aum = 1;
 		if(Constants.scale == 2){
@@ -218,6 +223,13 @@ public class Sphere extends GameObject implements Sprite{
 		}		
 	}
 
+	/**
+	 * Comprueba las colisiones de la esfera con las casillas adyacentes
+	 * @param mc
+	 * @param x_ori
+	 * @param y_ori
+	 * @return
+	 */
 	public int checkCollision(MapController mc, int x_ori, int y_ori){
 		boolean print = false;	//False para no ver mensajes
 		int result = -1;
@@ -309,52 +321,36 @@ public class Sphere extends GameObject implements Sprite{
 		}
 		else if(collisionInf >= MapObject.COLLISION && collisionLat >= MapObject.COLLISION){
 			result = COLLINFLAT;
-			//totalX = totalX - mc.getVelocity() - vx;
-			//this.x = this.x - mc.getVelocity() - vx;
-			//this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock()-this.height+1;
 			totalX = (xMap+1)*mc.getWidthBlock() - this.getWidthScreen() - mc.getVelocity()+1;
 			x = map.getObject(xMap+1, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;			
 			y = map.getObject(xMap, yMap-1).getPositionY() - this.getHeightScreen() + 1;
-			//system.out.printf("prueba x:%d, y:%d\n", x,y);
 		}
 		else if(collisionInf >= MapObject.COLLISION && collisionCen >= MapObject.COLLISION){
 			result = COLLINFLAT;
-			//totalX = totalX - mc.getVelocity() - vx;
-			//this.x = this.x - mc.getVelocity() - vx;
-			//this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock()-this.height+1;
 			totalX = (xMap)*mc.getWidthBlock() - this.getWidthScreen() - mc.getVelocity()+1;
 			x = map.getObject(xMap, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;			
 			y = map.getObject(xMap, yMap-1).getPositionY() - this.getHeightScreen() + 1;
 		}
 		else if(collisionSup >= MapObject.COLLISION && collisionLat >= MapObject.COLLISION){
 			result = COLLSUPLAT;
-			//totalX = totalX - mc.getVelocity() - vx;
-			//this.x = this.x - mc.getVelocity() - vx;
 			totalX = (xMap+1)*mc.getWidthBlock() - this.getWidthScreen() - mc.getVelocity()+1;
 			x = map.getObject(xMap+1, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;
-			//this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock();
 			y = map.getObject(xMap, yMap+1).getPositionY() + map.getObject(xMap, yMap+1).getHeightScreen();
 		}	
 		else if(collisionSup >= MapObject.COLLISION && collisionCen >= MapObject.COLLISION){
 			result = COLLSUPLAT;
-			//totalX = totalX - mc.getVelocity() - vx;
-			//this.x = this.x - mc.getVelocity() - vx;
 			totalX = (xMap)*mc.getWidthBlock() - this.getWidthScreen() - mc.getVelocity()+1;
 			x = map.getObject(xMap, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;
-			//this.y = (this.y / mc.getHeightBlock() + 1)*mc.getHeightBlock();
 			y = map.getObject(xMap, yMap+1).getPositionY() + map.getObject(xMap, yMap+1).getHeightScreen();
 		}
 		else if(collisionLat >= MapObject.COLLISION){
 			result = COLLLAT;
-			//totalX = totalX - mc.getVelocity() - vx;
 			totalX = (xMap+1)*mc.getWidthBlock() - this.getWidthScreen() - mc.getVelocity()+1;
-			//this.x = this.x - mc.getVelocity() - vx;
 			x = map.getObject(xMap+1, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;
 		}
 		else if(collisionCen >= MapObject.COLLISION){
 			result = COLLLAT;
 			totalX = (xMap)*mc.getWidthBlock() - this.getWidthScreen() - mc.getVelocity()+1;
-			//this.x = this.x - mc.getVelocity() - vx;
 			x = map.getObject(xMap, yMap).getPositionX() - this.getWidthScreen() - mc.getVelocity()+1;
 		}
 		else if(collisionInf >= MapObject.COLLISION){
@@ -376,6 +372,9 @@ public class Sphere extends GameObject implements Sprite{
 		return result;
 	}
 
+	/**
+	 * Aplica la velocidad actual moviendo al personaje
+	 */
 	@Override
 	public void move(){
 		if(x>=maxX){
@@ -391,30 +390,44 @@ public class Sphere extends GameObject implements Sprite{
 		}
 	}
 
+	/**
+	 * Dibuja la esfera en 3D
+	 */
 	@Override
 	public void draw2D(Graphics2D g2d,int x_ori, int y_ori) {
 		g2d.drawImage(image, x_ori+x, y_ori+y, null);
 		//Dibujo cada de colisiones
-		//g2d.draw(this.getBox(x_ori,y_ori));
 		this.x_ori=x_ori;
 		this.y_ori=y_ori;
 	}
 
+	/**
+	 * Devuelve el ancho de la imagen
+	 * @return
+	 */
 	public int getWidthImage(){
 		return width_imgs[type];
 	}
 
+	/**
+	 * Devuelve el alto de la imagen
+	 * @return
+	 */
 	public int getHeightImage(){
 		return height_imgs[type];
 	}
 
+	/**
+	 * Devuelve si el rectangulo del boss colisiona con la esfera
+	 * @param bossBox
+	 * @return
+	 */
 	public boolean bossCollision(Rectangle bossBox) {
 		Rectangle playerBox = this.getBox(x_ori, y_ori);
 		if(bossBox.intersects(playerBox) && playerBox.y>bossBox.y &&
 				x+width > bossBox.x && x < bossBox.x+bossBox.width && vy > 0){
 			return false;
 		}else{
-			//system.out.println("----------boss has killed you!!!");
 			return true;
 		}
 	}

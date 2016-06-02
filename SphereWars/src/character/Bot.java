@@ -77,6 +77,14 @@ public class Bot extends GameObject implements Sprite, Model3D{
 	private AudioClip deathSound;
 	
 
+	/**
+	 * Constructor de la clase
+	 * @param x
+	 * @param y
+	 * @param block_width
+	 * @param block_height
+	 * @param type
+	 */
 	public Bot(int x, int y, int block_width, int block_height, int type) {
 		super(x, y, x_imgs[type], y_imgs[type], width_imgs[type], height_imgs[type], block_width, block_height);
 		this.tick_counter = 0;
@@ -97,6 +105,9 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		}		
 	}
 
+	/**
+	 * Rota la imagen dependiendo de si el bot mira a un lado u otro
+	 */
 	private void rotateImage(){
 		if(direction == LEFT){
 			//Si la dirección es la izquierda, rota la imagen como si fuera un espejo
@@ -109,14 +120,23 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		}
 	}
 
+	/**
+	 * Selecciona la imagen que ha de ser escogida en el spritesheet
+	 */
 	private void selectImage() {
-		//image = image.getSubimage(x_imgs[type], y_imgs[type], width, height);
 		image = Constants.img_handler.getImageEnemie(x_img, y_img, width, height);
 	}
+	
+	/**
+	 * Selecciona la textura para el modo 3D
+	 */
 	private void selectTexture(){
 		texture = Constants.img_handler.getImageSlimeTexture();
 	}
 
+	/**
+	 * Dibuja el bot en 2D
+	 */
 	@Override
 	public void draw2D(Graphics2D g2d,int x_ori, int y_ori) {
 		if(visible){
@@ -126,10 +146,17 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		}
 	}
 
+	/**
+	 * Calcula la logica de el bot, comprobando si tiene algo delante para
+	 * darse la vuelta en 2D
+	 * @param not_pause
+	 * @return
+	 */
 	public int action(boolean not_pause) {
 		if(not_pause && state != DEAD){
 			tick_counter++;
 			int mov = 0;
+			// Cada max_counter frames calculamos la logica
 			if(tick_counter >= max_counter){
 				tick_counter -= max_counter;
 				mov = width / 15;
@@ -142,16 +169,21 @@ public class Bot extends GameObject implements Sprite, Model3D{
 				y_img = y_imgs[type+state];
 				width = width_imgs[type+state];
 				height = height_imgs[type+state];
+				// Se actualiza la posicion y rota la imagen de ser necesario
 				updatePosition();
 				selectImage();
 				resize();
 				rotateImage();
 			}
+			// Cuando la babosa cambia de direccion invertimos el movimiento
 			if(direction == RIGHT){
 				mov = -mov;
 			}
+			
 			acumulate_mov = acumulate_mov + mov;
 		}else if(num_blink < max_blink && not_pause && state == DEAD){
+			// Timer en el que se va haciendo que la babosa parpadee
+			// como animacion de muerte
 			tick_counter++;
 			if(tick_counter >= max_counter){
 				tick_counter -= max_counter;
@@ -166,8 +198,13 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		return acumulate_mov;
 	}
 
+	/**
+	 * Mueve el bot y realiza la animacion de muerte en 3D
+	 * @return
+	 */
 	public boolean moveBot(){
 		boolean remove = false;
+		// Si no esta muerta actualiza la posicion del bot
 		if(state != DEAD){
 			tick_counter++;
 			int movX = 0;
@@ -250,6 +287,10 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		return remove;
 	}
 	
+	/**
+	 * Actualiza la posicion del bot
+	 * @return
+	 */
 	public int updatePosition() {
 		int posX = 0;
 		if(acumulate_mov > 0 && acumulate_mov > width){
@@ -264,6 +305,9 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		return posX;
 	}
 
+	/**
+	 * Reinicia el movimiento del bot dependiendo de la direccion en la que mira
+	 */
 	public void resetMov() {
 		if(direction == RIGHT){
 			acumulate_mov += block_width;
@@ -272,6 +316,9 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		}
 	}
 
+	/**
+	 * Cambia la direccion de la babosa
+	 */
 	public void changeMov() {
 		tick_change++;
 		if(tick_change >= max_wait_change){
@@ -288,6 +335,9 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		}
 	}
 	
+	/**
+	 * Mata a la babosa
+	 */
 	public void death(){
 		this.kills = false;
 		this.last_state = state;
@@ -308,6 +358,9 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		}
 	}
 	
+	/**
+	 * Carga el modelo 3D del bot
+	 */
 	private void loadModel3D(){
 		Transform3D t = new Transform3D();
 		//Apariencia del bot
@@ -349,6 +402,9 @@ public class Bot extends GameObject implements Sprite, Model3D{
 		tg_model3D.setTransform(t);
 	}
 
+	/**
+	 * Elimina el modelo 3D para que no sea renderizado
+	 */
 	public void remove() {
 		tg_model3D.removeChild(branch_group);
 	}
