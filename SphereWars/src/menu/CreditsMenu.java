@@ -26,15 +26,20 @@ import videogame.Parallax;
  * 	
  * Clase: CreditsMenu.java
  * 
- * Comentarios: Menú de la pantalla de creditos
+ * Comentarios: Menú de la pantalla de creditos,
+ * informa de los autores del videojuego y muestra el 
+ * ranking del top 3 de cada modo de juego. 
+ * Para volver al menu principal se pulsa enter.
  * 
  */
 @SuppressWarnings("serial")
 public class CreditsMenu extends Menu{
+	//titulo y fondos del parallax
 	private BufferedImage starBack;
 	private BufferedImage mountainBack;
 	private BufferedImage title;
 	
+	//strings que se escriben
 	private final String autores = "autores:";
 	private final String richard = "Richard Elvira";
 	private final String axte = "Adrian Milla";
@@ -47,17 +52,25 @@ public class CreditsMenu extends Menu{
 	
 	private final String volver = "enter - volver";
 	
+	//fuentes para escribir
 	private Font mayus = Constants.font_bold.deriveFont(40.0f);
 	private Font minus = Constants.humanoid.deriveFont(42.0f);
 	private Font ranking = Constants.font_bold.deriveFont(30.0f);
 	
 	private Parallax parallax;
 	
+	//los dos rankings de los distintos modos de juego
 	private RankingEntry[] coins;
 	private RankingEntry[] runner;
 	
+	//color del titulo
 	private Color titulo = new Color(37,33,92);
 	
+	/**
+	 * crea el menu
+	 * @param width
+	 * @param height
+	 */
 	public CreditsMenu(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -74,6 +87,9 @@ public class CreditsMenu extends Menu{
 		initParallax();
 	}
 	
+	/**
+	 * carga las imagenes en los buffers
+	 */
 	private void cargarImagenes() {
 		try {
 			starBack = ImageIO.read(new File(Constants.starBackName));
@@ -92,6 +108,9 @@ public class CreditsMenu extends Menu{
 		}
 	}
 	
+	/**
+	 * inicia el parallax
+	 */
 	private void initParallax() {
 		String[] names = {Constants.starBackName,Constants.mountainBackName};
 		int[] velocity = {2,1};
@@ -100,6 +119,9 @@ public class CreditsMenu extends Menu{
 		parallax = new Parallax(2,names,velocity,posx,posy,width,height);
 	}
 	
+	/**
+	 * dibuja todos los elementos en su posicion
+	 */
 	@Override
 	public void draw() {	
 		Image offscreen = createImage(width,height);
@@ -108,9 +130,6 @@ public class CreditsMenu extends Menu{
 		Composite comp = AlphaComposite.getInstance(rule, Constants.alphaComp);		
 		offgc.setComposite(comp);
 		//dibujar fondo
-		//if (starBack != null) {
-		//	offgc.drawImage(starBack, 0, 0, width,height, null);
-		//}		
 		if (mountainBack != null && starBack != null) {
 			parallax.move();
 			parallax.draw(offgc,0,0);
