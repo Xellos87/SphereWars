@@ -29,6 +29,12 @@ public class Cursor {
 	private String opcion;
 	private int numPos, maxPos, gap;
 	private String menuType;
+	
+	/**
+	 * Constructor de la clase cursor. inicializa sus parametros 
+	 * y carga la imagen
+	 * @param menuType
+	 */
 	public Cursor(String menuType){		
 		this.menuType = menuType;
 		numPos = 0;
@@ -37,6 +43,8 @@ public class Cursor {
 		} catch (IOException e) {
 			System.err.println("problem loading cursor");
 		}
+		//distintos comportamientos dependiendo del menu en el que se encuentra
+		//distintas posiciones iniciales
 		if(menuType.equalsIgnoreCase(Constants.titMenu)){
 			maxPos = Constants.titleMaxPos;
 			gap = Constants.titleGap;
@@ -68,9 +76,15 @@ public class Cursor {
 		}
 	}
 	
+	/**
+	 * Cambia la posicion del cursor
+	 * @param x
+	 * @param y
+	 */
 	public void changePosition(int x, int y){
 		pos.changePosition(x, y);
 	}
+	
 	
 	public Position getPosition(){
 		return this.pos;
@@ -88,17 +102,23 @@ public class Cursor {
 		return this.cursor.getHeight(null);
 	}
 
+	/**
+	 * Salta a la siguiente posicion del cursor dentro del menu
+	 */
 	public void nextPosition() {
 		int auxMaxPos = maxPos;
+		//caso de la opcion de diestro o zurdo del kinect
 		if(!Constants.conTeclado && Constants.jugador==1 && menuType.equalsIgnoreCase(Constants.conMenu)
 				&& Constants.elegidoJugador){
 			auxMaxPos = 3;
 		}
+		//aumenta en uno la posicion
 		System.out.println(numPos+"/"+auxMaxPos);
 		numPos = (numPos + 1) % auxMaxPos;
 		if(menuType.equalsIgnoreCase(Constants.conMenu) && Constants.jugador==2 && numPos == 1){
 			numPos ++;
 		}
+		//obtiene la opcion de cada menu
 		if(menuType.equalsIgnoreCase(Constants.titMenu)){
 			opcion = Constants.list_menu[numPos];
 		}else if(menuType.equalsIgnoreCase(Constants.optMenu)){
@@ -108,20 +128,16 @@ public class Cursor {
 		}else if(menuType.equalsIgnoreCase(Constants.modMenu)){
 			opcion = Constants.list_modes[numPos];
 		}
+		//movimiento del cursor
 		int newY, newX;
 		newY = (iniposY + gap * numPos);
-		newX = iniposX;
-//		if(opcion.equalsIgnoreCase("jump")){
-//			System.out.println("in jump "+newX +" "+newY);
-//			newY+=gap;
-//		}else if(opcion.equalsIgnoreCase("run")){
-//			newX+=260;
-//		}
-		System.out.println(newY+" "+newX);
-		
+		newX = iniposX;		
 		pos.changePosition(newX, newY);
 	}
 
+	/**
+	 * Salta a la posicion anterior del cursor
+	 */
 	public void previousPosition() {
 		int auxMaxPos = maxPos;
 		if(!Constants.conTeclado && Constants.jugador==1 && menuType.equalsIgnoreCase(Constants.conMenu)
@@ -148,17 +164,16 @@ public class Cursor {
 		int newY, newX;
 		newY = iniposY + gap * numPos;
 		newX = iniposX;
-//		if(opcion.equalsIgnoreCase("run")){
-//			newX += 260;
-//		}else if(opcion.equalsIgnoreCase("jump")){
-//			newY+=gap;
-//		}
-		System.out.println(newY);
 		
 		pos.changePosition(newX, newY);
 	}
 
+	/**
+	 * devuelve la opcion actual del menu
+	 * @return
+	 */
 	public String enter(){
+		//cambio entre diestro y xurdo del kinect
 		if(!Constants.conTeclado && Constants.jugador==1 && menuType.equalsIgnoreCase(Constants.conMenu)
 				&& Constants.elegidoJugador && numPos==2){
 			return "cambioMano";
@@ -170,6 +185,9 @@ public class Cursor {
 		return opcion;
 	}
 
+	/**
+	 * movimiento a derecha en el menu de titulo
+	 */
 	public void right() {
 		if(menuType.equals(Constants.titMenu)){
 			int newX = Constants.dosDjPos.getX() - 60;
@@ -179,6 +197,9 @@ public class Cursor {
 		}
 	}
 
+	/**
+	 * movimiento a la izquierda en el menu de titulo
+	 */
 	public void left() {
 		if(menuType.equals(Constants.titMenu)){
 			int newX = iniposX;
