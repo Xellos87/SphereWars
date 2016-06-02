@@ -36,7 +36,7 @@ import videogame.GameObject;
  * 	
  * Clase: Boss.java
  * 
- * Comentarios: Objeto que representa el boss d
+ * Comentarios: Objeto que representa el boss del juego
  * 
  */
 public class Boss extends GameObject implements Sprite {
@@ -107,6 +107,7 @@ public class Boss extends GameObject implements Sprite {
 	private long tiempoInicio;
 	public long hazteVisible;
 
+	//sprites para cuando el boss esta herido de gravedad
 	private int x_ori,y_ori;
 	private BufferedImage fly1redright;
 	private BufferedImage fly2redright;
@@ -119,6 +120,17 @@ public class Boss extends GameObject implements Sprite {
 
 	Music music;
 	
+	/**
+	 * Constructor de la clase, inicializa los valores y estados necesarios para su funcionamiento
+	 * @param x
+	 * @param y
+	 * @param block_width
+	 * @param block_height
+	 * @param esVisible
+	 * @param anchoPantalla
+	 * @param altoPantalla
+	 * @param music
+	 */
 	public Boss(int x, int y, int block_width, int block_height,boolean esVisible, int anchoPantalla, int altoPantalla, Music music) {
 		super(x, y, x_imgs[0], y_imgs[0], width_imgs[0], height_imgs[0], block_width, block_height);
 		this.tick_counter = 0;
@@ -150,11 +162,13 @@ public class Boss extends GameObject implements Sprite {
 		if(Constants.visualMode == Game.MODE_3D){
 			loadModel3D();
 		}
-		//Todo prueba
 		this.x_ori=Constants.xOri;
 		this.y_ori=Constants.yOri;
 	}
 	
+	/**
+	 * Actualiza la posicion del boss en el modo 3D
+	 */
 	private void setPosition3D() {
 		Transform3D transform = new Transform3D();
 		Vector3f translate_vector = new Vector3f();
@@ -169,6 +183,9 @@ public class Boss extends GameObject implements Sprite {
 		tg_model3D.setTransform(transform);
 	}
 	
+	/**
+	 * Carga el modelo 3D del boss
+	 */
 	private void loadModel3D(){
 		//Apariencia de la esfera
 		Appearance app = new Appearance();
@@ -180,7 +197,7 @@ public class Boss extends GameObject implements Sprite {
 		//Creacion de la mosca
 		Transform3D t = new Transform3D();
 		//t.rotZ(Math.PI/4);
-		object_primitive = new Cylinder(block_width*0.0025f, block_width*0.002f, Cylinder.GENERATE_NORMALS + Cylinder.GENERATE_TEXTURE_COORDS, app);
+		object_primitive = new Cylinder(block_width*0.002f, block_width*0.002f, Cylinder.GENERATE_NORMALS + Cylinder.GENERATE_TEXTURE_COORDS, app);
 		tg_model3D = new TransformGroup();
 		
 		tg_model3D.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
@@ -201,6 +218,9 @@ public class Boss extends GameObject implements Sprite {
 		setPosition3D();
 	}
 
+	/**
+	 * inicializa los sprites de todos los estados del jefe
+	 */
 	private void rellenarImagenes() {
 		fly1right = resizeDouble(Constants.img_handler.getImageEnemie(x_imgs[0], y_imgs[0], width_imgs[0], height_imgs[0]));
 		fly2right = resizeDouble(Constants.img_handler.getImageEnemie(x_imgs[1], y_imgs[1], width_imgs[1], height_imgs[1]));
@@ -218,14 +238,27 @@ public class Boss extends GameObject implements Sprite {
 		fly2redleft = rotateImage(fly2redright);
 	}
 
+	/**
+	 * dice si el jefe es visible en este momento
+	 * @return
+	 */
 	public boolean isVisible() {
 		return visible;
 	}
 
+	/**
+	 * Cambia la visibilidad del jefe
+	 * @param visible
+	 */
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
 
+	/**
+	 * voltea un sprite
+	 * @param imagen
+	 * @return
+	 */
 	private BufferedImage rotateImage(BufferedImage imagen) {
 		//Si la dirección es la izquierda, rota la imagen como si fuera un espejo
 		int w = imagen.getWidth();  
@@ -236,6 +269,9 @@ public class Boss extends GameObject implements Sprite {
 		return newImage;		
 	}
 
+	/**
+	 * Metodo de dibujo del boss
+	 */
 	@Override
 	public void draw2D(Graphics2D g2d, int x_ori, int y_ori) {
 		if(health!=1){
@@ -261,6 +297,10 @@ public class Boss extends GameObject implements Sprite {
 		this.y_ori=y_ori;
 	}
 	
+	/**
+	 * metodo que se invoca cuando el boss muere. Detiene el
+	 * movimiento del boss e inicia la animacion de muerte
+	 */
 	public void death(){
 		this.state = DEAD;
 		x_img = x_imgs[state];
@@ -281,18 +321,29 @@ public class Boss extends GameObject implements Sprite {
 		if(music != null)music.playGame();
 	}
 	
+	/**
+	 * accion del boss. Movimiento, comprobacion de colisiones y cambio de estado
+	 * @param not_pause
+	 * @param xPlayer
+	 * @param yPlayer
+	 * @param playerBox
+	 * @return
+	 */
 	public int action(boolean not_pause, int xPlayer, int yPlayer, Rectangle playerBox) {
+		//setea el tiempo en el que el boss vuelve a aparecer
 		if(reseteo){
 			this.tiempoInicio = System.currentTimeMillis() + 3000;
 			this.hazteVisible = System.currentTimeMillis() + 30000;
 			reseteo = false;
 			System.out.println("reseteo tiempos");
 		}
+		//inicia el boss 
 		if(!visible && (System.currentTimeMillis() >= hazteVisible)){
 			this.visible=true;
 			System.out.println("-----empieza el boss!!");
 			if(music != null) music.playBoss();
-		}		
+		}	
+		//reinicia el boss
 		else if(state == DEAD && System.currentTimeMillis() > tiempoInicio){
 			state = FLY1;
 			random=1;
@@ -300,11 +351,13 @@ public class Boss extends GameObject implements Sprite {
 			System.out.println("-----reinicio boss");
 			visible = false;
 		}
+		//computacion de los contadores del boss cuando no esta muerto
 		if(not_pause && state != DEAD){
-			tick_counter++;
-			stopTickX++;
-			stopTickY++;
-			tick_damage++;
+			tick_counter++;	//contador de cambio de estado
+			stopTickX++;	//contador de actualizacion de cambio de la velocidad en X
+			stopTickY++;	//contador de actualizacion de cambio de la velocidad en Y
+			tick_damage++;	//tiempo de invulnerabilidad despues de herir o ser herido
+			//cambio de estado
 			if(tick_counter >= max_counter){
 				tick_counter -= max_counter;
 				if(state == FLY2){
@@ -369,6 +422,7 @@ public class Boss extends GameObject implements Sprite {
 				posicion = new Position(siguientePosicion.getX(),siguientePosicion.getY());
 			}
 		}
+		//indica si ha dañado al jugador
 		int hitPlayer = -1;
 		if(tick_damage >= damageCounter){
 			collides = true;
@@ -403,15 +457,20 @@ public class Boss extends GameObject implements Sprite {
 				}
 			}
 		}
+		//animacion de caida cuando muere el jefe
 		if(state == DEAD){
 			y+=vy  / Constants.speedActions;
 		}
+		//cambio de posicion en el modo 3D
 		if(Constants.visualMode == Game.MODE_3D){
 			setPosition3D();
 		}
 		return hitPlayer;
 	}
 
+	/**
+	 * Cambio de velocidad en el eje X
+	 */
 	private void cambioDireccionX() {
 		if(visible){
 			//movimiento en X - siempre igual, barrido completo de un lado a otro
@@ -433,6 +492,11 @@ public class Boss extends GameObject implements Sprite {
 		}		
 	}
 
+	/**
+	 * Cambio de velocidad en el eje Y
+	 * @param xPlayer
+	 * @param yPlayer
+	 */
 	private void cambioDireccionY(int xPlayer, int yPlayer){
 		if(visible){
 			Random r= new Random();
@@ -462,7 +526,14 @@ public class Boss extends GameObject implements Sprite {
 		}		
 	}
 	
+	/**
+	 * Modifica la velocidad en el eje Y dependiendo de su vida y ciertos
+	 * valores aleatorios para fijar una trayectoria aleatoria o de ataque
+	 * al jugador
+	 * @param r
+	 */
 	private void randomMove(Random r) {
+		//inicio de un nuevo movimiento
 		if(posicion.getX() != MEDIO && posicion.getY() == ARRIBA
 				&& (posicion.getX()==siguientePosicion.getX() || posicion.getY()==siguientePosicion.getY())){
 			double direccion = r.nextDouble();
@@ -482,6 +553,7 @@ public class Boss extends GameObject implements Sprite {
 				System.out.println("move middle up");
 			}
 		}
+		//segunda mitad de la trayectoria
 		else if(posicion.getX() == MEDIO){
 			directionY = UP;
 			vy = (-vy);
@@ -497,6 +569,11 @@ public class Boss extends GameObject implements Sprite {
 		stopTickY=0;
 	}
 
+	/**
+	 * aumenta el tamaño del sprite al doble
+	 * @param imagen
+	 * @return
+	 */
 	protected BufferedImage resizeDouble(BufferedImage imagen){
 		//Comprobaciones por si la imagen no es cuadrada
 		int w;
