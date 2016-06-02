@@ -113,7 +113,7 @@ public class Cursor {
 			auxMaxPos = 3;
 		}
 		//aumenta en uno la posicion
-		System.out.println(numPos+"/"+auxMaxPos);
+		//system.out.println(numPos+"/"+auxMaxPos);
 		numPos = (numPos + 1) % auxMaxPos;
 		if(menuType.equalsIgnoreCase(Constants.conMenu) && Constants.jugador==2 && numPos == 1){
 			numPos ++;
@@ -144,7 +144,7 @@ public class Cursor {
 				&& Constants.elegidoJugador){
 			auxMaxPos = 3;
 		}
-		System.out.println(numPos+"/"+auxMaxPos);
+		//system.out.println(numPos+"/"+auxMaxPos);
 		if(numPos > 0)
 			numPos = Math.abs((numPos - 1)) % auxMaxPos;
 		else
