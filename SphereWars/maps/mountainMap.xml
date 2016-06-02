@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<map height="9" width="100">
+	<plataform x_start="0" x_end="2" y_start="0" y_end="1"/>
+	<plataform x_start="3" x_end="3" y_start="0" y_end="2"/>
+	<plataform x_start="4" x_end="4" y_start="0" y_end="3"/>
+	<plataform x_start="5" x_end="7" y_start="0" y_end="4"/>
+	<plataform x_start="8" x_end="8" y_start="0" y_end="3"/>
+	<plataform x_start="9" x_end="9" y_start="0" y_end="2"/>
+	<plataform x_start="10" x_end="12" y_start="0" y_end="1"/>
+	<plataform x_start="10" x_end="12" y_start="5" y_end="5"/>
+	<plataform x_start="14" x_end="16" y_start="3" y_end="3"/>
+	<plataform x_start="18" x_end="20" y_start="5" y_end="5"/>
+	<plataform x_start="18" x_end="38" y_start="0" y_end="1"/>
+	<plataform x_start="26" x_end="27" y_start="3" y_end="3"/>
+	<plataform x_start="28" x_end="28" y_start="4" y_end="4"/>
+	<plataform x_start="29" x_end="31" y_start="5" y_end="5"/>
+	<plataform x_start="32" x_end="32" y_start="4" y_end="4"/>
+	<plataform x_start="33" x_end="34" y_start="3" y_end="3"/>
+	<plataform x_start="39" x_end="39" y_start="0" y_end="2"/>
+	<plataform x_start="40" x_end="40" y_start="0" y_end="3"/>
+	<plataform x_start="41" x_end="41" y_start="0" y_end="4"/>
+	<plataform x_start="45" x_end="45" y_start="0" y_end="4"/>
+	<plataform x_start="46" x_end="46" y_start="0" y_end="3"/>
+	<plataform x_start="47" x_end="47" y_start="0" y_end="2"/>
+	<plataform x_start="48" x_end="48" y_start="0" y_end="1"/>
+	<plataform x_start="49" x_end="52" y_start="0" y_end="0"/>
+	<plataform x_start="55" x_end="57" y_start="2" y_end="2"/>
+	<plataform x_start="59" x_end="61" y_start="3" y_end="3"/>
+	<plataform x_start="60" x_end="75" y_start="0" y_end="0"/>
+	<plataform x_start="63" x_end="66" y_start="7" y_end="7"/>
+	<plataform x_start="63" x_end="64" y_start="4" y_end="4"/>
+	<plataform x_start="65" x_end="65" y_start="3" y_end="4"/>
+	<plataform x_start="67" x_end="67" y_start="3" y_end="7"/>
+	<plataform x_start="71" x_end="71" y_start="2" y_end="2"/>
+	<plataform x_start="72" x_end="72" y_start="2" y_end="3"/>
+	<plataform x_start="73" x_end="73" y_start="2" y_end="4"/>
+	<plataform x_start="74" x_end="75" y_start="4" y_end="5"/>
+	<plataform x_start="76" x_end="76" y_start="0" y_end="5"/>
+	<plataform x_start="77" x_end="77" y_start="0" y_end="4"/>
+	<plataform x_start="78" x_end="78" y_start="0" y_end="3"/>
+	<plataform x_start="79" x_end="79" y_start="0" y_end="2"/>
+	<plataform x_start="80" x_end="82" y_start="0" y_end="1"/>
+	<plataform x_start="84" x_end="85" y_start="3" y_end="3"/>
+	<plataform x_start="88" x_end="89" y_start="3" y_end="3"/>
+	<plataform x_start="92" x_end="99" y_start="0" y_end="1"/>
+	<plataform x_start="94" x_end="94" y_start="4" y_end="4"/>
+	<plataform x_start="97" x_end="97" y_start="4" y_end="4"/>
+	
+	
+	<spike direction="left" x_start="4" x_end="4" y_start="4" y_end="4"/>
+	<spike direction="up" x_start="21" x_end="22" y_start="2" y_end="2"/>
+	<spike direction="up" x_start="32" x_end="32" y_start="5" y_end="5"/>
+	<spike direction="up" x_start="33" x_end="33" y_start="4" y_end="4"/>
+	<spike direction="up" x_start="51" x_end="59" y_start="0" y_end="0"/>
+	<spike direction="up" x_start="64" x_end="66" y_start="8" y_end="8"/>
+	<spike direction="left" x_start="75" x_end="75" y_start="1" y_end="3"/>
+	
+	
+	<liquid x_start="13" x_end="17" y_start="0" y_end="1"/>
+	<liquid x_start="42" x_end="44" y_start="0" y_end="4"/>
+	<liquid x_start="83" x_end="91" y_start="0" y_end="1"/>
+	
+	
+	<treasure type="coin" x="11" y="7"/>
+	<treasure type="gem" x="28" y="5"/>
+	<treasure type="gem" x="43" y="7"/>
+	<treasure type="coin" x="65" y="5"/>
+	<treasure type="coin" x="66" y="5"/>
+	<treasure type="coin" x="66" y="4"/>
+	<treasure type="coin" x="66" y="3"/>
+	<treasure type="gem" x="80" y="6"/>
+	<treasure type="coin" x="86" y="6"/>
+	<treasure type="coin" x="87" y="6"/>
+	<treasure type="gem" x="95" y="7"/>
+	<treasure type="gem" x="96" y="7"/>
+	
+		
+	<bot x="19" y="6"/>
+	<bot x="29" y="2"/>
+	<bot x="30" y="2"/>
+	<bot x="31" y="2"/>
+	<bot x="63" y="1"/>
+	<bot x="94" y="2"/>
+	<bot x="96" y="2"/>
+	<bot x="98" y="2"/>
+</map>
