@@ -24,11 +24,15 @@ import videogame.Parallax;
  * 	
  * Clase: HelpMenu.java
  * 
- * Comentarios: Menú de la pantalla de ayuda
+ * Comentarios: Menú de la pantalla de ayuda, muestra un 
+ * pequeño tutorial sobre el funcionamiento de las mecanicas
+ * del juego. Se avanza entre los slides con las flechas laterales
+ * y se vuelve al menu principal con enter
  * 
  */
 @SuppressWarnings("serial")
 public class HelpMenu extends Menu{
+	//imagenes del menu
 	private BufferedImage starBack;
 	private BufferedImage mountainBack;
 	private BufferedImage title;
@@ -36,15 +40,18 @@ public class HelpMenu extends Menu{
 	private BufferedImage slide3;
 	private BufferedImage slide5;
 	
+	//rutas a las imagenes que no estan en la clase Constants
 	private final String slide1Name = "images/help_slide1.png";
 	private final String slide3Name = "images/help_slide3.png";
 	private final String slide5Name = "images/help_slide5.png";
 	
 	private Parallax parallax;
 	
+	//numero de diapositivas y diapositiva actual
 	private int numSlides = 6;
 	private int slideActual = 0;
 	
+	//strings del menu
 	private final String volver = "enter - volver";
 	private final String moverse = "avance - flechas laterales";
 	private final String titteclado = "teclado";
@@ -56,11 +63,17 @@ public class HelpMenu extends Menu{
 	private final String slide6 = "salta sobre";
 	private final String slide62 = "tus enemigos!";
 	
+	//fuentes
 	private Font mayus = Constants.font_bold.deriveFont(22.0f);
 	private Font central = Constants.font_bold.deriveFont(35.0f);
 	
 	private Color titulo = new Color(37,33,92);
 	
+	/**
+	 * crea el menu
+	 * @param width
+	 * @param height
+	 */
 	public HelpMenu(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -75,6 +88,9 @@ public class HelpMenu extends Menu{
 		initParallax();
 	}
 
+	/**
+	 * carga las imagenes del menu
+	 */
 	private void cargarImagenes() {
 		try {
 			starBack = ImageIO.read(new File(Constants.starBackName));
@@ -108,6 +124,9 @@ public class HelpMenu extends Menu{
 		}
 	}
 	
+	/**
+	 * inicia el parallax
+	 */
 	private void initParallax() {
 		String[] names = {Constants.starBackName,Constants.mountainBackName};
 		int[] velocity = {2,1};
@@ -116,6 +135,9 @@ public class HelpMenu extends Menu{
 		parallax = new Parallax(2,names,velocity,posx,posy,width,height);
 	}
 	
+	/**
+	 * dibuja los elementos del menu en sus posiciones
+	 */
 	@Override
 	public void draw() {
 		Image offscreen = createImage(width,height);
@@ -124,9 +146,6 @@ public class HelpMenu extends Menu{
 		Composite comp = AlphaComposite.getInstance(rule, Constants.alphaComp);		
 		offgc.setComposite(comp);
 		//dibujar fondo
-		//if (starBack != null) {
-		//	offgc.drawImage(starBack, 0, 0, width,height, null);
-		//}		
 		if (mountainBack != null && starBack != null) {
 			parallax.move();
 			parallax.draw(offgc,0,0);
@@ -147,6 +166,7 @@ public class HelpMenu extends Menu{
 		}else if(this.slideActual==1){
 			int car = Constants.teclaSaltop1;
 			String aux=""+(char)car;
+			//para los caracteres especiales
 			if(car == 32){
 				aux = "espacio";
 			}else if(car == 10){
