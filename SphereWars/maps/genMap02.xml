@@ -55,11 +55,11 @@
 	<treasure type="gem" x="46" y="7"/>
 	<treasure type="coin" x="56" y="3"/>
 	
-	<boot x="12" y="2"/>
-	<boot x="24" y="2"/>
-	<boot x="43" y="2"/>
-	<boot x="46" y="2"/>
-	<boot x="49" y="2"/>
-	<boot x="73" y="2"/>
-	<boot x="91" y="2"/>
+	<bot x="12" y="2"/>
+	<bot x="24" y="2"/>
+	<bot x="43" y="2"/>
+	<bot x="46" y="2"/>
+	<bot x="49" y="2"/>
+	<bot x="73" y="2"/>
+	<bot x="91" y="2"/>
 </map>
