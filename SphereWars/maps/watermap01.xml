@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<map height="9" width="100">
+	<plataform x_start="0" x_end="2" y_start="0" y_end="1"/>
+	<plataform x_start="93" x_end="99" y_start="0" y_end="1"/>
+	<plataform x_start="4" x_end="7" y_start="3" y_end="3"/>
+	<plataform x_start="9" x_end="9" y_start="2" y_end="2"/>
+	<plataform x_start="10" x_end="14" y_start="3" y_end="4"/>
+	<plataform x_start="17" x_end="22" y_start="5" y_end="5"/>
+	<plataform x_start="26" x_end="31" y_start="3" y_end="3"/>
+	<plataform x_start="33" x_end="37" y_start="4" y_end="4"/>
+	<plataform x_start="40" x_end="47" y_start="5" y_end="5"/>
+	<plataform x_start="51" x_end="57" y_start="3" y_end="3"/>
+	<plataform x_start="60" x_end="62" y_start="4" y_end="4"/>
+	<plataform x_start="66" x_end="67" y_start="5" y_end="5"/>
+	<plataform x_start="70" x_end="70" y_start="5" y_end="5"/>
+	<plataform x_start="73" x_end="75" y_start="4" y_end="4"/>
+	<plataform x_start="77" x_end="79" y_start="3" y_end="3"/>
+	<plataform x_start="82" x_end="83" y_start="4" y_end="4"/>
+	<plataform x_start="86" x_end="86" y_start="5" y_end="5"/>
+	<plataform x_start="89" x_end="89" y_start="5" y_end="5"/>
+	<liquid x_start="2" x_end="97" y_start="0" y_end="1"/>
+	<spike direction="up" x_start="18" x_end="21" y_start="6" y_end="6"/>
+	<spike direction="up" x_start="34" x_end="34" y_start="5" y_end="5"/>
+	<treasure type="coin" x="9" y="3"/>
+	<treasure type="coin" x="44" y="6"/>
+	<treasure type="coin" x="53" y="5"/>
+	<treasure type="coin" x="66" y="6"/>
+	<bot x="6" y="4"/>
+	<bot x="12" y="5"/>
+	<bot x="28" y="4"/>
+	<bot x="45" y="6"/>
+	<bot x="51" y="4"/>
+	<bot x="52" y="4"/>
+	<bot x="53" y="4"/>
+	<bot x="54" y="4"/>
+	<bot x="70" y="6"/>
+	<bot x="73" y="5"/>
+	<bot x="94" y="2"/>	
+</map>
